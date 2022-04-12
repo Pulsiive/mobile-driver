@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/home/maxime/Epitech/EIP/mobile-driver/mobileDriver/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-en-rGB/values-en-rGB.xml",
+            "outputFile": "/home/maxime/Epitech/EIP/mobile-driver/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-en-rGB/values-en-rGB.xml",
             "map": [
                 {
                     "source": "/home/maxime/.gradle/caches/transforms-3/88a9e3d889b4ba78817924970fca65bc/transformed/appcompat-1.3.0/res/values-en-rGB/values-en-rGB.xml",

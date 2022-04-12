@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/home/maxime/Epitech/EIP/mobile-driver/mobileDriver/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-si/values-si.xml",
+            "outputFile": "/home/maxime/Epitech/EIP/mobile-driver/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-si/values-si.xml",
             "map": [
                 {
                     "source": "/home/maxime/.gradle/caches/transforms-3/2792f61c1554ccab947d5c6fccbfe452/transformed/core-1.5.0/res/values-si/values-si.xml",
