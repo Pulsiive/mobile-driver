@@ -12,7 +12,10 @@ import Welcome from '../screens/welcome/Welcome';
 import Login from '../screens/login/Login';
 import SignUp from '../screens/register/SignUp';
 import Home from '../screens/home/Home';
+import Settings from '../screens/settings/Settings';
+import Logout from '../screens/settings/Logout';
 import ChangePassword from '../screens/settings/ChangePassword';
+import Profil from '../screens/profile/Profile';
 
 const Stack = createStackNavigator();
 
@@ -52,7 +55,10 @@ const HomeStack = () => (
         headerLeftContainerStyle: { paddingLeft: 10 }
       })}
     />
+    <Stack.Screen name="Settings" component={Settings} />
     <Stack.Screen name="ChangePassword" component={ChangePassword} />
+    <Stack.Screen name="Logout" component={Logout} />
+    <Stack.Screen name="Profile" component={Profile} />
   </Stack.Navigator>
 );
 
@@ -68,7 +74,9 @@ const TabNavigator = () => (
         return (
           <Image
             style={{
-              tintColor: focused ? AppStyles.color.tint : AppStyles.color.grey
+              tintColor: focused ? AppStyles.color.tint : AppStyles.color.grey,
+              width: 30,
+              height: 30
             }}
             source={AppIcon.images.home}
           />

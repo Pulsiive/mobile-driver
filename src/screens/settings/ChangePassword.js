@@ -9,7 +9,7 @@ function ChangePassword({ navigation }) {
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const onRegister = () => {
-    navigation.navigate('HomeStack');
+    navigation.navigate('Settings');
   };
 
   return (

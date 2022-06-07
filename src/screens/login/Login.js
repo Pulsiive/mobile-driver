@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     color: AppStyles.color.text
   },
   facebookContainer: {
-    width: 192,
+    width: 200,
     backgroundColor: AppStyles.color.facebook,
     borderRadius: AppStyles.borderRadius.main,
     padding: 10,

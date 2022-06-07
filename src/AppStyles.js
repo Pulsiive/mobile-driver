@@ -55,10 +55,11 @@ export const AppIcon = {
   },
   images: {
     home: require('../assets/icons/home.png'),
-    defaultUser: require('../assets/icons/default_user.jpg'),
+    profile: require('../assets/icons/profile.png'),
     logout: require('../assets/icons/shutdown.png'),
     menu: require('../assets/icons/menu.png'),
-    settings: require('../assets/icons/filter.png')
+    settings: require('../assets/icons/filter.png'),
+    leftArrow: require('../assets/icons/left_arrow.png')
   }
 };
 

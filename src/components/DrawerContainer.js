@@ -8,17 +8,17 @@ export default function DrawerContainer({ navigation }) {
     <View style={styles.content}>
       <View style={styles.container}>
         <MenuButton
-          title="Log out"
-          source={AppIcon.images.logout}
+          title="Profile"
+          source={AppIcon.images.profile}
           onPress={() => {
-            navigation.navigate('LoginStack');
+            navigation.navigate('Profile');
           }}
         />
         <MenuButton
-          title="Change password"
+          title="Settings"
           source={AppIcon.images.settings}
           onPress={() => {
-            navigation.navigate('ChangePassword');
+            navigation.navigate('Settings');
           }}
         />
       </View>
