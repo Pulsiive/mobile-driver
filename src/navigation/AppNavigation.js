@@ -15,7 +15,12 @@ import Home from '../screens/home/Home';
 import Settings from '../screens/settings/Settings';
 import Logout from '../screens/settings/Logout';
 import ChangePassword from '../screens/settings/ChangePassword';
-import Profil from '../screens/profile/Profile';
+import Profile from '../screens/profile/Profile';
+import Owner from '../screens/profile/Owner';
+import Station from '../screens/station/Station';
+import Stations from '../screens/station/Stations';
+import Messages from '../screens/communication/Messages';
+import Message from '../screens/communication/Message';
 
 const Stack = createStackNavigator();
 
@@ -31,6 +36,30 @@ const LoginStack = () => (
     <Stack.Screen name="Welcome" component={Welcome} />
     <Stack.Screen name="Login" component={Login} />
     <Stack.Screen name="SignUp" component={SignUp} />
+  </Stack.Navigator>
+);
+
+const MessagesStack = () => (
+  <Stack.Navigator
+    initialRouteName="Home"
+    screenOptions={{
+      headerTintColor: AppStyles.color.tint,
+      headerTitleStyle: styles.headerTitleStyle,
+      headerMode: 'float'
+    }}
+  >
+    <Stack.Screen
+      name="Messages"
+      component={Messages}
+      options={({ navigation }) => ({
+        headerLeft: () => <></>,
+        headerLeftContainerStyle: { paddingLeft: 10 }
+      })}
+    />
+    <Stack.Screen name="Message" component={Message} />
+    <Stack.Screen name="Owner" component={Owner} />
+    <Stack.Screen name="Station" component={Station} />
+    <Stack.Screen name="Stations" component={Stations} />
   </Stack.Navigator>
 );
 
@@ -70,22 +99,47 @@ const TabNavigator = () => (
     screenOptions={{
       tabBarInactiveTintColor: 'grey',
       tabBarActiveTintColor: AppStyles.color.tint,
-      tabBarIcon: ({ focused }) => {
-        return (
-          <Image
-            style={{
-              tintColor: focused ? AppStyles.color.tint : AppStyles.color.grey,
-              width: 30,
-              height: 30
-            }}
-            source={AppIcon.images.home}
-          />
-        );
-      },
       headerShown: false
     }}
   >
-    <BottomTab.Screen options={{ tabBarLabel: 'Home' }} name="HomeStack" component={HomeStack} />
+    <BottomTab.Screen
+      options={{
+        tabBarLabel: 'Home',
+        tabBarIcon: ({ focused }) => {
+          return (
+            <Image
+              style={{
+                tintColor: focused ? AppStyles.color.tint : AppStyles.color.grey,
+                width: 30,
+                height: 30
+              }}
+              source={AppIcon.images.home}
+            />
+          );
+        }
+      }}
+      name="HomeStack"
+      component={HomeStack}
+    />
+    <BottomTab.Screen
+      options={{
+        tabBarLabel: 'Messages',
+        tabBarIcon: ({ focused }) => {
+          return (
+            <Image
+              style={{
+                tintColor: focused ? AppStyles.color.tint : AppStyles.color.grey,
+                width: 30,
+                height: 30
+              }}
+              source={AppIcon.images.messages}
+            />
+          );
+        }
+      }}
+      name="MessagesStack"
+      component={MessagesStack}
+    />
   </BottomTab.Navigator>
 );
 

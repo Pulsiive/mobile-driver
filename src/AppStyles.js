@@ -55,11 +55,14 @@ export const AppIcon = {
   },
   images: {
     home: require('../assets/icons/home.png'),
-    profile: require('../assets/icons/profile.png'),
+    profile: require('../assets/icons/profile_2.png'),
     logout: require('../assets/icons/shutdown.png'),
     menu: require('../assets/icons/menu.png'),
-    settings: require('../assets/icons/filter.png'),
-    leftArrow: require('../assets/icons/left_arrow.png')
+    settings: require('../assets/icons/settings.png'),
+    leftArrow: require('../assets/icons/left_arrow.png'),
+    station: require('../assets/icons/plug.png'),
+    station_img: require('../assets/icons/station.png'),
+    messages: require('../assets/icons/messages.png')
   }
 };
 

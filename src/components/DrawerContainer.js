@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import MenuButton from './MenuButton';
-import { AppIcon, AppStyles } from '../AppStyles';
+import { AppIcon } from '../AppStyles';
 
 export default function DrawerContainer({ navigation }) {
   return (
@@ -19,6 +19,13 @@ export default function DrawerContainer({ navigation }) {
           source={AppIcon.images.settings}
           onPress={() => {
             navigation.navigate('Settings');
+          }}
+        />
+        <MenuButton
+          title="Stations"
+          source={AppIcon.images.station}
+          onPress={() => {
+            navigation.navigate('Stations');
           }}
         />
       </View>
