@@ -6,8 +6,8 @@ import { AppIcon, AppStyles } from '../../AppStyles';
 
 function Station() {
   const navigation = useNavigation();
-  const onPress = () => {
-    navigation.navigate('Stations', {});
+  const onPress = (nav) => {
+    navigation.navigate(nav, {});
   };
   return (
     <View style={styles.container}>
@@ -19,10 +19,18 @@ function Station() {
         <Text style={styles.textDescription}>Plug: Mod 2</Text>
         <Text style={styles.textDescription}>Recharge Time: 3.25h</Text>
       </View>
-      <Button onPress={() => onPress()} containerStyle={styles.infoButton} style={styles.shareText}>
-        Info
+      <Button
+        onPress={() => onPress('Stations')}
+        containerStyle={styles.infoButton}
+        style={styles.shareText}
+      >
+        Need documentation ?
       </Button>
-      <Button containerStyle={styles.bookButton} style={styles.shareText}>
+      <Button
+        onPress={() => onPress('Booking')}
+        containerStyle={styles.bookButton}
+        style={styles.shareText}
+      >
         Book
       </Button>
     </View>

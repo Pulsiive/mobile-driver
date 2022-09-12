@@ -21,6 +21,9 @@ import Station from '../screens/station/Station';
 import Stations from '../screens/station/Stations';
 import Messages from '../screens/communication/Messages';
 import Message from '../screens/communication/Message';
+import Booking from '../screens/booking/Booking';
+import Map from '../screens/map/Map';
+import Planning from '../screens/planning/Planning';
 
 const Stack = createStackNavigator();
 
@@ -60,6 +63,7 @@ const MessagesStack = () => (
     <Stack.Screen name="Owner" component={Owner} />
     <Stack.Screen name="Station" component={Station} />
     <Stack.Screen name="Stations" component={Stations} />
+    <Stack.Screen name="Booking" component={Booking} />
   </Stack.Navigator>
 );
 
@@ -88,6 +92,54 @@ const HomeStack = () => (
     <Stack.Screen name="ChangePassword" component={ChangePassword} />
     <Stack.Screen name="Logout" component={Logout} />
     <Stack.Screen name="Profile" component={Profile} />
+  </Stack.Navigator>
+);
+
+const MapStack = () => (
+  <Stack.Navigator
+    initialRouteName="Home"
+    screenOptions={{
+      headerTintColor: AppStyles.color.tint,
+      headerTitleStyle: styles.headerTitleStyle,
+      headerMode: 'float'
+    }}
+  >
+    <Stack.Screen
+      name="Map"
+      component={Map}
+      options={({ navigation }) => ({
+        headerLeft: () => (
+          <Pressable onPress={() => navigation.openDrawer()}>
+            <Image style={styles.iconStyle} source={AppIcon.images.menu} />
+          </Pressable>
+        ),
+        headerLeftContainerStyle: { paddingLeft: 10 }
+      })}
+    />
+  </Stack.Navigator>
+);
+
+const PlanningStack = () => (
+  <Stack.Navigator
+    initialRouteName="Home"
+    screenOptions={{
+      headerTintColor: AppStyles.color.tint,
+      headerTitleStyle: styles.headerTitleStyle,
+      headerMode: 'float'
+    }}
+  >
+    <Stack.Screen
+      name="Planning"
+      component={Planning}
+      options={({ navigation }) => ({
+        headerLeft: () => (
+          <Pressable onPress={() => navigation.openDrawer()}>
+            <Image style={styles.iconStyle} source={AppIcon.images.menu} />
+          </Pressable>
+        ),
+        headerLeftContainerStyle: { paddingLeft: 10 }
+      })}
+    />
   </Stack.Navigator>
 );
 
@@ -120,6 +172,44 @@ const TabNavigator = () => (
       }}
       name="HomeStack"
       component={HomeStack}
+    />
+    <BottomTab.Screen
+      options={{
+        tabBarLabel: 'Map',
+        tabBarIcon: ({ focused }) => {
+          return (
+            <Image
+              style={{
+                tintColor: focused ? AppStyles.color.tint : AppStyles.color.grey,
+                width: 30,
+                height: 30
+              }}
+              source={AppIcon.images.map}
+            />
+          );
+        }
+      }}
+      name="MapStack"
+      component={MapStack}
+    />
+    <BottomTab.Screen
+      options={{
+        tabBarLabel: 'Planning',
+        tabBarIcon: ({ focused }) => {
+          return (
+            <Image
+              style={{
+                tintColor: focused ? AppStyles.color.tint : AppStyles.color.grey,
+                width: 30,
+                height: 30
+              }}
+              source={AppIcon.images.planning}
+            />
+          );
+        }
+      }}
+      name="PlanningStack"
+      component={PlanningStack}
     />
     <BottomTab.Screen
       options={{

@@ -6,7 +6,7 @@ import { AppIcon, AppStyles } from '../../AppStyles';
 function Stations({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text style={[styles.title, styles.leftTitle]}>Stations information</Text>
+      <Text style={[styles.title, styles.leftTitle]}>Stations documentation</Text>
       <Text style={styles.infoTitle}>Stations types</Text>
       <Text style={styles.infoText}>- Type 1: 8 kW</Text>
       <Text style={styles.infoText}>- Type 2: 43 kW</Text>

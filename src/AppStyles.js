@@ -62,7 +62,10 @@ export const AppIcon = {
     leftArrow: require('../assets/icons/left_arrow.png'),
     station: require('../assets/icons/plug.png'),
     station_img: require('../assets/icons/station.png'),
-    messages: require('../assets/icons/messages.png')
+    messages: require('../assets/icons/messages.png'),
+    mapicon: require('../assets/icons/mapicon.png'),
+    map: require('../assets/icons/map.png'),
+    planning: require('../assets/icons/planning.png')
   }
 };
 
