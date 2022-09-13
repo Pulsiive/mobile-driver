@@ -29,8 +29,6 @@ function Map({ navigation }) {
   const [nightMode, setNightMode] = useState(false);
   const [filtersMenu, setFiltersMenu] = useState(false);
 
-  const [displayPin, setDisplayPin] = useState(true);
-
   const [modalData, setModalData] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
   const setModal = (charger) => {
@@ -49,12 +47,24 @@ function Map({ navigation }) {
 
   const [filterSelect, setFilterSelect] = useState(0);
 
-  const checkFilters = () => {};
+  const checkFilters = (charger) => {
+    if (filterType && charger.type != filterType) return false;
+    if (filterPrice && charger.pricing > filterPrice) return false;
+    if (filterStatut) {
+      if (filterStatut == 'Public' && !charger.public) return false;
+      if (filterStatut == 'Private' && charger.public) return false;
+    }
+    if (filterRating && charger.rating < filterRating) return false;
+    return true;
+  };
 
   const FiltersComponent = () => {
-    const apply = () => {
+    const clear = () => {
       setFilterSelect(0);
-      setFiltersMenu(false);
+      setFilterType(false);
+      setFilterPrice(false);
+      setFilterStatut(false);
+      setFilterRating(false);
     };
     return filtersMenu ? (
       <View
@@ -86,7 +96,7 @@ function Map({ navigation }) {
               display: 'flex'
             }}
           >
-            <Button style={styles.filters} onPress={() => setFilterType('X')}>
+            <Button style={styles.filters} onPress={() => setFilterType(false)}>
               X
             </Button>
             <Button
@@ -153,7 +163,7 @@ function Map({ navigation }) {
               display: 'flex'
             }}
           >
-            <Button style={styles.filters} onPress={() => setFilterPrice('X')}>
+            <Button style={styles.filters} onPress={() => setFilterPrice(false)}>
               X
             </Button>
             <Button
@@ -220,7 +230,7 @@ function Map({ navigation }) {
               display: 'flex'
             }}
           >
-            <Button style={styles.filters} onPress={() => setFilterStatut('X')}>
+            <Button style={styles.filters} onPress={() => setFilterStatut(false)}>
               X
             </Button>
             <Button
@@ -274,7 +284,7 @@ function Map({ navigation }) {
               display: 'flex'
             }}
           >
-            <Button style={styles.filters} onPress={() => setFilterRating('X')}>
+            <Button style={styles.filters} onPress={() => setFilterRating(false)}>
               X
             </Button>
             <Button
@@ -346,8 +356,8 @@ function Map({ navigation }) {
         ) : (
           <></>
         )}
-        <Button style={styles.apply} onPress={() => apply()}>
-          Apply
+        <Button style={styles.apply} onPress={() => clear()}>
+          Clear
         </Button>
       </View>
     ) : (
@@ -500,8 +510,8 @@ function Map({ navigation }) {
             animationDuration={3}
           ></MapboxGL.Camera>
           <MapboxGL.UserLocation visible={true} />
-          <View>
-            {userStation.map((charger, index) => (
+          {userStation.map((charger, index) =>
+            checkFilters(charger) ? (
               <MapboxGL.PointAnnotation
                 id={charger.name}
                 coordinate={charger.location}
@@ -515,8 +525,10 @@ function Map({ navigation }) {
                   />
                 </View>
               </MapboxGL.PointAnnotation>
-            ))}
-          </View>
+            ) : (
+              <></>
+            )
+          )}
         </MapboxGL.MapView>
         <Pressable
           style={{
@@ -605,6 +617,15 @@ function Map({ navigation }) {
                   </ScrollView>
                 </SafeAreaView>
               </View>
+              {!modalData.charger.public ? (
+                <View style={{ display: 'flex', alignItems: 'center' }}>
+                  <Button containerStyle={styles.bookButton} style={styles.shareText}>
+                    Book
+                  </Button>
+                </View>
+              ) : (
+                <></>
+              )}
             </View>
           </Modal>
         ) : (
@@ -642,7 +663,7 @@ const styles = StyleSheet.create({
     width: '80%',
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: AppStyles.color.white,
+    borderColor: AppStyles.color.grey,
     marginTop: '30%',
     marginLeft: '12%'
   },
@@ -672,6 +693,18 @@ const styles = StyleSheet.create({
     width: 100,
     height: 30,
     marginBottom: '2%'
+  },
+  bookButton: {
+    width: 200,
+    backgroundColor: AppStyles.color.tint,
+    borderRadius: AppStyles.borderRadius.main,
+    padding: 10,
+    marginTop: 30,
+    position: 'absolute',
+    bottom: 80
+  },
+  shareText: {
+    color: AppStyles.color.white
   }
 });
 

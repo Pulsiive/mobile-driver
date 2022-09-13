@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { Alert, StyleSheet, Text, TextInput, View } from 'react-native';
 import Button from 'react-native-button';
 import { AppStyles } from '../../AppStyles';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
@@ -103,8 +103,12 @@ function Booking({ navigation }) {
       >
         price: 5.5$/h
       </Text>
-      <Button containerStyle={styles.shareButton} style={styles.shareText}>
-        Book
+      <Button
+        containerStyle={styles.shareButton}
+        style={styles.shareText}
+        onPress={() => Alert.alert('You booked this station !')}
+      >
+        Book this station
       </Button>
     </View>
   );
