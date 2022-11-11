@@ -2,11 +2,22 @@
 import { useNavigation } from '@react-navigation/native';
 import { useRoute } from '@react-navigation/native';
 import React from 'react';
-import { View, StyleSheet, Image, ScrollView, Dimensions, Text } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Image,
+  ScrollView,
+  Dimensions,
+  Text,
+  Pressable,
+  Alert
+} from 'react-native';
 import { FlatList, TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import { AppStyles } from '../../AppStyles';
 // import { Text } from '../components/Themed'
 import messages from '../../messages';
+import Icon from 'react-native-vector-icons/Entypo';
+
 function Message(props) {
   const width = Dimensions.get('window').width;
   const { imageUri, name } = useRoute().params;
@@ -22,6 +33,36 @@ function Message(props) {
 
   const renderHeaderSection = () => (
     <View style={{ marginTop: 20, justifyContent: 'center', alignItems: 'center' }}>
+      <Pressable
+        style={{
+          position: 'absolute',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          top: 0,
+          right: 60,
+          width: 50,
+          height: 50
+        }}
+        onPress={() => Alert.alert('You have reported this user')}
+      >
+        <Icon name="warning" size={20} color="grey" />
+      </Pressable>
+      <Pressable
+        style={{
+          position: 'absolute',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          top: 0,
+          right: 10,
+          width: 50,
+          height: 50
+        }}
+        onPress={() => Alert.alert('You have deleted this conversation')}
+      >
+        <Icon name="trash" size={20} color="grey" />
+      </Pressable>
       <Image
         source={{ uri: imageUri }}
         style={{

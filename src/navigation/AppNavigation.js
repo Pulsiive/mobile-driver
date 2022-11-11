@@ -17,6 +17,7 @@ import Logout from '../screens/settings/Logout';
 import ChangePassword from '../screens/settings/ChangePassword';
 import Profile from '../screens/profile/Profile';
 import Owner from '../screens/profile/Owner';
+import Calendar from '../screens/profile/Calendar';
 import Station from '../screens/station/Station';
 import Stations from '../screens/station/Stations';
 import Messages from '../screens/communication/Messages';
@@ -61,6 +62,7 @@ const MessagesStack = () => (
     />
     <Stack.Screen name="Message" component={Message} />
     <Stack.Screen name="Owner" component={Owner} />
+    <Stack.Screen name="Calendar" component={Calendar} />
     <Stack.Screen name="Station" component={Station} />
     <Stack.Screen name="Stations" component={Stations} />
     <Stack.Screen name="Booking" component={Booking} />

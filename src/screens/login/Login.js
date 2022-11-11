@@ -2,47 +2,92 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, View, Alert } from 'react-native';
 import Button from 'react-native-button';
 import { AppStyles } from '../../AppStyles';
+import api from '../../db/Api';
+import serviceAccessToken from '../../db/AccessToken';
 
 function Login({ navigation }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [userInput, setUserInput] = useState({
+    email: '',
+    password: ''
+  });
+  const [errorMessage, setErrorMessage] = useState('');
+  const [error, setError] = useState(false);
 
-  const onPressLogin = () => {
-    if (email.length <= 0 || password.length <= 0) {
-      Alert.alert('Please fill out the required fields.');
-      return;
+  const handleChange = (text, field) => {
+    if (error) setError(false);
+    userInput[field] = text;
+    setUserInput(userInput);
+  };
+
+  const onLogin = async () => {
+    try {
+      if (userInput.email == '' || userInput.password == '')
+        throw { data: 'Please refer email and password', status: '404' };
+      const res = await api.send('post', '/api/v1/auth/login', userInput, (auth = false));
+      console.log('res:', res);
+      if (res.status == 200) {
+        serviceAccessToken.set(res.data.accessToken);
+        setErrorMessage('');
+        navigation.navigate('DrawerStack');
+      } else {
+        throw res;
+      }
+    } catch (e) {
+      if (e.data) {
+        const code = e.status;
+        if (code === 401) setErrorMessage('Incorrect password');
+        else if (code === 404) setErrorMessage('User not found');
+        else setErrorMessage(e.data);
+        setError(true);
+        alert(errorMessage);
+      } else {
+        setErrorMessage('Internal error');
+        setError(true);
+        alert(errorMessage);
+      }
     }
-    navigation.navigate('DrawerStack');
   };
 
   return (
     <View style={styles.container}>
       <Text style={[styles.title, styles.leftTitle]}>Sign In</Text>
+      {errorMessage == undefined ? null : (
+        <Text style={{ color: AppStyles.color.grey }}>{errorMessage}</Text>
+      )}
       <View style={styles.InputContainer}>
         <TextInput
-          style={styles.body}
-          placeholder="E-mail or phone number"
-          onChangeText={setEmail}
-          value={email}
+          accessibilityLabel="email"
+          onChangeText={(text) => handleChange(text, 'email')}
+          style={
+            errorMessage == 'User not found' || errorMessage == 'Internal error'
+              ? styles.inputOnError
+              : styles.input
+          }
+          placeholder="Email"
+          autoComplete="email"
+          value={userInput.name}
           placeholderTextColor={AppStyles.color.grey}
-          underlineColorAndroid="transparent"
         />
       </View>
       <View style={styles.InputContainer}>
         <TextInput
-          style={styles.body}
-          secureTextEntry={true}
+          accessibilityLabel="password"
+          onChangeText={(text) => handleChange(text, 'password')}
+          style={
+            errorMessage == 'Incorrect password' || errorMessage == 'Internal error'
+              ? styles.inputOnError
+              : styles.input
+          }
           placeholder="Password"
-          onChangeText={setPassword}
-          value={password}
+          secureTextEntry={true}
+          autoComplete="password"
           placeholderTextColor={AppStyles.color.grey}
-          underlineColorAndroid="transparent"
         />
       </View>
       <Button
         containerStyle={styles.loginContainer}
         style={styles.loginText}
-        onPress={() => onPressLogin()}
+        onPress={() => onLogin()}
       >
         Log in
       </Button>
@@ -104,11 +149,21 @@ const styles = StyleSheet.create({
     borderColor: AppStyles.color.grey,
     borderRadius: AppStyles.borderRadius.main
   },
-  body: {
+  input: {
     height: 42,
     paddingLeft: 20,
     paddingRight: 20,
     color: AppStyles.color.text
+  },
+  inputOnError: {
+    height: 42,
+    paddingLeft: 20,
+    paddingRight: 20,
+    color: AppStyles.color.text,
+    borderWidth: 2,
+    borderStyle: 'solid',
+    borderColor: 'red',
+    borderRadius: AppStyles.borderRadius.main
   },
   facebookContainer: {
     width: 200,

@@ -1,13 +1,19 @@
 import React, { useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { useRoute, useNavigation } from '@react-navigation/native';
 import { StyleSheet, Text, TextInput, View, Image } from 'react-native';
 import Button from 'react-native-button';
 import { AppIcon, AppStyles } from '../../AppStyles';
 
-function Station() {
+function Station(props) {
+  const { imageUri, name } = useRoute().params;
   const navigation = useNavigation();
   const onPress = (nav) => {
-    navigation.navigate(nav, {});
+    if (nav === 'Owner') {
+      navigation.navigate('Owner', {
+        imageUri: imageUri,
+        name: name
+      });
+    } else navigation.navigate(nav, {});
   };
   return (
     <View style={styles.container}>
@@ -20,11 +26,11 @@ function Station() {
         <Text style={styles.textDescription}>Recharge Time: 3.25h</Text>
       </View>
       <Button
-        onPress={() => onPress('Stations')}
-        containerStyle={styles.infoButton}
+        onPress={() => onPress('Owner')}
+        containerStyle={styles.ownerButton}
         style={styles.shareText}
       >
-        Need documentation ?
+        Owner profile
       </Button>
       <Button
         onPress={() => onPress('Booking')}
@@ -33,6 +39,13 @@ function Station() {
       >
         Book
       </Button>
+      <Button
+        onPress={() => onPress('Stations')}
+        containerStyle={styles.infoButton}
+        style={styles.shareText}
+      >
+        Need documentation ?
+      </Button>
     </View>
   );
 }
@@ -40,7 +53,7 @@ function Station() {
 const styles = StyleSheet.create({
   img: {
     position: 'absolute',
-    top: 120,
+    top: 100,
     left: 20
   },
   container: {
@@ -104,6 +117,15 @@ const styles = StyleSheet.create({
     borderColor: AppStyles.color.grey,
     borderRadius: AppStyles.borderRadius.main
   },
+  ownerButton: {
+    width: 200,
+    backgroundColor: AppStyles.color.facebook,
+    borderRadius: AppStyles.borderRadius.main,
+    padding: 10,
+    marginTop: 30,
+    position: 'absolute',
+    bottom: 110
+  },
   bookButton: {
     width: 200,
     backgroundColor: AppStyles.color.tint,
@@ -111,7 +133,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginTop: 30,
     position: 'absolute',
-    bottom: 80
+    bottom: 60
   },
   infoButton: {
     width: 200,
@@ -120,7 +142,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginTop: 30,
     position: 'absolute',
-    bottom: 20
+    bottom: 10
   },
   shareText: {
     color: AppStyles.color.white

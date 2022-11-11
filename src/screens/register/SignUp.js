@@ -2,81 +2,104 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, View, Alert } from 'react-native';
 import Button from 'react-native-button';
 import { AppStyles } from '../../AppStyles';
+import api from '../../db/Api';
+import serviceAccessToken from '../../db/AccessToken';
 
 function SignUp({ navigation }) {
-  const [fullname, setFullname] = useState('');
-  const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [userInput, setUserInput] = useState({
+    email: 'default',
+    password: 'default',
+    firstName: 'default',
+    lastName: 'default',
+    dateOfBirth: '2022-09-09T20:32:54.003Z'
+  });
+  const [errorMessage, setErrorMessage] = useState('');
+  const [error, setError] = useState(false);
 
-  const onRegister = () => {
-    if (
-      fullname.length <= 0 ||
-      phone.length <= 0 ||
-      email.length <= 0 ||
-      password.length <= 0 ||
-      confirmPassword.length <= 0
-    ) {
-      Alert.alert('Please fill out the required fields.');
-      return;
+  const handleChange = (text, field) => {
+    if (error) setError(false);
+    userInput[field] = text;
+    setUserInput(userInput);
+  };
+
+  const onRegister = async () => {
+    try {
+      if (userInput.email == 'default' || userInput.password == 'default')
+        throw { data: 'Please fill email and password', status: '405' };
+      const res = await api.send('POST', '/api/v1/auth/register', userInput, false);
+      if (res.status == 200) {
+        serviceAccessToken.set(res.data.accessToken);
+        setErrorMessage('');
+        navigation.navigate('DrawerStack');
+      } else {
+        throw res;
+      }
+      navigation.navigate('DrawerStack');
+    } catch (e) {
+      if (e.response) {
+        if (e.response.status === 404) setErrorMessage('User is already registered');
+        else setErrorMessage('Internal error');
+        setError(true);
+      } else {
+        setErrorMessage('Internal error');
+        setError(true);
+      }
     }
-    navigation.navigate('DrawerStack');
   };
 
   return (
     <View style={styles.container}>
       <Text style={[styles.title, styles.leftTitle]}>Create new account</Text>
+      {errorMessage == undefined ? null : (
+        <Text style={{ color: AppStyles.color.grey }}>{errorMessage}</Text>
+      )}
       <View style={styles.InputContainer}>
         <TextInput
-          style={styles.body}
-          placeholder="Full Name"
-          onChangeText={setFullname}
-          value={fullname}
+          placeholder="Email"
+          onChangeText={(text) => handleChange(text, 'email')}
+          style={
+            errorMessage == 'User already registered' || errorMessage == 'Internal error'
+              ? styles.inputOnError
+              : styles.input
+          }
           placeholderTextColor={AppStyles.color.grey}
-          underlineColorAndroid="transparent"
         />
       </View>
       <View style={styles.InputContainer}>
         <TextInput
-          style={styles.body}
-          placeholder="Phone Number"
-          onChangeText={setPhone}
-          value={phone}
+          placeholder="First name"
+          onChangeText={(text) => handleChange(text, 'firstName')}
+          style={
+            errorMessage == 'User already registered' || errorMessage == 'Internal error'
+              ? styles.inputOnError
+              : styles.input
+          }
           placeholderTextColor={AppStyles.color.grey}
-          underlineColorAndroid="transparent"
         />
       </View>
       <View style={styles.InputContainer}>
         <TextInput
-          style={styles.body}
-          placeholder="E-mail Address"
-          onChangeText={setEmail}
-          value={email}
+          placeholder="Last name"
+          onChangeText={(text) => handleChange(text, 'lastName')}
+          style={
+            errorMessage == 'User already registered' || errorMessage == 'Internal error'
+              ? styles.inputOnError
+              : styles.input
+          }
           placeholderTextColor={AppStyles.color.grey}
-          underlineColorAndroid="transparent"
         />
       </View>
       <View style={styles.InputContainer}>
         <TextInput
-          style={styles.body}
           placeholder="Password"
-          secureTextEntry={true}
-          onChangeText={setPassword}
-          value={password}
+          onChangeText={(text) => handleChange(text, 'password')}
+          style={
+            errorMessage == 'User already registered' || errorMessage == 'Internal error'
+              ? styles.inputOnError
+              : styles.input
+          }
           placeholderTextColor={AppStyles.color.grey}
-          underlineColorAndroid="transparent"
-        />
-      </View>
-      <View style={styles.InputContainer}>
-        <TextInput
-          style={styles.body}
-          placeholder="Confirm password"
           secureTextEntry={true}
-          onChangeText={setConfirmPassword}
-          value={confirmPassword}
-          placeholderTextColor={AppStyles.color.grey}
-          underlineColorAndroid="transparent"
         />
       </View>
       <Button
@@ -135,11 +158,21 @@ const styles = StyleSheet.create({
     borderColor: AppStyles.color.grey,
     borderRadius: AppStyles.borderRadius.main
   },
-  body: {
+  input: {
     height: 42,
     paddingLeft: 20,
     paddingRight: 20,
     color: AppStyles.color.text
+  },
+  inputOnError: {
+    height: 42,
+    paddingLeft: 20,
+    paddingRight: 20,
+    color: AppStyles.color.text,
+    borderWidth: 2,
+    borderStyle: 'solid',
+    borderColor: 'red',
+    borderRadius: AppStyles.borderRadius.main
   },
   facebookContainer: {
     width: AppStyles.buttonWidth.main,

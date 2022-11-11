@@ -1,14 +1,15 @@
 import { useRoute, useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { StyleSheet, Text, TextInput, View, Image } from 'react-native';
+import { StyleSheet, Text, TextInput, View, Image, Pressable } from 'react-native';
 import Button from 'react-native-button';
+import Icon from 'react-native-vector-icons/Entypo';
 import { AppStyles } from '../../AppStyles';
 
 function Owner(props) {
   const { imageUri, name } = useRoute().params;
   const navigation = useNavigation();
-  const onPress = () => {
-    navigation.navigate('Station', {
+  const onPress = (nav) => {
+    navigation.navigate(nav, {
       imageUri: imageUri,
       name: name
     });
@@ -31,15 +32,23 @@ function Owner(props) {
         <Text style={styles.text}>Username: {name}</Text>
         <Text style={styles.text}>Address: 54 Charing Cross Rd</Text>
         <Text style={styles.text}>Country: UK 🇬🇧</Text>
+        <Text style={styles.text}>Rating: 4.2/5</Text>
       </View>
       <Button
-        onPress={() => onPress()}
+        onPress={() => onPress('Calendar')}
+        containerStyle={styles.calendarButton}
+        style={styles.buttonText}
+      >
+        Your reservations
+      </Button>
+      <Button
+        onPress={() => onPress('Station')}
         containerStyle={styles.stationButton}
-        style={styles.shareText}
+        style={styles.buttonText}
       >
         Station
       </Button>
-      <Button containerStyle={styles.shareButton} style={styles.shareText}>
+      <Button containerStyle={styles.shareButton} style={styles.buttonText}>
         Share this profil
       </Button>
     </View>
@@ -108,20 +117,26 @@ const styles = StyleSheet.create({
     backgroundColor: AppStyles.color.tint,
     borderRadius: AppStyles.borderRadius.main,
     padding: 10,
-    marginTop: 30,
     position: 'absolute',
-    bottom: 80
+    bottom: 70
   },
   shareButton: {
     width: 200,
     backgroundColor: AppStyles.color.text,
     borderRadius: AppStyles.borderRadius.main,
     padding: 10,
-    marginTop: 30,
     position: 'absolute',
     bottom: 20
   },
-  shareText: {
+  calendarButton: {
+    width: 200,
+    backgroundColor: AppStyles.color.facebook,
+    borderRadius: AppStyles.borderRadius.main,
+    padding: 10,
+    position: 'absolute',
+    bottom: 120
+  },
+  buttonText: {
     color: AppStyles.color.white
   }
 });

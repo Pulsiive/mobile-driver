@@ -35,6 +35,7 @@ function Chat(props) {
   return (
     <TouchableWithoutFeedback onPress={() => onPress()}>
       <View>
+        <View style={styles.separator}></View>
         <View style={styles.container}>
           <View style={styles.imageContainer}>
             <Image source={{ uri: imageUri }} resizeMode="cover" style={styles.image} />
@@ -49,7 +50,6 @@ function Chat(props) {
           </View>
           <View style={{ width: '5%' }}>{renderCharReadStatus()}</View>
         </View>
-        <View style={styles.separator}></View>
       </View>
     </TouchableWithoutFeedback>
   );

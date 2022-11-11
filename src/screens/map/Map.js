@@ -15,7 +15,8 @@ import Button from 'react-native-button';
 import { AppStyles } from '../../AppStyles';
 
 import MapboxGL from '@rnmapbox/maps';
-import GetLocation from 'react-native-get-location';
+// import GetLocation from 'react-native-get-location';
+import Geolocation from 'react-native-geolocation-service';
 
 import Icon from 'react-native-vector-icons/Entypo';
 
@@ -45,6 +46,18 @@ function Map({ navigation }) {
   const [filterStatut, setFilterStatut] = useState(false);
   const [filterRating, setFilterRating] = useState(false);
 
+  const [savedFitlers1, setSavedFilters1] = useState({
+    savedFilterType: false,
+    savedFilterPrice: false,
+    savedFilterStatut: false,
+    savedFilterRating: false
+  });
+  const [savedFitlers2, setSavedFilters2] = useState({
+    savedFilterType: false,
+    savedFilterPrice: false,
+    savedFilterStatut: false,
+    savedFilterRating: false
+  });
   const [filterSelect, setFilterSelect] = useState(0);
 
   const checkFilters = (charger) => {
@@ -65,6 +78,48 @@ function Map({ navigation }) {
       setFilterPrice(false);
       setFilterStatut(false);
       setFilterRating(false);
+    };
+    const save1 = () => {
+      setSavedFilters1({
+        savedFilterType: filterType,
+        savedFilterPrice: filterType,
+        savedFilterStatut: filterStatut,
+        savedFilterRating: filterRating
+      });
+    };
+    const save2 = () => {
+      setSavedFilters2({
+        savedFilterType: filterType,
+        savedFilterPrice: filterType,
+        savedFilterStatut: filterStatut,
+        savedFilterRating: filterRating
+      });
+    };
+    const compare1 = () => {
+      const temp = { filterType, filterPrice, filterStatut, filterRating };
+      setFilterType(savedFitlers1.savedFilterType);
+      setFilterPrice(savedFitlers1.savedFilterPrice);
+      setFilterStatut(savedFitlers1.savedFilterStatut);
+      setFilterRating(savedFitlers1.savedFilterRating);
+      setSavedFilters1({
+        savedFilterType: temp.filterType,
+        savedFilterPrice: temp.filterPrice,
+        savedFilterStatut: temp.filterStatut,
+        savedFilterRating: temp.filterRating
+      });
+    };
+    const compare2 = () => {
+      const temp = { filterType, filterPrice, filterStatut, filterRating };
+      setFilterType(savedFitlers2.savedFilterType);
+      setFilterPrice(savedFitlers2.savedFilterPrice);
+      setFilterStatut(savedFitlers2.savedFilterStatut);
+      setFilterRating(savedFitlers2.savedFilterRating);
+      setSavedFilters2({
+        savedFilterType: temp.filterType,
+        savedFilterPrice: temp.filterPrice,
+        savedFilterStatut: temp.filterStatut,
+        savedFilterRating: temp.filterRating
+      });
     };
     return filtersMenu ? (
       <View
@@ -359,6 +414,18 @@ function Map({ navigation }) {
         <Button style={styles.apply} onPress={() => clear()}>
           Clear
         </Button>
+        <Button style={styles.save} onPress={() => save1()}>
+          Save 1
+        </Button>
+        <Button style={styles.save} onPress={() => save2()}>
+          Save 2
+        </Button>
+        <Button style={styles.compare} onPress={() => compare1()}>
+          Compare 1
+        </Button>
+        <Button style={styles.compare} onPress={() => compare2()}>
+          Compare 2
+        </Button>
       </View>
     ) : (
       <></>
@@ -472,17 +539,28 @@ function Map({ navigation }) {
       )
         .then(async (granted) => {
           // console.log(granted);
-          GetLocation.getCurrentPosition({
-            enableHighAccuracy: true,
-            timeout: 50000
-          })
-            .then((location) => {
-              setUserPosition([location.latitude, location.longitude]);
-            })
-            .catch((error) => {
-              const { code, message } = error;
-              console.warn(code, message);
-            });
+          Geolocation.getCurrentPosition(
+            (position) => {
+              console.log(position);
+              setUserPosition([position.coords.latitude, position.coords.longitude]);
+            },
+            (error) => {
+              // See error code charts below.
+              console.log(error.code, error.message);
+            },
+            { enableHighAccuracy: true, timeout: 50000, maximumAge: 10000 }
+          );
+          // GetLocation.getCurrentPosition({
+          //   enableHighAccuracy: true,
+          //   timeout: 15000
+          // })
+          //   .then((location) => {
+          //     setUserPosition([location.latitude, location.longitude]);
+          //   })
+          //   .catch((error) => {
+          //     const { code, message } = error;
+          //     console.warn(code, message);
+          //   });
         })
         .catch((err) => {
           console.warn(err);
@@ -490,7 +568,7 @@ function Map({ navigation }) {
     } catch (e) {
       console.log(e);
     }
-  });
+  }, []);
 
   return (
     <View style={styles.page}>
@@ -502,6 +580,7 @@ function Map({ navigation }) {
           }
           zoomLevel={16}
           center={[userPosition]}
+          key="map"
         >
           <MapboxGL.Camera
             zoomLevel={13}
@@ -516,6 +595,7 @@ function Map({ navigation }) {
                 id={charger.name}
                 coordinate={charger.location}
                 onSelected={() => setModal(charger)}
+                key={index}
               >
                 <View>
                   <Icon
@@ -692,7 +772,23 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     width: 100,
     height: 30,
-    marginBottom: '2%'
+    marginBottom: '5%'
+  },
+  save: {
+    backgroundColor: AppStyles.color.facebook,
+    color: AppStyles.color.white,
+    borderRadius: 50,
+    width: 100,
+    height: 30,
+    marginBottom: '5%'
+  },
+  compare: {
+    backgroundColor: AppStyles.color.grey,
+    color: AppStyles.color.white,
+    borderRadius: 50,
+    width: 100,
+    height: 30,
+    marginBottom: '5%'
   },
   bookButton: {
     width: 200,

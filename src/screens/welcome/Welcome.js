@@ -6,7 +6,7 @@ import { AppStyles } from '../../AppStyles';
 function Welcome({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome on Pusliive</Text>
+      <Text style={styles.title}>Welcome on Puslive</Text>
       <Button
         containerStyle={styles.loginContainer}
         style={styles.loginText}
