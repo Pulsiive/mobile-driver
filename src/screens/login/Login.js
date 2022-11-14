@@ -1,49 +1,64 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { StyleSheet, Text, TextInput, View, Alert } from 'react-native';
 import Button from 'react-native-button';
 import { AppStyles } from '../../AppStyles';
 import api from '../../db/Api';
 import serviceAccessToken from '../../db/AccessToken';
+import { set } from 'react-native-reanimated';
 
 function Login({ navigation }) {
+  const inputEmail = useRef(null);
+  const inputPassword = useRef(null);
+
   const [userInput, setUserInput] = useState({
     email: '',
     password: ''
   });
-  const [errorMessage, setErrorMessage] = useState('');
-  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState({
+    email: '',
+    password: ''
+  });
 
   const handleChange = (text, field) => {
-    if (error) setError(false);
     userInput[field] = text;
     setUserInput(userInput);
   };
 
   const onLogin = async () => {
     try {
-      if (userInput.email == '' || userInput.password == '')
-        throw { data: 'Please refer email and password', status: '404' };
-      const res = await api.send('post', '/api/v1/auth/login', userInput, (auth = false));
-      console.log('res:', res);
+      errorMessage['email'] = '';
+      errorMessage['password'] = '';
+
+      if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/.test(userInput.email))
+        errorMessage['email'] = 'Wrong email format (e.g: test@ext.com)';
+      if (userInput.email == '') errorMessage['email'] = 'Please enter your email';
+      if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(userInput.password))
+        errorMessage['password'] =
+          'Wrong password format (at least 8 characters, 1 number, 1 uppercase, 1 lowercase)';
+      if (userInput.password == '') errorMessage['password'] = 'Please enter your password';
+
+      setErrorMessage({ ...errorMessage });
+
+      if (errorMessage.email !== '' || errorMessage.password !== '')
+        throw { data: errorMessage, status: '405' };
+
+      const res = await api.send('post', '/api/v1/auth/login', userInput, false);
+
       if (res.status == 200) {
         serviceAccessToken.set(res.data.accessToken);
-        setErrorMessage('');
+        inputEmail.current.clear();
+        inputPassword.current.clear();
+        setUserInput({ email: '', password: '' });
         navigation.navigate('DrawerStack');
       } else {
         throw res;
       }
     } catch (e) {
-      if (e.data) {
-        const code = e.status;
-        if (code === 401) setErrorMessage('Incorrect password');
-        else if (code === 404) setErrorMessage('User not found');
-        else setErrorMessage(e.data);
-        setError(true);
-        alert(errorMessage);
+      if (e) {
+        if (e.status === 401) setErrorMessage({ ...errorMessage, password: 'Incorrect password' });
+        else if (e.status === 404) setErrorMessage({ ...errorMessage, email: 'User not found' });
       } else {
-        setErrorMessage('Internal error');
-        setError(true);
-        alert(errorMessage);
+        setErrorMessage({ ...errorMessage, email: 'Internal server error' });
       }
     }
   };
@@ -51,38 +66,45 @@ function Login({ navigation }) {
   return (
     <View style={styles.container}>
       <Text style={[styles.title, styles.leftTitle]}>Sign In</Text>
-      {errorMessage == undefined ? null : (
-        <Text style={{ color: AppStyles.color.grey }}>{errorMessage}</Text>
-      )}
-      <View style={styles.InputContainer}>
+      <View style={styles.viewContainer}>
         <TextInput
+          ref={inputEmail}
           accessibilityLabel="email"
           onChangeText={(text) => handleChange(text, 'email')}
-          style={
-            errorMessage == 'User not found' || errorMessage == 'Internal error'
-              ? styles.inputOnError
-              : styles.input
-          }
+          style={[
+            styles.inputContainer,
+            errorMessage.email !== '' ? styles.inputOnError : styles.input
+          ]}
           placeholder="Email"
           autoComplete="email"
           value={userInput.name}
           placeholderTextColor={AppStyles.color.grey}
         />
+        {errorMessage.email === '' ? (
+          <Text></Text>
+        ) : (
+          <Text style={{ color: 'red' }}>{errorMessage.email}</Text>
+        )}
       </View>
-      <View style={styles.InputContainer}>
+      <View style={styles.viewContainer}>
         <TextInput
+          ref={inputPassword}
           accessibilityLabel="password"
           onChangeText={(text) => handleChange(text, 'password')}
-          style={
-            errorMessage == 'Incorrect password' || errorMessage == 'Internal error'
-              ? styles.inputOnError
-              : styles.input
-          }
+          style={[
+            styles.inputContainer,
+            errorMessage.password !== '' ? styles.inputOnError : styles.input
+          ]}
           placeholder="Password"
           secureTextEntry={true}
           autoComplete="password"
           placeholderTextColor={AppStyles.color.grey}
         />
+        {errorMessage.password === '' ? (
+          <Text></Text>
+        ) : (
+          <Text style={{ color: 'red' }}>{errorMessage.password}</Text>
+        )}
       </View>
       <Button
         containerStyle={styles.loginContainer}
@@ -141,9 +163,11 @@ const styles = StyleSheet.create({
   placeholder: {
     color: 'red'
   },
-  InputContainer: {
+  viewContainer: {
     width: AppStyles.textInputWidth.main,
-    marginTop: 30,
+    marginTop: 30
+  },
+  inputContainer: {
     borderWidth: 1,
     borderStyle: 'solid',
     borderColor: AppStyles.color.grey,

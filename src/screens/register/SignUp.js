@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { StyleSheet, Text, TextInput, View, Alert } from 'react-native';
 import Button from 'react-native-button';
 import { AppStyles } from '../../AppStyles';
@@ -6,43 +6,82 @@ import api from '../../db/Api';
 import serviceAccessToken from '../../db/AccessToken';
 
 function SignUp({ navigation }) {
+  const inputEmail = useRef(null);
+  const inputFirstName = useRef(null);
+  const inputLastName = useRef(null);
+  const inputPassword = useRef(null);
+
   const [userInput, setUserInput] = useState({
-    email: 'default',
-    password: 'default',
-    firstName: 'default',
-    lastName: 'default',
+    email: '',
+    password: '',
+    firstName: '',
+    lastName: '',
     dateOfBirth: '2022-09-09T20:32:54.003Z'
   });
-  const [errorMessage, setErrorMessage] = useState('');
-  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState({
+    email: '',
+    password: '',
+    firstName: '',
+    lastName: ''
+  });
 
   const handleChange = (text, field) => {
-    if (error) setError(false);
     userInput[field] = text;
     setUserInput(userInput);
   };
 
   const onRegister = async () => {
     try {
-      if (userInput.email == 'default' || userInput.password == 'default')
-        throw { data: 'Please fill email and password', status: '405' };
+      errorMessage['email'] = '';
+      errorMessage['password'] = '';
+      errorMessage['lastName'] = '';
+      errorMessage['firstName'] = '';
+
+      if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/.test(userInput.email))
+        errorMessage['email'] = 'Wrong email format (e.g: test@ext.com)';
+      if (userInput.email == '') errorMessage['email'] = 'Please enter your email';
+      if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(userInput.password))
+        errorMessage['password'] =
+          'Wrong password format (at least 8 characters, 1 number, 1 uppercase, 1 lowercase)';
+      if (userInput.password == '') errorMessage['password'] = 'Please enter your password';
+      if (/[^a-zA-Z]+/g.test(userInput.lastName))
+        errorMessage['lastName'] = 'Wrong format (only letters)';
+      if (userInput.lastName == '') errorMessage['lastName'] = 'Please enter your last name';
+      if (/[^a-zA-Z]+/g.test(userInput.firstName))
+        errorMessage['firstName'] = 'Wrong format (only letters)';
+      if (userInput.firstName == '') errorMessage['firstName'] = 'Please enter your first name';
+
+      setErrorMessage({ ...errorMessage });
+
+      if (
+        errorMessage.email !== '' ||
+        errorMessage.password !== '' ||
+        errorMessage.firstName !== '' ||
+        errorMessage.lastName !== ''
+      )
+        throw { data: errorMessage, status: '405' };
+
       const res = await api.send('POST', '/api/v1/auth/register', userInput, false);
+
       if (res.status == 200) {
         serviceAccessToken.set(res.data.accessToken);
-        setErrorMessage('');
+        inputEmail.current.clear();
+        inputFirstName.current.clear();
+        inputLastName.current.clear();
+        inputPassword.current.clear();
+        setUserInput({ email: '', firstName: '', lastName: '', password: '' });
         navigation.navigate('DrawerStack');
       } else {
         throw res;
       }
-      navigation.navigate('DrawerStack');
     } catch (e) {
-      if (e.response) {
-        if (e.response.status === 404) setErrorMessage('User is already registered');
-        else setErrorMessage('Internal error');
-        setError(true);
+      console.log(e);
+      if (e) {
+        if (e.status === 409) setErrorMessage({ ...errorMessage, email: 'User already exists' });
+        else if (e.status === 422)
+          setErrorMessage({ ...errorMessage, email: 'User registration failed' });
       } else {
-        setErrorMessage('Internal error');
-        setError(true);
+        setErrorMessage({ ...errorMessage, email: 'Internal server error' });
       }
     }
   };
@@ -50,58 +89,79 @@ function SignUp({ navigation }) {
   return (
     <View style={styles.container}>
       <Text style={[styles.title, styles.leftTitle]}>Create new account</Text>
-      {errorMessage == undefined ? null : (
-        <Text style={{ color: AppStyles.color.grey }}>{errorMessage}</Text>
-      )}
-      <View style={styles.InputContainer}>
+      <View style={styles.viewContainer}>
         <TextInput
+          ref={inputEmail}
           placeholder="Email"
           onChangeText={(text) => handleChange(text, 'email')}
-          style={
-            errorMessage == 'User already registered' || errorMessage == 'Internal error'
-              ? styles.inputOnError
-              : styles.input
-          }
+          style={[
+            styles.inputContainer,
+            errorMessage.email !== '' ? styles.inputOnError : styles.input
+          ]}
           placeholderTextColor={AppStyles.color.grey}
         />
+        {errorMessage.email === '' ? (
+          <Text></Text>
+        ) : (
+          <Text style={{ color: 'red' }}>{errorMessage.email}</Text>
+        )}
       </View>
-      <View style={styles.InputContainer}>
+
+      <View style={styles.viewContainer}>
         <TextInput
+          ref={inputFirstName}
           placeholder="First name"
           onChangeText={(text) => handleChange(text, 'firstName')}
-          style={
-            errorMessage == 'User already registered' || errorMessage == 'Internal error'
-              ? styles.inputOnError
-              : styles.input
-          }
+          style={[
+            styles.inputContainer,
+            errorMessage.firstName !== '' ? styles.inputOnError : styles.input
+          ]}
           placeholderTextColor={AppStyles.color.grey}
         />
+        {errorMessage.firstName === '' ? (
+          <Text></Text>
+        ) : (
+          <Text style={{ color: 'red' }}>{errorMessage.firstName}</Text>
+        )}
       </View>
-      <View style={styles.InputContainer}>
+
+      <View style={styles.viewContainer}>
         <TextInput
+          ref={inputLastName}
           placeholder="Last name"
           onChangeText={(text) => handleChange(text, 'lastName')}
-          style={
-            errorMessage == 'User already registered' || errorMessage == 'Internal error'
-              ? styles.inputOnError
-              : styles.input
-          }
+          style={[
+            styles.inputContainer,
+            errorMessage.lastName !== '' ? styles.inputOnError : styles.input
+          ]}
           placeholderTextColor={AppStyles.color.grey}
         />
+        {errorMessage.lastName === '' ? (
+          <Text></Text>
+        ) : (
+          <Text style={{ color: 'red' }}>{errorMessage.lastName}</Text>
+        )}
       </View>
-      <View style={styles.InputContainer}>
+
+      <View style={styles.viewContainer}>
         <TextInput
+          ref={inputPassword}
           placeholder="Password"
           onChangeText={(text) => handleChange(text, 'password')}
-          style={
-            errorMessage == 'User already registered' || errorMessage == 'Internal error'
-              ? styles.inputOnError
-              : styles.input
-          }
+          style={[
+            styles.inputContainer,
+            errorMessage.password !== '' ? styles.inputOnError : styles.input
+          ]}
           placeholderTextColor={AppStyles.color.grey}
           secureTextEntry={true}
         />
+        {errorMessage.password === '' ? (
+          <Text></Text>
+        ) : (
+          <Text style={{ color: 'red' }}>{errorMessage.password}</Text>
+        )}
       </View>
+
       <Button
         containerStyle={[styles.facebookContainer, { marginTop: 50 }]}
         style={styles.facebookText}
@@ -150,9 +210,11 @@ const styles = StyleSheet.create({
   placeholder: {
     color: 'red'
   },
-  InputContainer: {
+  viewContainer: {
     width: AppStyles.textInputWidth.main,
-    marginTop: 30,
+    marginTop: 30
+  },
+  inputContainer: {
     borderWidth: 1,
     borderStyle: 'solid',
     borderColor: AppStyles.color.grey,

@@ -33,7 +33,7 @@ class API {
         body: data
       });
       if (response.status === 401) {
-        AccessToken.remove();
+        // accessToken.remove();
         return {
           data: 'wrong password',
           status: 401
