@@ -11,12 +11,16 @@ import com.facebook.react.shell.MainReactPackage;
 import java.util.Arrays;
 import java.util.ArrayList;
 
+// @react-native-async-storage/async-storage
+import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 // @rnmapbox/maps
 import com.mapbox.rctmgl.RCTMGLPackage;
 // react-native-gesture-handler
 import com.swmansion.gesturehandler.RNGestureHandlerPackage;
 // react-native-get-location
 import com.github.douglasjunior.reactNativeGetLocation.ReactNativeGetLocationPackage;
+// react-native-image-picker
+import com.imagepicker.ImagePickerPackage;
 // react-native-reanimated
 import com.swmansion.reanimated.ReanimatedPackage;
 // react-native-safe-area-context
@@ -70,9 +74,11 @@ public class PackageList {
   public ArrayList<ReactPackage> getPackages() {
     return new ArrayList<>(Arrays.<ReactPackage>asList(
       new MainReactPackage(mConfig),
+      new AsyncStoragePackage(),
       new RCTMGLPackage(),
       new RNGestureHandlerPackage(),
       new ReactNativeGetLocationPackage(),
+      new ImagePickerPackage(),
       new ReanimatedPackage(),
       new SafeAreaContextPackage(),
       new RNScreensPackage(),

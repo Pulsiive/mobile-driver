@@ -9,123 +9,140 @@
 9        android:targetSdkVersion="31" />
 10
 11    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-11-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/debug/AndroidManifest.xml:5:5-77
-11-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/debug/AndroidManifest.xml:5:22-75
+11-->/home/ilias/Pulsive/repositories/mobile-driver/android/app/src/debug/AndroidManifest.xml:5:5-77
+11-->/home/ilias/Pulsive/repositories/mobile-driver/android/app/src/debug/AndroidManifest.xml:5:22-75
 12    <uses-permission android:name="android.permission.INTERNET" />
-12-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:4:5-67
-12-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:4:22-64
+12-->/home/ilias/Pulsive/repositories/mobile-driver/android/app/src/main/AndroidManifest.xml:4:5-67
+12-->/home/ilias/Pulsive/repositories/mobile-driver/android/app/src/main/AndroidManifest.xml:4:22-64
 13    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-13-->[com.facebook.flipper:flipper:0.125.0] /home/maxime/.gradle/caches/transforms-3/65ae28c4470d3c4b3c54c4113f094a85/transformed/jetified-flipper-0.125.0/AndroidManifest.xml:16:5-76
-13-->[com.facebook.flipper:flipper:0.125.0] /home/maxime/.gradle/caches/transforms-3/65ae28c4470d3c4b3c54c4113f094a85/transformed/jetified-flipper-0.125.0/AndroidManifest.xml:16:22-73
+13-->[com.facebook.flipper:flipper:0.125.0] /home/ilias/.gradle/caches/transforms-3/65ae28c4470d3c4b3c54c4113f094a85/transformed/jetified-flipper-0.125.0/AndroidManifest.xml:16:5-76
+13-->[com.facebook.flipper:flipper:0.125.0] /home/ilias/.gradle/caches/transforms-3/65ae28c4470d3c4b3c54c4113f094a85/transformed/jetified-flipper-0.125.0/AndroidManifest.xml:16:22-73
 14    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-14-->[:rnmapbox_maps] /home/maxime/Epitech/EIP/mobile-driver/node_modules/@rnmapbox/maps/android/rctmgl/build/intermediates/merged_manifest/debug/AndroidManifest.xml:10:5-79
-14-->[:rnmapbox_maps] /home/maxime/Epitech/EIP/mobile-driver/node_modules/@rnmapbox/maps/android/rctmgl/build/intermediates/merged_manifest/debug/AndroidManifest.xml:10:22-76
+14-->[:rnmapbox_maps] /home/ilias/Pulsive/repositories/mobile-driver/node_modules/@rnmapbox/maps/android/rctmgl/build/intermediates/merged_manifest/debug/AndroidManifest.xml:10:5-79
+14-->[:rnmapbox_maps] /home/ilias/Pulsive/repositories/mobile-driver/node_modules/@rnmapbox/maps/android/rctmgl/build/intermediates/merged_manifest/debug/AndroidManifest.xml:10:22-76
 15    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-15-->[:react-native-get-location] /home/maxime/Epitech/EIP/mobile-driver/node_modules/react-native-get-location/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-81
-15-->[:react-native-get-location] /home/maxime/Epitech/EIP/mobile-driver/node_modules/react-native-get-location/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:9:22-78
+15-->[:react-native-get-location] /home/ilias/Pulsive/repositories/mobile-driver/node_modules/react-native-get-location/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-81
+15-->[:react-native-get-location] /home/ilias/Pulsive/repositories/mobile-driver/node_modules/react-native-get-location/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:9:22-78
 16
 17    <uses-feature
-17-->[com.mapbox.mapboxsdk:mapbox-android-sdk:9.7.1] /home/maxime/.gradle/caches/transforms-3/1d02f255c8be8c897aa31e146604cd65/transformed/jetified-mapbox-android-sdk-9.7.1/AndroidManifest.xml:9:5-11:35
+17-->[com.mapbox.mapboxsdk:mapbox-android-sdk:9.7.1] /home/ilias/.gradle/caches/transforms-3/1d02f255c8be8c897aa31e146604cd65/transformed/jetified-mapbox-android-sdk-9.7.1/AndroidManifest.xml:9:5-11:35
 18        android:glEsVersion="0x00020000"
-18-->[com.mapbox.mapboxsdk:mapbox-android-sdk:9.7.1] /home/maxime/.gradle/caches/transforms-3/1d02f255c8be8c897aa31e146604cd65/transformed/jetified-mapbox-android-sdk-9.7.1/AndroidManifest.xml:10:9-41
+18-->[com.mapbox.mapboxsdk:mapbox-android-sdk:9.7.1] /home/ilias/.gradle/caches/transforms-3/1d02f255c8be8c897aa31e146604cd65/transformed/jetified-mapbox-android-sdk-9.7.1/AndroidManifest.xml:10:9-41
 19        android:required="true" />
-19-->[com.mapbox.mapboxsdk:mapbox-android-sdk:9.7.1] /home/maxime/.gradle/caches/transforms-3/1d02f255c8be8c897aa31e146604cd65/transformed/jetified-mapbox-android-sdk-9.7.1/AndroidManifest.xml:11:9-32
+19-->[com.mapbox.mapboxsdk:mapbox-android-sdk:9.7.1] /home/ilias/.gradle/caches/transforms-3/1d02f255c8be8c897aa31e146604cd65/transformed/jetified-mapbox-android-sdk-9.7.1/AndroidManifest.xml:11:9-32
 20    <uses-feature
-20-->[com.mapbox.mapboxsdk:mapbox-android-sdk:9.7.1] /home/maxime/.gradle/caches/transforms-3/1d02f255c8be8c897aa31e146604cd65/transformed/jetified-mapbox-android-sdk-9.7.1/AndroidManifest.xml:12:5-14:36
+20-->[com.mapbox.mapboxsdk:mapbox-android-sdk:9.7.1] /home/ilias/.gradle/caches/transforms-3/1d02f255c8be8c897aa31e146604cd65/transformed/jetified-mapbox-android-sdk-9.7.1/AndroidManifest.xml:12:5-14:36
 21        android:name="android.hardware.wifi"
-21-->[com.mapbox.mapboxsdk:mapbox-android-sdk:9.7.1] /home/maxime/.gradle/caches/transforms-3/1d02f255c8be8c897aa31e146604cd65/transformed/jetified-mapbox-android-sdk-9.7.1/AndroidManifest.xml:13:9-45
+21-->[com.mapbox.mapboxsdk:mapbox-android-sdk:9.7.1] /home/ilias/.gradle/caches/transforms-3/1d02f255c8be8c897aa31e146604cd65/transformed/jetified-mapbox-android-sdk-9.7.1/AndroidManifest.xml:13:9-45
 22        android:required="false" />
-22-->[com.mapbox.mapboxsdk:mapbox-android-sdk:9.7.1] /home/maxime/.gradle/caches/transforms-3/1d02f255c8be8c897aa31e146604cd65/transformed/jetified-mapbox-android-sdk-9.7.1/AndroidManifest.xml:14:9-33
+22-->[com.mapbox.mapboxsdk:mapbox-android-sdk:9.7.1] /home/ilias/.gradle/caches/transforms-3/1d02f255c8be8c897aa31e146604cd65/transformed/jetified-mapbox-android-sdk-9.7.1/AndroidManifest.xml:14:9-33
 23
 24    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- Required for CrashReporterJobIntentService on API levels below 25 -->
-24-->[com.mapbox.mapboxsdk:mapbox-android-sdk:9.7.1] /home/maxime/.gradle/caches/transforms-3/1d02f255c8be8c897aa31e146604cd65/transformed/jetified-mapbox-android-sdk-9.7.1/AndroidManifest.xml:17:5-79
-24-->[com.mapbox.mapboxsdk:mapbox-android-sdk:9.7.1] /home/maxime/.gradle/caches/transforms-3/1d02f255c8be8c897aa31e146604cd65/transformed/jetified-mapbox-android-sdk-9.7.1/AndroidManifest.xml:17:22-76
+24-->[com.mapbox.mapboxsdk:mapbox-android-sdk:9.7.1] /home/ilias/.gradle/caches/transforms-3/1d02f255c8be8c897aa31e146604cd65/transformed/jetified-mapbox-android-sdk-9.7.1/AndroidManifest.xml:17:5-79
+24-->[com.mapbox.mapboxsdk:mapbox-android-sdk:9.7.1] /home/ilias/.gradle/caches/transforms-3/1d02f255c8be8c897aa31e146604cd65/transformed/jetified-mapbox-android-sdk-9.7.1/AndroidManifest.xml:17:22-76
 25    <uses-permission android:name="android.permission.WAKE_LOCK" />
-25-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/maxime/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:12:5-68
-25-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/maxime/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:12:22-65
+25-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/ilias/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:12:5-68
+25-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/ilias/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:12:22-65
 26    <uses-permission
-26-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/maxime/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:16:5-18:38
+26-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/ilias/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:16:5-18:38
 27        android:name="android.permission.GET_TASKS"
-27-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/maxime/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:17:9-52
+27-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/ilias/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:17:9-52
 28        android:maxSdkVersion="20" />
-28-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/maxime/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:18:9-35
+28-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/ilias/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:18:9-35
 29
 30    <application
-30-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:6:5-25:19
+30-->/home/ilias/Pulsive/repositories/mobile-driver/android/app/src/main/AndroidManifest.xml:6:5-25:19
 31        android:name="com.mobiledriver.MainApplication"
-31-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:7:7-38
+31-->/home/ilias/Pulsive/repositories/mobile-driver/android/app/src/main/AndroidManifest.xml:7:7-38
 32        android:allowBackup="false"
-32-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:11:7-34
+32-->/home/ilias/Pulsive/repositories/mobile-driver/android/app/src/main/AndroidManifest.xml:11:7-34
 33        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-33-->[androidx.core:core:1.6.0] /home/maxime/.gradle/caches/transforms-3/f8cfdef18edf0f0dc80f7630fe54d7fb/transformed/core-1.6.0/AndroidManifest.xml:24:18-86
+33-->[androidx.core:core:1.6.0] /home/ilias/.gradle/caches/transforms-3/f8cfdef18edf0f0dc80f7630fe54d7fb/transformed/core-1.6.0/AndroidManifest.xml:24:18-86
 34        android:debuggable="true"
 35        android:icon="@mipmap/ic_launcher"
-35-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:9:7-41
+35-->/home/ilias/Pulsive/repositories/mobile-driver/android/app/src/main/AndroidManifest.xml:9:7-41
 36        android:label="@string/app_name"
-36-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:8:7-39
+36-->/home/ilias/Pulsive/repositories/mobile-driver/android/app/src/main/AndroidManifest.xml:8:7-39
 37        android:roundIcon="@mipmap/ic_launcher_round"
-37-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:10:7-52
+37-->/home/ilias/Pulsive/repositories/mobile-driver/android/app/src/main/AndroidManifest.xml:10:7-52
 38        android:theme="@style/AppTheme"
-38-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:12:7-38
+38-->/home/ilias/Pulsive/repositories/mobile-driver/android/app/src/main/AndroidManifest.xml:12:7-38
 39        android:usesCleartextTraffic="true" >
-39-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/debug/AndroidManifest.xml:8:9-44
+39-->/home/ilias/Pulsive/repositories/mobile-driver/android/app/src/debug/AndroidManifest.xml:8:9-44
 40        <activity
-40-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/debug/AndroidManifest.xml:11:9-111
+40-->/home/ilias/Pulsive/repositories/mobile-driver/android/app/src/debug/AndroidManifest.xml:11:9-111
 41            android:name="com.facebook.react.devsupport.DevSettingsActivity"
-41-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/debug/AndroidManifest.xml:11:19-83
+41-->/home/ilias/Pulsive/repositories/mobile-driver/android/app/src/debug/AndroidManifest.xml:11:19-83
 42            android:exported="false" />
-42-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/debug/AndroidManifest.xml:11:84-108
+42-->/home/ilias/Pulsive/repositories/mobile-driver/android/app/src/debug/AndroidManifest.xml:11:84-108
 43        <activity
-43-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:13:7-24:18
+43-->/home/ilias/Pulsive/repositories/mobile-driver/android/app/src/main/AndroidManifest.xml:13:7-24:18
 44            android:name="com.mobiledriver.MainActivity"
-44-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:14:9-37
+44-->/home/ilias/Pulsive/repositories/mobile-driver/android/app/src/main/AndroidManifest.xml:14:9-37
 45            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|screenSize|smallestScreenSize|uiMode"
-45-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:16:9-118
+45-->/home/ilias/Pulsive/repositories/mobile-driver/android/app/src/main/AndroidManifest.xml:16:9-118
 46            android:exported="true"
-46-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:19:9-32
+46-->/home/ilias/Pulsive/repositories/mobile-driver/android/app/src/main/AndroidManifest.xml:19:9-32
 47            android:label="@string/app_name"
-47-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:15:9-41
+47-->/home/ilias/Pulsive/repositories/mobile-driver/android/app/src/main/AndroidManifest.xml:15:9-41
 48            android:launchMode="singleTask"
-48-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:17:9-40
+48-->/home/ilias/Pulsive/repositories/mobile-driver/android/app/src/main/AndroidManifest.xml:17:9-40
 49            android:windowSoftInputMode="adjustResize" >
-49-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:18:9-51
+49-->/home/ilias/Pulsive/repositories/mobile-driver/android/app/src/main/AndroidManifest.xml:18:9-51
 50            <intent-filter>
-50-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:20:9-23:25
+50-->/home/ilias/Pulsive/repositories/mobile-driver/android/app/src/main/AndroidManifest.xml:20:9-23:25
 51                <action android:name="android.intent.action.MAIN" />
-51-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:21:13-65
-51-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:21:21-62
+51-->/home/ilias/Pulsive/repositories/mobile-driver/android/app/src/main/AndroidManifest.xml:21:13-65
+51-->/home/ilias/Pulsive/repositories/mobile-driver/android/app/src/main/AndroidManifest.xml:21:21-62
 52
 53                <category android:name="android.intent.category.LAUNCHER" />
-53-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:22:13-73
-53-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:22:23-70
+53-->/home/ilias/Pulsive/repositories/mobile-driver/android/app/src/main/AndroidManifest.xml:22:13-73
+53-->/home/ilias/Pulsive/repositories/mobile-driver/android/app/src/main/AndroidManifest.xml:22:23-70
 54            </intent-filter>
 55        </activity>
 56
 57        <provider
-57-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/maxime/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:21:9-25:39
-58            android:name="com.mapbox.android.telemetry.provider.MapboxTelemetryInitProvider"
-58-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/maxime/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:22:13-93
-59            android:authorities="com.mobiledriver.mapboxtelemetryinitprovider"
-59-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/maxime/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:23:13-79
+57-->[:react-native-image-picker] /home/ilias/Pulsive/repositories/mobile-driver/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-18:20
+58            android:name="com.imagepicker.ImagePickerProvider"
+58-->[:react-native-image-picker] /home/ilias/Pulsive/repositories/mobile-driver/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-63
+59            android:authorities="com.mobiledriver.imagepickerprovider"
+59-->[:react-native-image-picker] /home/ilias/Pulsive/repositories/mobile-driver/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:12:13-71
 60            android:exported="false"
-60-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/maxime/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:24:13-37
-61            android:initOrder="100" />
-61-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/maxime/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:25:13-36
-62
-63        <service
-63-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/maxime/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:27:9-30:72
-64            android:name="com.mapbox.android.telemetry.errors.ErrorReporterJobIntentService"
-64-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/maxime/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:28:13-93
-65            android:exported="false"
-65-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/maxime/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:29:13-37
-66            android:permission="android.permission.BIND_JOB_SERVICE" />
-66-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/maxime/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:30:13-69
-67        <service
-67-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/maxime/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:31:9-33:40
-68            android:name="com.mapbox.android.telemetry.MapboxTelemetryService"
-68-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/maxime/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:32:13-79
-69            android:exported="false" />
-69-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/maxime/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:33:13-37
-70    </application>
+60-->[:react-native-image-picker] /home/ilias/Pulsive/repositories/mobile-driver/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:13:13-37
+61            android:grantUriPermissions="true" >
+61-->[:react-native-image-picker] /home/ilias/Pulsive/repositories/mobile-driver/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:14:13-47
+62            <meta-data
+62-->[:react-native-image-picker] /home/ilias/Pulsive/repositories/mobile-driver/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:15:13-17:70
+63                android:name="android.support.FILE_PROVIDER_PATHS"
+63-->[:react-native-image-picker] /home/ilias/Pulsive/repositories/mobile-driver/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:16:17-67
+64                android:resource="@xml/imagepicker_provider_paths" />
+64-->[:react-native-image-picker] /home/ilias/Pulsive/repositories/mobile-driver/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:17:17-67
+65        </provider>
+66        <provider
+66-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/ilias/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:21:9-25:39
+67            android:name="com.mapbox.android.telemetry.provider.MapboxTelemetryInitProvider"
+67-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/ilias/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:22:13-93
+68            android:authorities="com.mobiledriver.mapboxtelemetryinitprovider"
+68-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/ilias/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:23:13-79
+69            android:exported="false"
+69-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/ilias/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:24:13-37
+70            android:initOrder="100" />
+70-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/ilias/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:25:13-36
 71
-72</manifest>
+72        <service
+72-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/ilias/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:27:9-30:72
+73            android:name="com.mapbox.android.telemetry.errors.ErrorReporterJobIntentService"
+73-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/ilias/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:28:13-93
+74            android:exported="false"
+74-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/ilias/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:29:13-37
+75            android:permission="android.permission.BIND_JOB_SERVICE" />
+75-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/ilias/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:30:13-69
+76        <service
+76-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/ilias/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:31:9-33:40
+77            android:name="com.mapbox.android.telemetry.MapboxTelemetryService"
+77-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/ilias/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:32:13-79
+78            android:exported="false" />
+78-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/ilias/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:33:13-37
+79    </application>
+80
+81</manifest>

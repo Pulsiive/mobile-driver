@@ -55,6 +55,15 @@
         </activity>
 
         <provider
+            android:name="com.imagepicker.ImagePickerProvider"
+            android:authorities="com.mobiledriver.imagepickerprovider"
+            android:exported="false"
+            android:grantUriPermissions="true" >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/imagepicker_provider_paths" />
+        </provider>
+        <provider
             android:name="com.mapbox.android.telemetry.provider.MapboxTelemetryInitProvider"
             android:authorities="com.mobiledriver.mapboxtelemetryinitprovider"
             android:exported="false"
