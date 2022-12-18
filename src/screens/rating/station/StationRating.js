@@ -1,8 +1,19 @@
 import Button from 'react-native-button';
 import React, { useState, useEffect } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { View, Text, TextInput, StyleSheet, Modal, Image } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  Modal,
+  Image,
+  SafeAreaView,
+  ScrollView
+} from 'react-native';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import FormData from 'form-data';
+// import fs from 'fs';
 
 import { AppStyles } from '../../../AppStyles';
 import api from '../../../query/client';
@@ -39,17 +50,34 @@ const StationRatingScreen = ({ route, navigation }) => {
     const res = await api.send('POST', '/station/rate', {
       rating: {
         //id: stationId,
-        id: '01cd589c-197d-4e18-9ab9-35a903ccc8c7',
+        id: '0028909a-04e9-4a20-9af8-dcfb50ab5aea',
         rate: rate.lastIndexOf(true) + 1,
         date: new Date(),
         comment: message
       }
     });
+    console.log(res);
     if (res.status === -1) {
       setErrorMessage('Failed to create rating. Please try again later');
     } else {
-      setSubmitButtonIsDisabled(true);
-      setSuccessModalIsOpen(true);
+      if (pictures.length > 0) {
+        const formData = new FormData();
+        pictures.forEach((picture) => {
+          console.log(picture);
+          formData.append('file', { uri: picture.uri, type: 'image/jpeg', name: picture.name });
+        });
+        formData.append('commentId', res.data.rate.id);
+        const picres = await api.send('POST', '/picture', formData, true, true);
+        if (picres.status === -1) {
+          setErrorMessage('Failed to upload pictures. Your comment was successfully saved');
+        } else {
+          setSubmitButtonIsDisabled(true);
+          setSuccessModalIsOpen(true);
+        }
+      } else {
+        setSubmitButtonIsDisabled(true);
+        setSuccessModalIsOpen(true);
+      }
     }
   };
 
@@ -58,14 +86,13 @@ const StationRatingScreen = ({ route, navigation }) => {
     navigation.goBack();
   };
 
-  useEffect(() => console.log(pictures), [pictures]);
   const takePictureFromCamera = async () => {
     const result = await launchCamera({
       mediaType: 'photo',
       cameraType: 'back'
     });
     if (!result.didCancel && !result.errorCode) {
-      setPictures([...pictures, result.assets[0].uri]);
+      setPictures([...pictures, { uri: result.assets[0].uri, name: result.assets[0].fileName }]);
     }
     setCameraModalIsOpen(false);
   };
@@ -73,123 +100,130 @@ const StationRatingScreen = ({ route, navigation }) => {
   const selectPictureFromStorage = async () => {
     const result = await launchImageLibrary({ mediaType: 'photo' });
     if (!result.didCancel && !result.errorCode) {
-      setPictures([...pictures, result.assets[0].uri]);
+      console.log(result.assets[0]);
+      setPictures([...pictures, { uri: result.assets[0].uri, name: result.assets[0].fileName }]);
     }
     setCameraModalIsOpen(false);
   };
 
   return (
-    <View>
-      <View style={styles.header}>
-        <View style={styles.headerContent}>
-          <Icon
-            name="arrow-left"
-            size={20}
-            color="white"
-            onPress={() => navigation.goBack()}
-          ></Icon>
-          <Text style={styles.title}>Rate station</Text>
-        </View>
-      </View>
-      <View style={styles.ratingContainer}>
-        {errorMessage.length > 0 && (
-          <View style={styles.errorMessageContainer}>
-            <Text style={styles.errorMessage}>{errorMessage}</Text>
-          </View>
-        )}
-        <View style={styles.starsContainer}>
-          {rate.map((selected, index) => (
+    <SafeAreaView>
+      <ScrollView>
+        <View style={styles.header}>
+          <View style={styles.headerContent}>
             <Icon
-              name="star"
-              size={35}
-              color={selected ? 'orange' : 'grey'}
-              onPress={() => setRate([...rate.fill(true, 0, index + 1).fill(false, index + 1)])}
-            />
-          ))}
+              name="arrow-left"
+              size={20}
+              color="white"
+              onPress={() => navigation.goBack()}
+            ></Icon>
+            <Text style={styles.title}>Rate station</Text>
+          </View>
         </View>
-        <View style={styles.predefinedMessagesContainer}>
-          {predefinedMessages.map((message, index) => (
+        <View style={styles.ratingContainer}>
+          {errorMessage.length > 0 && (
+            <View style={styles.errorMessageContainer}>
+              <Text style={styles.errorMessage}>{errorMessage}</Text>
+            </View>
+          )}
+          <View style={styles.starsContainer}>
+            {rate.map((selected, index) => (
+              <Icon
+                name="star"
+                size={35}
+                color={selected ? 'orange' : 'grey'}
+                onPress={() => setRate([...rate.fill(true, 0, index + 1).fill(false, index + 1)])}
+              />
+            ))}
+          </View>
+          <View style={styles.predefinedMessagesContainer}>
+            {predefinedMessages.map((message, index) => (
+              <Button
+                style={{
+                  ...styles.predefinedMessageButton,
+                  backgroundColor: index === selectedPredefinedMessage ? 'lightgrey' : 'white'
+                }}
+                onPress={() => {
+                  if (index === selectedPredefinedMessage) {
+                    setMessage('');
+                    setSelectedPredefinedMessage(-1);
+                  } else {
+                    setMessage(message);
+                    setSelectedPredefinedMessage(index === selectedPredefinedMessage ? -1 : index);
+                  }
+                }}
+              >
+                {message}
+              </Button>
+            ))}
+          </View>
+          <TextInput
+            style={styles.body}
+            multiline
+            numberOfLines={5}
+            onChangeText={(text) => {
+              setSelectedPredefinedMessage(-1);
+              setMessage(text);
+            }}
+            value={message}
+            placeholder="Your comment (optional)"
+          ></TextInput>
+          <Button style={styles.secondaryButton} onPress={() => setCameraModalIsOpen(true)}>
+            Add picture
+          </Button>
+          {pictures &&
+            pictures.map((picture) => (
+              <Image
+                key={picture.name}
+                source={{ uri: picture.uri }}
+                style={{ height: 150, width: 150 }}
+              />
+            ))}
+          <View style={styles.buttonContainer}>
             <Button
               style={{
-                ...styles.predefinedMessageButton,
-                backgroundColor: index === selectedPredefinedMessage ? 'lightgrey' : 'white'
+                ...styles.submitButton,
+                backgroundColor: submitButtonIsDisabled ? 'grey' : AppStyles.color.tint
               }}
-              onPress={() => {
-                if (index === selectedPredefinedMessage) {
-                  setMessage('');
-                  setSelectedPredefinedMessage(-1);
-                } else {
-                  setMessage(message);
-                  setSelectedPredefinedMessage(index === selectedPredefinedMessage ? -1 : index);
-                }
-              }}
+              disabled={submitButtonIsDisabled}
+              onPress={submitRating}
             >
-              {message}
+              Save
             </Button>
-          ))}
+          </View>
         </View>
-        <TextInput
-          style={styles.body}
-          multiline
-          numberOfLines={5}
-          onChangeText={(text) => {
-            setSelectedPredefinedMessage(-1);
-            setMessage(text);
-          }}
-          value={message}
-          placeholder="Your comment (optional)"
-        ></TextInput>
-        <Button style={styles.secondaryButton} onPress={() => setCameraModalIsOpen(true)}>
-          Add picture
-        </Button>
-        {pictures &&
-          pictures.map((uri) => (
-            <Image source={{ uri: uri }} style={{ height: 150, width: 150 }} />
-          ))}
-        <View style={styles.buttonContainer}>
-          <Button
-            style={{
-              ...styles.submitButton,
-              backgroundColor: submitButtonIsDisabled ? 'grey' : AppStyles.color.tint
-            }}
-            disabled={submitButtonIsDisabled}
-            onPress={submitRating}
+        <View style={styles.centeredView}>
+          <Modal
+            transparent
+            animationType="slide"
+            visible={successModalIsOpen}
+            onRequestClose={closeSuccessModal}
           >
-            Save
-          </Button>
+            <View style={styles.modalView}>
+              <Text style={styles.sucessTitle}>Thank you for your help !</Text>
+              <Icon name="check" size={50} color={AppStyles.color.main} />
+            </View>
+          </Modal>
         </View>
-      </View>
-      <View style={styles.centeredView}>
-        <Modal
-          transparent
-          animationType="slide"
-          visible={successModalIsOpen}
-          onRequestClose={closeSuccessModal}
-        >
-          <View style={styles.modalView}>
-            <Text style={styles.sucessTitle}>Thank you for your help !</Text>
-            <Icon name="check" size={50} color={AppStyles.color.main} />
-          </View>
-        </Modal>
-      </View>
-      <View style={styles.centeredView}>
-        <Modal
-          transparent
-          animationType="fade"
-          visible={cameraModalIsOpen}
-          onRequestClose={() => setCameraModalIsOpen(false)}
-        >
-          <View style={styles.modalView}>
-            <Button style={styles.secondaryButton} onPress={takePictureFromCamera}>
-              Take picture from camera
-            </Button>
-            <Button style={styles.secondaryButton} onPress={selectPictureFromStorage}>
-              Select picture from storage
-            </Button>
-          </View>
-        </Modal>
-      </View>
-    </View>
+        <View style={styles.centeredView}>
+          <Modal
+            transparent
+            animationType="fade"
+            visible={cameraModalIsOpen}
+            onRequestClose={() => setCameraModalIsOpen(false)}
+          >
+            <View style={styles.modalView}>
+              <Button style={styles.secondaryButton} onPress={takePictureFromCamera}>
+                Take picture from camera
+              </Button>
+              <Button style={styles.secondaryButton} onPress={selectPictureFromStorage}>
+                Select picture from storage
+              </Button>
+            </View>
+          </Modal>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 

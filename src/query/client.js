@@ -2,7 +2,7 @@ import serviceAccessToken from './accessToken';
 import fetch from 'node-fetch';
 
 class API {
-  url = 'http://192.168.1.112:3000/api/v1';
+  url = 'http://172.30.1.24:3000/api/v1';
 
   async send(method, route, data = null, auth = true, multiform = false) {
     const headers = !multiform
@@ -11,22 +11,22 @@ class API {
           'Content-Type': 'application/json'
         }
       : {
-          Accept: 'application/json'
+          'Content-Type': 'multipart/form-data'
         };
     if (auth) {
       // let accessToken = await serviceAccessToken.get();
       let accessToken =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7ImlkIjoiZWJiMzI2Y2MtOTExYy00Njc0LWI4YmYtYTBkYzIwZDc4M2QyIiwiZmlyc3ROYW1lIjoiaWxpYXMiLCJsYXN0TmFtZSI6ImlsaWFzIiwiZW1haWwiOiJpbGlhc0BpbGlhcy5jb20iLCJwYXNzd29yZCI6IiQyYSQxMCRSc2VzY0x0ajBQOTlzdS5MRG5tM2F1Vm0wdWt2a1Nkd1JweXF0R0p3ekhaMTlKeEtzM2pSeSIsImRhdGVPZkJpcnRoIjoiMjAyMi0wMy0wMlQxODoxMToyOS4wMDNaIiwiZW1haWxWZXJpZmllZEF0IjpudWxsLCJiYWxhbmNlIjowfSwiaWF0IjoxNjY4NTAyNDI2fQ.MZ7r57OiNTHsRGlL0XlGmEJiiBQ0dm-hpIlTveqOKT4';
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7ImlkIjoiYjVhYjhiMDItZTg2Ny00ZDQ4LWIwMTctYzE1OGQyYjkzZTg2IiwiZmlyc3ROYW1lIjoidGVzdCIsImxhc3ROYW1lIjoidGVzdCIsImVtYWlsIjoidGVzdEB0ZXN0LmNvbSIsInBhc3N3b3JkIjoiJDJhJDEwJENIc0hmSUtQNEoyRnQvQUttUGlaY08wNXpmOWtDNi5LVWtOTVltT0djSHRwcnB3a0w1TDZPIiwiZGF0ZU9mQmlydGgiOiIyMDIyLTAzLTAyVDE4OjExOjI5LjAwM1oiLCJlbWFpbFZlcmlmaWVkQXQiOm51bGwsImJhbGFuY2UiOjB9LCJpYXQiOjE2NzEzNDc4NTd9.uqX3-QiokLZz9l1xMLPiiFQl5v2i-JG7Ca7AqTTPN_A';
       accessToken = accessToken ? accessToken : '';
       if (accessToken) headers.Authorization = 'Bearer ' + accessToken;
     }
     if (method !== 'GET' && data && !multiform) {
       data = JSON.stringify(data);
-    } else if (multiform) {
-      data = this.createFormData(data);
-    } else {
-      data = null;
     }
+    // } else if (!multiform) {
+    //   data = null;
+    // }
+
     try {
       let response = await fetch(this.url + route, {
         headers: headers,
