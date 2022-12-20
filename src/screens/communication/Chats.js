@@ -1,12 +1,33 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FlatList, TextInput } from 'react-native-gesture-handler';
 import { StyleSheet, View } from 'react-native';
 import { AppStyles } from '../../AppStyles';
-// import { Text } from '../Themed';
-import chats from '../../chats';
+
 import Chat from './Chat';
+import api from '../../db/Api';
 
 function Chats() {
+  const [chats, setChats] = useState([]);
+  const [errorMessage, setErrorMessage] = useState();
+
+  useEffect(() => console.log(chats), [chats]);
+
+  useEffect(() => {
+    console.log('getting last messages');
+    api
+      .send('GET', '/api/v1/profile/messages/last-by-user')
+      .then((data) =>
+        setChats(
+          data.data.map((message) => {
+            message.user.profilePictureUri =
+              'https://vignette.wikia.nocookie.net/krypton-series/images/c/c3/Character-avatar-lyta-zod.png/revision/latest?cb=20180323124150';
+            return message;
+          })
+        )
+      )
+      .catch((e) => setErrorMessage(e));
+  }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.InputContainer}>
@@ -16,12 +37,14 @@ function Chats() {
           placeholderTextColor={AppStyles.color.grey}
         />
       </View>
-      <FlatList
-        data={chats}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <Chat chat={item} />}
-        showsVerticalScrollIndicator={false}
-      />
+      {chats.length > 0 && (
+        <FlatList
+          data={chats}
+          keyExtractor={(item) => item.message.id}
+          renderItem={({ item }) => <Chat chat={item}></Chat>}
+          showsVerticalScrollIndicator={false}
+        />
+      )}
     </View>
   );
 }
