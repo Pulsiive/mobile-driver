@@ -14,9 +14,7 @@ class API {
           'Content-Type': 'multipart/form-data'
         };
     if (auth) {
-      // let accessToken = await serviceAccessToken.get();
-      let accessToken =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7ImlkIjoiYjVhYjhiMDItZTg2Ny00ZDQ4LWIwMTctYzE1OGQyYjkzZTg2IiwiZmlyc3ROYW1lIjoidGVzdCIsImxhc3ROYW1lIjoidGVzdCIsImVtYWlsIjoidGVzdEB0ZXN0LmNvbSIsInBhc3N3b3JkIjoiJDJhJDEwJENIc0hmSUtQNEoyRnQvQUttUGlaY08wNXpmOWtDNi5LVWtOTVltT0djSHRwcnB3a0w1TDZPIiwiZGF0ZU9mQmlydGgiOiIyMDIyLTAzLTAyVDE4OjExOjI5LjAwM1oiLCJlbWFpbFZlcmlmaWVkQXQiOm51bGwsImJhbGFuY2UiOjB9LCJpYXQiOjE2NzEzNDc4NTd9.uqX3-QiokLZz9l1xMLPiiFQl5v2i-JG7Ca7AqTTPN_A';
+      let accessToken = await serviceAccessToken.get();
       accessToken = accessToken ? accessToken : '';
       if (accessToken) headers.Authorization = 'Bearer ' + accessToken;
     }
