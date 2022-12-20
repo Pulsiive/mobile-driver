@@ -458,6 +458,16 @@ function Map({ navigation }) {
       voltage: 8.4,
       rating: 4.7,
       location: [126.88931, 37.51195]
+    },
+    {
+      id: '6',
+      name: 'Station Venture Town',
+      public: true,
+      type: 'Type B',
+      pricing: 0.7,
+      voltage: 8.4,
+      rating: 4.7,
+      location: [126.93472, 37.4706]
     }
   ]);
 
