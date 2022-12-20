@@ -9,7 +9,8 @@ import {
   Modal,
   Image,
   SafeAreaView,
-  ScrollView
+  ScrollView,
+  ActivityIndicator
 } from 'react-native';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import FormData from 'form-data';
@@ -28,6 +29,8 @@ const StationRatingScreen = ({ route, navigation }) => {
 
   const [successModalIsOpen, setSuccessModalIsOpen] = useState(false);
   const [cameraModalIsOpen, setCameraModalIsOpen] = useState(false);
+  const [loadingModalIsOpen, setLoadingModalIsOpen] = useState(false);
+  const [loadingText, setLoadingText] = useState('Uploading notation...');
 
   const [pictures, setPictures] = useState([]);
 
@@ -46,6 +49,7 @@ const StationRatingScreen = ({ route, navigation }) => {
   }, [successModalIsOpen]);
 
   const submitRating = async () => {
+    setLoadingModalIsOpen(true);
     setErrorMessage('');
     const res = await api.send('POST', '/station/rate', {
       rating: {
@@ -56,18 +60,19 @@ const StationRatingScreen = ({ route, navigation }) => {
         comment: message
       }
     });
-    console.log(res);
     if (res.status === -1) {
       setErrorMessage('Failed to create rating. Please try again later');
+      setLoadingModalIsOpen(false);
     } else {
       if (pictures.length > 0) {
         const formData = new FormData();
         pictures.forEach((picture) => {
-          console.log(picture);
           formData.append('file', { uri: picture.uri, type: 'image/jpeg', name: picture.name });
         });
         formData.append('commentId', res.data.rate.id);
+        setLoadingText('Uploading attached pictures...');
         const picres = await api.send('POST', '/picture', formData, true, true);
+        setLoadingModalIsOpen(false);
         if (picres.status === -1) {
           setErrorMessage('Failed to upload pictures. Your comment was successfully saved');
         } else {
@@ -75,6 +80,7 @@ const StationRatingScreen = ({ route, navigation }) => {
           setSuccessModalIsOpen(true);
         }
       } else {
+        setLoadingModalIsOpen(false);
         setSubmitButtonIsDisabled(true);
         setSuccessModalIsOpen(true);
       }
@@ -219,6 +225,19 @@ const StationRatingScreen = ({ route, navigation }) => {
               <Button style={styles.secondaryButton} onPress={selectPictureFromStorage}>
                 Select picture from storage
               </Button>
+            </View>
+          </Modal>
+        </View>
+        <View style={styles.centeredView}>
+          <Modal
+            transparent
+            animationType="fade"
+            visible={loadingModalIsOpen}
+            onRequestClose={() => setLoadingModalIsOpen(false)}
+          >
+            <View style={styles.modalView}>
+              <ActivityIndicator size="large" />
+              <Text style={styles.sucessTitle}>{loadingText}</Text>
             </View>
           </Modal>
         </View>
