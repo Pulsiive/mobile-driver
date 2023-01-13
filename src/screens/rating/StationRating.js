@@ -105,7 +105,6 @@ const StationRatingScreen = ({ route, navigation }) => {
   const selectPictureFromStorage = async () => {
     const result = await launchImageLibrary({ mediaType: 'photo' });
     if (!result.didCancel && !result.errorCode) {
-      console.log(result.assets[0]);
       setPictures([...pictures, { uri: result.assets[0].uri, name: result.assets[0].fileName }]);
     }
     setCameraModalIsOpen(false);

@@ -29,7 +29,6 @@ const OwnerRatingScreen = ({ route, navigation }) => {
 
   const { ownerId } = route.params;
 
-  console.log(ownerId);
   useEffect(() => {
     if (rate.indexOf(true) !== -1) {
       setSubmitButtonIsDisabled(false);
