@@ -1,16 +1,20 @@
 import { useRoute, useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react';
-import { StyleSheet, Text, TextInput, View, Image, Pressable } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, Image, Modal } from 'react-native';
 import Button from 'react-native-button';
-import Icon from 'react-native-vector-icons/Entypo';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { AppStyles } from '../../AppStyles';
 import api from '../../db/Api';
 import serviceAccessToken from '../../db/AccessToken';
+import { FlatList } from 'react-native-gesture-handler';
 
 function Owner(props) {
   const [stations, setStations] = useState([]);
-  const { imageUri, name } = useRoute().params;
+  const [ratings, setRatings] = useState();
+  const [ratingsModalIsOpen, setRatingsModalIsOpen] = useState(false);
+  const { imageUri, name, userId } = useRoute().params;
   const navigation = useNavigation();
+
   const onPress = (nav) => {
     navigation.navigate(nav, {
       imageUri: imageUri,
@@ -30,6 +34,43 @@ function Owner(props) {
   //     console.log('e: ', e);
   //   }
   // }, []);
+  const navigateToOwnerRating = () => {
+    navigation.navigate('OwnerRating', {
+      ownerId: userId
+    });
+  };
+
+  useEffect(() => {
+    api
+      .send('GET', `/api/v1/user/${userId}/rate`)
+      .then((ratings) => setRatings(ratings.data.ratings));
+  }, []);
+
+  const renderRating = (rating) => {
+    const stars = new Array(rating.rate).fill(<Icon name="star" size={20} color={'orange'} />);
+    return (
+      <View style={styles.ratingContainer}>
+        <View style={{ flexDirection: 'row' }}>
+          <Text
+            style={styles.ratingAuthor}
+          >{`${rating.author.firstName} ${rating.author.lastName} -  `}</Text>
+          <Text>{rating.date.slice(0, rating.date.indexOf('T'))}</Text>
+        </View>
+        <View style={{ flexDirection: 'row' }}>{stars}</View>
+        <Text>{rating.comment}</Text>
+        <View style={{ flexDirection: 'row' }}>
+          <View style={{ flexDirection: 'row', marginRight: 20 }}>
+            <Icon name="thumbs-up" size={15} color={'grey'} />
+            <Text>{rating.likes}</Text>
+          </View>
+          <View style={{ flexDirection: 'row' }}>
+            <Icon name="thumbs-down" size={15} color={'grey'} />
+            <Text>{rating.dislikes}</Text>
+          </View>
+        </View>
+      </View>
+    );
+  };
 
   return (
     <View style={styles.container}>
@@ -50,6 +91,17 @@ function Owner(props) {
         <Text style={styles.text}>Country: UK 🇬🇧</Text>
         <Text style={styles.text}>Rating: 4.2/5</Text>
       </View>
+      <Modal
+        animationType="slide"
+        visible={ratingsModalIsOpen}
+        onRequestClose={() => setRatingsModalIsOpen(false)}
+        transparent
+      >
+        <View style={styles.modal}>
+          <FlatList data={ratings} renderItem={({ item }) => renderRating(item)}></FlatList>
+        </View>
+      </Modal>
+
       <Button
         onPress={() => onPress('Calendar')}
         containerStyle={styles.calendarButton}
@@ -66,6 +118,20 @@ function Owner(props) {
       </Button>
       <Button containerStyle={styles.shareButton} style={styles.buttonText}>
         Share this profil
+      </Button>
+      <Button
+        containerStyle={styles.rateButton}
+        style={styles.buttonText}
+        onPress={navigateToOwnerRating}
+      >
+        Rate user
+      </Button>
+      <Button
+        containerStyle={styles.rateButton}
+        style={styles.buttonText}
+        onPress={() => setRatingsModalIsOpen(true)}
+      >
+        See ratings
       </Button>
     </View>
   );
@@ -154,6 +220,39 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: AppStyles.color.white
+  },
+  rateButton: {
+    width: 200,
+    backgroundColor: AppStyles.color.text,
+    borderRadius: AppStyles.borderRadius.main,
+    padding: 10,
+    marginBottom: 10
+  },
+  modal: {
+    backgroundColor: AppStyles.color.white,
+    padding: 10,
+    height: '70%',
+    width: '80%',
+    borderRadius: 10,
+    marginTop: '30%',
+    marginLeft: '12%',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
+  },
+  ratingContainer: {
+    padding: 10,
+    marginBottom: 10,
+    borderBottomWidth: 0.5,
+    borderRadius: 5
+  },
+  ratingAuthor: {
+    fontWeight: 'bold'
   }
 });
 

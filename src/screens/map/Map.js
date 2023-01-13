@@ -482,6 +482,13 @@ function Map({ navigation }) {
 
   const [favStation, setFavStation] = useState(false);
 
+  const navigateToStationRatingScreen = () => {
+    const selectedStation = modalData.charger;
+    setModalVisible(false);
+    setModalData({});
+    navigation.navigate('StationRating', { stationId: selectedStation.id });
+  };
+
   useEffect(() => {
     try {
       // PermissionsAndroid.requestMultiple(
@@ -671,7 +678,15 @@ function Map({ navigation }) {
                   </Button>
                 </View>
               ) : (
-                <></>
+                <View style={{ display: 'flex', alignItems: 'center' }}>
+                  <Button
+                    containerStyle={styles.bookButton}
+                    style={styles.shareText}
+                    onPress={navigateToStationRatingScreen}
+                  >
+                    Rate
+                  </Button>
+                </View>
               )}
             </View>
           </Modal>
