@@ -1,25 +1,31 @@
-// import { EvilIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Dimensions, Image, StyleSheet, View, TouchableWithoutFeedback, Text } from 'react-native';
 import { AppStyles } from '../../AppStyles';
-// import { Text } from '../Themed';
 
-function Chat(props) {
-  const { name, imageUri, lastMessage, isMe, isRead } = props.chat;
+function Chat({ chat }) {
+  const name = `${chat.user.firstName} ${chat.user.lastName}`;
+  const lastMessage = chat.message.body;
+  const isRead = chat.message.read;
+  const isMe = chat.message.authorId !== chat.user.id;
 
   const navigation = useNavigation();
   const onPress = () => {
     navigation.navigate('Message', {
-      imageUri: imageUri,
-      name: name
+      imageUri: chat.user.profilePictureUri,
+      name,
+      receiverId: chat.user.id
     });
   };
 
   const renderCharReadStatus = () => {
     if (isRead && isMe) {
       return (
-        <Image source={{ uri: imageUri }} resizeMode="cover" style={styles.messageReadImage} />
+        <Image
+          source={{ uri: chat.user.profilePictureUri }}
+          resizeMode="cover"
+          style={styles.messageReadImage}
+        />
       );
     } else if (!isRead && isMe) {
       return <Image name="check" size={30} color="gray" />;
@@ -38,7 +44,11 @@ function Chat(props) {
         <View style={styles.separator}></View>
         <View style={styles.container}>
           <View style={styles.imageContainer}>
-            <Image source={{ uri: imageUri }} resizeMode="cover" style={styles.image} />
+            <Image
+              source={{ uri: chat.user.profilePictureUri }}
+              resizeMode="cover"
+              style={styles.image}
+            />
           </View>
           <View></View>
           <View style={styles.chatContainer}>
