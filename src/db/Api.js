@@ -12,7 +12,7 @@ class API {
           'Content-Type': 'application/json'
         }
       : {
-          Accept: 'application/json'
+          'Content-Type': 'multipart/form-data'
         };
     if (auth) {
       let accessToken = await serviceAccessToken.get();
@@ -21,10 +21,6 @@ class API {
     }
     if (method !== 'GET' && data && !multiform) {
       data = JSON.stringify(data);
-    } else if (multiform) {
-      data = this.createFormData(data);
-    } else {
-      data = null;
     }
     try {
       let response = await fetch(this.url + route, {

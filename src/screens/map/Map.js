@@ -477,6 +477,7 @@ function Map({ navigation }) {
 
   const [userStation, setUserStation] = useState([
     {
+      id: '1',
       name: 'Station 1',
       public: true,
       type: 'Type A',
@@ -486,6 +487,7 @@ function Map({ navigation }) {
       location: [126.88373, 37.49596]
     },
     {
+      id: '2',
       name: 'Station 2',
       public: true,
       type: 'Type B',
@@ -495,6 +497,7 @@ function Map({ navigation }) {
       location: [126.88691, 37.50198]
     },
     {
+      id: '3',
       name: 'Station John',
       public: false,
       type: 'Type A',
@@ -504,6 +507,7 @@ function Map({ navigation }) {
       location: [126.88161, 37.51055]
     },
     {
+      id: '4',
       name: 'Station Boris',
       public: false,
       type: 'Type C',
@@ -513,6 +517,7 @@ function Map({ navigation }) {
       location: [126.89384, 37.50278]
     },
     {
+      id: '5',
       name: 'Station 3',
       public: true,
       type: 'Type B',
@@ -524,6 +529,13 @@ function Map({ navigation }) {
   ]);
 
   const [favStation, setFavStation] = useState(false);
+
+  const navigateToStationRatingScreen = () => {
+    const selectedStation = modalData.charger;
+    setModalVisible(false);
+    setModalData({});
+    navigation.navigate('StationRating', { stationId: selectedStation.id });
+  };
 
   useEffect(() => {
     try {
@@ -704,7 +716,15 @@ function Map({ navigation }) {
                   </Button>
                 </View>
               ) : (
-                <></>
+                <View style={{ display: 'flex', alignItems: 'center' }}>
+                  <Button
+                    containerStyle={styles.bookButton}
+                    style={styles.shareText}
+                    onPress={navigateToStationRatingScreen}
+                  >
+                    Rate
+                  </Button>
+                </View>
               )}
             </View>
           </Modal>

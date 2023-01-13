@@ -25,10 +25,6 @@ function Owner(props) {
       .then((ratings) => setRatings(ratings.data.ratings));
   }, []);
 
-  useEffect(() => {
-    console.log(ratings);
-  }, [ratings]);
-
   const renderRating = (rating) => {
     const stars = new Array(rating.rate).fill(<Icon name="star" size={20} color={'orange'} />);
     return (
