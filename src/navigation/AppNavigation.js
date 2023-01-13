@@ -26,6 +26,7 @@ import Booking from '../screens/booking/Booking';
 import Map from '../screens/map/Map';
 import Planning from '../screens/planning/Planning';
 import StationRating from '../screens/rating/StationRating';
+import OwnerRating from '../screens/rating/OwnerRating';
 
 const Stack = createStackNavigator();
 
@@ -256,6 +257,7 @@ const RootNavigator = () => (
     <Stack.Screen name="LoginStack" component={LoginStack} />
     <Stack.Screen name="DrawerStack" component={DrawerStack} />
     <Stack.Screen name="StationRating" component={StationRating} />
+    <Stack.Screen name="OwnerRating" component={OwnerRating} />
   </Stack.Navigator>
 );
 

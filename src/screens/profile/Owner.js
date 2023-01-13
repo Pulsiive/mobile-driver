@@ -12,10 +12,17 @@ function Owner(props) {
   const [ratingsModalIsOpen, setRatingsModalIsOpen] = useState(false);
   const { imageUri, name, userId } = useRoute().params;
   const navigation = useNavigation();
+
   const onPress = (nav) => {
     navigation.navigate(nav, {
       imageUri: imageUri,
       name: name
+    });
+  };
+
+  const navigateToOwnerRating = () => {
+    navigation.navigate('OwnerRating', {
+      ownerId: userId
     });
   };
 
@@ -98,7 +105,11 @@ function Owner(props) {
       <Button containerStyle={styles.shareButton} style={styles.buttonText}>
         Share this profil
       </Button>
-      <Button containerStyle={styles.rateButton} style={styles.buttonText}>
+      <Button
+        containerStyle={styles.rateButton}
+        style={styles.buttonText}
+        onPress={navigateToOwnerRating}
+      >
         Rate user
       </Button>
       <Button
