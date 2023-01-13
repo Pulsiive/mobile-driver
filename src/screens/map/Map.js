@@ -19,6 +19,11 @@ import MapboxGL from '@rnmapbox/maps';
 import Geolocation from 'react-native-geolocation-service';
 
 import Icon from 'react-native-vector-icons/Entypo';
+import api from '../../db/Api';
+
+import config from '../../db/config';
+
+var axios = require('axios');
 
 MapboxGL.setAccessToken(
   'pk.eyJ1Ijoic2h5bGsiLCJhIjoiY2w0cmhncHdwMDZydTNjcDhkbTVmZm8xZCJ9.uxYLeAuZdY5VMx4EUBaw_A'
@@ -159,39 +164,26 @@ function Map({ navigation }) {
                 styles.filters,
                 {
                   backgroundColor:
-                    filterType == 'Type A' ? AppStyles.color.grey : AppStyles.color.white,
-                  color: filterType == 'Type A' ? AppStyles.color.white : AppStyles.color.tint
+                    filterType == 'EF' ? AppStyles.color.grey : AppStyles.color.white,
+                  color: filterType == 'EF' ? AppStyles.color.white : AppStyles.color.tint
                 }
               ]}
-              onPress={() => setFilterType('Type A')}
+              onPress={() => setFilterType('EF')}
             >
-              Type A
+              EF
             </Button>
             <Button
               style={[
                 styles.filters,
                 {
                   backgroundColor:
-                    filterType == 'Type B' ? AppStyles.color.grey : AppStyles.color.white,
-                  color: filterType == 'Type B' ? AppStyles.color.white : AppStyles.color.tint
+                    filterType == 'TYPE2' ? AppStyles.color.grey : AppStyles.color.white,
+                  color: filterType == 'TYPE2' ? AppStyles.color.white : AppStyles.color.tint
                 }
               ]}
-              onPress={() => setFilterType('Type B')}
+              onPress={() => setFilterType('TYPE2')}
             >
-              Type B
-            </Button>
-            <Button
-              style={[
-                styles.filters,
-                {
-                  backgroundColor:
-                    filterType == 'Type C' ? AppStyles.color.grey : AppStyles.color.white,
-                  color: filterType == 'Type C' ? AppStyles.color.white : AppStyles.color.tint
-                }
-              ]}
-              onPress={() => setFilterType('Type C')}
-            >
-              Type C
+              Type2
             </Button>
           </View>
         ) : (
@@ -445,24 +437,25 @@ function Map({ navigation }) {
   };
 
   const ModalInformation = (props) => {
+    console.log('props:', props.station.charger);
     return (
       <View>
         <View style={{ flexDirection: 'row', marginTop: '15%', marginLeft: '5%' }}>
           <Icon name="flow-branch" size={30} color="grey" />
           <Text style={{ marginLeft: '8%', marginTop: '1%', color: 'grey' }}>
-            {props.station.charger.type}
+            {props.station.charger.type == undefined ? 'no data' : props.station.charger.type}
           </Text>
         </View>
         <View style={{ flexDirection: 'row', marginTop: '8%', marginLeft: '5%' }}>
           <Icon name="credit" size={30} color="grey" />
           <Text style={{ marginLeft: '8%', marginTop: '1%', color: 'grey' }}>
-            {props.station.charger.pricing}/15min
+            {props.station.charger.pricing}/h
           </Text>
         </View>
         <View style={{ flexDirection: 'row', marginTop: '8%', marginLeft: '5%' }}>
           <Icon name="flash" size={30} color="grey" />
           <Text style={{ marginLeft: '8%', marginTop: '1%', color: 'grey' }}>
-            {props.station.charger.voltage}kWh
+            {props.station.charger.voltage} kWh
           </Text>
         </View>
         <View style={{ flexDirection: 'row', marginTop: '8%', marginLeft: '5%' }}>
@@ -477,49 +470,13 @@ function Map({ navigation }) {
 
   const [userStation, setUserStation] = useState([
     {
-      name: 'Station 1',
+      name: 'Station test',
       public: true,
-      type: 'Type A',
-      pricing: 0.5,
-      voltage: 7.6,
-      rating: 4.1,
-      location: [126.88373, 37.49596]
-    },
-    {
-      name: 'Station 2',
-      public: true,
-      type: 'Type B',
-      pricing: 0.8,
-      voltage: 9,
-      rating: 3.8,
-      location: [126.88691, 37.50198]
-    },
-    {
-      name: 'Station John',
-      public: false,
-      type: 'Type A',
-      pricing: 0.5,
-      voltage: 7.6,
-      rating: 4.1,
-      location: [126.88161, 37.51055]
-    },
-    {
-      name: 'Station Boris',
-      public: false,
-      type: 'Type C',
-      pricing: 0.8,
-      voltage: 9,
-      rating: 3.8,
-      location: [126.89384, 37.50278]
-    },
-    {
-      name: 'Station 3',
-      public: true,
-      type: 'Type B',
-      pricing: 0.7,
-      voltage: 8.4,
-      rating: 4.7,
-      location: [126.88931, 37.51195]
+      type: 'Type test',
+      pricing: 0,
+      voltage: 0,
+      rating: 0,
+      location: [0, 0]
     }
   ]);
 
@@ -527,44 +484,54 @@ function Map({ navigation }) {
 
   useEffect(() => {
     try {
-      PermissionsAndroid.requestMultiple(
-        [
-          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-          PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION
-        ],
-        {
-          title: 'Give Location Permission',
-          message: 'App needs location permission to find your position.'
+      // PermissionsAndroid.requestMultiple(
+      //   [
+      //     PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      //     PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION
+      //   ],
+      //   {
+      //     title: 'Give Location Permission',
+      //     message: 'App needs location permission to find your position.'
+      //   }
+      // )
+      //   .then(async (granted) => {
+      //     Geolocation.getCurrentPosition(
+      //       (position) => {
+      //         console.log(position);
+      // setUserPosition([position.coords.latitude, position.coords.longitude]);
+      setUserPosition([48.850272, 2.398542]);
+
+      const fetchData = async () => {
+        var conf = {
+          method: 'get',
+          url: config.API_URL + '/api/v1/stations/all',
+          headers: {
+            Authorization:
+              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7ImlkIjoiMzgxMWUyMzYtMjZiMS00OGExLWEyOWItOGM2ZmEwMTQxYjkyIiwiZmlyc3ROYW1lIjoiSm9lIiwibGFzdE5hbWUiOiJEb2UiLCJlbWFpbCI6Im93bmVyQG1haWwuY29tIiwicGFzc3dvcmQiOiIkMmEkMTAkQnBHQ1JRVGF4RmxTSlZnWUcyS1ZUZXhsTk9jV3Izd1lCYy52MTBML1RWTHBVaTdQVVU5T1ciLCJkYXRlT2ZCaXJ0aCI6IjIwMDEtMDMtMDJUMDA6MDA6MDAuMDAzWiIsImVtYWlsVmVyaWZpZWRBdCI6bnVsbCwiYmFsYW5jZSI6MH0sImlhdCI6MTY2ODM0NTczNH0.fM2RVjD93y_lC47uBd1OQo7RrGhhBNcjMs02zkBn2hM',
+            'Content-Type': 'application/json'
+          },
+          data: null
+        };
+
+        const res = await axios(conf);
+        var stationsParsed = [];
+        for (var index = 0; index < res.data.stations.length; index++) {
+          stationsParsed.push({
+            name: 'Station ' + index,
+            public: res.data.stations[index].properties.isPublic,
+            type: res.data.stations[index].properties.plugTypes[0],
+            pricing: res.data.stations[index].properties.price,
+            voltage: res.data.stations[index].properties.maxPower,
+            rating: res.data.stations[index].rate,
+            location: [
+              Number(res.data.stations[index].coordinates.long),
+              Number(res.data.stations[index].coordinates.lat)
+            ]
+          });
         }
-      )
-        .then(async (granted) => {
-          // console.log(granted);
-          Geolocation.getCurrentPosition(
-            (position) => {
-              console.log(position);
-              setUserPosition([position.coords.latitude, position.coords.longitude]);
-            },
-            (error) => {
-              // See error code charts below.
-              console.log(error.code, error.message);
-            },
-            { enableHighAccuracy: true, timeout: 50000, maximumAge: 10000 }
-          );
-          // GetLocation.getCurrentPosition({
-          //   enableHighAccuracy: true,
-          //   timeout: 15000
-          // })
-          //   .then((location) => {
-          //     setUserPosition([location.latitude, location.longitude]);
-          //   })
-          //   .catch((error) => {
-          //     const { code, message } = error;
-          //     console.warn(code, message);
-          //   });
-        })
-        .catch((err) => {
-          console.warn(err);
-        });
+        setUserStation(stationsParsed);
+      };
+      fetchData().catch(console.error);
     } catch (e) {
       console.log(e);
     }

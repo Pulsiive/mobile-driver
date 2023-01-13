@@ -14,8 +14,8 @@ function Stations({ navigation }) {
       <Text style={styles.infoText}>- CHAdeMO: 100 kW</Text>
       <Text style={styles.infoText}>- P17 bleue: 7.3 kW</Text>
       <Text style={styles.infoTitle}>Stations cables</Text>
-      <Text style={styles.infoText}>- Mode 2: standart</Text>
-      <Text style={styles.infoText}>- Mode 3: type 2</Text>
+      <Text style={styles.infoText}>- Mod 2: standart</Text>
+      <Text style={styles.infoText}>- Mod 3: type 2</Text>
       <View style={styles.container_view}>
         <Text style={styles.askUs}>More questions ?</Text>
         <Button containerStyle={styles.infoButton} style={styles.shareText}>

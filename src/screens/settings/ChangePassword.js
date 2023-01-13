@@ -1,51 +1,151 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import Button from 'react-native-button';
 import { AppStyles } from '../../AppStyles';
+import api from '../../db/Api';
 
 function ChangePassword({ navigation }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const inputPassword = useRef(null);
+  const inputNewPassword = useRef(null);
+  const inputConfirmPassword = useRef(null);
 
-  const onRegister = () => {
-    navigation.navigate('Settings');
+  const [passwordInput, setPasswordInput] = useState({
+    password: '',
+    newPassword: '',
+    confirmPassword: ''
+  });
+  const [errorMessage, setErrorMessage] = useState({
+    password: '',
+    newPassword: '',
+    confirmPassword: ''
+  });
+
+  const onRegister = async () => {
+    try {
+      console.log(passwordInput);
+      errorMessage['password'] = '';
+      errorMessage['newPassword'] = '';
+      errorMessage['confirmPassword'] = '';
+
+      if (passwordInput.password == '') errorMessage['password'] = 'Please enter your password';
+      if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(passwordInput.newPassword))
+        errorMessage['newPassword'] =
+          'Wrong password format (at least 8 characters, 1 number, 1 uppercase, 1 lowercase)';
+      if (passwordInput.newPassword == '')
+        errorMessage['newPassword'] = 'Please enter your new password';
+      if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(passwordInput.confirmPassword))
+        errorMessage['confirmPassword'] =
+          'Wrong password format (at least 8 characters, 1 number, 1 uppercase, 1 lowercase)';
+      if (passwordInput.confirmPassword == '')
+        errorMessage['confirmPassword'] = 'Please enter the same password';
+      if (
+        passwordInput.newPassword !== passwordInput.confirmPassword &&
+        passwordInput.confirmPassword !== '' &&
+        passwordInput.newPassword !== ''
+      )
+        errorMessage['confirmPassword'] = "Passwords don't match";
+
+      setErrorMessage({ ...errorMessage });
+
+      if (
+        errorMessage.password !== '' ||
+        errorMessage.newPassword !== '' ||
+        errorMessage.confirmPassword !== ''
+      )
+        throw { data: errorMessage, status: '405' };
+
+      const res = await api.send(
+        'patch',
+        '/api/v1/profile',
+        {
+          password: passwordInput.password,
+          new_password: passwordInput.newPassword,
+          new_password_confirmation: passwordInput.confirmPassword
+        },
+        true
+      );
+
+      if (res.status == 200) {
+        inputPassword.current.clear();
+        inputNewPassword.current.clear();
+        inputConfirmPassword.current.clear();
+        setPasswordInput({ password: '', newPassword: '', confirmPassword: '' });
+        navigation.navigate('Settings');
+      } else {
+        throw res;
+      }
+    } catch (e) {
+      if (e) {
+        console.log('e: ', e);
+        if (e.status === 422) setErrorMessage({ ...errorMessage, password: 'Incorrect password' });
+      } else {
+        setErrorMessage({ ...errorMessage, email: 'Internal server error' });
+      }
+    }
   };
 
   return (
     <View style={styles.container}>
       <Text style={[styles.title, styles.leftTitle]}>Change your password</Text>
-      <View style={styles.InputContainer}>
+      <View style={styles.viewContainer}>
         <TextInput
-          style={styles.body}
-          placeholder="E-mail Address"
-          onChangeText={setEmail}
-          value={email}
-          placeholderTextColor={AppStyles.color.grey}
-          underlineColorAndroid="transparent"
-        />
-      </View>
-      <View style={styles.InputContainer}>
-        <TextInput
-          style={styles.body}
-          placeholder="Password"
+          ref={inputPassword}
+          accessibilityLabel="password"
+          onChangeText={(text) => setPasswordInput({ ...passwordInput, password: text })}
+          style={[
+            styles.inputContainer,
+            errorMessage.password !== '' ? styles.inputOnError : styles.input
+          ]}
+          placeholder="Current password"
           secureTextEntry={true}
-          onChangeText={setPassword}
-          value={password}
+          value={passwordInput.password}
           placeholderTextColor={AppStyles.color.grey}
-          underlineColorAndroid="transparent"
         />
+        {errorMessage.password === '' ? (
+          <Text></Text>
+        ) : (
+          <Text style={{ color: 'red' }}>{errorMessage.password}</Text>
+        )}
       </View>
-      <View style={styles.InputContainer}>
+      <View style={styles.viewContainer}>
         <TextInput
-          style={styles.body}
+          ref={inputNewPassword}
+          accessibilityLabel="new password"
+          onChangeText={(text) => setPasswordInput({ ...passwordInput, newPassword: text })}
+          style={[
+            styles.inputContainer,
+            errorMessage.newPassword !== '' ? styles.inputOnError : styles.input
+          ]}
+          placeholder="New password"
+          secureTextEntry={true}
+          value={passwordInput.newPassword}
+          placeholderTextColor={AppStyles.color.grey}
+        />
+        {errorMessage.newPassword === '' ? (
+          <Text></Text>
+        ) : (
+          <Text style={{ color: 'red' }}>{errorMessage.newPassword}</Text>
+        )}
+      </View>
+      <View style={styles.viewContainer}>
+        <TextInput
+          ref={inputConfirmPassword}
+          accessibilityLabel="confirm password"
+          onChangeText={(text) => setPasswordInput({ ...passwordInput, confirmPassword: text })}
+          style={[
+            styles.inputContainer,
+            errorMessage.confirmPassword !== '' ? styles.inputOnError : styles.input
+          ]}
           placeholder="Confirm password"
           secureTextEntry={true}
-          onChangeText={setConfirmPassword}
-          value={confirmPassword}
+          value={passwordInput.confirmPassword}
           placeholderTextColor={AppStyles.color.grey}
-          underlineColorAndroid="transparent"
         />
+        {errorMessage.confirmPassword === '' ? (
+          <Text></Text>
+        ) : (
+          <Text style={{ color: 'red' }}>{errorMessage.confirmPassword}</Text>
+        )}
       </View>
       <Button
         containerStyle={[styles.facebookContainer, { marginTop: 50 }]}
@@ -95,12 +195,30 @@ const styles = StyleSheet.create({
   placeholder: {
     color: 'red'
   },
-  InputContainer: {
+  viewContainer: {
     width: AppStyles.textInputWidth.main,
-    marginTop: 30,
+    marginTop: 30
+  },
+  inputContainer: {
     borderWidth: 1,
     borderStyle: 'solid',
     borderColor: AppStyles.color.grey,
+    borderRadius: AppStyles.borderRadius.main
+  },
+  input: {
+    height: 42,
+    paddingLeft: 20,
+    paddingRight: 20,
+    color: AppStyles.color.text
+  },
+  inputOnError: {
+    height: 42,
+    paddingLeft: 20,
+    paddingRight: 20,
+    color: AppStyles.color.text,
+    borderWidth: 2,
+    borderStyle: 'solid',
+    borderColor: 'red',
     borderRadius: AppStyles.borderRadius.main
   },
   body: {

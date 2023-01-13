@@ -4,8 +4,11 @@ import { StyleSheet, Text, TextInput, View, Image, Pressable } from 'react-nativ
 import Button from 'react-native-button';
 import Icon from 'react-native-vector-icons/Entypo';
 import { AppStyles } from '../../AppStyles';
+import api from '../../db/Api';
+import serviceAccessToken from '../../db/AccessToken';
 
 function Owner(props) {
+  const [stations, setStations] = useState([]);
   const { imageUri, name } = useRoute().params;
   const navigation = useNavigation();
   const onPress = (nav) => {
@@ -14,6 +17,19 @@ function Owner(props) {
       name: name
     });
   };
+
+  // useEffect(() => {
+  //   async function fetchStations() {
+  //     const res = await api.send('get', '/api/v1/profile/getStations', null, true);
+  //     console.log('res: ', res);
+  //     setStations(res);
+  //   }
+  //   try {
+  //     fetchStations();
+  //   } catch (e) {
+  //     console.log('e: ', e);
+  //   }
+  // }, []);
 
   return (
     <View style={styles.container}>

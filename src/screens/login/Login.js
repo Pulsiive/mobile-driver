@@ -1,10 +1,9 @@
 import React, { useRef, useState } from 'react';
-import { StyleSheet, Text, TextInput, View, Alert } from 'react-native';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
 import Button from 'react-native-button';
 import { AppStyles } from '../../AppStyles';
 import api from '../../db/Api';
 import serviceAccessToken from '../../db/AccessToken';
-import { set } from 'react-native-reanimated';
 
 function Login({ navigation }) {
   const inputEmail = useRef(null);
