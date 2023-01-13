@@ -27,7 +27,8 @@ function Message(props) {
   const onPress = () => {
     navigation.navigate('Owner', {
       imageUri: imageUri,
-      name: name
+      name: name,
+      userId: receiverId
     });
   };
 
@@ -158,15 +159,18 @@ function Message(props) {
         }}
       >
         {isMe ? null : (
-          <Image
-            source={{ uri: imageUri }}
-            style={{
-              width: 50,
-              height: 50,
-              borderRadius: 25,
-              marginRight: 10
-            }}
-          />
+          <TouchableOpacity onPress={() => onPress()}>
+            <Image
+              source={{ uri: imageUri }}
+              style={{
+                width: 50,
+                height: 50,
+                borderRadius: 25,
+                marginRight: 10
+              }}
+              onPress={() => onPress()}
+            />
+          </TouchableOpacity>
         )}
         <View
           style={{
