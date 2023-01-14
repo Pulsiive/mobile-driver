@@ -52,8 +52,7 @@ const StationRatingScreen = ({ route, navigation }) => {
     setErrorMessage('');
     const res = await api.send('POST', '/api/v1/station/rate', {
       rating: {
-        //id: stationId,
-        id: '8b7bdb5e-b6f4-4c9e-ad9c-603b2b44bcd4',
+        id: stationId,
         rate: rate.lastIndexOf(true) + 1,
         date: new Date(),
         comment: message
@@ -133,6 +132,7 @@ const StationRatingScreen = ({ route, navigation }) => {
           <View style={styles.starsContainer}>
             {rate.map((selected, index) => (
               <Icon
+                key={index}
                 name="star"
                 size={35}
                 color={selected ? 'orange' : 'grey'}
