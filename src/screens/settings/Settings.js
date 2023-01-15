@@ -17,7 +17,6 @@ function Settings({ navigation }) {
       />
       <View style={styles.leftTitle}>
         <Text style={styles.mutedText}>Your informations</Text>
-        <Text style={styles.text}>Email: test@test.com</Text>
         <Text style={styles.text}>Country: UK 🇬🇧</Text>
         <Text style={styles.text}>Language: English</Text>
       </View>

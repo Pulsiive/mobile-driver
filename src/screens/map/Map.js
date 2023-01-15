@@ -520,6 +520,7 @@ function Map({ navigation }) {
           data: null
         };
 
+        // const conf = api.send('GET', '/api/v1/stations/all');
         const res = await axios(conf);
         var stationsParsed = [];
         for (var index = 0; index < res.data.stations.length; index++) {
