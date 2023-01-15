@@ -1,25 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-  PermissionsAndroid,
-  Pressable,
-  Modal,
-  SafeAreaView,
-  ScrollView
-} from 'react-native';
+import { StyleSheet, Text, View, Pressable, Modal, SafeAreaView, ScrollView } from 'react-native';
 
 import Button from 'react-native-button';
 import { AppStyles } from '../../AppStyles';
 
 import MapboxGL from '@rnmapbox/maps';
-// import GetLocation from 'react-native-get-location';
-import Geolocation from 'react-native-geolocation-service';
 
 import Icon from 'react-native-vector-icons/Entypo';
-import api from '../../db/Api';
 
 import config from '../../db/config';
 
@@ -437,9 +424,15 @@ function Map({ navigation }) {
   };
 
   const ModalInformation = (props) => {
-    console.log('props:', props.station.charger);
+    const ratingStars = [];
+    for (let rate = 0; rate < props.station.charger.rating; rate++) {
+      ratingStars.push(<Icon key={rate} name="star" size={20} color="orange" />);
+    }
     return (
       <View>
+        <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: '2%' }}>
+          {ratingStars.length === 0 ? <Text style={{ fontSize: 15 }}>No rating</Text> : ratingStars}
+        </View>
         <View style={{ flexDirection: 'row', marginTop: '15%', marginLeft: '5%' }}>
           <Icon name="flow-branch" size={30} color="grey" />
           <Text style={{ marginLeft: '8%', marginTop: '1%', color: 'grey' }}>
@@ -456,12 +449,6 @@ function Map({ navigation }) {
           <Icon name="flash" size={30} color="grey" />
           <Text style={{ marginLeft: '8%', marginTop: '1%', color: 'grey' }}>
             {props.station.charger.voltage} kWh
-          </Text>
-        </View>
-        <View style={{ flexDirection: 'row', marginTop: '8%', marginLeft: '5%' }}>
-          <Icon name="price-ribbon" size={30} color="grey" />
-          <Text style={{ marginLeft: '8%', marginTop: '1%', color: 'grey' }}>
-            {props.station.charger.rating}/5
           </Text>
         </View>
       </View>
@@ -488,6 +475,8 @@ function Map({ navigation }) {
     setModalData({});
     navigation.navigate('StationRating', { stationId: selectedStation.id });
   };
+
+  const [fetchStations, setFetchStations] = useState(true);
 
   useEffect(() => {
     try {
@@ -524,17 +513,16 @@ function Map({ navigation }) {
         const res = await axios(conf);
         var stationsParsed = [];
         for (var index = 0; index < res.data.stations.length; index++) {
+          const station = res.data.stations[index];
           stationsParsed.push({
+            id: station.id,
             name: 'Station ' + index,
-            public: res.data.stations[index].properties.isPublic,
-            type: res.data.stations[index].properties.plugTypes[0],
-            pricing: res.data.stations[index].properties.price,
-            voltage: res.data.stations[index].properties.maxPower,
-            rating: res.data.stations[index].rate,
-            location: [
-              Number(res.data.stations[index].coordinates.long),
-              Number(res.data.stations[index].coordinates.lat)
-            ]
+            public: station.properties.isPublic,
+            type: station.properties.plugTypes[0],
+            pricing: station.properties.price,
+            voltage: station.properties.maxPower,
+            rating: station.rate,
+            location: [Number(station.coordinates.long), Number(station.coordinates.lat)]
           });
         }
         setUserStation(stationsParsed);
@@ -543,7 +531,7 @@ function Map({ navigation }) {
     } catch (e) {
       console.log(e);
     }
-  }, []);
+  }, [fetchStations]);
 
   return (
     <View style={styles.page}>
@@ -585,6 +573,23 @@ function Map({ navigation }) {
             )
           )}
         </MapboxGL.MapView>
+        <Pressable
+          style={{
+            position: 'absolute',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            bottom: 10,
+            right: 70,
+            width: 50,
+            height: 50,
+            borderRadius: 50,
+            backgroundColor: 'grey'
+          }}
+          onPress={() => setFetchStations(!fetchStations)}
+        >
+          <Icon name="ccw" size={30} color={AppStyles.color.white} />
+        </Pressable>
         <Pressable
           style={{
             position: 'absolute',
