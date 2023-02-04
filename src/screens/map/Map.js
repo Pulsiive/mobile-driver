@@ -1,10 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Pressable, Modal, SafeAreaView, ScrollView } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Pressable,
+  PermissionsAndroid,
+  Modal,
+  SafeAreaView,
+  ScrollView
+} from 'react-native';
 
 import Button from 'react-native-button';
 import { AppStyles } from '../../AppStyles';
 
 import MapboxGL from '@rnmapbox/maps';
+import GetLocation from 'react-native-get-location';
 
 import Icon from 'react-native-vector-icons/Entypo';
 
@@ -480,22 +490,33 @@ function Map({ navigation }) {
 
   useEffect(() => {
     try {
-      // PermissionsAndroid.requestMultiple(
-      //   [
-      //     PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-      //     PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION
-      //   ],
-      //   {
-      //     title: 'Give Location Permission',
-      //     message: 'App needs location permission to find your position.'
-      //   }
-      // )
-      //   .then(async (granted) => {
-      //     Geolocation.getCurrentPosition(
-      //       (position) => {
-      //         console.log(position);
-      // setUserPosition([position.coords.latitude, position.coords.longitude]);
-      setUserPosition([48.850272, 2.398542]);
+      PermissionsAndroid.requestMultiple(
+        [
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+          PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION
+        ],
+        {
+          title: 'Give Location Permission',
+          message: 'App needs location permission to find your position.'
+        }
+      )
+        .then(async (granted) => {
+          GetLocation.getCurrentPosition({
+            enableHighAccuracy: true,
+            timeout: 50000
+          })
+            .then((location) => {
+              setUserPosition([location.latitude, location.longitude]);
+            })
+            .catch((error) => {
+              const { code, message } = error;
+              console.warn(code, message);
+            });
+        })
+        .catch((err) => {
+          console.warn(err);
+        });
+      // setUserPosition([48.850272, 2.398542]);
 
       const fetchData = async () => {
         var conf = {
@@ -509,6 +530,7 @@ function Map({ navigation }) {
           data: null
         };
 
+        // const conf = api.send('GET', '/api/v1/stations/all');
         const res = await axios(conf);
         var stationsParsed = [];
         for (var index = 0; index < res.data.stations.length; index++) {

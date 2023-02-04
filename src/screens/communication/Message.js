@@ -70,77 +70,54 @@ function Message(props) {
     }
   };
 
-  const renderHeaderSection = () => (
-    <View style={{ marginTop: 20, justifyContent: 'center', alignItems: 'center' }}>
-      <Pressable
-        style={{
-          position: 'absolute',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          top: 0,
-          right: 60,
-          width: 50,
-          height: 50
-        }}
-        onPress={() => Alert.alert('You have reported this user')}
-      >
-        <Icon name="warning" size={20} color="grey" />
-      </Pressable>
-      <Pressable
-        style={{
-          position: 'absolute',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          top: 0,
-          right: 10,
-          width: 50,
-          height: 50
-        }}
-        onPress={() => Alert.alert('You have deleted this conversation')}
-      >
-        <Icon name="trash" size={20} color="grey" />
-      </Pressable>
-      <Image
-        source={{ uri: imageUri }}
-        style={{
-          width: 100,
-          height: 100,
-          borderRadius: 50
-        }}
-      />
-      <Text
-        style={{
-          fontSize: 22,
-          paddingHorizontal: 10,
-          fontWeight: 'bold',
-          color: AppStyles.color.tint
-        }}
-      >
-        {name}
-      </Text>
-      <Text style={{ fontSize: 18, color: AppStyles.color.text }}>You're friends on Pulsive</Text>
-      <Text style={{ fontSize: 18, color: AppStyles.color.text }}>
-        Primus to the King of Kandor in Krypton
-      </Text>
-      <Text style={{ fontSize: 18, color: AppStyles.color.text }}>
-        Fighter from the El's family
-      </Text>
-      <TouchableOpacity
-        onPress={() => onPress()}
-        style={{
-          backgroundColor: AppStyles.color.text,
-          borderRadius: 20,
-          padding: 10,
-          marginVertical: 10
-        }}
-      >
-        <Text> VIEW PROFILE </Text>
-      </TouchableOpacity>
-      <Text style={{ fontSize: 18, color: AppStyles.color.text }}>JAN 05 2021 AT 4:45PM</Text>
-    </View>
-  );
+  const RenderHeaderSection = () => {
+    return (
+      <View style={{ marginTop: 20, flexDirection: 'row', justifyContent: 'space-between' }}>
+        <TouchableOpacity
+          onPress={() => onPress()}
+          style={{
+            backgroundColor: AppStyles.color.text,
+            borderRadius: 20,
+            marginHorizontal: 10,
+            padding: 10
+          }}
+        >
+          <Text> VIEW PROFILE </Text>
+        </TouchableOpacity>
+        <View style={{ maxWidth: 130 }}>
+          <Text
+            style={{
+              fontSize: 22,
+              marginTop: 5,
+              marginHorizontal: 10,
+              fontWeight: 'bold',
+              color: AppStyles.color.tint
+            }}
+          >
+            {name}
+          </Text>
+        </View>
+        <Pressable
+          style={{
+            marginHorizontal: 5,
+            padding: 10
+          }}
+          onPress={() => Alert.alert('You have reported this user')}
+        >
+          <Icon name="warning" size={20} color="grey" />
+        </Pressable>
+        <Pressable
+          style={{
+            marginHorizontal: 5,
+            padding: 10
+          }}
+          onPress={() => Alert.alert('You have deleted this conversation')}
+        >
+          <Icon name="trash" size={20} color="grey" />
+        </Pressable>
+      </View>
+    );
+  };
 
   const renderMessage = (id, message, isMe, img) => {
     const bgColor = isMe ? AppStyles.color.tint : '#4f4f4f';
@@ -201,14 +178,15 @@ function Message(props) {
 
   return (
     <View View style={{ flex: 1 }}>
+      <RenderHeaderSection />
       <FlatList
         inverted
         style={styles.messagesList}
         data={messages}
+        // ListHeaderComponent={renderHeaderSection()}
         keyExtractor={(item) => item.id.toString()}
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
-        // ListHeaderComponent={renderHeaderSection()}
       />
       <View
         style={{
@@ -244,7 +222,8 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   sendIcon: {
-    padding: 10
+    padding: 10,
+    color: AppStyles.color.text
   },
   input: {
     height: 40,

@@ -102,46 +102,63 @@
 55        </activity>
 56
 57        <provider
-57-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/maxime/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:21:9-25:39
-58            android:name="com.mapbox.android.telemetry.provider.MapboxTelemetryInitProvider"
-58-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/maxime/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:22:13-93
-59            android:authorities="com.mobiledriver.mapboxtelemetryinitprovider"
-59-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/maxime/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:23:13-79
+57-->[:react-native-image-picker] /home/maxime/Epitech/EIP/mobile-driver/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-18:20
+58            android:name="com.imagepicker.ImagePickerProvider"
+58-->[:react-native-image-picker] /home/maxime/Epitech/EIP/mobile-driver/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-63
+59            android:authorities="com.mobiledriver.imagepickerprovider"
+59-->[:react-native-image-picker] /home/maxime/Epitech/EIP/mobile-driver/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:12:13-71
 60            android:exported="false"
-60-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/maxime/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:24:13-37
-61            android:initOrder="100" />
-61-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/maxime/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:25:13-36
-62
-63        <service
-63-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/maxime/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:27:9-30:72
-64            android:name="com.mapbox.android.telemetry.errors.ErrorReporterJobIntentService"
-64-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/maxime/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:28:13-93
-65            android:exported="false"
-65-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/maxime/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:29:13-37
-66            android:permission="android.permission.BIND_JOB_SERVICE" />
-66-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/maxime/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:30:13-69
-67        <service
-67-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/maxime/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:31:9-33:40
-68            android:name="com.mapbox.android.telemetry.MapboxTelemetryService"
-68-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/maxime/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:32:13-79
-69            android:exported="false" />
-69-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/maxime/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:33:13-37
-70
-71        <activity
-71-->[com.google.android.gms:play-services-base:17.5.0] /home/maxime/.gradle/caches/transforms-3/ce6971dbcf8605ede0cd852cb6fd6727/transformed/jetified-play-services-base-17.5.0/AndroidManifest.xml:23:9-26:75
-72            android:name="com.google.android.gms.common.api.GoogleApiActivity"
-72-->[com.google.android.gms:play-services-base:17.5.0] /home/maxime/.gradle/caches/transforms-3/ce6971dbcf8605ede0cd852cb6fd6727/transformed/jetified-play-services-base-17.5.0/AndroidManifest.xml:24:13-79
-73            android:exported="false"
-73-->[com.google.android.gms:play-services-base:17.5.0] /home/maxime/.gradle/caches/transforms-3/ce6971dbcf8605ede0cd852cb6fd6727/transformed/jetified-play-services-base-17.5.0/AndroidManifest.xml:25:13-37
-74            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-74-->[com.google.android.gms:play-services-base:17.5.0] /home/maxime/.gradle/caches/transforms-3/ce6971dbcf8605ede0cd852cb6fd6727/transformed/jetified-play-services-base-17.5.0/AndroidManifest.xml:26:13-72
-75
-76        <meta-data
-76-->[com.google.android.gms:play-services-basement:17.5.0] /home/maxime/.gradle/caches/transforms-3/92d98700bb850d20c26eb6fca30a71be/transformed/jetified-play-services-basement-17.5.0/AndroidManifest.xml:23:9-25:69
-77            android:name="com.google.android.gms.version"
-77-->[com.google.android.gms:play-services-basement:17.5.0] /home/maxime/.gradle/caches/transforms-3/92d98700bb850d20c26eb6fca30a71be/transformed/jetified-play-services-basement-17.5.0/AndroidManifest.xml:24:13-58
-78            android:value="@integer/google_play_services_version" />
-78-->[com.google.android.gms:play-services-basement:17.5.0] /home/maxime/.gradle/caches/transforms-3/92d98700bb850d20c26eb6fca30a71be/transformed/jetified-play-services-basement-17.5.0/AndroidManifest.xml:25:13-66
-79    </application>
-80
-81</manifest>
+60-->[:react-native-image-picker] /home/maxime/Epitech/EIP/mobile-driver/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:13:13-37
+61            android:grantUriPermissions="true" >
+61-->[:react-native-image-picker] /home/maxime/Epitech/EIP/mobile-driver/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:14:13-47
+62            <meta-data
+62-->[:react-native-image-picker] /home/maxime/Epitech/EIP/mobile-driver/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:15:13-17:70
+63                android:name="android.support.FILE_PROVIDER_PATHS"
+63-->[:react-native-image-picker] /home/maxime/Epitech/EIP/mobile-driver/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:16:17-67
+64                android:resource="@xml/imagepicker_provider_paths" />
+64-->[:react-native-image-picker] /home/maxime/Epitech/EIP/mobile-driver/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:17:17-67
+65        </provider>
+66        <provider
+66-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/maxime/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:21:9-25:39
+67            android:name="com.mapbox.android.telemetry.provider.MapboxTelemetryInitProvider"
+67-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/maxime/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:22:13-93
+68            android:authorities="com.mobiledriver.mapboxtelemetryinitprovider"
+68-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/maxime/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:23:13-79
+69            android:exported="false"
+69-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/maxime/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:24:13-37
+70            android:initOrder="100" />
+70-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/maxime/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:25:13-36
+71
+72        <service
+72-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/maxime/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:27:9-30:72
+73            android:name="com.mapbox.android.telemetry.errors.ErrorReporterJobIntentService"
+73-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/maxime/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:28:13-93
+74            android:exported="false"
+74-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/maxime/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:29:13-37
+75            android:permission="android.permission.BIND_JOB_SERVICE" />
+75-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/maxime/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:30:13-69
+76        <service
+76-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/maxime/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:31:9-33:40
+77            android:name="com.mapbox.android.telemetry.MapboxTelemetryService"
+77-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/maxime/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:32:13-79
+78            android:exported="false" />
+78-->[com.mapbox.mapboxsdk:mapbox-android-telemetry-okhttp3:8.1.0] /home/maxime/.gradle/caches/transforms-3/7ec43e1665fc068120202fc245756d38/transformed/jetified-mapbox-android-telemetry-okhttp3-8.1.0/AndroidManifest.xml:33:13-37
+79
+80        <activity
+80-->[com.google.android.gms:play-services-base:17.5.0] /home/maxime/.gradle/caches/transforms-3/ce6971dbcf8605ede0cd852cb6fd6727/transformed/jetified-play-services-base-17.5.0/AndroidManifest.xml:23:9-26:75
+81            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+81-->[com.google.android.gms:play-services-base:17.5.0] /home/maxime/.gradle/caches/transforms-3/ce6971dbcf8605ede0cd852cb6fd6727/transformed/jetified-play-services-base-17.5.0/AndroidManifest.xml:24:13-79
+82            android:exported="false"
+82-->[com.google.android.gms:play-services-base:17.5.0] /home/maxime/.gradle/caches/transforms-3/ce6971dbcf8605ede0cd852cb6fd6727/transformed/jetified-play-services-base-17.5.0/AndroidManifest.xml:25:13-37
+83            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+83-->[com.google.android.gms:play-services-base:17.5.0] /home/maxime/.gradle/caches/transforms-3/ce6971dbcf8605ede0cd852cb6fd6727/transformed/jetified-play-services-base-17.5.0/AndroidManifest.xml:26:13-72
+84
+85        <meta-data
+85-->[com.google.android.gms:play-services-basement:17.5.0] /home/maxime/.gradle/caches/transforms-3/92d98700bb850d20c26eb6fca30a71be/transformed/jetified-play-services-basement-17.5.0/AndroidManifest.xml:23:9-25:69
+86            android:name="com.google.android.gms.version"
+86-->[com.google.android.gms:play-services-basement:17.5.0] /home/maxime/.gradle/caches/transforms-3/92d98700bb850d20c26eb6fca30a71be/transformed/jetified-play-services-basement-17.5.0/AndroidManifest.xml:24:13-58
+87            android:value="@integer/google_play_services_version" />
+87-->[com.google.android.gms:play-services-basement:17.5.0] /home/maxime/.gradle/caches/transforms-3/92d98700bb850d20c26eb6fca30a71be/transformed/jetified-play-services-basement-17.5.0/AndroidManifest.xml:25:13-66
+88    </application>
+89
+90</manifest>

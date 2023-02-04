@@ -1,14 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { StyleSheet, Text, TextInput, View, Image } from 'react-native';
 import Button from 'react-native-button';
 import { AppIcon, AppStyles } from '../../AppStyles';
 import SwipeableTabs from 'react-native-swipe-tabs';
+import api from '../../db/Api';
 
 function Station(props) {
-  const { imageUri, name } = useRoute().params;
+  const { imageUri, name, ownerId } = useRoute().params;
   const [index, setIndex] = useState(0);
   const [tabs, setTabs] = useState(['Station1', 'Station2', 'Station3']);
+  const [stations, setStations] = useState([
+    { type: null, power: null, price: null, charger: null },
+    { type: null, power: null, price: null, charger: null },
+    { type: null, power: null, price: null, charger: null }
+  ]);
   const navigation = useNavigation();
   const onPress = (nav) => {
     if (nav === 'Owner') {
@@ -19,60 +25,46 @@ function Station(props) {
     } else navigation.navigate(nav, {});
   };
 
-  const Station1 = (props) => {
-    return (
-      <View>
-        <Text style={styles.stationTitle}>Station 1</Text>
-        <Image style={styles.img} source={AppIcon.images.station_img} />
-        <View style={styles.description}>
-          <Text style={styles.textDescription}>Type: 1</Text>
-          <Text style={styles.textDescription}>Power: 8 kW</Text>
-          <Text style={styles.textDescription}>Plug: Mod 2</Text>
-          <Text style={styles.textDescription}>Recharge Time: 3.20h</Text>
-        </View>
-        <Button
-          onPress={() => onPress('Booking')}
-          containerStyle={styles.bookButton}
-          style={styles.shareText}
-        >
-          Book
-        </Button>
-      </View>
-    );
-  };
+  useEffect(() => {
+    try {
+      api.send('GET', `/api/v1/stations/private/user/${ownerId}`).then((data) => {
+        setStations([
+          {
+            type: data.data.stations[0].properties.plugTypes[0],
+            power: data.data.stations[0].properties.maxPower,
+            price: data.data.stations[0].properties.price,
+            charger: data.data.stations[0].properties.nbChargingPoints
+          },
+          {
+            type: data.data.stations[1].properties.plugTypes[0],
+            power: data.data.stations[1].properties.maxPower,
+            price: data.data.stations[1].properties.price,
+            charger: data.data.stations[1].properties.nbChargingPoints
+          },
+          {
+            type: data.data.stations[2].properties.plugTypes[0],
+            power: data.data.stations[2].properties.maxPower,
+            price: data.data.stations[2].properties.price,
+            charger: data.data.stations[2].properties.nbChargingPoints
+          }
+        ]);
+        console.log(stations);
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  }, []);
 
-  const Station2 = (props) => {
+  const Station = (props) => {
     return (
       <View>
-        <Text style={styles.stationTitle}>Station 2</Text>
+        <Text style={styles.stationTitle}>Station {props.index}</Text>
         <Image style={styles.img} source={AppIcon.images.station_img} />
         <View style={styles.description}>
-          <Text style={styles.textDescription}>Type: CHAdeMO</Text>
-          <Text style={styles.textDescription}>Power: 100 kW</Text>
-          <Text style={styles.textDescription}>Plug: Mod 3</Text>
-          <Text style={styles.textDescription}>Recharge Time: 35m</Text>
-        </View>
-        <Button
-          onPress={() => onPress('Booking')}
-          containerStyle={styles.bookButton}
-          style={styles.shareText}
-        >
-          Book
-        </Button>
-      </View>
-    );
-  };
-
-  const Station3 = (props) => {
-    return (
-      <View>
-        <Text style={styles.stationTitle}>Station 3</Text>
-        <Image style={styles.img} source={AppIcon.images.station_img} />
-        <View style={styles.description}>
-          <Text style={styles.textDescription}>Type: P17 bleue</Text>
-          <Text style={styles.textDescription}>Power: 7.3 kW</Text>
-          <Text style={styles.textDescription}>Plug: Mod 2</Text>
-          <Text style={styles.textDescription}>Recharge Time: 3.45h</Text>
+          <Text style={styles.textDescription}>Type: {props.type}</Text>
+          <Text style={styles.textDescription}>Power: {props.power} kW</Text>
+          <Text style={styles.textDescription}>Price: {props.price} €/h</Text>
+          <Text style={styles.textDescription}>Chargers: {props.charger}</Text>
         </View>
         <Button
           onPress={() => onPress('Booking')}
@@ -88,12 +80,58 @@ function Station(props) {
   return (
     <View style={styles.container}>
       <Text style={[styles.title, styles.leftTitle]}>Station information</Text>
-      <SwipeableTabs onSwipe={(x) => setIndex(x)} selectedIndex={index} labels={tabs}>
-        {/* {tabs.map((tab, index) => { */}
-        <Station1 />
-        <Station2 />
-        <Station3 />
-      </SwipeableTabs>
+      {stations.length == 1 ? (
+        <SwipeableTabs onSwipe={(x) => setIndex(x)} selectedIndex={index} labels={tabs}>
+          <Station
+            index={'1'}
+            type={stations[0].type}
+            power={stations[0].power}
+            price={stations[0].price}
+            charger={stations[0].charger}
+          />
+        </SwipeableTabs>
+      ) : stations.length == 2 ? (
+        <SwipeableTabs onSwipe={(x) => setIndex(x)} selectedIndex={index} labels={tabs}>
+          <Station
+            index={'1'}
+            type={stations[0].type}
+            power={stations[0].power}
+            price={stations[0].price}
+            charger={stations[0].charger}
+          />
+          <Station
+            index={'2'}
+            type={stations[1].type}
+            power={stations[1].power}
+            price={stations[1].price}
+            charger={stations[1].charger}
+          />
+        </SwipeableTabs>
+      ) : (
+        <SwipeableTabs onSwipe={(x) => setIndex(x)} selectedIndex={index} labels={tabs}>
+          <Station
+            index={'1'}
+            type={stations[0].type}
+            power={stations[0].power}
+            price={stations[0].price}
+            charger={stations[0].charger}
+          />
+          <Station
+            index={'2'}
+            type={stations[1].type}
+            power={stations[1].power}
+            price={stations[1].price}
+            charger={stations[1].charger}
+          />
+          <Station
+            index={'3'}
+            type={stations[2].type}
+            power={stations[2].power}
+            price={stations[2].price}
+            charger={stations[2].charger}
+          />
+        </SwipeableTabs>
+      )}
 
       <Button
         onPress={() => onPress('Owner')}

@@ -93,16 +93,6 @@ function Booking({ navigation }) {
       >
         You selected: {date}
       </Text>
-      <Text
-        style={{
-          fontSize: 20,
-          paddingTop: 10,
-          fontWeight: 'bold',
-          color: AppStyles.color.text
-        }}
-      >
-        price: 5.5$/h
-      </Text>
       <Button
         containerStyle={styles.shareButton}
         style={styles.shareText}

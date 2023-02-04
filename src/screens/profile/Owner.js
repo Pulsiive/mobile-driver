@@ -18,7 +18,8 @@ function Owner(props) {
   const onPress = (nav) => {
     navigation.navigate(nav, {
       imageUri: imageUri,
-      name: name
+      name: name,
+      ownerId: userId
     });
   };
 
@@ -75,7 +76,7 @@ function Owner(props) {
   return (
     <View style={styles.container}>
       <Text style={[styles.title, styles.leftTitle]}>Owner</Text>
-      <View style={{ marginBottom: 30, justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{ marginBottom: 20, justifyContent: 'center', alignItems: 'center' }}>
         <Image
           source={{ uri: imageUri }}
           style={{
@@ -87,8 +88,6 @@ function Owner(props) {
       </View>
       <View style={styles.leftTitle}>
         <Text style={styles.text}>Username: {name}</Text>
-        <Text style={styles.text}>Address: 54 Charing Cross Rd</Text>
-        <Text style={styles.text}>Country: UK 🇬🇧</Text>
         <Text style={styles.text}>Rating: 4.2/5</Text>
       </View>
       <Modal
@@ -158,7 +157,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: AppStyles.color.title,
     fontSize: 20,
-    marginBottom: 15
+    marginBottom: 13
   },
   content: {
     paddingLeft: 50,
