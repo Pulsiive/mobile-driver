@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   StyleSheet,
   Text,
@@ -13,7 +13,7 @@ import {
 import Button from 'react-native-button';
 import { AppStyles } from '../../AppStyles';
 
-import MapboxGL from '@rnmapbox/maps';
+import MapboxGL from '@react-native-mapbox-gl/maps';
 import GetLocation from 'react-native-get-location';
 
 import Icon from 'react-native-vector-icons/Entypo';
@@ -487,8 +487,11 @@ function Map({ navigation }) {
   };
 
   const [fetchStations, setFetchStations] = useState(true);
+  const [fetchPosition, setFetchPosition] = useState(false);
+  const [resetPosition, setResetPosition] = useState(true);
 
   useEffect(() => {
+    console.log('INIT');
     try {
       PermissionsAndroid.requestMultiple(
         [
@@ -506,6 +509,7 @@ function Map({ navigation }) {
             timeout: 50000
           })
             .then((location) => {
+              console.log(location);
               setUserPosition([location.latitude, location.longitude]);
             })
             .catch((error) => {
@@ -516,8 +520,14 @@ function Map({ navigation }) {
         .catch((err) => {
           console.warn(err);
         });
-      // setUserPosition([48.850272, 2.398542]);
+    } catch (e) {
+      console.log(e);
+    }
+  }, [resetPosition]);
 
+  useEffect(() => {
+    console.log('FETCH');
+    try {
       const fetchData = async () => {
         var conf = {
           method: 'get',
@@ -554,6 +564,13 @@ function Map({ navigation }) {
     }
   }, [fetchStations]);
 
+  const onMapPress = (e) => {
+    if (fetchPosition) {
+      const { geometry } = e;
+      setUserPosition([geometry.coordinates[1], geometry.coordinates[0]]);
+    }
+  };
+
   return (
     <View style={styles.page}>
       <View style={styles.container}>
@@ -565,14 +582,16 @@ function Map({ navigation }) {
           zoomLevel={16}
           center={[userPosition]}
           key="map"
+          onPress={onMapPress}
         >
           <MapboxGL.Camera
             zoomLevel={13}
             centerCoordinate={[userPosition[1], userPosition[0]]}
-            animationMode={'flyTo'}
-            animationDuration={3}
+            // animationMode={'flyTo'}
+            // animationDuration={3}
+            pitchEnabled={false}
           ></MapboxGL.Camera>
-          <MapboxGL.UserLocation visible={true} />
+          {/* <MapboxGL.UserLocation visible={false} onUpdate={() => updateUserPosition} /> */}
           {userStation.map((charger, index) =>
             checkFilters(charger) ? (
               <MapboxGL.PointAnnotation
@@ -581,17 +600,24 @@ function Map({ navigation }) {
                 onSelected={() => setModal(charger)}
                 key={index}
               >
-                <View>
-                  <Icon
-                    name="pin"
-                    size={24}
-                    color={charger.public ? AppStyles.color.tint : AppStyles.color.greenBlue}
-                  />
-                </View>
+                <Icon
+                  name="pin"
+                  size={24}
+                  color={charger.public ? AppStyles.color.tint : AppStyles.color.greenBlue}
+                />
               </MapboxGL.PointAnnotation>
             ) : (
               <></>
             )
+          )}
+          {userPosition && (
+            <MapboxGL.PointAnnotation
+              id="userPosition"
+              coordinate={[userPosition[1], userPosition[0]]}
+              title="Je suis ici"
+            >
+              <Icon name="location-pin" size={30} color={AppStyles.color.facebook} />
+            </MapboxGL.PointAnnotation>
           )}
         </MapboxGL.MapView>
         <Pressable
@@ -609,7 +635,41 @@ function Map({ navigation }) {
           }}
           onPress={() => setFetchStations(!fetchStations)}
         >
-          <Icon name="ccw" size={30} color={AppStyles.color.white} />
+          <Icon name="cycle" size={30} color={AppStyles.color.white} />
+        </Pressable>
+        <Pressable
+          style={{
+            position: 'absolute',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            bottom: 10,
+            right: 130,
+            width: 50,
+            height: 50,
+            borderRadius: 50,
+            backgroundColor: fetchPosition ? AppStyles.color.facebook : AppStyles.color.grey
+          }}
+          onPress={() => setFetchPosition(!fetchPosition)}
+        >
+          <Icon name="globe" size={30} color={AppStyles.color.white} />
+        </Pressable>
+        <Pressable
+          style={{
+            position: 'absolute',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            bottom: 10,
+            right: 190,
+            width: 50,
+            height: 50,
+            borderRadius: 50,
+            backgroundColor: AppStyles.color.facebook
+          }}
+          onPress={() => setResetPosition(!resetPosition)}
+        >
+          <Icon name="location" size={30} color={AppStyles.color.white} />
         </Pressable>
         <Pressable
           style={{

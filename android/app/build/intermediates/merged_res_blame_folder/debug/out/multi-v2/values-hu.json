@@ -55,6 +55,23 @@
                     }
                 },
                 {
+                    "source": "/home/maxime/.gradle/caches/transforms-3/2002246bcf7fb1be25e5250e806d674f/transformed/jetified-mapbox-android-sdk-9.1.0/res/values-hu/values-hu.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,189,357,437,510,585,677,763,929,1042,1187,1268",
+                        "endColumns": "133,167,79,72,74,91,85,165,112,144,80,75",
+                        "endOffsets": "184,352,432,505,580,672,758,924,1037,1182,1263,1339"
+                    },
+                    "to": {
+                        "startLines": "47,48,49,50,51,52,53,54,55,56,57,58",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "5776,5910,6078,6158,6231,6306,6398,6484,6650,6763,6908,6989",
+                        "endColumns": "133,167,79,72,74,91,85,165,112,144,80,75",
+                        "endOffsets": "5905,6073,6153,6226,6301,6393,6479,6645,6758,6903,6984,7060"
+                    }
+                },
+                {
                     "source": "/home/maxime/.gradle/caches/transforms-3/f8cfdef18edf0f0dc80f7630fe54d7fb/transformed/core-1.6.0/res/values-hu/values-hu.xml",
                     "from": {
                         "startLines": "2",
@@ -69,23 +86,6 @@
                         "startOffsets": "7149",
                         "endColumns": "100",
                         "endOffsets": "7245"
-                    }
-                },
-                {
-                    "source": "/home/maxime/.gradle/caches/transforms-3/1d02f255c8be8c897aa31e146604cd65/transformed/jetified-mapbox-android-sdk-9.7.1/res/values-hu/values-hu.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,189,357,437,510,585,677,763,929,1042,1187,1268",
-                        "endColumns": "133,167,79,72,74,91,85,165,112,144,80,75",
-                        "endOffsets": "184,352,432,505,580,672,758,924,1037,1182,1263,1339"
-                    },
-                    "to": {
-                        "startLines": "47,48,49,50,51,52,53,54,55,56,57,58",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "5776,5910,6078,6158,6231,6306,6398,6484,6650,6763,6908,6989",
-                        "endColumns": "133,167,79,72,74,91,85,165,112,144,80,75",
-                        "endOffsets": "5905,6073,6153,6226,6301,6393,6479,6645,6758,6903,6984,7060"
                     }
                 }
             ]

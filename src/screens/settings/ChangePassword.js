@@ -79,7 +79,7 @@ function ChangePassword({ navigation }) {
         console.log('e: ', e);
         if (e.status === 422) setErrorMessage({ ...errorMessage, password: 'Incorrect password' });
       } else {
-        setErrorMessage({ ...errorMessage, email: 'Internal server error' });
+        setErrorMessage({ ...errorMessage, password: 'Internal server error' });
       }
     }
   };

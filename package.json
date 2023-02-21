@@ -11,12 +11,12 @@
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.17.10",
+    "@react-native-mapbox-gl/maps": "^8.6.0-beta.0",
     "@react-navigation/bottom-tabs": "^6.3.1",
     "@react-navigation/drawer": "^6.4.1",
     "@react-navigation/native": "^6.0.10",
     "@react-navigation/native-stack": "^6.6.1",
     "@react-navigation/stack": "^6.2.1",
-    "@rnmapbox/maps": "github:rnmapbox/maps#main",
     "axios": "^0.27.2",
     "form-data": "^4.0.0",
     "node-fetch": "^2.6.1",

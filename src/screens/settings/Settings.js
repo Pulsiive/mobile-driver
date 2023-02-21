@@ -15,6 +15,13 @@ function Settings({ navigation }) {
           navigation.navigate('ChangePassword');
         }}
       />
+      <SettingsButton
+        title="Change email"
+        source={AppIcon.images.leftArrow}
+        onPress={() => {
+          navigation.navigate('ChangeEmail');
+        }}
+      />
       <View style={styles.leftTitle}>
         <Text style={styles.mutedText}>Your informations</Text>
         <Text style={styles.text}>Country: UK 🇬🇧</Text>

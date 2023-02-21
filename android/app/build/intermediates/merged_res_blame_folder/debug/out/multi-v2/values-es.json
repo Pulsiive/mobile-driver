@@ -55,7 +55,7 @@
                     }
                 },
                 {
-                    "source": "/home/maxime/.gradle/caches/transforms-3/1d02f255c8be8c897aa31e146604cd65/transformed/jetified-mapbox-android-sdk-9.7.1/res/values-es/values-es.xml",
+                    "source": "/home/maxime/.gradle/caches/transforms-3/2002246bcf7fb1be25e5250e806d674f/transformed/jetified-mapbox-android-sdk-9.1.0/res/values-es/values-es.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4",

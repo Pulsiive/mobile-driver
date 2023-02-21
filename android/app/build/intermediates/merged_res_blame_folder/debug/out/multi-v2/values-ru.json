@@ -4,23 +4,6 @@
             "outputFile": "/home/maxime/Epitech/EIP/mobile-driver/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-ru/values-ru.xml",
             "map": [
                 {
-                    "source": "/home/maxime/.gradle/caches/transforms-3/1d02f255c8be8c897aa31e146604cd65/transformed/jetified-mapbox-android-sdk-9.7.1/res/values-ru/values-ru.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,178,344,420,509,582,670,757,881,996,1164,1282,1428",
-                        "endColumns": "122,165,75,88,72,87,86,123,114,167,117,145,73",
-                        "endOffsets": "173,339,415,504,577,665,752,876,991,1159,1277,1423,1497"
-                    },
-                    "to": {
-                        "startLines": "47,48,49,50,51,52,53,54,55,56,57,58,59",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "5584,5707,5873,5949,6038,6111,6199,6286,6410,6525,6693,6811,6957",
-                        "endColumns": "122,165,75,88,72,87,86,123,114,167,117,145,73",
-                        "endOffsets": "5702,5868,5944,6033,6106,6194,6281,6405,6520,6688,6806,6952,7026"
-                    }
-                },
-                {
                     "source": "/home/maxime/.gradle/caches/transforms-3/ce6971dbcf8605ede0cd852cb6fd6727/transformed/jetified-play-services-base-17.5.0/res/values-ru/values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
@@ -86,6 +69,23 @@
                         "startOffsets": "3979",
                         "endColumns": "215",
                         "endOffsets": "4190"
+                    }
+                },
+                {
+                    "source": "/home/maxime/.gradle/caches/transforms-3/2002246bcf7fb1be25e5250e806d674f/transformed/jetified-mapbox-android-sdk-9.1.0/res/values-ru/values-ru.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,178,344,420,509,582,670,757,881,996,1164,1282,1428",
+                        "endColumns": "122,165,75,88,72,87,86,123,114,167,117,145,73",
+                        "endOffsets": "173,339,415,504,577,665,752,876,991,1159,1277,1423,1497"
+                    },
+                    "to": {
+                        "startLines": "47,48,49,50,51,52,53,54,55,56,57,58,59",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "5584,5707,5873,5949,6038,6111,6199,6286,6410,6525,6693,6811,6957",
+                        "endColumns": "122,165,75,88,72,87,86,123,114,167,117,145,73",
+                        "endOffsets": "5702,5868,5944,6033,6106,6194,6281,6405,6520,6688,6806,6952,7026"
                     }
                 }
             ]

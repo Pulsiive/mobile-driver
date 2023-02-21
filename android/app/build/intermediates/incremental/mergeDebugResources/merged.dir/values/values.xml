@@ -4534,15 +4534,6 @@
     <item name="mapbox_trackingInitialMoveThreshold">@dimen/mapbox_locationComponentTrackingInitialMoveThreshold</item>
     <item name="mapbox_trackingMultiFingerMoveThreshold">@dimen/mapbox_locationComponentTrackingMultiFingerMoveThreshold</item>
 
-    <!-- Location pulsing circle -->
-    <item name="mapbox_pulsingLocationCircleEnabled">false</item>
-    <item name="mapbox_pulsingLocationCircleFadeEnabled">true</item>
-    <item name="mapbox_pulsingLocationCircleColor">@color/mapbox_location_layer_blue</item>
-    <item name="mapbox_pulsingLocationCircleDuration">2300</item>
-    <item name="mapbox_pulsingLocationCircleRadius">35</item>
-    <item name="mapbox_pulsingLocationCircleAlpha">0.4</item>
-    <item name="mapbox_pulsingLocationCircleInterpolator">decelerate</item>
-
   </style>
     <style name="redboxButton">
     <item name="android:layout_width">0dp</item>
@@ -7641,15 +7632,6 @@
         <!-- Accuracy animation-->
         <attr format="boolean" name="mapbox_accuracyAnimationEnabled"/>
 
-        <!-- Pulsing circle -->
-        <attr format="boolean" name="mapbox_pulsingLocationCircleEnabled"/>
-        <attr format="boolean" name="mapbox_pulsingLocationCircleFadeEnabled"/>
-        <attr format="color" name="mapbox_pulsingLocationCircleColor"/>
-        <attr format="float" name="mapbox_pulsingLocationCircleDuration"/>
-        <attr format="float" name="mapbox_pulsingLocationCircleRadius"/>
-        <attr format="float" name="mapbox_pulsingLocationCircleAlpha"/>
-        <attr format="string" name="mapbox_pulsingLocationCircleInterpolator"/>
-
     </declare-styleable>
     <declare-styleable name="mapbox_MapView">
 
@@ -7658,12 +7640,6 @@
 
         <!--Configuration-->
         <attr format="string" name="mapbox_apiBaseUri"/>
-        <!--Glyph rasterization configuration-->
-        <attr name="mapbox_glyphRasterizationMode">
-            <flag name="no_glyphs_rasterized_locally" value="0"/>
-            <flag name="ideagraphs_rasterized_locally" value="1"/>
-            <flag name="all_glyphs_rasterized_locally" value="2"/>
-        </attr>
         <attr format="boolean" name="mapbox_localIdeographEnabled"/>
         <attr format="string" name="mapbox_localIdeographFontFamily"/>
         <attr format="reference" name="mapbox_localIdeographFontFamilies"/>
@@ -7717,7 +7693,6 @@
         <attr format="dimension" name="mapbox_uiCompassMarginBottom"/>
         <attr format="boolean" name="mapbox_uiCompassFadeFacingNorth"/>
         <attr format="reference" name="mapbox_uiCompassDrawable"/>
-        <attr format="integer" name="mapbox_uiCompassDrawableRes"/>
 
         <!--Logo-->
         <attr format="boolean" name="mapbox_uiLogo"/>

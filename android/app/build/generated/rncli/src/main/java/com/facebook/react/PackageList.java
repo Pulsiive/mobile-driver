@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 // @react-native-async-storage/async-storage
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
-// @rnmapbox/maps
+// @react-native-mapbox-gl/maps
 import com.mapbox.rctmgl.RCTMGLPackage;
 // react-native-geolocation-service
 import com.agontuk.RNFusedLocation.RNFusedLocationPackage;

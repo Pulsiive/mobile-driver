@@ -4,6 +4,23 @@
             "outputFile": "/home/maxime/Epitech/EIP/mobile-driver/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-zh-rCN/values-zh-rCN.xml",
             "map": [
                 {
+                    "source": "/home/maxime/.gradle/caches/transforms-3/2002246bcf7fb1be25e5250e806d674f/transformed/jetified-mapbox-android-sdk-9.1.0/res/values-zh-rCN/values-zh-rCN.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,136,236,305,373,442,517,604,709,790,883,968,1082,1142",
+                        "endColumns": "80,99,68,67,68,74,86,104,80,92,84,113,59,64",
+                        "endOffsets": "131,231,300,368,437,512,599,704,785,878,963,1077,1137,1202"
+                    },
+                    "to": {
+                        "startLines": "47,48,49,50,51,52,53,54,55,56,57,58,59,60",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "4965,5046,5146,5215,5283,5352,5427,5514,5619,5700,5793,5878,5992,6052",
+                        "endColumns": "80,99,68,67,68,74,86,104,80,92,84,113,59,64",
+                        "endOffsets": "5041,5141,5210,5278,5347,5422,5509,5614,5695,5788,5873,5987,6047,6112"
+                    }
+                },
+                {
                     "source": "/home/maxime/.gradle/caches/transforms-3/f8cfdef18edf0f0dc80f7630fe54d7fb/transformed/core-1.6.0/res/values-zh-rCN/values-zh-rCN.xml",
                     "from": {
                         "startLines": "2",
@@ -18,23 +35,6 @@
                         "startOffsets": "6196",
                         "endColumns": "100",
                         "endOffsets": "6292"
-                    }
-                },
-                {
-                    "source": "/home/maxime/.gradle/caches/transforms-3/1d02f255c8be8c897aa31e146604cd65/transformed/jetified-mapbox-android-sdk-9.7.1/res/values-zh-rCN/values-zh-rCN.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,136,236,305,373,442,517,604,709,790,883,968,1082,1142",
-                        "endColumns": "80,99,68,67,68,74,86,104,80,92,84,113,59,64",
-                        "endOffsets": "131,231,300,368,437,512,599,704,785,878,963,1077,1137,1202"
-                    },
-                    "to": {
-                        "startLines": "47,48,49,50,51,52,53,54,55,56,57,58,59,60",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "4965,5046,5146,5215,5283,5352,5427,5514,5619,5700,5793,5878,5992,6052",
-                        "endColumns": "80,99,68,67,68,74,86,104,80,92,84,113,59,64",
-                        "endOffsets": "5041,5141,5210,5278,5347,5422,5509,5614,5695,5788,5873,5987,6047,6112"
                     }
                 },
                 {

@@ -4,23 +4,6 @@
             "outputFile": "/home/maxime/Epitech/EIP/mobile-driver/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-pt-rPT/values-pt-rPT.xml",
             "map": [
                 {
-                    "source": "/home/maxime/.gradle/caches/transforms-3/1d02f255c8be8c897aa31e146604cd65/transformed/jetified-mapbox-android-sdk-9.7.1/res/values-pt-rPT/values-pt-rPT.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,215,398,475,555,628,720,809,944,1060,1228,1357,1492",
-                        "endColumns": "159,182,76,79,72,91,88,134,115,167,128,134,77",
-                        "endOffsets": "210,393,470,550,623,715,804,939,1055,1223,1352,1487,1565"
-                    },
-                    "to": {
-                        "startLines": "47,48,49,50,51,52,53,54,55,56,57,58,59",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "5659,5819,6002,6079,6159,6232,6324,6413,6548,6664,6832,6961,7096",
-                        "endColumns": "159,182,76,79,72,91,88,134,115,167,128,134,77",
-                        "endOffsets": "5814,5997,6074,6154,6227,6319,6408,6543,6659,6827,6956,7091,7169"
-                    }
-                },
-                {
                     "source": "/home/maxime/.gradle/caches/transforms-3/f8cfdef18edf0f0dc80f7630fe54d7fb/transformed/core-1.6.0/res/values-pt-rPT/values-pt-rPT.xml",
                     "from": {
                         "startLines": "2",
@@ -86,6 +69,23 @@
                         "startOffsets": "4025",
                         "endColumns": "203",
                         "endOffsets": "4224"
+                    }
+                },
+                {
+                    "source": "/home/maxime/.gradle/caches/transforms-3/2002246bcf7fb1be25e5250e806d674f/transformed/jetified-mapbox-android-sdk-9.1.0/res/values-pt-rPT/values-pt-rPT.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,215,398,475,555,628,720,809,944,1060,1228,1357,1492",
+                        "endColumns": "159,182,76,79,72,91,88,134,115,167,128,134,77",
+                        "endOffsets": "210,393,470,550,623,715,804,939,1055,1223,1352,1487,1565"
+                    },
+                    "to": {
+                        "startLines": "47,48,49,50,51,52,53,54,55,56,57,58,59",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "5659,5819,6002,6079,6159,6232,6324,6413,6548,6664,6832,6961,7096",
+                        "endColumns": "159,182,76,79,72,91,88,134,115,167,128,134,77",
+                        "endOffsets": "5814,5997,6074,6154,6227,6319,6408,6543,6659,6827,6956,7091,7169"
                     }
                 }
             ]
