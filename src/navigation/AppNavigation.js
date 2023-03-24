@@ -25,6 +25,7 @@ import Messages from '../screens/communication/Messages';
 import Message from '../screens/communication/Message';
 import Booking from '../screens/booking/Booking';
 import Map from '../screens/map/Map';
+import Locations from '../screens/map/Locations';
 import Planning from '../screens/planning/Planning';
 import StationRating from '../screens/rating/StationRating';
 import OwnerRating from '../screens/rating/OwnerRating';
@@ -122,6 +123,7 @@ const MapStack = () => (
         headerLeftContainerStyle: { paddingLeft: 10 }
       })}
     />
+    <Stack.Screen name="Locations" component={Locations} />
   </Stack.Navigator>
 );
 

@@ -10,6 +10,7 @@ import {
   ScrollView
 } from 'react-native';
 
+import Slider from '@react-native-community/slider';
 import Button from 'react-native-button';
 import { AppStyles } from '../../AppStyles';
 
@@ -43,32 +44,35 @@ function Map({ navigation }) {
     });
   };
 
-  const [filterType, setFilterType] = useState(false);
-  const [filterPrice, setFilterPrice] = useState(false);
-  const [filterStatut, setFilterStatut] = useState(false);
-  const [filterRating, setFilterRating] = useState(false);
+  const [filterType, setFilterType] = useState(1);
+  const [filterPrice, setFilterPrice] = useState(500);
+  const [filterStatut, setFilterStatut] = useState(2);
+  const [filterRange, setFilterRange] = useState(5);
+  const [filterRating, setFilterRating] = useState(0);
 
-  const [savedFitlers1, setSavedFilters1] = useState({
+  const [savedFilters1, setSavedFilters1] = useState({
     savedFilterType: false,
     savedFilterPrice: false,
     savedFilterStatut: false,
+    savedFilterRange: false,
     savedFilterRating: false
   });
-  const [savedFitlers2, setSavedFilters2] = useState({
+  const [savedFilters2, setSavedFilters2] = useState({
     savedFilterType: false,
     savedFilterPrice: false,
     savedFilterStatut: false,
+    savedFilterRange: false,
     savedFilterRating: false
   });
   const [filterSelect, setFilterSelect] = useState(0);
 
   const checkFilters = (charger) => {
-    if (filterType && charger.type != filterType) return false;
-    if (filterPrice && charger.pricing > filterPrice) return false;
-    if (filterStatut) {
-      if (filterStatut == 'Public' && !charger.public) return false;
-      if (filterStatut == 'Private' && charger.public) return false;
-    }
+    // if (filterType && charger.type != filterType) return false;
+    // if (filterPrice && charger.pricing > filterPrice) return false;
+    // if (filterStatut) {
+    // if (filterStatut == 'Public' && !charger.public) return false;
+    // if (filterStatut == 'Private' && charger.public) return false;
+    // }
     if (filterRating && charger.rating < filterRating) return false;
     return true;
   };
@@ -76,16 +80,18 @@ function Map({ navigation }) {
   const FiltersComponent = () => {
     const clear = () => {
       setFilterSelect(0);
-      setFilterType(false);
-      setFilterPrice(false);
-      setFilterStatut(false);
-      setFilterRating(false);
+      setFilterType(1);
+      setFilterPrice(500);
+      setFilterStatut(2);
+      setFilterRange(5);
+      setFilterRating(0);
     };
     const save1 = () => {
       setSavedFilters1({
         savedFilterType: filterType,
         savedFilterPrice: filterType,
         savedFilterStatut: filterStatut,
+        savedFilterRange: filterRange,
         savedFilterRating: filterRating
       });
     };
@@ -94,32 +100,37 @@ function Map({ navigation }) {
         savedFilterType: filterType,
         savedFilterPrice: filterType,
         savedFilterStatut: filterStatut,
+        savedFilterRange: filterRange,
         savedFilterRating: filterRating
       });
     };
     const compare1 = () => {
-      const temp = { filterType, filterPrice, filterStatut, filterRating };
-      setFilterType(savedFitlers1.savedFilterType);
-      setFilterPrice(savedFitlers1.savedFilterPrice);
-      setFilterStatut(savedFitlers1.savedFilterStatut);
-      setFilterRating(savedFitlers1.savedFilterRating);
+      const temp = { filterType, filterPrice, filterStatut, filterRange, filterRating };
+      setFilterType(savedFilters1.savedFilterType);
+      setFilterPrice(savedFilters1.savedFilterPrice);
+      setFilterStatut(savedFilters1.savedFilterStatut);
+      setFilterStatut(savedFilters1.savedFilterRange);
+      setFilterRating(savedFilters1.savedFilterRating);
       setSavedFilters1({
         savedFilterType: temp.filterType,
         savedFilterPrice: temp.filterPrice,
         savedFilterStatut: temp.filterStatut,
+        savedFilterRange: temp.filterRange,
         savedFilterRating: temp.filterRating
       });
     };
     const compare2 = () => {
-      const temp = { filterType, filterPrice, filterStatut, filterRating };
-      setFilterType(savedFitlers2.savedFilterType);
-      setFilterPrice(savedFitlers2.savedFilterPrice);
-      setFilterStatut(savedFitlers2.savedFilterStatut);
-      setFilterRating(savedFitlers2.savedFilterRating);
+      const temp = { filterType, filterPrice, filterStatut, filterRange, filterRating };
+      setFilterType(savedFilters2.savedFilterType);
+      setFilterPrice(savedFilters2.savedFilterPrice);
+      setFilterStatut(savedFilters2.savedFilterStatut);
+      setFilterStatut(savedFilters2.savedFilterRange);
+      setFilterRating(savedFilters2.savedFilterRating);
       setSavedFilters2({
         savedFilterType: temp.filterType,
         savedFilterPrice: temp.filterPrice,
         savedFilterStatut: temp.filterStatut,
+        savedFilterRange: temp.filterRange,
         savedFilterRating: temp.filterRating
       });
     };
@@ -128,7 +139,7 @@ function Map({ navigation }) {
         style={{
           position: 'absolute',
           top: 20,
-          right: 70,
+          left: 70,
           display: 'flex'
         }}
       >
@@ -149,39 +160,109 @@ function Map({ navigation }) {
             style={{
               position: 'absolute',
               top: 20,
-              right: 110,
+              left: 110,
               display: 'flex'
             }}
           >
-            <Button style={styles.filters} onPress={() => setFilterType(false)}>
+            {/* <Button style={styles.filters} onPress={() => setFilterType(0)}>
               X
+            </Button> */}
+            <Button
+              style={[
+                styles.filters,
+                {
+                  backgroundColor: filterType == 1 ? AppStyles.color.grey : AppStyles.color.white,
+                  color: filterType == 1 ? AppStyles.color.white : AppStyles.color.tint
+                }
+              ]}
+              onPress={() => setFilterType(1)}
+            >
+              TYPE 1
             </Button>
             <Button
               style={[
                 styles.filters,
                 {
-                  backgroundColor:
-                    filterType == 'EF' ? AppStyles.color.grey : AppStyles.color.white,
-                  color: filterType == 'EF' ? AppStyles.color.white : AppStyles.color.tint
+                  backgroundColor: filterType == 2 ? AppStyles.color.grey : AppStyles.color.white,
+                  color: filterType == 2 ? AppStyles.color.white : AppStyles.color.tint
                 }
               ]}
-              onPress={() => setFilterType('EF')}
+              onPress={() => setFilterType(2)}
+            >
+              TYPE 2
+            </Button>
+            <Button
+              style={[
+                styles.filters,
+                {
+                  backgroundColor: filterType == 3 ? AppStyles.color.grey : AppStyles.color.white,
+                  color: filterType == 3 ? AppStyles.color.white : AppStyles.color.tint
+                }
+              ]}
+              onPress={() => setFilterType(3)}
+            >
+              TYPE 3
+            </Button>
+            <Button
+              style={[
+                styles.filters,
+                {
+                  backgroundColor: filterType == 4 ? AppStyles.color.grey : AppStyles.color.white,
+                  color: filterType == 4 ? AppStyles.color.white : AppStyles.color.tint
+                }
+              ]}
+              onPress={() => setFilterType(4)}
+            >
+              CCS
+            </Button>
+            <Button
+              style={[
+                styles.filters,
+                {
+                  backgroundColor: filterType == 5 ? AppStyles.color.grey : AppStyles.color.white,
+                  color: filterType == 5 ? AppStyles.color.white : AppStyles.color.tint
+                }
+              ]}
+              onPress={() => setFilterType(5)}
+            >
+              CHADEMO
+            </Button>
+            <Button
+              style={[
+                styles.filters,
+                {
+                  backgroundColor: filterType == 6 ? AppStyles.color.grey : AppStyles.color.white,
+                  color: filterType == 6 ? AppStyles.color.white : AppStyles.color.tint
+                }
+              ]}
+              onPress={() => setFilterType(6)}
+            >
+              GREENUP
+            </Button>
+            <Button
+              style={[
+                styles.filters,
+                {
+                  backgroundColor: filterType == 7 ? AppStyles.color.grey : AppStyles.color.white,
+                  color: filterType == 7 ? AppStyles.color.white : AppStyles.color.tint
+                }
+              ]}
+              onPress={() => setFilterType(7)}
             >
               EF
             </Button>
-            <Button
+            {/* <Button
               style={[
                 styles.filters,
                 {
-                  backgroundColor:
-                    filterType == 'TYPE2' ? AppStyles.color.grey : AppStyles.color.white,
-                  color: filterType == 'TYPE2' ? AppStyles.color.white : AppStyles.color.tint
+                  backgroundColor: filterType == 8 ? AppStyles.color.grey : AppStyles.color.white,
+                  color: filterType == 8 ? AppStyles.color.white : AppStyles.color.tint
                 }
               ]}
-              onPress={() => setFilterType('TYPE2')}
+              onPress={() => setFilterType(8)}
             >
-              Type2
-            </Button>
+              ALL
+            </Button> */}
           </View>
         ) : (
           <></>
@@ -202,53 +283,35 @@ function Map({ navigation }) {
           <View
             style={{
               position: 'absolute',
-              top: 20,
-              right: 110,
+              top: 60,
+              left: 90,
               display: 'flex'
             }}
           >
-            <Button style={styles.filters} onPress={() => setFilterPrice(false)}>
-              X
-            </Button>
-            <Button
-              style={[
-                styles.filters,
-                {
-                  backgroundColor:
-                    filterPrice == '0.5' ? AppStyles.color.grey : AppStyles.color.white,
-                  color: filterPrice == '0.5' ? AppStyles.color.white : AppStyles.color.tint
-                }
-              ]}
-              onPress={() => setFilterPrice('0.5')}
+            <Slider
+              style={styles.slider}
+              minimumValue={0}
+              maximumValue={500}
+              value={filterPrice}
+              onValueChange={(value) => setFilterPrice(value)}
+              step={1}
+              orientation="vertical"
+              minimumTrackTintColor="green"
+              maximumTrackTintColor="black"
+            />
+            <Text
+              style={{
+                color: 'black',
+                backgroundColor: AppStyles.color.white,
+                padding: 5,
+                width: 60,
+                left: 45,
+                marginTop: 45,
+                fontSize: 11
+              }}
             >
-              0.5/15min
-            </Button>
-            <Button
-              style={[
-                styles.filters,
-                {
-                  backgroundColor:
-                    filterPrice == '0.75' ? AppStyles.color.grey : AppStyles.color.white,
-                  color: filterPrice == '0.75' ? AppStyles.color.white : AppStyles.color.tint
-                }
-              ]}
-              onPress={() => setFilterPrice('0.75')}
-            >
-              0.75/15min
-            </Button>
-            <Button
-              style={[
-                styles.filters,
-                {
-                  backgroundColor:
-                    filterPrice == '1' ? AppStyles.color.grey : AppStyles.color.white,
-                  color: filterPrice == '1' ? AppStyles.color.white : AppStyles.color.tint
-                }
-              ]}
-              onPress={() => setFilterPrice('1')}
-            >
-              1/15min
-            </Button>
+              {filterPrice}€/min
+            </Text>
           </View>
         ) : (
           <></>
@@ -270,23 +333,31 @@ function Map({ navigation }) {
             style={{
               position: 'absolute',
               top: 20,
-              right: 110,
+              left: 110,
               display: 'flex'
             }}
           >
-            <Button style={styles.filters} onPress={() => setFilterStatut(false)}>
-              X
+            <Button
+              style={[
+                styles.filters,
+                {
+                  backgroundColor: filterStatut == 2 ? AppStyles.color.grey : AppStyles.color.white,
+                  color: filterStatut == 2 ? AppStyles.color.white : AppStyles.color.tint
+                }
+              ]}
+              onPress={() => setFilterStatut(2)}
+            >
+              ALL
             </Button>
             <Button
               style={[
                 styles.filters,
                 {
-                  backgroundColor:
-                    filterStatut == 'Public' ? AppStyles.color.grey : AppStyles.color.white,
-                  color: filterStatut == 'Public' ? AppStyles.color.white : AppStyles.color.tint
+                  backgroundColor: filterStatut == 0 ? AppStyles.color.grey : AppStyles.color.white,
+                  color: filterStatut == 0 ? AppStyles.color.white : AppStyles.color.tint
                 }
               ]}
-              onPress={() => setFilterStatut('Public')}
+              onPress={() => setFilterStatut(0)}
             >
               Public
             </Button>
@@ -294,12 +365,11 @@ function Map({ navigation }) {
               style={[
                 styles.filters,
                 {
-                  backgroundColor:
-                    filterStatut == 'Private' ? AppStyles.color.grey : AppStyles.color.white,
-                  color: filterStatut == 'Private' ? AppStyles.color.white : AppStyles.color.tint
+                  backgroundColor: filterStatut == 1 ? AppStyles.color.grey : AppStyles.color.white,
+                  color: filterStatut == 1 ? AppStyles.color.white : AppStyles.color.tint
                 }
               ]}
-              onPress={() => setFilterStatut('Private')}
+              onPress={() => setFilterStatut(1)}
             >
               Private
             </Button>
@@ -324,12 +394,22 @@ function Map({ navigation }) {
             style={{
               position: 'absolute',
               top: 20,
-              right: 110,
+              left: 110,
               display: 'flex'
             }}
           >
-            <Button style={styles.filters} onPress={() => setFilterRating(false)}>
-              X
+            <Button
+              style={[
+                styles.filters,
+                {
+                  backgroundColor:
+                    filterRating == '0' ? AppStyles.color.grey : AppStyles.color.white,
+                  color: filterRating == '0' ? AppStyles.color.white : AppStyles.color.tint
+                }
+              ]}
+              onPress={() => setFilterRating('0')}
+            >
+              0
             </Button>
             <Button
               style={[
@@ -400,6 +480,55 @@ function Map({ navigation }) {
         ) : (
           <></>
         )}
+        <Button
+          style={[
+            styles.filters,
+            {
+              backgroundColor: filterSelect == 5 ? AppStyles.color.grey : AppStyles.color.white,
+              color: filterSelect == 5 ? AppStyles.color.white : AppStyles.color.tint
+            }
+          ]}
+          onPress={() => setFilterSelect(5)}
+        >
+          Range
+        </Button>
+        {filterSelect == 5 ? (
+          <View
+            style={{
+              position: 'absolute',
+              top: 60,
+              left: 90,
+              display: 'flex'
+            }}
+          >
+            <Slider
+              style={styles.slider}
+              minimumValue={0.5}
+              maximumValue={5}
+              value={filterRange}
+              onValueChange={(value) => setFilterRange(value)}
+              step={0.01}
+              orientation="vertical"
+              minimumTrackTintColor="green"
+              maximumTrackTintColor="black"
+            />
+            <Text
+              style={{
+                color: 'black',
+                backgroundColor: AppStyles.color.white,
+                padding: 5,
+                width: 60,
+                left: 45,
+                marginTop: 45,
+                fontSize: 13
+              }}
+            >
+              {filterRange.toFixed(2)} km
+            </Text>
+          </View>
+        ) : (
+          <></>
+        )}
         <Button style={styles.apply} onPress={() => clear()}>
           Clear
         </Button>
@@ -433,7 +562,35 @@ function Map({ navigation }) {
     );
   };
 
+  function distance(lat1, lon1, lat2, lon2) {
+    const R = 6371;
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lon2 - lon1);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    let d = R * c;
+    let res = '';
+    if (d < 1) {
+      d = d * 1000;
+      res = d.toFixed(0) + ' m';
+    } else res = d.toFixed(2) + ' km';
+    return res;
+  }
+
+  function toRad(deg) {
+    return deg * (Math.PI / 180);
+  }
+
   const ModalInformation = (props) => {
+    console.log(props.station.charger.location);
+    const dist = distance(
+      props.station.charger.location[1],
+      props.station.charger.location[0],
+      userPosition[0],
+      userPosition[1]
+    );
     const ratingStars = [];
     for (let rate = 0; rate < props.station.charger.rating; rate++) {
       ratingStars.push(<Icon key={rate} name="star" size={20} color="orange" />);
@@ -443,19 +600,23 @@ function Map({ navigation }) {
         <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: '2%' }}>
           {ratingStars.length === 0 ? <Text style={{ fontSize: 15 }}>No rating</Text> : ratingStars}
         </View>
-        <View style={{ flexDirection: 'row', marginTop: '15%', marginLeft: '5%' }}>
+        <View style={{ flexDirection: 'row', marginTop: '7%', marginLeft: '5%' }}>
+          <Icon name="address" size={30} color="grey" />
+          <Text style={{ marginLeft: '8%', marginTop: '1%', color: 'grey' }}>{dist}</Text>
+        </View>
+        <View style={{ flexDirection: 'row', marginTop: '7%', marginLeft: '5%' }}>
           <Icon name="flow-branch" size={30} color="grey" />
           <Text style={{ marginLeft: '8%', marginTop: '1%', color: 'grey' }}>
             {props.station.charger.type == undefined ? 'no data' : props.station.charger.type}
           </Text>
         </View>
-        <View style={{ flexDirection: 'row', marginTop: '8%', marginLeft: '5%' }}>
+        <View style={{ flexDirection: 'row', marginTop: '7%', marginLeft: '5%' }}>
           <Icon name="credit" size={30} color="grey" />
           <Text style={{ marginLeft: '8%', marginTop: '1%', color: 'grey' }}>
             {props.station.charger.pricing}/h
           </Text>
         </View>
-        <View style={{ flexDirection: 'row', marginTop: '8%', marginLeft: '5%' }}>
+        <View style={{ flexDirection: 'row', marginTop: '7%', marginLeft: '5%' }}>
           <Icon name="flash" size={30} color="grey" />
           <Text style={{ marginLeft: '8%', marginTop: '1%', color: 'grey' }}>
             {props.station.charger.voltage} kWh
@@ -529,19 +690,30 @@ function Map({ navigation }) {
     console.log('FETCH');
     try {
       const fetchData = async () => {
+        let data = JSON.stringify({
+          params: {
+            minPrice: 0,
+            maxPrice: filterPrice,
+            plugTypes: [filterType],
+            range: (filterRange * 1000).toFixed(2),
+            type: filterStatut == 2 ? '' : filterStatut,
+            userLat: userPosition[0],
+            userLong: userPosition[1]
+          }
+        });
         var conf = {
-          method: 'get',
-          url: config.API_URL + '/api/v1/stations/all',
+          method: 'post',
+          url: config.API_URL + '/api/v1/stations',
           headers: {
             Authorization:
-              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7ImlkIjoiMzgxMWUyMzYtMjZiMS00OGExLWEyOWItOGM2ZmEwMTQxYjkyIiwiZmlyc3ROYW1lIjoiSm9lIiwibGFzdE5hbWUiOiJEb2UiLCJlbWFpbCI6Im93bmVyQG1haWwuY29tIiwicGFzc3dvcmQiOiIkMmEkMTAkQnBHQ1JRVGF4RmxTSlZnWUcyS1ZUZXhsTk9jV3Izd1lCYy52MTBML1RWTHBVaTdQVVU5T1ciLCJkYXRlT2ZCaXJ0aCI6IjIwMDEtMDMtMDJUMDA6MDA6MDAuMDAzWiIsImVtYWlsVmVyaWZpZWRBdCI6bnVsbCwiYmFsYW5jZSI6MH0sImlhdCI6MTY2ODM0NTczNH0.fM2RVjD93y_lC47uBd1OQo7RrGhhBNcjMs02zkBn2hM',
+              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7ImlkIjoiOTc4ZjQ2MmMtMTYxOC00YTcyLTg2NDAtZmRiOTdlMzI4NjI5IiwiZmlyc3ROYW1lIjoiQ2hyaXMiLCJsYXN0TmFtZSI6IlRlc3QiLCJlbWFpbCI6Im93bmVyQG1haWwuY29tIiwicGFzc3dvcmQiOiIkMmEkMTAkWklYMEJ1cTJ0SElrZkMuU0U5TFYvdWZZQ2ZWYnJmRjlwaVk4SkJpVURWYmw0SHhZc29PejYiLCJkYXRlT2ZCaXJ0aCI6IjIwMDEtMDMtMDJUMDA6MDA6MDAuMDAzWiIsImVtYWlsVmVyaWZpZWRBdCI6bnVsbCwiYmFsYW5jZSI6MCwiaXNGcm9tT0F1dGgiOmZhbHNlfSwiaWF0IjoxNjczNzg0ODkwfQ.QrgdN4o3EOPdZekjrFmEBC7PDLjgjwTtr4Zx-YDITqU',
             'Content-Type': 'application/json'
           },
-          data: null
+          data: data
         };
 
-        // const conf = api.send('GET', '/api/v1/stations/all');
         const res = await axios(conf);
+        console.log(JSON.stringify(res.data, null, '\t'));
         var stationsParsed = [];
         for (var index = 0; index < res.data.stations.length; index++) {
           const station = res.data.stations[index];
@@ -557,12 +729,25 @@ function Map({ navigation }) {
           });
         }
         setUserStation(stationsParsed);
+        if (res.status == 200) {
+          console.log('OK');
+        } else {
+          throw res;
+        }
       };
       fetchData().catch(console.error);
     } catch (e) {
       console.log(e);
     }
-  }, [fetchStations]);
+  }, [
+    fetchStations,
+    filterType,
+    filterPrice,
+    filterStatut,
+    filterRange,
+    filterRating,
+    userPosition
+  ]);
 
   const onMapPress = (e) => {
     if (fetchPosition) {
@@ -570,6 +755,10 @@ function Map({ navigation }) {
       setUserPosition([geometry.coordinates[1], geometry.coordinates[0]]);
     }
   };
+
+  function handleListItemPress(location) {
+    setUserPosition([location[1][0], location[1][1]]);
+  }
 
   return (
     <View style={styles.page}>
@@ -587,11 +776,10 @@ function Map({ navigation }) {
           <MapboxGL.Camera
             zoomLevel={13}
             centerCoordinate={[userPosition[1], userPosition[0]]}
-            // animationMode={'flyTo'}
-            // animationDuration={3}
+            animationMode={'flyTo'}
+            animationDuration={5000}
             pitchEnabled={false}
           ></MapboxGL.Camera>
-          {/* <MapboxGL.UserLocation visible={false} onUpdate={() => updateUserPosition} /> */}
           {userStation.map((charger, index) =>
             checkFilters(charger) ? (
               <MapboxGL.PointAnnotation
@@ -678,6 +866,23 @@ function Map({ navigation }) {
             alignItems: 'center',
             justifyContent: 'center',
             bottom: 10,
+            right: 250,
+            width: 50,
+            height: 50,
+            borderRadius: 50,
+            backgroundColor: AppStyles.color.facebook
+          }}
+          onPress={() => navigation.navigate('Locations', { handleListItemPress })}
+        >
+          <Icon name="aircraft" size={30} color={AppStyles.color.white} />
+        </Pressable>
+        <Pressable
+          style={{
+            position: 'absolute',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            bottom: 10,
             right: 10,
             width: 50,
             height: 50,
@@ -699,19 +904,15 @@ function Map({ navigation }) {
             alignItems: 'center',
             justifyContent: 'center',
             top: 10,
-            right: 10,
+            left: 10,
             width: 50,
             height: 50,
             borderRadius: 50,
-            backgroundColor: nightMode ? AppStyles.color.white : AppStyles.color.tint
+            backgroundColor: AppStyles.color.tint
           }}
           onPress={() => setFiltersMenu(!filtersMenu)}
         >
-          <Icon
-            name="sound-mix"
-            size={30}
-            color={nightMode ? AppStyles.color.tint : AppStyles.color.white}
-          />
+          <Icon name="sound-mix" size={30} color={AppStyles.color.white} />
         </Pressable>
         <FiltersComponent />
         {modalVisible ? (
@@ -799,6 +1000,12 @@ const styles = StyleSheet.create({
   },
   map: {
     flex: 1
+  },
+  slider: {
+    height: 60,
+    backgroundColor: AppStyles.color.white,
+    width: 150,
+    transform: [{ rotate: '-90deg' }]
   },
   textEntry: {
     height: 42,

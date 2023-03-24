@@ -1593,6 +1593,11 @@
   "resolved" "https://registry.npmjs.org/@react-native-community/eslint-plugin/-/eslint-plugin-1.1.0.tgz"
   "version" "1.1.0"
 
+"@react-native-community/slider@^4.4.2":
+  "integrity" "sha512-D9bv+3Vd2gairAhnRPAghwccgEmoM7g562pm8i4qB3Esrms5mggF81G3UvCyc0w3jjtFHh8dpQkfEoKiP0NW/Q=="
+  "resolved" "https://registry.npmjs.org/@react-native-community/slider/-/slider-4.4.2.tgz"
+  "version" "4.4.2"
+
 "@react-native-mapbox-gl/maps@^8.6.0-beta.0":
   "integrity" "sha512-UpHpP7Bc0oUMhqMVda6tTCdv2UYr4JhyQS8D+oqItVYr9W52KBpKVDGXDb6/nRdkypSMUqZJuwu7XfaxeJgchg=="
   "resolved" "https://registry.npmjs.org/@react-native-mapbox-gl/maps/-/maps-8.6.0-beta.0.tgz"
@@ -6320,7 +6325,7 @@
     "kleur" "^3.0.3"
     "sisteransi" "^1.0.5"
 
-"prop-types@*", "prop-types@^15.5.10", "prop-types@^15.5.9", "prop-types@^15.7.2", "prop-types@^15.8.1", "prop-types@>=15.5.8":
+"prop-types@*", "prop-types@^15.5.10", "prop-types@^15.5.6", "prop-types@^15.5.9", "prop-types@^15.7.2", "prop-types@^15.8.1", "prop-types@>=15.5.8":
   "integrity" "sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg=="
   "resolved" "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz"
   "version" "15.8.1"
@@ -6562,6 +6567,13 @@
   dependencies:
     "react-freeze" "^1.0.0"
     "warn-once" "^0.1.0"
+
+"react-native-slider@^0.11.0":
+  "integrity" "sha512-jV9K87eu9uWr0uJIyrSpBLnCKvVlOySC2wynq9TFCdV9oGgjt7Niq8Q1A8R8v+5GHsuBw/s8vEj1AAkkUi+u+w=="
+  "resolved" "https://registry.npmjs.org/react-native-slider/-/react-native-slider-0.11.0.tgz"
+  "version" "0.11.0"
+  dependencies:
+    "prop-types" "^15.5.6"
 
 "react-native-swipe-gestures@^1.0.5":
   "integrity" "sha512-Ns7Bn9H/Tyw278+5SQx9oAblDZ7JixyzeOczcBK8dipQk2pD7Djkcfnf1nB/8RErAmMLL9iXgW0QHqiII8AhKw=="
