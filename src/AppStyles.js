@@ -65,7 +65,11 @@ export const AppIcon = {
     messages: require('../assets/icons/messages.png'),
     mapicon: require('../assets/icons/mapicon.png'),
     map: require('../assets/icons/map.png'),
-    planning: require('../assets/icons/planning.png')
+    planning: require('../assets/icons/planning.png'),
+    heart: require('../assets/icons/heart.png'),
+    charger1: require('../assets/images/charger1.jpg'),
+    charger2: require('../assets/images/charger2.jpg'),
+    charger3: require('../assets/images/charger3.jpg')
   }
 };
 
