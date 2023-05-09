@@ -27,6 +27,7 @@ import Map from '../screens/map/Map';
 import Planning from '../screens/planning/Planning';
 import StationRating from '../screens/rating/StationRating';
 import OwnerRating from '../screens/rating/OwnerRating';
+import Favorites from '../screens/favorites/Favorites';
 
 const Stack = createStackNavigator();
 
@@ -147,6 +148,30 @@ const PlanningStack = () => (
   </Stack.Navigator>
 );
 
+const FavoritesStack = () => (
+  <Stack.Navigator
+    initialRouteName="Home"
+    screenOptions={{
+      headerTintColor: AppStyles.color.tint,
+      headerTitleStyle: styles.headerTitleStyle,
+      headerMode: 'float'
+    }}
+  >
+    <Stack.Screen
+      name="Favorites"
+      component={Favorites}
+      options={({ navigation }) => ({
+        headerLeft: () => (
+          <Pressable onPress={() => navigation.openDrawer()}>
+            <Image style={styles.iconStyle} source={AppIcon.images.menu} />
+          </Pressable>
+        ),
+        headerLeftContainerStyle: { paddingLeft: 10 }
+      })}
+    />
+  </Stack.Navigator>
+);
+
 const BottomTab = createBottomTabNavigator();
 
 const TabNavigator = () => (
@@ -176,6 +201,25 @@ const TabNavigator = () => (
       }}
       name="HomeStack"
       component={HomeStack}
+    />
+    <BottomTab.Screen
+      options={{
+        tabBarLabel: 'Favorites',
+        tabBarIcon: ({ focused }) => {
+          return (
+            <Image
+              style={{
+                tintColor: focused ? AppStyles.color.tint : AppStyles.color.grey,
+                width: 30,
+                height: 30
+              }}
+              source={AppIcon.images.heart}
+            />
+          );
+        }
+      }}
+      name="FavoriteStations"
+      component={FavoritesStack}
     />
     <BottomTab.Screen
       options={{

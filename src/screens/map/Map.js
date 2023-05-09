@@ -7,8 +7,15 @@ import {
   PermissionsAndroid,
   Modal,
   SafeAreaView,
-  ScrollView
+  ScrollView,
+  Dimensions,
+  Image,
+  TouchableOpacity
 } from 'react-native';
+
+import api from '../../db/Api';
+
+import Carousel from 'react-native-snap-carousel';
 
 import Button from 'react-native-button';
 import { AppStyles } from '../../AppStyles';
@@ -29,12 +36,14 @@ MapboxGL.setConnected(true);
 
 function Map({ navigation }) {
   const [userPosition, setUserPosition] = useState([0, 0]);
+  const [userProfile, setUserProfile] = useState();
   const [nightMode, setNightMode] = useState(false);
   const [filtersMenu, setFiltersMenu] = useState(false);
 
   const [modalData, setModalData] = useState({});
   const [modalVisible, setModalVisible] = useState(false);
   const setModal = (charger) => {
+    console.log(charger.id);
     setModalVisible(true);
     setModalData({
       // name: props.event.properties.id,
@@ -421,13 +430,144 @@ function Map({ navigation }) {
     );
   };
 
-  const UserComment = (props) => {
+  const CommentPicture = ({ pictureId }) => {
+    const [imageIsOpen, setImageIsOpen] = useState(false);
+
     return (
-      <View style={{ flexDirection: 'row', marginTop: 10, height: 40 }}>
-        <Icon style={styles.userProfile} name="user" size={30} color="white" />
-        <View style={{ marginLeft: '3%', marginTop: '1%' }}>
-          <Text style={styles.userTransaction}>{props.name}</Text>
-          <Text style={{ color: 'grey' }}>{props.message}</Text>
+      <View>
+        <TouchableOpacity onPress={() => setImageIsOpen(true)}>
+          <Image
+            source={{ uri: `https://ucarecdn.com/${pictureId}/` }}
+            style={{ height: 150, width: 150 }}
+          />
+        </TouchableOpacity>
+        <Modal
+          animationType={'fade'}
+          visible={imageIsOpen}
+          onRequestClose={() => setImageIsOpen(false)}
+        >
+          <View
+            style={{
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignContent: 'center',
+              height: '100%'
+            }}
+          >
+            <Image
+              source={{ uri: `https://ucarecdn.com/${pictureId}/` }}
+              style={{ width: '100%', height: undefined, aspectRatio: 1 }}
+            />
+          </View>
+        </Modal>
+      </View>
+    );
+  };
+
+  const UserComment = ({ userComment }) => {
+    const [comment, setComment] = useState(userComment);
+    const [userLikedComment, setUserLikedComment] = useState(
+      comment.likedBy.find((user) => user.id === userProfile.id) === undefined ? false : true
+    );
+    const [userDislikedComment, setUserDislikedComment] = useState(
+      comment.dislikedBy.find((user) => user.id === userProfile.id) === undefined ? false : true
+    );
+
+    const ratingStars = [];
+    for (let rate = 0; rate < comment.rate; rate++) {
+      ratingStars.push(<Icon key={rate} name="star" size={15} color="orange" />);
+    }
+
+    const likeComment = async () => {
+      try {
+        if (!userLikedComment) {
+          await api.send('POST', `/api/v1/station/rate/like/${comment.id}`);
+          setComment({
+            ...userComment,
+            likedBy: [...userComment.likedBy, userProfile.id],
+            likes: userComment.likes + 1,
+            dislikes: userDislikedComment ? userComment.dislikes - 1 : userComment.dislikes
+          });
+          setUserLikedComment(true);
+          setUserDislikedComment(false);
+        }
+      } catch (e) {
+        console.log('failed to like comment');
+      }
+    };
+
+    const dislikeComment = async () => {
+      try {
+        if (!userDislikedComment) {
+          await api.send('POST', `/api/v1/station/rate/dislike/${comment.id}`);
+          setComment({
+            ...userComment,
+            dislikedBy: [...userComment.dislikedBy, userProfile.id],
+            dislikes: userComment.dislikes + 1,
+            likes: userLikedComment ? userComment.likes - 1 : userComment.likes
+          });
+          setUserLikedComment(false);
+          setUserDislikedComment(true);
+        }
+      } catch (e) {
+        console.log('failed to dislike comment');
+      }
+    };
+
+    return (
+      <View style={{ marginTop: 10 }}>
+        <View style={{ flexDirection: 'row', marginBottom: 10 }}>
+          <Icon style={styles.userProfile} name="user" size={30} color="white" />
+          <View style={{ marginLeft: 20 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
+              <Text
+                style={{ fontWeight: 'bold', fontSize: 15 }}
+              >{`${comment.author.firstName} ${comment.author.lastName}`}</Text>
+              <Text style={{ fontSize: 12, marginLeft: 10 }}>
+                {comment.date.slice(0, comment.date.indexOf('T'))}
+              </Text>
+            </View>
+            <View style={{ flexDirection: 'row' }}>
+              {ratingStars}
+              <Text style={{ marginLeft: 5 }}>{comment.rate}/5</Text>
+            </View>
+          </View>
+        </View>
+        {comment.comment ? <Text>{comment.comment}</Text> : undefined}
+        {comment.pictures ? (
+          <View style={{ marginTop: 5, marginBottom: 5 }}>
+            <Carousel
+              layout="default"
+              sliderWidth={Dimensions.get('window').width}
+              itemWidth={Dimensions.get('window').width - 60}
+              data={comment.pictures}
+              renderItem={({ item }) => <CommentPicture pictureId={item} />}
+            />
+          </View>
+        ) : // </View>
+
+        undefined}
+        <View style={{ flexDirection: 'row' }}>
+          <View style={{ flexDirection: 'row', marginRight: 20 }}>
+            <TouchableOpacity onPress={likeComment}>
+              <Icon
+                name="thumbs-up"
+                size={15}
+                color={userLikedComment ? AppStyles.color.main : 'grey'}
+              />
+            </TouchableOpacity>
+            <Text>{comment.likes}</Text>
+          </View>
+          <View style={{ flexDirection: 'row' }}>
+            <TouchableOpacity onPress={dislikeComment}>
+              <Icon
+                name="thumbs-down"
+                size={15}
+                color={userDislikedComment ? AppStyles.color.main : 'grey'}
+              />
+            </TouchableOpacity>
+            <Text>{comment.dislikes}</Text>
+          </View>
         </View>
       </View>
     );
@@ -477,8 +617,6 @@ function Map({ navigation }) {
     }
   ]);
 
-  const [favStation, setFavStation] = useState(false);
-
   const navigateToStationRatingScreen = () => {
     const selectedStation = modalData.charger;
     setModalVisible(false);
@@ -506,7 +644,9 @@ function Map({ navigation }) {
             timeout: 50000
           })
             .then((location) => {
-              setUserPosition([location.latitude, location.longitude]);
+              console.log(location);
+              // setUserPosition([location.latitude, location.longitude]);
+              setUserPosition([48.861961, 2.340254]);
             })
             .catch((error) => {
               const { code, message } = error;
@@ -516,7 +656,6 @@ function Map({ navigation }) {
         .catch((err) => {
           console.warn(err);
         });
-      // setUserPosition([48.850272, 2.398542]);
 
       const fetchData = async () => {
         var conf = {
@@ -531,8 +670,25 @@ function Map({ navigation }) {
         };
 
         // const conf = api.send('GET', '/api/v1/stations/all');
+        let favoriteStations = [];
+        try {
+          const favoriteStationsObject = await api.send('GET', '/api/v1/station/favorites');
+          favoriteStations = favoriteStationsObject.data;
+        } catch (e) {
+          console.log('failed to fetch user favorite stations');
+        }
+
+        try {
+          const userProfileObject = await api.send('GET', '/api/v1/profile');
+          console.log(userProfileObject.data);
+          setUserProfile(userProfileObject.data);
+        } catch (e) {
+          console.log('failed to fetch user profile');
+        }
+
         const res = await axios(conf);
         var stationsParsed = [];
+        console.log(res.data.stations[0]);
         for (var index = 0; index < res.data.stations.length; index++) {
           const station = res.data.stations[index];
           stationsParsed.push({
@@ -543,7 +699,9 @@ function Map({ navigation }) {
             pricing: station.properties.price,
             voltage: station.properties.maxPower,
             rating: station.rate,
-            location: [Number(station.coordinates.long), Number(station.coordinates.lat)]
+            location: [Number(station.coordinates.long), Number(station.coordinates.lat)],
+            isFavorite: favoriteStations.find(({ id }) => id === station.id) !== undefined,
+            rates: station.rates
           });
         }
         setUserStation(stationsParsed);
@@ -553,6 +711,15 @@ function Map({ navigation }) {
       console.log(e);
     }
   }, [fetchStations]);
+
+  const addStationToFavorites = async (stationId) => {
+    try {
+      await api.send('POST', `/api/v1/station/favorite/${stationId}`);
+      setModalData({ ...modalData, charger: { ...modalData.charger, isFavorite: true } });
+    } catch (e) {
+      console.log('Failed to add station to favorites');
+    }
+  };
 
   return (
     <View style={styles.page}>
@@ -661,13 +828,9 @@ function Map({ navigation }) {
                 <View
                   style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: '5%' }}
                 >
-                  <Pressable
-                    onPress={() => {
-                      setFavStation(!favStation);
-                    }}
-                  >
+                  <Pressable onPress={() => addStationToFavorites(modalData.charger.id)}>
                     <Icon
-                      name={favStation ? 'heart' : 'heart-outlined'}
+                      name={modalData.charger.isFavorite ? 'heart' : 'heart-outlined'}
                       size={30}
                       color={AppStyles.color.tint}
                     />
@@ -689,11 +852,15 @@ function Map({ navigation }) {
                 <SafeAreaView style={{ height: '60%', padding: '5%' }}>
                   <ScrollView>
                     <View>
-                      <UserComment message={'Nice station'} name={'Anto'} />
-                      <UserComment message={'It works good !'} name={'Thoms'} />
-                      <UserComment message={'The owner is nice'} name={'Citar'} />
-                      <UserComment message={'Fast and good location'} name={'PP.MJ'} />
-                      <UserComment message={'Good Good'} name={'Yheb'} />
+                      {modalData.charger.rates.length > 0 ? (
+                        modalData.charger.rates.map((comment) => (
+                          <UserComment userComment={comment} key={comment.id} />
+                        ))
+                      ) : (
+                        <Text>
+                          Be the first to rate this station to help other users in their search !
+                        </Text>
+                      )}
                     </View>
                   </ScrollView>
                 </SafeAreaView>
@@ -758,9 +925,8 @@ const styles = StyleSheet.create({
   },
   userProfile: {
     backgroundColor: AppStyles.color.tint,
-    borderRadius: 50,
-    marginTop: '5%',
-    marginBottom: '2%'
+    borderRadius: 15,
+    padding: 5
   },
   userTransaction: {
     color: 'black',

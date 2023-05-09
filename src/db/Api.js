@@ -23,6 +23,7 @@ class API {
       data = JSON.stringify(data);
     }
     try {
+      console.log(this.url + route);
       let response = await fetch(this.url + route, {
         headers: headers,
         method: method,
@@ -40,6 +41,7 @@ class API {
         status: response.status
       };
     } catch (e) {
+      console.log(e);
       return {
         data: null,
         status: -1
