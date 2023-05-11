@@ -30,6 +30,7 @@ import Planning from '../screens/planning/Planning';
 import StationRating from '../screens/rating/StationRating';
 import OwnerRating from '../screens/rating/OwnerRating';
 import Favorites from '../screens/favorites/Favorites';
+import Contact from '../screens/contacts/ContactList';
 
 const Stack = createStackNavigator();
 
@@ -100,6 +101,16 @@ const HomeStack = () => (
     <Stack.Screen name="ChangeEmail" component={ChangeEmail} />
     <Stack.Screen name="Logout" component={Logout} />
     <Stack.Screen name="Profile" component={Profile} />
+    <Stack.Screen
+      name="Contacts"
+      component={Contact}
+      options={{
+        headerShown: true,
+        headerTitle: 'Contact',
+        headerStyle: { backgroundColor: 'black' },
+        headerTitleStyle: { color: 'white', fontWeight: 'bold' }
+      }}
+    />
   </Stack.Navigator>
 );
 

@@ -69,7 +69,8 @@ export const AppIcon = {
     heart: require('../assets/icons/heart.png'),
     charger1: require('../assets/images/charger1.jpg'),
     charger2: require('../assets/images/charger2.jpg'),
-    charger3: require('../assets/images/charger3.jpg')
+    charger3: require('../assets/images/charger3.jpg'),
+    phone: require('../assets/icons/phone.png')
   }
 };
 
