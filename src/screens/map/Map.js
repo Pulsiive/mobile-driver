@@ -31,10 +31,10 @@ import serviceAccessToken from '../../db/AccessToken';
 
 var axios = require('axios');
 
-/*MapboxGL.setAccessToken(
+MapboxGL.setAccessToken(
   'pk.eyJ1Ijoic2h5bGsiLCJhIjoiY2w0cmhncHdwMDZydTNjcDhkbTVmZm8xZCJ9.uxYLeAuZdY5VMx4EUBaw_A'
 );
-MapboxGL.setConnected(true);*/
+MapboxGL.setConnected(true);
 
 function Map({ navigation }) {
   const [userPosition, setUserPosition] = useState([0, 0]);
