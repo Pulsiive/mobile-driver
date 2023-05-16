@@ -27,13 +27,14 @@ import GetLocation from 'react-native-get-location';
 import Icon from 'react-native-vector-icons/Entypo';
 
 import config from '../../db/config';
+import serviceAccessToken from '../../db/AccessToken';
 
 var axios = require('axios');
 
-MapboxGL.setAccessToken(
+/*MapboxGL.setAccessToken(
   'pk.eyJ1Ijoic2h5bGsiLCJhIjoiY2w0cmhncHdwMDZydTNjcDhkbTVmZm8xZCJ9.uxYLeAuZdY5VMx4EUBaw_A'
 );
-MapboxGL.setConnected(true);
+MapboxGL.setConnected(true);*/
 
 function Map({ navigation }) {
   const [userPosition, setUserPosition] = useState([0, 0]);
@@ -784,6 +785,14 @@ function Map({ navigation }) {
     navigation.navigate('StationRating', { stationId: selectedStation.id });
   };
 
+  const navigateToStationBookingScreen = () => {
+    const selectedStation = modalData.charger;
+    setModalVisible(false);
+    setModalData({});
+    //navigation.navigate('PlanningUser', { stationId: selectedStation.id });
+    navigation.navigate('BookingPlanning', { stationId: selectedStation.id });
+  };
+
   const [fetchStations, setFetchStations] = useState(true);
   const [fetchPosition, setFetchPosition] = useState(false);
   const [resetPosition, setResetPosition] = useState(true);
@@ -843,7 +852,7 @@ function Map({ navigation }) {
           url: config.API_URL + '/api/v1/stations',
           headers: {
             Authorization:
-              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7ImlkIjoiOTc4ZjQ2MmMtMTYxOC00YTcyLTg2NDAtZmRiOTdlMzI4NjI5IiwiZmlyc3ROYW1lIjoiQ2hyaXMiLCJsYXN0TmFtZSI6IlRlc3QiLCJlbWFpbCI6Im93bmVyQG1haWwuY29tIiwicGFzc3dvcmQiOiIkMmEkMTAkWklYMEJ1cTJ0SElrZkMuU0U5TFYvdWZZQ2ZWYnJmRjlwaVk4SkJpVURWYmw0SHhZc29PejYiLCJkYXRlT2ZCaXJ0aCI6IjIwMDEtMDMtMDJUMDA6MDA6MDAuMDAzWiIsImVtYWlsVmVyaWZpZWRBdCI6bnVsbCwiYmFsYW5jZSI6MCwiaXNGcm9tT0F1dGgiOmZhbHNlfSwiaWF0IjoxNjczNzg0ODkwfQ.QrgdN4o3EOPdZekjrFmEBC7PDLjgjwTtr4Zx-YDITqU',
+              `Bearer ${await serviceAccessToken.get()}`,
             'Content-Type': 'application/json'
           },
           data: data
@@ -867,6 +876,7 @@ function Map({ navigation }) {
         }
 
         const res = await axios(conf);
+        console.log(res);
         console.log(JSON.stringify(res.data, null, '\t'));
         var stationsParsed = [];
         for (var index = 0; index < res.data.stations.length; index++) {
@@ -880,7 +890,7 @@ function Map({ navigation }) {
             voltage: station.properties.maxPower,
             rating: station.rate,
             location: [Number(station.coordinates.long), Number(station.coordinates.lat)],
-            isFavorite: favoriteStations.find(({ id }) => id === station.id) !== undefined,
+            isFavorite: favoriteStations?.find(({ id }) => id === station.id) !== undefined,
             rates: station.rates
           });
         }
@@ -1126,20 +1136,20 @@ function Map({ navigation }) {
               </View>
               {!modalData.charger.public ? (
                 <View style={{ display: 'flex', alignItems: 'center' }}>
-                  <Button containerStyle={styles.bookButton} style={styles.shareText}>
+                  <Button containerStyle={styles.bookButton} style={styles.shareText} onPress={navigateToStationBookingScreen}>
                     Book
                   </Button>
                 </View>
               ) : (
-                <View style={{ display: 'flex', alignItems: 'center' }}>
-                  <Button
-                    containerStyle={styles.bookButton}
-                    style={styles.shareText}
-                    onPress={navigateToStationRatingScreen}
-                  >
-                    Rate
-                  </Button>
-                </View>
+                  <View style={{ display: 'flex', alignItems: 'center' }}>
+                    <Button
+                      containerStyle={styles.bookButton}
+                      style={styles.shareText}
+                      onPress={navigateToStationRatingScreen}
+                    >
+                      Rate
+                    </Button>
+                  </View>
               )}
             </View>
           </Modal>

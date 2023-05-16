@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import Button from 'react-native-button';
 import { AppStyles } from '../../AppStyles';
@@ -6,6 +6,14 @@ import api from '../../db/Api';
 import serviceAccessToken from '../../db/AccessToken';
 
 function Login({ navigation }) {
+  useEffect(async () => {
+    if (await serviceAccessToken.get()) {
+      inputEmail.current.clear();
+      inputPassword.current.clear();
+      setUserInput({ email: '', password: '' });
+      navigation.navigate('DrawerStack');
+    }
+  }, []);
   const inputEmail = useRef(null);
   const inputPassword = useRef(null);
 

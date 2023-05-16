@@ -5,6 +5,7 @@ import Button from 'react-native-button';
 import { AppStyles } from '../../AppStyles';
 import api from '../../db/Api';
 import { FlatList } from 'react-native-gesture-handler';
+import { showMessage } from 'react-native-flash-message';
 
 function Profile() {
   const [myCommentsModalIsOpen, setMyCommentsModalIsOpen] = useState(false);
