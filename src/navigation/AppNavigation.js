@@ -38,6 +38,9 @@ import VerifyEmailToken from '../screens/verification/VerifyEmailToken';
 import VerifyPhoneNumberOTP from '../screens/verification/VerifyPhoneNumberOTP';
 import SendEmailConfirmation from '../screens/verification/SendEmailConfirmation';
 import ReqPhoneNumberOTP from '../screens/verification/ReqPhoneNumberOTP';
+import Checkout from '../screens/payment/Checkout';
+import Panier from '../screens/payment/Panier';
+import PaymentHistory from '../screens/payment/History';
 
 const Stack = createStackNavigator();
 
@@ -329,6 +332,9 @@ const RootNavigator = () => (
     <Stack.Screen name="StationRating" component={StationRating} />
     <Stack.Screen name="BookingPlanning" component={BookingPlanning} />
     <Stack.Screen name="PaymentUICustomScreen" component={PaymentsUICustomScreen} />
+    <Stack.Screen name="Panier" component={Panier} options={{headerShown: false}}/>
+    <Stack.Screen name="Checkout" component={Checkout} options={{headerShown: false}}/>
+    <Stack.Screen name="PaymentHistory" component={PaymentHistory} options={{headerShown: false}}/>
     <Stack.Screen name="OwnerRating" component={OwnerRating} />
   </Stack.Navigator>
 );

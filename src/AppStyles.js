@@ -76,7 +76,21 @@ export const AppIcon = {
     notif: require('../assets/images/notif.png'),
     Pulsiive: require('../assets/images/Pulsiive.png'),
     bill: require('../assets/images/bill.png'),
-    calendar: require('../assets/images/calendar.png')
+    calendar: require('../assets/images/calendar.png'),
+    back: require('../assets/images/back.png'),
+    arrowRight: require('../assets/images/arrow_right.png'),
+    borne: require('../assets/images/borne.jpg'),
+    eclair: require('../assets/images/eclair.png'),
+    historyUser: require('../assets/images/history_user.png'),
+    location: require('../assets/images/location.png'),
+    proprio: require('../assets/images/proprio.png'),
+    station1: require('../assets/images/station1.png'),
+    station2: require('../assets/images/station2.png'),
+    station3: require('../assets/images/station3.png'),
+    time: require('../assets/images/time.png'),
+    visa: require('../assets/images/visa.png'),
+    xMark: require('../assets/images/x-mark.png'),
+    applePay: require('../assets/images/apple-pay.png'),
   }
 };
 

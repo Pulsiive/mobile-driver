@@ -37,7 +37,7 @@ function BookingPlanning({ navigation, route }) {
                 setModalVisible(false);
 
                 if (slot) {
-                  navigation.navigate('PaymentUICustomScreen', {slot_id: slot.slotId});
+                  navigation.navigate('Panier', {slot, stationId});
                   setSlot(null);
                 }
               }}>
