@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'stretch',
         alignContent: 'flex-start',
-    },
+    }
 });
 
 function padding(a, b, c, d) {
@@ -173,6 +173,7 @@ function ReqPhoneNumberOTP({navigation}) {
                         borderRadius: 9,
                         textAlign: 'center',
                         height: 100+'%',
+                        width: 93 + '%',
                         padding: 12,
                     }}>
                         {isLoading ? <ActivityIndicator size="small" color="white" /> : <Text style={styles.IText}>Suivant</Text>}
@@ -180,6 +181,18 @@ function ReqPhoneNumberOTP({navigation}) {
                 </View>
             </View>
             </TouchableHighlight>
+
+          <TouchableHighlight onPress={() => navigation.navigate('DrawerStack')}>
+                  <View style={{
+                      backgroundColor: '#81cd2c',
+                      borderRadius: 9,
+                      textAlign: 'center',
+                      marginTop: 60,
+                      padding: 12,
+                  }}>
+                      <Text style={styles.IText}>Plus tard</Text>
+                  </View>
+          </TouchableHighlight>
       </View>
     );
   }
