@@ -12,7 +12,7 @@ import {
 import { AppIcon } from '../../AppStyles';
 import Backend from '../../db/Backend';
 
-const FetchInfo = ({ date, stationId, slot, setSlot, setModalVisible, route, navigation }) => {
+const FetchInfo = ({ date, stationId, setSlot, setModalVisible }) => {
   const firstOpacity = useRef(new Animated.Value(0)).current;
   const TranslationUp = useRef(new Animated.Value(-20)).current;
   const [data, setData] = useState({});
@@ -69,7 +69,6 @@ const FetchInfo = ({ date, stationId, slot, setSlot, setModalVisible, route, nav
               isBooked: res.data[index].isBooked
             });
           }
-          console.log('slotParsed: ', slotParsed);
           fillAgendaWithReservations(slotParsed);
         } else {
           throw res;
