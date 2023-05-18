@@ -5,7 +5,7 @@ import { AppIcon } from '../../AppStyles';
 
 import { Linking } from 'react-native';
 
-const FetchContact = ({ data, navigation }) => {
+const FetchContact = ({ data, navigation, removeContact }) => {
   return (
     <View style={{ width: 100 + '%', height: 100 + '%', top: 0 + '%' }}>
       <ScrollView
@@ -53,7 +53,7 @@ const FetchContact = ({ data, navigation }) => {
                   >
                     <Image
                       source={AppIcon.images.phone}
-                      style={{ height: 30, width: 30, left: 340, top: -40 }}
+                      style={{ height: 30, width: 30, left: 290, top: -40 }}
                     ></Image>
                   </TouchableOpacity>
                   <TouchableOpacity
@@ -64,7 +64,7 @@ const FetchContact = ({ data, navigation }) => {
                           imageUri:
                             'https://robohash.org/maioresaliquidvitae.png?size=40x40&set=set1',
                           name: plan.user.firstName + ' ' + plan.user.lastName,
-                          receiverId: plan.user.id
+                          userId: plan.user.id
                         },
                         { screen: 'DrawerStack' }
                       );
@@ -73,7 +73,13 @@ const FetchContact = ({ data, navigation }) => {
                   >
                     <Image
                       source={AppIcon.images.profile}
-                      style={{ height: 30, width: 30, left: 260, top: -40 }}
+                      style={{ height: 30, width: 30, left: 220, top: -40 }}
+                    ></Image>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => removeContact(plan.user.id)}>
+                    <Image
+                      source={AppIcon.images.remove}
+                      style={{ height: 30, width: 30, left: 270, top: -40 }}
                     ></Image>
                   </TouchableOpacity>
                 </View>
