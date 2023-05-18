@@ -66,8 +66,7 @@ function CalendarCard(props) {
   );
 }
 
-function Calendar(props) {
-  const { imageUri, name } = useRoute().params;
+function Calendar({ navigation }) {
   // const navigation = useNavigation();
   // const onPress = () => {
   //   navigation.navigate('Station', {

@@ -5,6 +5,7 @@ import { AppStyles } from '../../AppStyles';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 
 import { LocaleConfig } from 'react-native-calendars';
+import { useRoute } from '@react-navigation/native';
 
 LocaleConfig.locales['fr'] = {
   monthNames: [
@@ -37,15 +38,17 @@ LocaleConfig.locales['fr'] = {
   ],
   dayNames: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
   dayNamesShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
-  today: "Aujourd'hui"
+  today: 'Today'
 };
 LocaleConfig.defaultLocale = 'fr';
 
-function Booking({ navigation }) {
+function Booking(props) {
   let date = '2022-07-24';
+  const { charger } = useRoute().params;
   return (
     <View style={styles.container}>
-      <Text style={[styles.title, styles.leftTitle]}>Choose your date</Text>
+      <Text style={styles.title}>{charger.name}</Text>
+      {/* <Text style={[styles.title, styles.leftTitle]}>Choose your date</Text> */}
       <View>
         <Calendar
           style={{ width: 300 }}
@@ -92,6 +95,16 @@ function Booking({ navigation }) {
         }}
       >
         You selected: {date}
+      </Text>
+      <Text
+        style={{
+          fontSize: 20,
+          paddingTop: 10,
+          fontWeight: 'bold',
+          color: AppStyles.color.text
+        }}
+      >
+        price: {charger.pricing}€/h
       </Text>
       <Button
         containerStyle={styles.shareButton}

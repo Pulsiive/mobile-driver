@@ -706,7 +706,7 @@ function Map({ navigation }) {
           url: config.API_URL + '/api/v1/stations',
           headers: {
             Authorization:
-              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7ImlkIjoiOTc4ZjQ2MmMtMTYxOC00YTcyLTg2NDAtZmRiOTdlMzI4NjI5IiwiZmlyc3ROYW1lIjoiQ2hyaXMiLCJsYXN0TmFtZSI6IlRlc3QiLCJlbWFpbCI6Im93bmVyQG1haWwuY29tIiwicGFzc3dvcmQiOiIkMmEkMTAkWklYMEJ1cTJ0SElrZkMuU0U5TFYvdWZZQ2ZWYnJmRjlwaVk4SkJpVURWYmw0SHhZc29PejYiLCJkYXRlT2ZCaXJ0aCI6IjIwMDEtMDMtMDJUMDA6MDA6MDAuMDAzWiIsImVtYWlsVmVyaWZpZWRBdCI6bnVsbCwiYmFsYW5jZSI6MCwiaXNGcm9tT0F1dGgiOmZhbHNlfSwiaWF0IjoxNjczNzg0ODkwfQ.QrgdN4o3EOPdZekjrFmEBC7PDLjgjwTtr4Zx-YDITqU',
+              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7ImlkIjoiMGNjYmQ3NWEtOTYxMC00MTg2LWJhNDktNjg1OTE4MGE1ZGExIiwiZmlyc3ROYW1lIjoiZHJpdmVyIiwibGFzdE5hbWUiOiJEcml2ZXIiLCJlbWFpbCI6ImRyaXZlckBtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJhJDEwJHE2Li9pakRPSXpuQWt5SDNVdmJnbnU1bW5zL1NlaHlkUGJyc0JhMnFQMnVObVdVQklWM0pXIiwiZGF0ZU9mQmlydGgiOiIyMDIyLTA5LTA5VDIwOjMyOjU0LjAwM1oiLCJlbWFpbFZlcmlmaWVkQXQiOm51bGwsImJhbGFuY2UiOjAsImlzRnJvbU9BdXRoIjpmYWxzZX0sImlhdCI6MTY4NDIyMTE2OH0.3B_vomapbaTCR1B2lbhbTLEhA5rIv2bwZqICzC3Gouo',
             'Content-Type': 'application/json'
           },
           data: data
@@ -754,6 +754,13 @@ function Map({ navigation }) {
       const { geometry } = e;
       setUserPosition([geometry.coordinates[1], geometry.coordinates[0]]);
     }
+  };
+
+  const onBooking = (charger) => {
+    setModalVisible(false);
+    navigation.navigate('Booking', {
+      charger: charger
+    });
   };
 
   function handleListItemPress(location) {
@@ -961,7 +968,11 @@ function Map({ navigation }) {
               </View>
               {!modalData.charger.public ? (
                 <View style={{ display: 'flex', alignItems: 'center' }}>
-                  <Button containerStyle={styles.bookButton} style={styles.shareText}>
+                  <Button
+                    containerStyle={styles.bookButton}
+                    style={styles.shareText}
+                    onPress={() => onBooking(modalData.charger)}
+                  >
                     Book
                   </Button>
                 </View>

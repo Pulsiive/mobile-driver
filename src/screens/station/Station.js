@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     paddingLeft: 170,
     paddingTop: 32,
-    fontWeight: 'solid',
+    fontWeight: 'normal',
     color: AppStyles.color.text
   },
   content: {

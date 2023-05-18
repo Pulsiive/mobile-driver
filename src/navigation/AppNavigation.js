@@ -99,6 +99,7 @@ const HomeStack = () => (
     <Stack.Screen name="ChangeEmail" component={ChangeEmail} />
     <Stack.Screen name="Logout" component={Logout} />
     <Stack.Screen name="Profile" component={Profile} />
+    <Stack.Screen name="Booking" component={Booking} />
   </Stack.Navigator>
 );
 
@@ -124,6 +125,7 @@ const MapStack = () => (
       })}
     />
     <Stack.Screen name="Locations" component={Locations} />
+    <Stack.Screen name="Booking" component={Booking} />
   </Stack.Navigator>
 );
 
