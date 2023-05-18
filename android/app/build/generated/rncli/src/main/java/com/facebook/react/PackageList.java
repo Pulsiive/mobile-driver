@@ -17,6 +17,8 @@ import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.reactnativecommunity.slider.ReactSliderPackage;
 // @react-native-mapbox-gl/maps
 import com.mapbox.rctmgl.RCTMGLPackage;
+// @stripe/stripe-react-native
+import com.reactnativestripesdk.StripeSdkPackage;
 // react-native-geolocation-service
 import com.agontuk.RNFusedLocation.RNFusedLocationPackage;
 // react-native-gesture-handler
@@ -81,6 +83,7 @@ public class PackageList {
       new AsyncStoragePackage(),
       new ReactSliderPackage(),
       new RCTMGLPackage(),
+      new StripeSdkPackage(),
       new RNFusedLocationPackage(),
       new RNGestureHandlerPackage(),
       new ReactNativeGetLocationPackage(),

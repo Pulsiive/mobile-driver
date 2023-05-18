@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRoute, useNavigation } from '@react-navigation/native';
-import { StyleSheet, Text, TextInput, View, Image } from 'react-native';
+import { StyleSheet, Text, TextInput, View, Image, Animated, FlatList } from 'react-native';
 import Button from 'react-native-button';
 import { AppIcon, AppStyles } from '../../AppStyles';
 import SwipeableTabs from 'react-native-swipe-tabs';
@@ -9,11 +9,11 @@ import api from '../../db/Api';
 function Station(props) {
   const { imageUri, name, ownerId } = useRoute().params;
   const [index, setIndex] = useState(0);
-  const [tabs, setTabs] = useState(['Station1', 'Station2', 'Station3']);
+  // const [tabs, setTabs] = useState(['Station1', 'Station2', 'Station3']);
   const [stations, setStations] = useState([
-    { type: null, power: null, price: null, charger: null },
-    { type: null, power: null, price: null, charger: null },
-    { type: null, power: null, price: null, charger: null }
+    // { type: null, power: null, price: null, charger: null },
+    // { type: null, power: null, price: null, charger: null },
+    // { type: null, power: null, price: null, charger: null }
   ]);
   const navigation = useNavigation();
   const onPress = (nav) => {
@@ -28,26 +28,30 @@ function Station(props) {
   useEffect(() => {
     try {
       api.send('GET', `/api/v1/stations/private/user/${ownerId}`).then((data) => {
-        setStations([
-          {
-            type: data.data.stations[0].properties.plugTypes[0],
-            power: data.data.stations[0].properties.maxPower,
-            price: data.data.stations[0].properties.price,
-            charger: data.data.stations[0].properties.nbChargingPoints
-          },
-          {
-            type: data.data.stations[1].properties.plugTypes[0],
-            power: data.data.stations[1].properties.maxPower,
-            price: data.data.stations[1].properties.price,
-            charger: data.data.stations[1].properties.nbChargingPoints
-          },
-          {
-            type: data.data.stations[2].properties.plugTypes[0],
-            power: data.data.stations[2].properties.maxPower,
-            price: data.data.stations[2].properties.price,
-            charger: data.data.stations[2].properties.nbChargingPoints
-          }
-        ]);
+        setStations(data.data.stations);
+        // setStations([
+        //   {
+        //     id: data.data.stations[0].id,
+        //     type: data.data.stations[0].properties.plugTypes[0],
+        //     power: data.data.stations[0].properties.maxPower,
+        //     price: data.data.stations[0].properties.price,
+        //     charger: data.data.stations[0].properties.nbChargingPoints
+        //   },
+        //   {
+        //     id: data.data.stations[1].id,
+        //     type: data.data.stations[1].properties.plugTypes[0],
+        //     power: data.data.stations[1].properties.maxPower,
+        //     price: data.data.stations[1].properties.price,
+        //     charger: data.data.stations[1].properties.nbChargingPoints
+        //   },
+        //   {
+        //     id: data.data.stations[2].id,
+        //     type: data.data.stations[2].properties.plugTypes[0],
+        //     power: data.data.stations[2].properties.maxPower,
+        //     price: data.data.stations[2].properties.price,
+        //     charger: data.data.stations[2].properties.nbChargingPoints
+        //   }
+        // ]);
         console.log(stations);
       });
     } catch (e) {
@@ -55,7 +59,8 @@ function Station(props) {
     }
   }, []);
 
-  const Station = (props) => {
+  const StationCard = (props) => {
+    const scrollX = useRef(new Animated.Value(0)).current;
     return (
       <View>
         <Text style={styles.stationTitle}>Station {props.index}</Text>
@@ -67,7 +72,7 @@ function Station(props) {
           <Text style={styles.textDescription}>Chargers: {props.charger}</Text>
         </View>
         <Button
-          onPress={() => onPress('Booking')}
+          onPress={() => props.navigation.navigate('BookingPlanning', { stationId: props.id })}
           containerStyle={styles.bookButton}
           style={styles.shareText}
         >
@@ -80,7 +85,21 @@ function Station(props) {
   return (
     <View style={styles.container}>
       <Text style={[styles.title, styles.leftTitle]}>Station information</Text>
-      {stations.length == 1 ? (
+      <Animated.FlatList
+        horizontal
+        data={data}
+        renderItem={StationCard}
+        keyExtractor={(_, index) => index.toString()}
+        pagingEnabled
+        showsHorizontalScrollIndicator={false}
+        onScroll={Animated.event([{ nativeEvent: { contentOffset: { x: scrollX } } }], {
+          useNativeDriver: true
+        })}
+        scrollEventThrottle={16}
+        snapToInterval={300}
+        decelerationRate={0}
+      />
+      {/* {stations.length == 1 ? (
         <SwipeableTabs onSwipe={(x) => setIndex(x)} selectedIndex={index} labels={tabs}>
           <Station
             index={'1'}
@@ -131,7 +150,7 @@ function Station(props) {
             charger={stations[2].charger}
           />
         </SwipeableTabs>
-      )}
+      )} */}
 
       <Button
         onPress={() => onPress('Owner')}

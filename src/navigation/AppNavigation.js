@@ -23,12 +23,24 @@ import Station from '../screens/station/Station';
 import Stations from '../screens/station/Stations';
 import Messages from '../screens/communication/Messages';
 import Message from '../screens/communication/Message';
-import Booking from '../screens/booking/Booking';
 import Map from '../screens/map/Map';
 import Locations from '../screens/map/Locations';
 import Planning from '../screens/planning/Planning';
 import StationRating from '../screens/rating/StationRating';
 import OwnerRating from '../screens/rating/OwnerRating';
+import Favorites from '../screens/favorites/Favorites';
+import Contact from '../screens/contacts/ContactList';
+import PaymentsUICustomScreen from '../screens/payment/PaymentUICustomScreen';
+import BookingPlanning from '../screens/booking/BookingPlanning';
+import FlashMessage from 'react-native-flash-message';
+import ReqEmailVerification from '../screens/verification/ReqEmailVerification';
+import VerifyEmailToken from '../screens/verification/VerifyEmailToken';
+import VerifyPhoneNumberOTP from '../screens/verification/VerifyPhoneNumberOTP';
+import SendEmailConfirmation from '../screens/verification/SendEmailConfirmation';
+import ReqPhoneNumberOTP from '../screens/verification/ReqPhoneNumberOTP';
+import Checkout from '../screens/payment/Checkout';
+import Panier from '../screens/payment/Panier';
+import PaymentHistory from '../screens/payment/History';
 
 const Stack = createStackNavigator();
 
@@ -69,7 +81,6 @@ const MessagesStack = () => (
     <Stack.Screen name="Calendar" component={Calendar} />
     <Stack.Screen name="Station" component={Station} />
     <Stack.Screen name="Stations" component={Stations} />
-    <Stack.Screen name="Booking" component={Booking} />
   </Stack.Navigator>
 );
 
@@ -99,7 +110,16 @@ const HomeStack = () => (
     <Stack.Screen name="ChangeEmail" component={ChangeEmail} />
     <Stack.Screen name="Logout" component={Logout} />
     <Stack.Screen name="Profile" component={Profile} />
-    <Stack.Screen name="Booking" component={Booking} />
+    <Stack.Screen
+      name="Contacts"
+      component={Contact}
+      options={{
+        headerShown: true,
+        headerTitle: 'Contact',
+        headerStyle: { backgroundColor: 'black' },
+        headerTitleStyle: { color: 'white', fontWeight: 'bold' }
+      }}
+    />
   </Stack.Navigator>
 );
 
@@ -153,6 +173,30 @@ const PlanningStack = () => (
   </Stack.Navigator>
 );
 
+const FavoritesStack = () => (
+  <Stack.Navigator
+    initialRouteName="Home"
+    screenOptions={{
+      headerTintColor: AppStyles.color.tint,
+      headerTitleStyle: styles.headerTitleStyle,
+      headerMode: 'float'
+    }}
+  >
+    <Stack.Screen
+      name="Favorites"
+      component={Favorites}
+      options={({ navigation }) => ({
+        headerLeft: () => (
+          <Pressable onPress={() => navigation.openDrawer()}>
+            <Image style={styles.iconStyle} source={AppIcon.images.menu} />
+          </Pressable>
+        ),
+        headerLeftContainerStyle: { paddingLeft: 10 }
+      })}
+    />
+  </Stack.Navigator>
+);
+
 const BottomTab = createBottomTabNavigator();
 
 const TabNavigator = () => (
@@ -182,6 +226,25 @@ const TabNavigator = () => (
       }}
       name="HomeStack"
       component={HomeStack}
+    />
+    <BottomTab.Screen
+      options={{
+        tabBarLabel: 'Favorites',
+        tabBarIcon: ({ focused }) => {
+          return (
+            <Image
+              style={{
+                tintColor: focused ? AppStyles.color.tint : AppStyles.color.grey,
+                width: 30,
+                height: 30
+              }}
+              source={AppIcon.images.heart}
+            />
+          );
+        }
+      }}
+      name="FavoriteStations"
+      component={FavoritesStack}
     />
     <BottomTab.Screen
       options={{
@@ -261,8 +324,42 @@ const DrawerStack = () => (
 const RootNavigator = () => (
   <Stack.Navigator initialRouteName="LoginStack" screenOptions={{ headerShown: false }}>
     <Stack.Screen name="LoginStack" component={LoginStack} />
+    <Stack.Screen
+      name="ReqEmailVerification"
+      component={ReqEmailVerification}
+      options={{ headerShown: false }}
+    />
+    <Stack.Screen
+      name="ReqPhoneNumberOTP"
+      component={ReqPhoneNumberOTP}
+      options={{ headerShown: false }}
+    />
+    <Stack.Screen
+      name="VerifyEmailToken"
+      component={VerifyEmailToken}
+      options={{ headerShown: false }}
+    />
+    <Stack.Screen
+      name="SendEmailConfirmation"
+      component={SendEmailConfirmation}
+      options={{ headerShown: false }}
+    />
+    <Stack.Screen
+      name="VerifyPhoneNumberOTP"
+      component={VerifyPhoneNumberOTP}
+      options={{ headerShown: false }}
+    />
     <Stack.Screen name="DrawerStack" component={DrawerStack} />
     <Stack.Screen name="StationRating" component={StationRating} />
+    <Stack.Screen name="BookingPlanning" component={BookingPlanning} />
+    <Stack.Screen name="PaymentUICustomScreen" component={PaymentsUICustomScreen} />
+    <Stack.Screen name="Panier" component={Panier} options={{ headerShown: false }} />
+    <Stack.Screen name="Checkout" component={Checkout} options={{ headerShown: false }} />
+    <Stack.Screen
+      name="PaymentHistory"
+      component={PaymentHistory}
+      options={{ headerShown: false }}
+    />
     <Stack.Screen name="OwnerRating" component={OwnerRating} />
   </Stack.Navigator>
 );
@@ -270,6 +367,7 @@ const RootNavigator = () => (
 const AppNavigator = () => (
   <NavigationContainer>
     <RootNavigator />
+    <FlashMessage position="top" />
   </NavigationContainer>
 );
 

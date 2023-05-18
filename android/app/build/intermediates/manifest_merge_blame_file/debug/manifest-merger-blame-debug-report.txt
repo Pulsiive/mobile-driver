@@ -37,114 +37,417 @@
 22        android:required="false" />
 22-->[com.mapbox.mapboxsdk:mapbox-android-sdk:9.1.0] /home/maxime/.gradle/caches/transforms-3/2002246bcf7fb1be25e5250e806d674f/transformed/jetified-mapbox-android-sdk-9.1.0/AndroidManifest.xml:14:9-33
 23
-24    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- Required for CrashReporterJobIntentService on API levels below 25 -->
+24    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- See https://developer.android.com/training/package-visibility/declaring for more details. -->
 24-->[com.mapbox.mapboxsdk:mapbox-android-sdk:9.1.0] /home/maxime/.gradle/caches/transforms-3/2002246bcf7fb1be25e5250e806d674f/transformed/jetified-mapbox-android-sdk-9.1.0/AndroidManifest.xml:17:5-79
 24-->[com.mapbox.mapboxsdk:mapbox-android-sdk:9.1.0] /home/maxime/.gradle/caches/transforms-3/2002246bcf7fb1be25e5250e806d674f/transformed/jetified-mapbox-android-sdk-9.1.0/AndroidManifest.xml:17:22-76
-25    <uses-permission android:name="android.permission.WAKE_LOCK" />
-25-->[com.mapbox.mapboxsdk:mapbox-android-telemetry:6.1.0] /home/maxime/.gradle/caches/transforms-3/c367e18ea9e8a958cd1d4a6d23001723/transformed/jetified-mapbox-android-telemetry-6.1.0/AndroidManifest.xml:12:5-68
-25-->[com.mapbox.mapboxsdk:mapbox-android-telemetry:6.1.0] /home/maxime/.gradle/caches/transforms-3/c367e18ea9e8a958cd1d4a6d23001723/transformed/jetified-mapbox-android-telemetry-6.1.0/AndroidManifest.xml:12:22-65
+25    <queries>
+25-->[com.stripe:financial-connections:20.5.0] /home/maxime/.gradle/caches/transforms-3/80f0795b218c982064eb44f1fd4556dc/transformed/jetified-financial-connections-20.5.0/AndroidManifest.xml:12:5-20:15
 26
-27    <application
-27-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:5:5-25:19
-28        android:name="com.mobiledriver.MainApplication"
-28-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:6:7-38
-29        android:allowBackup="false"
-29-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:10:7-34
-30        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-30-->[androidx.core:core:1.6.0] /home/maxime/.gradle/caches/transforms-3/f8cfdef18edf0f0dc80f7630fe54d7fb/transformed/core-1.6.0/AndroidManifest.xml:24:18-86
-31        android:debuggable="true"
-32        android:icon="@mipmap/ic_launcher"
-32-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:8:7-41
-33        android:label="@string/app_name"
-33-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:7:7-39
-34        android:roundIcon="@mipmap/ic_launcher_round"
-34-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:9:7-52
-35        android:theme="@style/AppTheme"
-35-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:12:7-38
-36        android:usesCleartextTraffic="true" >
-36-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:11:7-42
-37        <activity
-37-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/debug/AndroidManifest.xml:11:9-111
-38            android:name="com.facebook.react.devsupport.DevSettingsActivity"
-38-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/debug/AndroidManifest.xml:11:19-83
-39            android:exported="false" />
-39-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/debug/AndroidManifest.xml:11:84-108
-40        <activity
-40-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:13:7-24:18
-41            android:name="com.mobiledriver.MainActivity"
-41-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:14:9-37
-42            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|screenSize|smallestScreenSize|uiMode"
-42-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:16:9-118
-43            android:exported="true"
-43-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:19:9-32
-44            android:label="@string/app_name"
-44-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:15:9-41
-45            android:launchMode="singleTask"
-45-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:17:9-40
-46            android:windowSoftInputMode="adjustResize" >
-46-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:18:9-51
-47            <intent-filter>
-47-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:20:9-23:25
-48                <action android:name="android.intent.action.MAIN" />
-48-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:21:13-65
-48-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:21:21-62
-49
-50                <category android:name="android.intent.category.LAUNCHER" />
-50-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:22:13-73
-50-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:22:23-70
-51            </intent-filter>
-52        </activity>
-53
-54        <provider
-54-->[:react-native-image-picker] /home/maxime/Epitech/EIP/mobile-driver/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-18:20
-55            android:name="com.imagepicker.ImagePickerProvider"
-55-->[:react-native-image-picker] /home/maxime/Epitech/EIP/mobile-driver/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-63
-56            android:authorities="com.mobiledriver.imagepickerprovider"
-56-->[:react-native-image-picker] /home/maxime/Epitech/EIP/mobile-driver/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:12:13-71
-57            android:exported="false"
-57-->[:react-native-image-picker] /home/maxime/Epitech/EIP/mobile-driver/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:13:13-37
-58            android:grantUriPermissions="true" >
-58-->[:react-native-image-picker] /home/maxime/Epitech/EIP/mobile-driver/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:14:13-47
-59            <meta-data
-59-->[:react-native-image-picker] /home/maxime/Epitech/EIP/mobile-driver/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:15:13-17:70
-60                android:name="android.support.FILE_PROVIDER_PATHS"
-60-->[:react-native-image-picker] /home/maxime/Epitech/EIP/mobile-driver/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:16:17-67
-61                android:resource="@xml/imagepicker_provider_paths" />
-61-->[:react-native-image-picker] /home/maxime/Epitech/EIP/mobile-driver/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:17:17-67
-62        </provider>
-63        <provider
-63-->[com.mapbox.mapboxsdk:mapbox-android-telemetry:6.1.0] /home/maxime/.gradle/caches/transforms-3/c367e18ea9e8a958cd1d4a6d23001723/transformed/jetified-mapbox-android-telemetry-6.1.0/AndroidManifest.xml:18:9-22:39
-64            android:name="com.mapbox.android.telemetry.provider.MapboxTelemetryInitProvider"
-64-->[com.mapbox.mapboxsdk:mapbox-android-telemetry:6.1.0] /home/maxime/.gradle/caches/transforms-3/c367e18ea9e8a958cd1d4a6d23001723/transformed/jetified-mapbox-android-telemetry-6.1.0/AndroidManifest.xml:19:13-93
-65            android:authorities="com.mobiledriver.mapboxtelemetryinitprovider"
-65-->[com.mapbox.mapboxsdk:mapbox-android-telemetry:6.1.0] /home/maxime/.gradle/caches/transforms-3/c367e18ea9e8a958cd1d4a6d23001723/transformed/jetified-mapbox-android-telemetry-6.1.0/AndroidManifest.xml:20:13-79
-66            android:exported="false"
-66-->[com.mapbox.mapboxsdk:mapbox-android-telemetry:6.1.0] /home/maxime/.gradle/caches/transforms-3/c367e18ea9e8a958cd1d4a6d23001723/transformed/jetified-mapbox-android-telemetry-6.1.0/AndroidManifest.xml:21:13-37
-67            android:initOrder="100" />
-67-->[com.mapbox.mapboxsdk:mapbox-android-telemetry:6.1.0] /home/maxime/.gradle/caches/transforms-3/c367e18ea9e8a958cd1d4a6d23001723/transformed/jetified-mapbox-android-telemetry-6.1.0/AndroidManifest.xml:22:13-36
-68
-69        <service
-69-->[com.mapbox.mapboxsdk:mapbox-android-telemetry:6.1.0] /home/maxime/.gradle/caches/transforms-3/c367e18ea9e8a958cd1d4a6d23001723/transformed/jetified-mapbox-android-telemetry-6.1.0/AndroidManifest.xml:24:9-26:72
-70            android:name="com.mapbox.android.telemetry.errors.ErrorReporterJobIntentService"
-70-->[com.mapbox.mapboxsdk:mapbox-android-telemetry:6.1.0] /home/maxime/.gradle/caches/transforms-3/c367e18ea9e8a958cd1d4a6d23001723/transformed/jetified-mapbox-android-telemetry-6.1.0/AndroidManifest.xml:25:13-93
-71            android:permission="android.permission.BIND_JOB_SERVICE" />
-71-->[com.mapbox.mapboxsdk:mapbox-android-telemetry:6.1.0] /home/maxime/.gradle/caches/transforms-3/c367e18ea9e8a958cd1d4a6d23001723/transformed/jetified-mapbox-android-telemetry-6.1.0/AndroidManifest.xml:26:13-69
-72
-73        <activity
-73-->[com.google.android.gms:play-services-base:17.5.0] /home/maxime/.gradle/caches/transforms-3/ce6971dbcf8605ede0cd852cb6fd6727/transformed/jetified-play-services-base-17.5.0/AndroidManifest.xml:23:9-26:75
-74            android:name="com.google.android.gms.common.api.GoogleApiActivity"
-74-->[com.google.android.gms:play-services-base:17.5.0] /home/maxime/.gradle/caches/transforms-3/ce6971dbcf8605ede0cd852cb6fd6727/transformed/jetified-play-services-base-17.5.0/AndroidManifest.xml:24:13-79
-75            android:exported="false"
-75-->[com.google.android.gms:play-services-base:17.5.0] /home/maxime/.gradle/caches/transforms-3/ce6971dbcf8605ede0cd852cb6fd6727/transformed/jetified-play-services-base-17.5.0/AndroidManifest.xml:25:13-37
-76            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-76-->[com.google.android.gms:play-services-base:17.5.0] /home/maxime/.gradle/caches/transforms-3/ce6971dbcf8605ede0cd852cb6fd6727/transformed/jetified-play-services-base-17.5.0/AndroidManifest.xml:26:13-72
-77
-78        <meta-data
-78-->[com.google.android.gms:play-services-basement:17.5.0] /home/maxime/.gradle/caches/transforms-3/92d98700bb850d20c26eb6fca30a71be/transformed/jetified-play-services-basement-17.5.0/AndroidManifest.xml:23:9-25:69
-79            android:name="com.google.android.gms.version"
-79-->[com.google.android.gms:play-services-basement:17.5.0] /home/maxime/.gradle/caches/transforms-3/92d98700bb850d20c26eb6fca30a71be/transformed/jetified-play-services-basement-17.5.0/AndroidManifest.xml:24:13-58
-80            android:value="@integer/google_play_services_version" />
-80-->[com.google.android.gms:play-services-basement:17.5.0] /home/maxime/.gradle/caches/transforms-3/92d98700bb850d20c26eb6fca30a71be/transformed/jetified-play-services-basement-17.5.0/AndroidManifest.xml:25:13-66
-81    </application>
-82
-83</manifest>
+27        <!-- Added to check the default browser that will host the AuthFlow. -->
+28        <intent>
+28-->[com.stripe:financial-connections:20.5.0] /home/maxime/.gradle/caches/transforms-3/80f0795b218c982064eb44f1fd4556dc/transformed/jetified-financial-connections-20.5.0/AndroidManifest.xml:15:9-19:18
+29            <action android:name="android.intent.action.VIEW" />
+29-->[com.stripe:financial-connections:20.5.0] /home/maxime/.gradle/caches/transforms-3/80f0795b218c982064eb44f1fd4556dc/transformed/jetified-financial-connections-20.5.0/AndroidManifest.xml:16:13-65
+29-->[com.stripe:financial-connections:20.5.0] /home/maxime/.gradle/caches/transforms-3/80f0795b218c982064eb44f1fd4556dc/transformed/jetified-financial-connections-20.5.0/AndroidManifest.xml:16:21-62
+30
+31            <data android:scheme="http" />
+31-->[com.stripe:financial-connections:20.5.0] /home/maxime/.gradle/caches/transforms-3/80f0795b218c982064eb44f1fd4556dc/transformed/jetified-financial-connections-20.5.0/AndroidManifest.xml:18:13-43
+31-->[com.stripe:financial-connections:20.5.0] /home/maxime/.gradle/caches/transforms-3/80f0795b218c982064eb44f1fd4556dc/transformed/jetified-financial-connections-20.5.0/AndroidManifest.xml:18:19-40
+32        </intent>
+33        <!-- Added to check if Chrome is installed for browser-based payment authentication (e.g. 3DS1). -->
+34        <package android:name="com.android.chrome" /> <!-- Needs to be explicitly declared on Android R+ -->
+34-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:13:9-54
+34-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:13:18-51
+35        <package android:name="com.google.android.apps.maps" />
+35-->[com.google.android.gms:play-services-maps:18.0.2] /home/maxime/.gradle/caches/transforms-3/71fa2ecf6e36be02d67b3a976df6715a/transformed/jetified-play-services-maps-18.0.2/AndroidManifest.xml:33:9-64
+35-->[com.google.android.gms:play-services-maps:18.0.2] /home/maxime/.gradle/caches/transforms-3/71fa2ecf6e36be02d67b3a976df6715a/transformed/jetified-play-services-maps-18.0.2/AndroidManifest.xml:33:18-61
+36    </queries> <!-- Required for CrashReporterJobIntentService on API levels below 25 -->
+37    <uses-permission android:name="android.permission.WAKE_LOCK" />
+37-->[com.mapbox.mapboxsdk:mapbox-android-telemetry:6.1.0] /home/maxime/.gradle/caches/transforms-3/c367e18ea9e8a958cd1d4a6d23001723/transformed/jetified-mapbox-android-telemetry-6.1.0/AndroidManifest.xml:12:5-68
+37-->[com.mapbox.mapboxsdk:mapbox-android-telemetry:6.1.0] /home/maxime/.gradle/caches/transforms-3/c367e18ea9e8a958cd1d4a6d23001723/transformed/jetified-mapbox-android-telemetry-6.1.0/AndroidManifest.xml:12:22-65
+38
+39    <application
+39-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:5:5-25:19
+40        android:name="com.mobiledriver.MainApplication"
+40-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:6:7-38
+41        android:allowBackup="false"
+41-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:10:7-34
+42        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+42-->[androidx.core:core:1.7.0] /home/maxime/.gradle/caches/transforms-3/7fd6384772ff45988bad5460cf7bd688/transformed/core-1.7.0/AndroidManifest.xml:24:18-86
+43        android:debuggable="true"
+44        android:icon="@mipmap/ic_launcher"
+44-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:8:7-41
+45        android:label="@string/app_name"
+45-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:7:7-39
+46        android:roundIcon="@mipmap/ic_launcher_round"
+46-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:9:7-52
+47        android:theme="@style/AppTheme"
+47-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:12:7-38
+48        android:usesCleartextTraffic="true" >
+48-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:11:7-42
+49        <activity
+49-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/debug/AndroidManifest.xml:11:9-111
+50            android:name="com.facebook.react.devsupport.DevSettingsActivity"
+50-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/debug/AndroidManifest.xml:11:19-83
+51            android:exported="false" />
+51-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/debug/AndroidManifest.xml:11:84-108
+52        <activity
+52-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:13:7-24:18
+53            android:name="com.mobiledriver.MainActivity"
+53-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:14:9-37
+54            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|screenSize|smallestScreenSize|uiMode"
+54-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:16:9-118
+55            android:exported="true"
+55-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:19:9-32
+56            android:label="@string/app_name"
+56-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:15:9-41
+57            android:launchMode="singleTask"
+57-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:17:9-40
+58            android:windowSoftInputMode="adjustResize" >
+58-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:18:9-51
+59            <intent-filter>
+59-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:20:9-23:25
+60                <action android:name="android.intent.action.MAIN" />
+60-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:21:13-65
+60-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:21:21-62
+61
+62                <category android:name="android.intent.category.LAUNCHER" />
+62-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:22:13-73
+62-->/home/maxime/Epitech/EIP/mobile-driver/android/app/src/main/AndroidManifest.xml:22:23-70
+63            </intent-filter>
+64        </activity>
+65
+66        <provider
+66-->[:react-native-image-picker] /home/maxime/Epitech/EIP/mobile-driver/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-18:20
+67            android:name="com.imagepicker.ImagePickerProvider"
+67-->[:react-native-image-picker] /home/maxime/Epitech/EIP/mobile-driver/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-63
+68            android:authorities="com.mobiledriver.imagepickerprovider"
+68-->[:react-native-image-picker] /home/maxime/Epitech/EIP/mobile-driver/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:12:13-71
+69            android:exported="false"
+69-->[:react-native-image-picker] /home/maxime/Epitech/EIP/mobile-driver/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:13:13-37
+70            android:grantUriPermissions="true" >
+70-->[:react-native-image-picker] /home/maxime/Epitech/EIP/mobile-driver/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:14:13-47
+71            <meta-data
+71-->[:react-native-image-picker] /home/maxime/Epitech/EIP/mobile-driver/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:15:13-17:70
+72                android:name="android.support.FILE_PROVIDER_PATHS"
+72-->[:react-native-image-picker] /home/maxime/Epitech/EIP/mobile-driver/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:16:17-67
+73                android:resource="@xml/imagepicker_provider_paths" />
+73-->[:react-native-image-picker] /home/maxime/Epitech/EIP/mobile-driver/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:17:17-67
+74        </provider>
+75
+76        <activity
+76-->[com.stripe:financial-connections:20.5.0] /home/maxime/.gradle/caches/transforms-3/80f0795b218c982064eb44f1fd4556dc/transformed/jetified-financial-connections-20.5.0/AndroidManifest.xml:23:9-42:20
+77            android:name="com.stripe.android.financialconnections.FinancialConnectionsSheetRedirectActivity"
+77-->[com.stripe:financial-connections:20.5.0] /home/maxime/.gradle/caches/transforms-3/80f0795b218c982064eb44f1fd4556dc/transformed/jetified-financial-connections-20.5.0/AndroidManifest.xml:24:13-109
+78            android:exported="true" >
+78-->[com.stripe:financial-connections:20.5.0] /home/maxime/.gradle/caches/transforms-3/80f0795b218c982064eb44f1fd4556dc/transformed/jetified-financial-connections-20.5.0/AndroidManifest.xml:25:13-36
+79            <intent-filter>
+79-->[com.stripe:financial-connections:20.5.0] /home/maxime/.gradle/caches/transforms-3/80f0795b218c982064eb44f1fd4556dc/transformed/jetified-financial-connections-20.5.0/AndroidManifest.xml:26:13-41:29
+80                <action android:name="android.intent.action.VIEW" />
+80-->[com.stripe:financial-connections:20.5.0] /home/maxime/.gradle/caches/transforms-3/80f0795b218c982064eb44f1fd4556dc/transformed/jetified-financial-connections-20.5.0/AndroidManifest.xml:16:13-65
+80-->[com.stripe:financial-connections:20.5.0] /home/maxime/.gradle/caches/transforms-3/80f0795b218c982064eb44f1fd4556dc/transformed/jetified-financial-connections-20.5.0/AndroidManifest.xml:16:21-62
+81
+82                <category android:name="android.intent.category.DEFAULT" />
+82-->[com.stripe:financial-connections:20.5.0] /home/maxime/.gradle/caches/transforms-3/80f0795b218c982064eb44f1fd4556dc/transformed/jetified-financial-connections-20.5.0/AndroidManifest.xml:29:17-76
+82-->[com.stripe:financial-connections:20.5.0] /home/maxime/.gradle/caches/transforms-3/80f0795b218c982064eb44f1fd4556dc/transformed/jetified-financial-connections-20.5.0/AndroidManifest.xml:29:27-73
+83                <category android:name="android.intent.category.BROWSABLE" />
+83-->[com.stripe:financial-connections:20.5.0] /home/maxime/.gradle/caches/transforms-3/80f0795b218c982064eb44f1fd4556dc/transformed/jetified-financial-connections-20.5.0/AndroidManifest.xml:30:17-78
+83-->[com.stripe:financial-connections:20.5.0] /home/maxime/.gradle/caches/transforms-3/80f0795b218c982064eb44f1fd4556dc/transformed/jetified-financial-connections-20.5.0/AndroidManifest.xml:30:27-75
+84
+85                <!-- Accepts success and cancel URIs that begin with "stripe-auth://link-accounts” -->
+86                <data
+86-->[com.stripe:financial-connections:20.5.0] /home/maxime/.gradle/caches/transforms-3/80f0795b218c982064eb44f1fd4556dc/transformed/jetified-financial-connections-20.5.0/AndroidManifest.xml:18:13-43
+87                    android:host="link-accounts"
+88                    android:path="/com.mobiledriver/success"
+89                    android:scheme="stripe-auth" />
+89-->[com.stripe:financial-connections:20.5.0] /home/maxime/.gradle/caches/transforms-3/80f0795b218c982064eb44f1fd4556dc/transformed/jetified-financial-connections-20.5.0/AndroidManifest.xml:18:19-40
+90                <data
+90-->[com.stripe:financial-connections:20.5.0] /home/maxime/.gradle/caches/transforms-3/80f0795b218c982064eb44f1fd4556dc/transformed/jetified-financial-connections-20.5.0/AndroidManifest.xml:18:13-43
+91                    android:host="link-accounts"
+92                    android:path="/com.mobiledriver/cancel"
+93                    android:scheme="stripe-auth" />
+93-->[com.stripe:financial-connections:20.5.0] /home/maxime/.gradle/caches/transforms-3/80f0795b218c982064eb44f1fd4556dc/transformed/jetified-financial-connections-20.5.0/AndroidManifest.xml:18:19-40
+94            </intent-filter>
+95        </activity>
+96        <activity
+96-->[com.stripe:financial-connections:20.5.0] /home/maxime/.gradle/caches/transforms-3/80f0795b218c982064eb44f1fd4556dc/transformed/jetified-financial-connections-20.5.0/AndroidManifest.xml:43:9-46:57
+97            android:name="com.stripe.android.financialconnections.FinancialConnectionsSheetActivity"
+97-->[com.stripe:financial-connections:20.5.0] /home/maxime/.gradle/caches/transforms-3/80f0795b218c982064eb44f1fd4556dc/transformed/jetified-financial-connections-20.5.0/AndroidManifest.xml:44:13-101
+98            android:exported="false"
+98-->[com.stripe:financial-connections:20.5.0] /home/maxime/.gradle/caches/transforms-3/80f0795b218c982064eb44f1fd4556dc/transformed/jetified-financial-connections-20.5.0/AndroidManifest.xml:45:13-37
+99            android:theme="@style/StripeDefaultTheme" />
+99-->[com.stripe:financial-connections:20.5.0] /home/maxime/.gradle/caches/transforms-3/80f0795b218c982064eb44f1fd4556dc/transformed/jetified-financial-connections-20.5.0/AndroidManifest.xml:46:13-54
+100        <activity
+100-->[com.stripe:paymentsheet:20.5.0] /home/maxime/.gradle/caches/transforms-3/d7ebd5bb1d864c3198a63b04f7cfdbd4/transformed/jetified-paymentsheet-20.5.0/AndroidManifest.xml:10:9-13:69
+101            android:name="com.stripe.android.paymentsheet.PaymentSheetActivity"
+101-->[com.stripe:paymentsheet:20.5.0] /home/maxime/.gradle/caches/transforms-3/d7ebd5bb1d864c3198a63b04f7cfdbd4/transformed/jetified-paymentsheet-20.5.0/AndroidManifest.xml:11:13-80
+102            android:exported="false"
+102-->[com.stripe:paymentsheet:20.5.0] /home/maxime/.gradle/caches/transforms-3/d7ebd5bb1d864c3198a63b04f7cfdbd4/transformed/jetified-paymentsheet-20.5.0/AndroidManifest.xml:12:13-37
+103            android:theme="@style/StripePaymentSheetDefaultTheme" />
+103-->[com.stripe:paymentsheet:20.5.0] /home/maxime/.gradle/caches/transforms-3/d7ebd5bb1d864c3198a63b04f7cfdbd4/transformed/jetified-paymentsheet-20.5.0/AndroidManifest.xml:13:13-66
+104        <activity
+104-->[com.stripe:paymentsheet:20.5.0] /home/maxime/.gradle/caches/transforms-3/d7ebd5bb1d864c3198a63b04f7cfdbd4/transformed/jetified-paymentsheet-20.5.0/AndroidManifest.xml:14:9-17:69
+105            android:name="com.stripe.android.paymentsheet.PaymentOptionsActivity"
+105-->[com.stripe:paymentsheet:20.5.0] /home/maxime/.gradle/caches/transforms-3/d7ebd5bb1d864c3198a63b04f7cfdbd4/transformed/jetified-paymentsheet-20.5.0/AndroidManifest.xml:15:13-82
+106            android:exported="false"
+106-->[com.stripe:paymentsheet:20.5.0] /home/maxime/.gradle/caches/transforms-3/d7ebd5bb1d864c3198a63b04f7cfdbd4/transformed/jetified-paymentsheet-20.5.0/AndroidManifest.xml:16:13-37
+107            android:theme="@style/StripePaymentSheetDefaultTheme" />
+107-->[com.stripe:paymentsheet:20.5.0] /home/maxime/.gradle/caches/transforms-3/d7ebd5bb1d864c3198a63b04f7cfdbd4/transformed/jetified-paymentsheet-20.5.0/AndroidManifest.xml:17:13-66
+108        <activity
+108-->[com.stripe:link:20.5.0] /home/maxime/.gradle/caches/transforms-3/d04d4f33885c84dacea855b53f1a5c26/transformed/jetified-link-20.5.0/AndroidManifest.xml:10:9-13:44
+109            android:name="com.stripe.android.link.LinkActivity"
+109-->[com.stripe:link:20.5.0] /home/maxime/.gradle/caches/transforms-3/d04d4f33885c84dacea855b53f1a5c26/transformed/jetified-link-20.5.0/AndroidManifest.xml:11:13-64
+110            android:exported="false"
+110-->[com.stripe:link:20.5.0] /home/maxime/.gradle/caches/transforms-3/d04d4f33885c84dacea855b53f1a5c26/transformed/jetified-link-20.5.0/AndroidManifest.xml:12:13-37
+111            android:label="@string/link" />
+111-->[com.stripe:link:20.5.0] /home/maxime/.gradle/caches/transforms-3/d04d4f33885c84dacea855b53f1a5c26/transformed/jetified-link-20.5.0/AndroidManifest.xml:13:13-41
+112        <activity
+112-->[com.stripe:payments-ui-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/025918c0025e48d56b240fab13174262/transformed/jetified-payments-ui-core-20.5.0/AndroidManifest.xml:10:9-13:69
+113            android:name="com.stripe.android.ui.core.cardscan.CardScanActivity"
+113-->[com.stripe:payments-ui-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/025918c0025e48d56b240fab13174262/transformed/jetified-payments-ui-core-20.5.0/AndroidManifest.xml:11:13-80
+114            android:exported="false"
+114-->[com.stripe:payments-ui-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/025918c0025e48d56b240fab13174262/transformed/jetified-payments-ui-core-20.5.0/AndroidManifest.xml:12:13-37
+115            android:theme="@style/StripePaymentSheetDefaultTheme" />
+115-->[com.stripe:payments-ui-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/025918c0025e48d56b240fab13174262/transformed/jetified-payments-ui-core-20.5.0/AndroidManifest.xml:13:13-66
+116        <activity
+116-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:17:9-20:57
+117            android:name="com.stripe.android.view.AddPaymentMethodActivity"
+117-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:18:13-76
+118            android:exported="false"
+118-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:19:13-37
+119            android:theme="@style/StripeDefaultTheme" />
+119-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:20:13-54
+120        <activity
+120-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:21:9-24:57
+121            android:name="com.stripe.android.view.PaymentMethodsActivity"
+121-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:22:13-74
+122            android:exported="false"
+122-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:23:13-37
+123            android:theme="@style/StripeDefaultTheme" />
+123-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:24:13-54
+124        <activity
+124-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:25:9-28:57
+125            android:name="com.stripe.android.view.PaymentFlowActivity"
+125-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:26:13-71
+126            android:exported="false"
+126-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:27:13-37
+127            android:theme="@style/StripeDefaultTheme" />
+127-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:28:13-54
+128        <activity
+128-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:29:9-33:58
+129            android:name="com.stripe.android.view.PaymentAuthWebViewActivity"
+129-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:30:13-78
+130            android:exported="false"
+130-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:31:13-37
+131            android:theme="@style/StripeDefaultTheme"
+131-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:32:13-54
+132            android:windowSoftInputMode="adjustResize" />
+132-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:33:13-55
+133        <activity
+133-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:34:9-37:61
+134            android:name="com.stripe.android.view.PaymentRelayActivity"
+134-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:35:13-72
+135            android:exported="false"
+135-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:36:13-37
+136            android:theme="@style/StripeTransparentTheme" />
+136-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:37:13-58
+137        <!--
+138        Set android:launchMode="singleTop" so that the StripeBrowserLauncherActivity instance that
+139        launched the browser Activity will also handle the return URL deep link.
+140        -->
+141        <activity
+141-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:43:9-47:61
+142            android:name="com.stripe.android.payments.StripeBrowserLauncherActivity"
+142-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:44:13-85
+143            android:exported="false"
+143-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:45:13-37
+144            android:launchMode="singleTask"
+144-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:46:13-44
+145            android:theme="@style/StripeTransparentTheme" />
+145-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:47:13-58
+146        <activity
+146-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:48:9-65:20
+147            android:name="com.stripe.android.payments.StripeBrowserProxyReturnActivity"
+147-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:49:13-88
+148            android:exported="true"
+148-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:50:13-36
+149            android:launchMode="singleTask"
+149-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:51:13-44
+150            android:theme="@style/StripeTransparentTheme" >
+150-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:52:13-58
+151            <intent-filter>
+151-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:53:13-64:29
+152                <action android:name="android.intent.action.VIEW" />
+152-->[com.stripe:financial-connections:20.5.0] /home/maxime/.gradle/caches/transforms-3/80f0795b218c982064eb44f1fd4556dc/transformed/jetified-financial-connections-20.5.0/AndroidManifest.xml:16:13-65
+152-->[com.stripe:financial-connections:20.5.0] /home/maxime/.gradle/caches/transforms-3/80f0795b218c982064eb44f1fd4556dc/transformed/jetified-financial-connections-20.5.0/AndroidManifest.xml:16:21-62
+153
+154                <category android:name="android.intent.category.DEFAULT" />
+154-->[com.stripe:financial-connections:20.5.0] /home/maxime/.gradle/caches/transforms-3/80f0795b218c982064eb44f1fd4556dc/transformed/jetified-financial-connections-20.5.0/AndroidManifest.xml:29:17-76
+154-->[com.stripe:financial-connections:20.5.0] /home/maxime/.gradle/caches/transforms-3/80f0795b218c982064eb44f1fd4556dc/transformed/jetified-financial-connections-20.5.0/AndroidManifest.xml:29:27-73
+155                <category android:name="android.intent.category.BROWSABLE" />
+155-->[com.stripe:financial-connections:20.5.0] /home/maxime/.gradle/caches/transforms-3/80f0795b218c982064eb44f1fd4556dc/transformed/jetified-financial-connections-20.5.0/AndroidManifest.xml:30:17-78
+155-->[com.stripe:financial-connections:20.5.0] /home/maxime/.gradle/caches/transforms-3/80f0795b218c982064eb44f1fd4556dc/transformed/jetified-financial-connections-20.5.0/AndroidManifest.xml:30:27-75
+156
+157                <!-- Must match `DefaultReturnUrl#value`. -->
+158                <data
+158-->[com.stripe:financial-connections:20.5.0] /home/maxime/.gradle/caches/transforms-3/80f0795b218c982064eb44f1fd4556dc/transformed/jetified-financial-connections-20.5.0/AndroidManifest.xml:18:13-43
+159                    android:host="payment_return_url"
+160                    android:path="/com.mobiledriver"
+161                    android:scheme="stripesdk" />
+161-->[com.stripe:financial-connections:20.5.0] /home/maxime/.gradle/caches/transforms-3/80f0795b218c982064eb44f1fd4556dc/transformed/jetified-financial-connections-20.5.0/AndroidManifest.xml:18:19-40
+162            </intent-filter>
+163        </activity>
+164        <activity
+164-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:66:9-69:57
+165            android:name="com.stripe.android.payments.core.authentication.threeds2.Stripe3ds2TransactionActivity"
+165-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:67:13-114
+166            android:exported="false"
+166-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:68:13-37
+167            android:theme="@style/StripeDefaultTheme" />
+167-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:69:13-54
+168        <activity
+168-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:70:9-73:66
+169            android:name="com.stripe.android.googlepaylauncher.StripeGooglePayActivity"
+169-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:71:13-88
+170            android:exported="false"
+170-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:72:13-37
+171            android:theme="@style/StripeGooglePayDefaultTheme" />
+171-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:73:13-63
+172        <activity
+172-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:74:9-77:66
+173            android:name="com.stripe.android.googlepaylauncher.GooglePayLauncherActivity"
+173-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:75:13-90
+174            android:exported="false"
+174-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:76:13-37
+175            android:theme="@style/StripeGooglePayDefaultTheme" />
+175-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:77:13-63
+176        <activity
+176-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:78:9-81:66
+177            android:name="com.stripe.android.googlepaylauncher.GooglePayPaymentMethodLauncherActivity"
+177-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:79:13-103
+178            android:exported="false"
+178-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:80:13-37
+179            android:theme="@style/StripeGooglePayDefaultTheme" />
+179-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:81:13-63
+180        <activity
+180-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:82:9-85:62
+181            android:name="com.stripe.android.payments.paymentlauncher.PaymentLauncherConfirmationActivity"
+181-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:83:13-107
+182            android:exported="false"
+182-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:84:13-37
+183            android:theme="@style/PayLauncherDefaultTheme" />
+183-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:85:13-59
+184        <activity
+184-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:86:9-89:61
+185            android:name="com.stripe.android.payments.bankaccount.ui.CollectBankAccountActivity"
+185-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:87:13-97
+186            android:exported="false"
+186-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:88:13-37
+187            android:theme="@style/StripeTransparentTheme" />
+187-->[com.stripe:payments-core:20.5.0] /home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/AndroidManifest.xml:89:13-58
+188        <activity
+188-->[com.stripe:stripe-3ds2-android:6.1.5] /home/maxime/.gradle/caches/transforms-3/7b806cb9e153c6e7039bdc26301ef179/transformed/jetified-stripe-3ds2-android-6.1.5/AndroidManifest.xml:10:9-13:54
+189            android:name="com.stripe.android.stripe3ds2.views.ChallengeActivity"
+189-->[com.stripe:stripe-3ds2-android:6.1.5] /home/maxime/.gradle/caches/transforms-3/7b806cb9e153c6e7039bdc26301ef179/transformed/jetified-stripe-3ds2-android-6.1.5/AndroidManifest.xml:11:13-81
+190            android:exported="false"
+190-->[com.stripe:stripe-3ds2-android:6.1.5] /home/maxime/.gradle/caches/transforms-3/7b806cb9e153c6e7039bdc26301ef179/transformed/jetified-stripe-3ds2-android-6.1.5/AndroidManifest.xml:12:13-37
+191            android:theme="@style/Stripe3DS2Theme" />
+191-->[com.stripe:stripe-3ds2-android:6.1.5] /home/maxime/.gradle/caches/transforms-3/7b806cb9e153c6e7039bdc26301ef179/transformed/jetified-stripe-3ds2-android-6.1.5/AndroidManifest.xml:13:13-51
+192
+193        <provider
+193-->[com.mapbox.mapboxsdk:mapbox-android-telemetry:6.1.0] /home/maxime/.gradle/caches/transforms-3/c367e18ea9e8a958cd1d4a6d23001723/transformed/jetified-mapbox-android-telemetry-6.1.0/AndroidManifest.xml:18:9-22:39
+194            android:name="com.mapbox.android.telemetry.provider.MapboxTelemetryInitProvider"
+194-->[com.mapbox.mapboxsdk:mapbox-android-telemetry:6.1.0] /home/maxime/.gradle/caches/transforms-3/c367e18ea9e8a958cd1d4a6d23001723/transformed/jetified-mapbox-android-telemetry-6.1.0/AndroidManifest.xml:19:13-93
+195            android:authorities="com.mobiledriver.mapboxtelemetryinitprovider"
+195-->[com.mapbox.mapboxsdk:mapbox-android-telemetry:6.1.0] /home/maxime/.gradle/caches/transforms-3/c367e18ea9e8a958cd1d4a6d23001723/transformed/jetified-mapbox-android-telemetry-6.1.0/AndroidManifest.xml:20:13-79
+196            android:exported="false"
+196-->[com.mapbox.mapboxsdk:mapbox-android-telemetry:6.1.0] /home/maxime/.gradle/caches/transforms-3/c367e18ea9e8a958cd1d4a6d23001723/transformed/jetified-mapbox-android-telemetry-6.1.0/AndroidManifest.xml:21:13-37
+197            android:initOrder="100" />
+197-->[com.mapbox.mapboxsdk:mapbox-android-telemetry:6.1.0] /home/maxime/.gradle/caches/transforms-3/c367e18ea9e8a958cd1d4a6d23001723/transformed/jetified-mapbox-android-telemetry-6.1.0/AndroidManifest.xml:22:13-36
+198
+199        <service
+199-->[com.mapbox.mapboxsdk:mapbox-android-telemetry:6.1.0] /home/maxime/.gradle/caches/transforms-3/c367e18ea9e8a958cd1d4a6d23001723/transformed/jetified-mapbox-android-telemetry-6.1.0/AndroidManifest.xml:24:9-26:72
+200            android:name="com.mapbox.android.telemetry.errors.ErrorReporterJobIntentService"
+200-->[com.mapbox.mapboxsdk:mapbox-android-telemetry:6.1.0] /home/maxime/.gradle/caches/transforms-3/c367e18ea9e8a958cd1d4a6d23001723/transformed/jetified-mapbox-android-telemetry-6.1.0/AndroidManifest.xml:25:13-93
+201            android:permission="android.permission.BIND_JOB_SERVICE" />
+201-->[com.mapbox.mapboxsdk:mapbox-android-telemetry:6.1.0] /home/maxime/.gradle/caches/transforms-3/c367e18ea9e8a958cd1d4a6d23001723/transformed/jetified-mapbox-android-telemetry-6.1.0/AndroidManifest.xml:26:13-69
+202
+203        <provider
+203-->[androidx.emoji2:emoji2:1.0.0] /home/maxime/.gradle/caches/transforms-3/713ef86e3e22c350e27e1e33a53d919d/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:26:9-34:20
+204            android:name="androidx.startup.InitializationProvider"
+204-->[androidx.emoji2:emoji2:1.0.0] /home/maxime/.gradle/caches/transforms-3/713ef86e3e22c350e27e1e33a53d919d/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:27:13-67
+205            android:authorities="com.mobiledriver.androidx-startup"
+205-->[androidx.emoji2:emoji2:1.0.0] /home/maxime/.gradle/caches/transforms-3/713ef86e3e22c350e27e1e33a53d919d/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:28:13-68
+206            android:exported="false" >
+206-->[androidx.emoji2:emoji2:1.0.0] /home/maxime/.gradle/caches/transforms-3/713ef86e3e22c350e27e1e33a53d919d/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:29:13-37
+207            <meta-data
+207-->[androidx.emoji2:emoji2:1.0.0] /home/maxime/.gradle/caches/transforms-3/713ef86e3e22c350e27e1e33a53d919d/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:31:13-33:52
+208                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+208-->[androidx.emoji2:emoji2:1.0.0] /home/maxime/.gradle/caches/transforms-3/713ef86e3e22c350e27e1e33a53d919d/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:32:17-75
+209                android:value="androidx.startup" />
+209-->[androidx.emoji2:emoji2:1.0.0] /home/maxime/.gradle/caches/transforms-3/713ef86e3e22c350e27e1e33a53d919d/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:33:17-49
+210            <meta-data
+210-->[androidx.lifecycle:lifecycle-process:2.4.0] /home/maxime/.gradle/caches/transforms-3/2d03fc969156bb854ffc78c0d5ddd706/transformed/jetified-lifecycle-process-2.4.0/AndroidManifest.xml:31:13-33:52
+211                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+211-->[androidx.lifecycle:lifecycle-process:2.4.0] /home/maxime/.gradle/caches/transforms-3/2d03fc969156bb854ffc78c0d5ddd706/transformed/jetified-lifecycle-process-2.4.0/AndroidManifest.xml:32:17-78
+212                android:value="androidx.startup" />
+212-->[androidx.lifecycle:lifecycle-process:2.4.0] /home/maxime/.gradle/caches/transforms-3/2d03fc969156bb854ffc78c0d5ddd706/transformed/jetified-lifecycle-process-2.4.0/AndroidManifest.xml:33:17-49
+213            <meta-data
+213-->[androidx.profileinstaller:profileinstaller:1.1.0] /home/maxime/.gradle/caches/transforms-3/63a5995c6ec1f69c5b6431c5e5497915/transformed/jetified-profileinstaller-1.1.0/AndroidManifest.xml:31:13-33:52
+214                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+214-->[androidx.profileinstaller:profileinstaller:1.1.0] /home/maxime/.gradle/caches/transforms-3/63a5995c6ec1f69c5b6431c5e5497915/transformed/jetified-profileinstaller-1.1.0/AndroidManifest.xml:32:17-85
+215                android:value="androidx.startup" />
+215-->[androidx.profileinstaller:profileinstaller:1.1.0] /home/maxime/.gradle/caches/transforms-3/63a5995c6ec1f69c5b6431c5e5497915/transformed/jetified-profileinstaller-1.1.0/AndroidManifest.xml:33:17-49
+216        </provider> <!-- Needs to be explicitly declared on P+ -->
+217        <uses-library
+217-->[com.google.android.gms:play-services-maps:18.0.2] /home/maxime/.gradle/caches/transforms-3/71fa2ecf6e36be02d67b3a976df6715a/transformed/jetified-play-services-maps-18.0.2/AndroidManifest.xml:39:9-41:40
+218            android:name="org.apache.http.legacy"
+218-->[com.google.android.gms:play-services-maps:18.0.2] /home/maxime/.gradle/caches/transforms-3/71fa2ecf6e36be02d67b3a976df6715a/transformed/jetified-play-services-maps-18.0.2/AndroidManifest.xml:40:13-50
+219            android:required="false" />
+219-->[com.google.android.gms:play-services-maps:18.0.2] /home/maxime/.gradle/caches/transforms-3/71fa2ecf6e36be02d67b3a976df6715a/transformed/jetified-play-services-maps-18.0.2/AndroidManifest.xml:41:13-37
+220
+221        <activity
+221-->[com.google.android.gms:play-services-base:18.0.1] /home/maxime/.gradle/caches/transforms-3/9cd48e97bdb50419f2d92f401a77063e/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:20:9-22:45
+222            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+222-->[com.google.android.gms:play-services-base:18.0.1] /home/maxime/.gradle/caches/transforms-3/9cd48e97bdb50419f2d92f401a77063e/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:20:19-85
+223            android:exported="false"
+223-->[com.google.android.gms:play-services-base:18.0.1] /home/maxime/.gradle/caches/transforms-3/9cd48e97bdb50419f2d92f401a77063e/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:22:19-43
+224            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+224-->[com.google.android.gms:play-services-base:18.0.1] /home/maxime/.gradle/caches/transforms-3/9cd48e97bdb50419f2d92f401a77063e/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:21:19-78
+225
+226        <meta-data
+226-->[com.google.android.gms:play-services-basement:18.0.0] /home/maxime/.gradle/caches/transforms-3/87e9cea2db7b4bf6179fde731457f8e5/transformed/jetified-play-services-basement-18.0.0/AndroidManifest.xml:21:9-23:69
+227            android:name="com.google.android.gms.version"
+227-->[com.google.android.gms:play-services-basement:18.0.0] /home/maxime/.gradle/caches/transforms-3/87e9cea2db7b4bf6179fde731457f8e5/transformed/jetified-play-services-basement-18.0.0/AndroidManifest.xml:22:13-58
+228            android:value="@integer/google_play_services_version" />
+228-->[com.google.android.gms:play-services-basement:18.0.0] /home/maxime/.gradle/caches/transforms-3/87e9cea2db7b4bf6179fde731457f8e5/transformed/jetified-play-services-basement-18.0.0/AndroidManifest.xml:23:13-66
+229
+230        <receiver
+230-->[androidx.profileinstaller:profileinstaller:1.1.0] /home/maxime/.gradle/caches/transforms-3/63a5995c6ec1f69c5b6431c5e5497915/transformed/jetified-profileinstaller-1.1.0/AndroidManifest.xml:36:9-45:20
+231            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+231-->[androidx.profileinstaller:profileinstaller:1.1.0] /home/maxime/.gradle/caches/transforms-3/63a5995c6ec1f69c5b6431c5e5497915/transformed/jetified-profileinstaller-1.1.0/AndroidManifest.xml:37:13-76
+232            android:directBootAware="false"
+232-->[androidx.profileinstaller:profileinstaller:1.1.0] /home/maxime/.gradle/caches/transforms-3/63a5995c6ec1f69c5b6431c5e5497915/transformed/jetified-profileinstaller-1.1.0/AndroidManifest.xml:38:13-44
+233            android:enabled="true"
+233-->[androidx.profileinstaller:profileinstaller:1.1.0] /home/maxime/.gradle/caches/transforms-3/63a5995c6ec1f69c5b6431c5e5497915/transformed/jetified-profileinstaller-1.1.0/AndroidManifest.xml:39:13-35
+234            android:exported="true"
+234-->[androidx.profileinstaller:profileinstaller:1.1.0] /home/maxime/.gradle/caches/transforms-3/63a5995c6ec1f69c5b6431c5e5497915/transformed/jetified-profileinstaller-1.1.0/AndroidManifest.xml:40:13-36
+235            android:permission="android.permission.DUMP" >
+235-->[androidx.profileinstaller:profileinstaller:1.1.0] /home/maxime/.gradle/caches/transforms-3/63a5995c6ec1f69c5b6431c5e5497915/transformed/jetified-profileinstaller-1.1.0/AndroidManifest.xml:41:13-57
+236            <intent-filter>
+236-->[androidx.profileinstaller:profileinstaller:1.1.0] /home/maxime/.gradle/caches/transforms-3/63a5995c6ec1f69c5b6431c5e5497915/transformed/jetified-profileinstaller-1.1.0/AndroidManifest.xml:42:13-44:29
+237                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+237-->[androidx.profileinstaller:profileinstaller:1.1.0] /home/maxime/.gradle/caches/transforms-3/63a5995c6ec1f69c5b6431c5e5497915/transformed/jetified-profileinstaller-1.1.0/AndroidManifest.xml:43:17-91
+237-->[androidx.profileinstaller:profileinstaller:1.1.0] /home/maxime/.gradle/caches/transforms-3/63a5995c6ec1f69c5b6431c5e5497915/transformed/jetified-profileinstaller-1.1.0/AndroidManifest.xml:43:25-88
+238            </intent-filter>
+239        </receiver>
+240
+241        <meta-data
+241-->[com.google.android.instantapps:instantapps:1.1.0] /home/maxime/.gradle/caches/transforms-3/49fda4b86daa3d49bd8b639fd58c18e8/transformed/jetified-instantapps-1.1.0/AndroidManifest.xml:10:9-12:33
+242            android:name="aia-compat-api-min-version"
+242-->[com.google.android.instantapps:instantapps:1.1.0] /home/maxime/.gradle/caches/transforms-3/49fda4b86daa3d49bd8b639fd58c18e8/transformed/jetified-instantapps-1.1.0/AndroidManifest.xml:11:13-54
+243            android:value="1" />
+243-->[com.google.android.instantapps:instantapps:1.1.0] /home/maxime/.gradle/caches/transforms-3/49fda4b86daa3d49bd8b639fd58c18e8/transformed/jetified-instantapps-1.1.0/AndroidManifest.xml:12:13-30
+244    </application>
+245
+246</manifest>

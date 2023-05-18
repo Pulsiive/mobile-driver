@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { StyleSheet, Text, View, Modal, ActivityIndicator } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import Button from 'react-native-button';
 import { AppStyles } from '../../AppStyles';
-// import config from '../../db/config';
 import api from '../../db/Api';
+import { FlatList } from 'react-native-gesture-handler';
+import { showMessage } from 'react-native-flash-message';
 
-var axios = require('axios');
-
-function Profile({ navigation }) {
+function Profile() {
+  const [myCommentsModalIsOpen, setMyCommentsModalIsOpen] = useState(false);
+  const [myComments, setMyComments] = useState([]);
+  const [myCommentsFetchIsLoading, setMyCommentsFetchIsLoading] = useState(false);
   const [profile, setProfile] = useState({
     firstName: null,
     lastName: null,
     email: null
   });
+
   useEffect(() => {
     try {
       api.send('GET', '/api/v1/profile', null).then((data) =>
@@ -27,6 +31,19 @@ function Profile({ navigation }) {
     }
   }, []);
 
+  const openMyCommentsModal = async () => {
+    try {
+      setMyCommentsModalIsOpen(true);
+      setMyCommentsFetchIsLoading(true);
+      const myComments = await api.send('GET', '/api/v1/profile/comments/stations');
+      setMyComments(myComments.data);
+    } catch (e) {
+      console.log('Failed to fetch stations comments');
+    } finally {
+      setMyCommentsFetchIsLoading(false);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Text style={[styles.title, styles.leftTitle]}>Profile</Text>
@@ -39,6 +56,75 @@ function Profile({ navigation }) {
       <Button containerStyle={styles.shareButton} style={styles.shareText}>
         Share my profile
       </Button>
+      <Button
+        containerStyle={styles.shareButton}
+        style={styles.shareText}
+        onPress={openMyCommentsModal}
+      >
+        My comments
+      </Button>
+      <View>
+        <Modal
+          transparent
+          animationType="slide"
+          visible={myCommentsModalIsOpen}
+          onRequestClose={() => setMyCommentsModalIsOpen(false)}
+        >
+          <View style={styles.modalView}>
+            {myCommentsFetchIsLoading ? (
+              <ActivityIndicator size="large" />
+            ) : (
+              <FlatList
+                data={myComments}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => {
+                  const starsRating = [];
+                  for (let i = 0; i < item.rate; i++) {
+                    starsRating.push(<Icon name="star" size={15} color={'orange'} key={i} />);
+                  }
+                  return (
+                    <View>
+                      <View
+                        style={{
+                          flexDirection: 'row',
+                          alignItems: 'baseline',
+                          justifyContent: 'space-between'
+                        }}
+                      >
+                        <Text style={{ fontWeight: 'bold', fontSize: 17 }}>
+                          {item.station.coordinates.address.slice(
+                            0,
+                            item.station.coordinates.address.indexOf('75')
+                          )}
+                        </Text>
+                        <Text style={{ fontSize: 13 }}>
+                          {item.date.slice(0, item.date.indexOf('T'))}
+                        </Text>
+                      </View>
+                      <View style={{ marginBottom: 5 }}>
+                        {item.comment ? (
+                          <Text style={{ fontSize: 16 }}>{item.comment}</Text>
+                        ) : undefined}
+                        <View style={{ flexDirection: 'row' }}>{starsRating}</View>
+                      </View>
+                      <View style={{ flexDirection: 'row', marginBottom: 10 }}>
+                        <View style={{ flexDirection: 'row', marginRight: 20 }}>
+                          <Icon name="thumbs-up" size={15} color={'grey'} />
+                          <Text>{item.likes}</Text>
+                        </View>
+                        <View style={{ flexDirection: 'row' }}>
+                          <Icon name="thumbs-down" size={15} color={'grey'} />
+                          <Text>{item.dislikes}</Text>
+                        </View>
+                      </View>
+                    </View>
+                  );
+                }}
+              />
+            )}
+          </View>
+        </Modal>
+      </View>
     </View>
   );
 }
@@ -111,6 +197,28 @@ const styles = StyleSheet.create({
   },
   shareText: {
     color: AppStyles.color.white
+  },
+  // centeredView: {
+  //   flex: 1,
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  //   marginTop: 22
+  // },
+  modalView: {
+    margin: 20,
+    marginTop: '20%',
+    backgroundColor: 'white',
+    borderRadius: 10,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
   }
 });
 
