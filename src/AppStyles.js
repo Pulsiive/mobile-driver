@@ -70,6 +70,8 @@ export const AppIcon = {
     charger1: require('../assets/images/charger1.jpg'),
     charger2: require('../assets/images/charger2.jpg'),
     charger3: require('../assets/images/charger3.jpg'),
+    phone: require('../assets/icons/phone.png'),
+    remove: require('../assets/icons/remove.png'),
     avis: require('../assets/images/avis.png'),
     logo: require('../assets/images/logo.png'),
     logo2: require('../assets/images/logo-2.png'),

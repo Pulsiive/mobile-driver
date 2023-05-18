@@ -30,6 +30,7 @@ import StationRating from '../screens/rating/StationRating';
 import OwnerRating from '../screens/rating/OwnerRating';
 import Favorites from '../screens/favorites/Favorites';
 import Contact from '../screens/contacts/ContactList';
+import OwnerV2 from '../screens/profile/OwnerV2';
 import PaymentsUICustomScreen from '../screens/payment/PaymentUICustomScreen';
 import BookingPlanning from '../screens/booking/BookingPlanning';
 import FlashMessage from 'react-native-flash-message';
@@ -77,7 +78,16 @@ const MessagesStack = () => (
       })}
     />
     <Stack.Screen name="Message" component={Message} />
-    <Stack.Screen name="Owner" component={Owner} />
+    <Stack.Screen
+      name="Owner"
+      component={OwnerV2}
+      options={{
+        headerShown: true,
+        headerTitle: 'Profil',
+        headerStyle: { backgroundColor: 'black' },
+        headerTitleStyle: { color: 'white', fontWeight: 'bold' }
+      }}
+    />
     <Stack.Screen name="Calendar" component={Calendar} />
     <Stack.Screen name="Station" component={Station} />
     <Stack.Screen name="Stations" component={Stations} />
