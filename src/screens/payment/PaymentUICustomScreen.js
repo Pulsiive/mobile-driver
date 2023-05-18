@@ -135,7 +135,7 @@ export default function PaymentsUICustomScreen({route, navigation}) {
                 backgroundColor: '#FFFFFF', // iOS only
                 timeout: 5,
                 label: {
-                    headingTextColor: '#0000',
+                    headingTextColor: '#000000',
                     headingFontSize: 13,
                 },
                 navigationBar: {
