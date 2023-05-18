@@ -4,7 +4,6 @@ import { ActivityIndicator, Text, View, StyleSheet } from 'react-native';
 import { AppStyles } from '../../AppStyles';
 
 function Welcome({ navigation }) {
-  navigation.navigate('ReqPhoneNumberOTP');
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Welcome on Puslive</Text>
