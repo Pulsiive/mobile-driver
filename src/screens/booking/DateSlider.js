@@ -6,7 +6,7 @@ import { fr } from 'date-fns/locale';
 import MyCalendar from './MyCalendar';
 import FetchInfo from './FetchInfo';
 
-const DateSlider = ({ date, stationId, slot, setSlot, setModalVisible, onChange }) => {
+const DateSlider = ({ date, stationId, setSlot, setModalVisible, onChange }) => {
   const [date1, setDate] = useState(new Date());
   const [week, setWeek] = useState([]);
   const [open, setOpen] = useState(false);
@@ -70,7 +70,7 @@ const DateSlider = ({ date, stationId, slot, setSlot, setModalVisible, onChange 
           </Text>
         </View>
         <View style={styles.safe}>
-          <FetchInfo date={date.toISOString().split('T')[0]} stationId={stationId} slot={slot} setSlot={setSlot} setModalVisible={setModalVisible} />
+          <FetchInfo date={date.toISOString().split('T')[0]} stationId={stationId} setSlot={setSlot} setModalVisible={setModalVisible} />
         </View>
       </View>
     </>
@@ -116,12 +116,6 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   }
 });
-
-type WeekDay = {
-  formatted: string;
-  date: Date;
-  day: number;
-};
 
 export const getWeekDays = (date) => {
   const start = startOfWeek(date, { weekStartsOn: 1 });

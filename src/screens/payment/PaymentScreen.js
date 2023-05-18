@@ -1,21 +1,10 @@
-import {initStripe, isPlatformPaySupported, PlatformPay, PlatformPayButton} from '@stripe/stripe-react-native';
+import {initStripe} from '@stripe/stripe-react-native';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet } from 'react-native';
 import { colors } from './colors';
 
-const PaymentScreen = ({paymentMethod, children, onInit}) => {
+const PaymentScreen = ({children, onInit}) => {
     const [loading, setLoading] = useState(true);
-    const [isApplePaySupported, setIsApplePaySupported] = useState(false);
-
-    useEffect(() => {
-        (async function () {
-            setIsApplePaySupported(await isPlatformPaySupported());
-        })();
-    }, [isPlatformPaySupported]);
-
-    const pay = async () => {
-        // ...
-    };
 
     useEffect(() => {
         async function initialize() {
@@ -24,14 +13,12 @@ const PaymentScreen = ({paymentMethod, children, onInit}) => {
                 await initStripe({
                     publishableKey,
                     merchantIdentifier: 'merchant.com.stripe.react.native',
-                   //setReturnUrlSchemeOnAndroid: true
                 });
                 setLoading(false);
                 onInit?.();
             }
         }
         initialize();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return loading ? (
@@ -43,17 +30,6 @@ const PaymentScreen = ({paymentMethod, children, onInit}) => {
             keyboardShouldPersistTaps="always"
         >
             {children}
-            <PlatformPayButton
-                onPress={pay}
-                type={PlatformPay.ButtonType.Checkout}
-                appearance={PlatformPay.ButtonStyle.Black}
-                borderRadius={4}
-                style={{
-                    marginTop: 100,
-                    width: '100%',
-                    height: 50,
-                }}
-            />
         </ScrollView>
     );
 };
