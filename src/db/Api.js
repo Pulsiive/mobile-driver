@@ -28,6 +28,7 @@ class API {
         method: method,
         body: data
       });
+      console.log(this.url + route);
       if (response.status === 401) {
         // accessToken.remove();
         return {
@@ -40,6 +41,7 @@ class API {
         status: response.status
       };
     } catch (e) {
+      console.log(e);
       return {
         data: null,
         status: -1

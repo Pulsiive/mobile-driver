@@ -70,7 +70,7 @@ function SignUp({ navigation }) {
         inputLastName.current.clear();
         inputPassword.current.clear();
         setUserInput({ email: '', firstName: '', lastName: '', password: '' });
-        navigation.navigate('DrawerStack');
+        navigation.navigate('ReqPhoneNumberOTP');
       } else {
         throw res;
       }

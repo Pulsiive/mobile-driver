@@ -30,18 +30,21 @@ function Station(props) {
       api.send('GET', `/api/v1/stations/private/user/${ownerId}`).then((data) => {
         setStations([
           {
+            id: data.data.stations[0].id,
             type: data.data.stations[0].properties.plugTypes[0],
             power: data.data.stations[0].properties.maxPower,
             price: data.data.stations[0].properties.price,
             charger: data.data.stations[0].properties.nbChargingPoints
           },
           {
+            id: data.data.stations[1].id,
             type: data.data.stations[1].properties.plugTypes[0],
             power: data.data.stations[1].properties.maxPower,
             price: data.data.stations[1].properties.price,
             charger: data.data.stations[1].properties.nbChargingPoints
           },
           {
+            id: data.data.stations[2].id,
             type: data.data.stations[2].properties.plugTypes[0],
             power: data.data.stations[2].properties.maxPower,
             price: data.data.stations[2].properties.price,
@@ -67,7 +70,7 @@ function Station(props) {
           <Text style={styles.textDescription}>Chargers: {props.charger}</Text>
         </View>
         <Button
-          onPress={() => onPress('Booking')}
+          onPress={() => props.navigation.navigate('BookingPlanning', { stationId: props.id })}
           containerStyle={styles.bookButton}
           style={styles.shareText}
         >
