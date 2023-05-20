@@ -20,6 +20,8 @@ import config from '../../db/config';
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import api from '../../db/Api';
+import Planning from '../planning/Planning';
+import serviceAccessToken from '../../db/AccessToken';
 
 MapboxGL.setAccessToken(
   'pk.eyJ1Ijoic2h5bGsiLCJhIjoiY2w0cmhncHdwMDZydTNjcDhkbTVmZm8xZCJ9.uxYLeAuZdY5VMx4EUBaw_A'
@@ -27,45 +29,6 @@ MapboxGL.setAccessToken(
 MapboxGL.setConnected(true);
 
 var axios = require('axios');
-
-const data = [
-  {
-    id: '1',
-    location: '8th Street Chippewa Falls',
-    date: 'October 18, 2022',
-    reward: '8.7'
-  },
-  {
-    id: '2',
-    location: '4 Blue Spring Avenue Seattle',
-    date: 'September 12, 2022',
-    reward: '14.6'
-  },
-  {
-    id: '3',
-    location: '13 Peachtree Street Methuen',
-    date: 'June 25, 2022',
-    reward: '10.2'
-  },
-  {
-    id: '4',
-    location: '13 North Oklahoma Wilson',
-    date: 'February 24, 2022',
-    reward: '9.0'
-  },
-  {
-    id: '5',
-    location: '59 NE. Wall Dr.York',
-    date: 'February 22, 2022',
-    reward: '17.3'
-  },
-  {
-    id: '6',
-    location: '58 Mill Pond Street Chaska',
-    date: 'January 27, 2022',
-    reward: '5.4'
-  }
-];
 
 function Home({ navigation }) {
   useLayoutEffect(() => {
@@ -118,71 +81,6 @@ function Home({ navigation }) {
           />
         )}
       </View>
-    );
-  };
-
-  function CalendarCard(props) {
-    const { location, date, reward } = props.data;
-    return (
-      <View
-        style={{
-          margin: 5,
-          marginLeft: 0,
-          padding: 10,
-          paddingBottom: 0,
-          backgroundColor: AppStyles.color.white,
-          borderRadius: 15,
-          width: '100%'
-        }}
-      >
-        <View style={{ flexDirection: 'row' }}>
-          <Icon
-            name="location-pin"
-            style={{
-              marginRight: 8,
-              position: 'relative',
-              top: 5,
-              backgroundColor: AppStyles.color.tint,
-              borderRadius: 25,
-              height: 20
-            }}
-            size={20}
-            color="grey"
-          />
-          <Text style={styles.addressText}>{location}</Text>
-        </View>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <View style={{ flexDirection: 'row' }}>
-            <Icon
-              name="calendar"
-              style={{
-                marginRight: 8,
-                position: 'relative',
-                top: 5
-              }}
-              size={20}
-              color="grey"
-            />
-            <Text style={styles.text}>{date}</Text>
-          </View>
-          <View style={{ flexDirection: 'row' }}>
-            <Text style={styles.text}>{reward} €</Text>
-          </View>
-        </View>
-      </View>
-    );
-  }
-
-  const MyCalendar = () => {
-    return (
-      <ScrollView
-        style={[styles.container, { height: 198, width: 328 }]}
-        nestedScrollEnabled={true}
-      >
-        {data.map((item, index) => (
-          <CalendarCard data={item} key={index} />
-        ))}
-      </ScrollView>
     );
   };
 
@@ -244,7 +142,7 @@ function Home({ navigation }) {
               maxPrice: 500,
               plugTypes: [1],
               range: 5000,
-              type: 2,
+              type: '',
               userLat: userPosition[0],
               userLong: userPosition[1]
             }
@@ -253,8 +151,7 @@ function Home({ navigation }) {
             method: 'post',
             url: config.API_URL + '/api/v1/stations',
             headers: {
-              Authorization:
-                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXlsb2FkIjp7ImlkIjoiMGNjYmQ3NWEtOTYxMC00MTg2LWJhNDktNjg1OTE4MGE1ZGExIiwiZmlyc3ROYW1lIjoiZHJpdmVyIiwibGFzdE5hbWUiOiJEcml2ZXIiLCJlbWFpbCI6ImRyaXZlckBtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJhJDEwJHE2Li9pakRPSXpuQWt5SDNVdmJnbnU1bW5zL1NlaHlkUGJyc0JhMnFQMnVObVdVQklWM0pXIiwiZGF0ZU9mQmlydGgiOiIyMDIyLTA5LTA5VDIwOjMyOjU0LjAwM1oiLCJlbWFpbFZlcmlmaWVkQXQiOm51bGwsImJhbGFuY2UiOjAsImlzRnJvbU9BdXRoIjpmYWxzZX0sImlhdCI6MTY4NDIyMTE2OH0.3B_vomapbaTCR1B2lbhbTLEhA5rIv2bwZqICzC3Gouo',
+              Authorization: `Bearer ${await serviceAccessToken.get()}`,
               'Content-Type': 'application/json'
             },
             data: data
@@ -493,32 +390,13 @@ function Home({ navigation }) {
     );
   };
 
-  const [components, setComponents] = useState([<MyMap />, <MyMessages />, <MyCalendar />]);
-
-  // const moveComponent = (index, direction) => {
-  //   const newComponents = [...components];
-  //   const removedComponent = newComponents.splice(index, 1)[0];
-  //   newComponents.splice(index + direction, 0, removedComponent);
-  //   setComponents(newComponents);
-  // };
+  const [components, setComponents] = useState([<MyMap />, <MyMessages />, <Planning />]);
 
   return (
     <ScrollView style={styles.container}>
       {components.map((component, index) => (
         <View style={styles.component} key={index}>
-          <Text>{component}</Text>
-          {/* <View style={{ position: 'relative', right: 24 }}>
-            {index !== 0 && (
-              <TouchableOpacity onPress={() => moveComponent(index, -1)}>
-                <Text style={styles.arrow}>▲</Text>
-              </TouchableOpacity>
-            )}
-            {index !== components.length - 1 && index !== 0 && (
-              <TouchableOpacity onPress={() => moveComponent(index, 1)}>
-                <Text style={styles.arrow}>▼</Text>
-              </TouchableOpacity>
-            )}
-          </View> */}
+          {component}
         </View>
       ))}
     </ScrollView>

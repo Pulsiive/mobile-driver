@@ -27,8 +27,7 @@ const FetchInfo = ({ date, stationId, setSlot, setModalVisible }) => {
         ///////////////////////////////////////////////////////////////////////
         //    Error checking to see if slot is already contained in Agenda    /
         for (const idToCheck in data[slot[index].date]) {
-          if (parseInt(data[slot[index].date][idToCheck].id) === index)
-            isAlreadyInAgenda = true;
+          if (parseInt(data[slot[index].date][idToCheck].id) === index) isAlreadyInAgenda = true;
         }
         if (isAlreadyInAgenda) {
           isAlreadyInAgenda = false;
@@ -98,52 +97,53 @@ const FetchInfo = ({ date, stationId, setSlot, setModalVisible }) => {
 
   return (
     <ScrollView style={{ top: -30 }}>
-      {data[date] && data[date]?.map((plan) => {
-        if (plan.id === 'undefined') {
-          return (
-            <View>
-              <Text style={{ color: 'white' }}>Nothing</Text>
-            </View>
-          );
-        } else if (plan.id < 0) {
-          return <View></View>;
-        }
-        return (
-          <Pressable
-            style={{ width: '100%' }}
-            onPress={() => {
-              if (plan.isBooked) {
-                return;
-              }
-              setSlot(plan);
-              setModalVisible(true);
-            }}
-          >
-            <Animated.View
-              style={[
-                plan.isBooked ? styles.itemBookedContainer : styles.itemContainer,
-                { opacity: firstOpacity, transform: [{ translateY: TranslationUp }] }
-              ]}
-              key={plan.slotId}
-            >
+      {data[date] &&
+        data[date]?.map((plan) => {
+          if (plan.id === 'undefined') {
+            return (
               <View>
-                <Image style={styles.picture} source={{ uri: plan.picture }}></Image>
-                <Text style={styles.name}>{plan.slotId}</Text>
-                <View style={styles.firstRow}>
-                  <Image style={styles.rendCalendar} source={AppIcon.images.calendar}></Image>
-                  <Text style={styles.Txtduration}>
-                    {plan.date} - {plan.Hour}
-                  </Text>
-                </View>
-                <View style={styles.secondRow}>
-                  <Image style={styles.rendbill} source={AppIcon.images.bill}></Image>
-                  <Text style={styles.Txtbill}>{plan.content}</Text>
-                </View>
+                <Text style={{ color: 'white' }}>Nothing</Text>
               </View>
-            </Animated.View>
-          </Pressable>
-        );
-      })}
+            );
+          } else if (plan.id < 0) {
+            return <View></View>;
+          }
+          return (
+            <Pressable
+              style={{ width: '100%' }}
+              onPress={() => {
+                if (plan.isBooked) {
+                  return;
+                }
+                setSlot(plan);
+                setModalVisible(true);
+              }}
+            >
+              <Animated.View
+                style={[
+                  plan.isBooked ? styles.itemBookedContainer : styles.itemContainer,
+                  { opacity: firstOpacity, transform: [{ translateY: TranslationUp }] }
+                ]}
+                key={plan.slotId}
+              >
+                <View>
+                  <Image style={styles.picture} source={{ uri: plan.picture }}></Image>
+                  <Text style={styles.name}>{plan.slotId}</Text>
+                  <View style={styles.firstRow}>
+                    <Image style={styles.rendCalendar} source={AppIcon.images.calendar}></Image>
+                    <Text style={styles.Txtduration}>
+                      {plan.date} - {plan.Hour}
+                    </Text>
+                  </View>
+                  <View style={styles.secondRow}>
+                    <Image style={styles.rendbill} source={AppIcon.images.bill}></Image>
+                    <Text style={styles.Txtbill}>{plan.content}</Text>
+                  </View>
+                </View>
+              </Animated.View>
+            </Pressable>
+          );
+        })}
     </ScrollView>
   );
 };

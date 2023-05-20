@@ -847,6 +847,7 @@ function Map({ navigation }) {
             userLong: userPosition[1]
           }
         });
+        console.log('params:', data);
         var conf = {
           method: 'post',
           url: config.API_URL + '/api/v1/stations',
