@@ -6,13 +6,18 @@ import api from '../../db/Api';
 import serviceAccessToken from '../../db/AccessToken';
 
 function Login({ navigation }) {
-  useEffect(async () => {
-    if (await serviceAccessToken.get()) {
-      inputEmail.current.clear();
-      inputPassword.current.clear();
-      setUserInput({ email: '', password: '' });
-      navigation.navigate('DrawerStack');
+  useEffect(() => {
+    const redirectIfLoggedIn = async () => {
+      const accessToken = await serviceAccessToken.get();
+      if (accessToken) {
+        inputEmail.current.clear();
+        inputPassword.current.clear();
+        setUserInput({ email: '', password: '' });
+        navigation.navigate('DrawerStack');
+      }
     }
+
+    redirectIfLoggedIn();
   }, []);
   const inputEmail = useRef(null);
   const inputPassword = useRef(null);
