@@ -22,6 +22,13 @@ function Settings({ navigation }) {
           navigation.navigate('ChangeEmail');
         }}
       />
+      <SettingsButton
+        title="Notification"
+        source={AppIcon.images.leftArrow}
+        onPress={() => {
+          navigation.navigate('Notification');
+        }}
+      />
       <View style={styles.leftTitle}>
         <Text style={styles.mutedText}>Your informations</Text>
         <Text style={styles.text}>Country: UK 🇬🇧</Text>
