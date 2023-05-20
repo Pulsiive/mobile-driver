@@ -184,7 +184,7 @@ function Message(props) {
         style={styles.messagesList}
         data={messages}
         // ListHeaderComponent={renderHeaderSection()}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item.id}
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
       />
