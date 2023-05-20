@@ -15,6 +15,7 @@ import {
 } from 'react-native';
 import api from '../../db/Api';
 import { AppIcon } from '../../AppStyles';
+import Station from '../station/Station';
 
 const renderRating = (rating, isComment = false) => {
   const stars = new Array(rating.rate).fill(<Icon name="star" size={20} color={'orange'} />);
@@ -138,8 +139,17 @@ function OwnerV2({ navigation }) {
   }, [profile]);
 
   useEffect(() => {
+    console.log(JSON.stringify(profile, null, '\t'));
     if (currentTabIndex >= 0) {
-      if (currentTabIndex === 2) {
+      if (currentTabIndex === 0) {
+        if (profile.privateStations.length > 0) {
+          setCurrentTabComponent(<Station ownerId={userId}></Station>);
+        } else {
+          setCurrentTabComponent(
+            <Text style={{ fontSize: 14, color: 'white' }}>User has no stations yet.</Text>
+          );
+        }
+      } else if (currentTabIndex === 2) {
         if (profile.receivedRatings.length > 0) {
           console.log(profile.receivedRatings);
           setCurrentTabComponent(

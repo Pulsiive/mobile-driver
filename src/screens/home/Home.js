@@ -309,12 +309,6 @@ function Home({ navigation }) {
     function toRad(deg) {
       return deg * (Math.PI / 180);
     }
-    const onBooking = (charger) => {
-      setModalVisible(false);
-      navigation.navigate('Booking', {
-        charger: charger
-      });
-    };
 
     const [modalData, setModalData] = useState({});
     const [modalVisible, setModalVisible] = useState(false);
@@ -384,6 +378,15 @@ function Home({ navigation }) {
         </View>
       );
     };
+
+    const navigateToStationBookingScreen = () => {
+      const selectedStation = modalData.charger;
+      setModalVisible(false);
+      setModalData({});
+      //navigation.navigate('PlanningUser', { stationId: selectedStation.id });
+      navigation.navigate('BookingPlanning', { stationId: selectedStation.id });
+    };
+
     return (
       <View style={styles.mapContainer}>
         <MapboxGL.MapView
@@ -473,8 +476,7 @@ function Home({ navigation }) {
                   <Button
                     containerStyle={styles.bookButton}
                     style={{ color: AppStyles.color.white }}
-                    onPress={() => onBooking(modalData.charger)}
-                    title="Book"
+                    onPress={navigateToStationBookingScreen}
                   >
                     Book
                   </Button>

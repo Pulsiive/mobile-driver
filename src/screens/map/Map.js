@@ -921,13 +921,6 @@ function Map({ navigation }) {
     }
   };
 
-  const onBooking = (charger) => {
-    setModalVisible(false);
-    navigation.navigate('Booking', {
-      charger: charger
-    });
-  };
-
   function handleListItemPress(location) {
     setUserPosition([location[1][0], location[1][1]]);
   }

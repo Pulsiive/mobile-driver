@@ -155,7 +155,6 @@ const MapStack = () => (
       })}
     />
     <Stack.Screen name="Locations" component={Locations} />
-    <Stack.Screen name="Booking" component={Booking} />
   </Stack.Navigator>
 );
 
