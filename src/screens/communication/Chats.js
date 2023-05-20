@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { FlatList, TextInput } from 'react-native-gesture-handler';
 import { StyleSheet, View, TouchableOpacity, Text, Modal, Image } from 'react-native';
 import { AppStyles } from '../../AppStyles';
-
 import Chat from './Chat';
 import api from '../../db/Api';
+
+import Icon from 'react-native-vector-icons/Entypo';
 
 function Chats() {
   const [chats, setChats] = useState([]);
@@ -17,25 +18,26 @@ function Chats() {
   const profilePicture =
     'https://vignette.wikia.nocookie.net/krypton-series/images/c/c3/Character-avatar-lyta-zod.png/revision/latest?cb=20180323124150';
 
-  useEffect(() => {
-    api.send('GET', '/api/v1/profile/contacts').then((data) => {
-      setContacts(data.data);
-    });
-  }, []);
-
-  useEffect(() => {
-    api
-      .send('GET', '/api/v1/profile/messages/last-by-user')
-      .then((data) =>
-        setChats(
-          data.data.map((message) => {
-            message.user.profilePictureUri = profilePicture;
-            return message;
-          })
+  useFocusEffect(
+    React.useCallback(() => {
+      console.log('FOCUS EFFECT');
+      api
+        .send('GET', '/api/v1/profile/messages/last-by-user')
+        .then((data) =>
+          setChats(
+            data.data.map((message) => {
+              message.user.profilePictureUri = profilePicture;
+              return message;
+            })
+          )
         )
-      )
-      .catch((e) => setErrorMessage(e));
-  }, []);
+        .catch((e) => setErrorMessage(e));
+
+      api.send('GET', '/api/v1/profile/contacts').then((data) => {
+        setContacts(data.data);
+      });
+    }, [])
+  );
 
   const onContactPress = (contact) => {
     navigation.navigate('Message', {
@@ -63,7 +65,7 @@ function Chats() {
         />
       )}
       <TouchableOpacity style={styles.roundButton1} onPress={() => setNewChatModalIsOpen(true)}>
-        <Text style={{ color: 'white', fontSize: 30 }}>+</Text>
+        <Icon name="circle-with-plus" size={20} color={'white'} />
       </TouchableOpacity>
       <Modal
         animationType="slide"
@@ -72,6 +74,13 @@ function Chats() {
         transparent
       >
         <View style={styles.modal}>
+          <TouchableOpacity
+            onPress={() => {
+              setNewChatModalIsOpen(false);
+            }}
+          >
+            <Icon name="cross" size={30} color="green" />
+          </TouchableOpacity>
           <FlatList
             data={contacts}
             keyExtractor={(item) => item.user.id}
@@ -83,11 +92,14 @@ function Chats() {
                   alignItems: 'center',
                   marginBottom: 20
                 }}
-                onPress={() => onContactPress(item.user)}
+                onPress={() => {
+                  setNewChatModalIsOpen(false);
+                  onContactPress(item.user);
+                }}
               >
                 <Image source={{ uri: profilePicture }} style={{ height: 50, width: 50 }}></Image>
                 <Text
-                  style={{ fontWeight: 'bold', fontSize: 18 }}
+                  style={{ fontWeight: 'bold', fontSize: 18, color: 'black' }}
                 >{`${item.user.firstName} ${item.user.lastName}`}</Text>
               </TouchableOpacity>
             )}

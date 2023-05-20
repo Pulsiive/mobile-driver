@@ -63,47 +63,59 @@ function Contact({ navigation }) {
         onRequestClose={() => setAddContactModalIsOpen(false)}
       >
         <View style={styles.modalContainer}>
-          <View>
+          <View style={{ marginBottom: 10 }}>
             <TouchableOpacity
               onPress={() => {
                 setAddContactModalIsOpen(false);
-                setSearchKey('email');
-                setSearchUserModalIsOpen(true);
               }}
             >
-              <View style={styles.modalSearchBy}>
-                <Icon name="email" size={25} color={'white'} />
-                <Text style={styles.modalText}>Add by email</Text>
-              </View>
+              <Icon name="cross" size={30} color="white" />
             </TouchableOpacity>
           </View>
-          <View>
-            <TouchableOpacity
-              onPress={() => {
-                setAddContactModalIsOpen(false);
-                setSearchKey('last_name');
-                setSearchUserModalIsOpen(true);
-              }}
-            >
-              <View style={styles.modalSearchBy}>
-                <Icon name="fingerprint" size={25} color={'white'} />
-                <Text style={styles.modalText}>Add by last name</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
-          <View>
-            <TouchableOpacity
-              onPress={() => {
-                setAddContactModalIsOpen(false);
-                setSearchKey('first_name');
-                setSearchUserModalIsOpen(true);
-              }}
-            >
-              <View style={styles.modalSearchBy}>
-                <Icon name="man" size={25} color={'white'} />
-                <Text style={styles.modalText}>Add by first name</Text>
-              </View>
-            </TouchableOpacity>
+
+          <View style={styles.modalSearchByContainer}>
+            <View>
+              <TouchableOpacity
+                onPress={() => {
+                  setAddContactModalIsOpen(false);
+                  setSearchKey('email');
+                  setSearchUserModalIsOpen(true);
+                }}
+              >
+                <View style={styles.modalSearchBy}>
+                  <Icon name="email" size={25} color={'white'} />
+                  <Text style={styles.modalText}>Add by email</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+            <View>
+              <TouchableOpacity
+                onPress={() => {
+                  setAddContactModalIsOpen(false);
+                  setSearchKey('last_name');
+                  setSearchUserModalIsOpen(true);
+                }}
+              >
+                <View style={styles.modalSearchBy}>
+                  <Icon name="fingerprint" size={25} color={'white'} />
+                  <Text style={styles.modalText}>Add by last name</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+            <View>
+              <TouchableOpacity
+                onPress={() => {
+                  setAddContactModalIsOpen(false);
+                  setSearchKey('first_name');
+                  setSearchUserModalIsOpen(true);
+                }}
+              >
+                <View style={styles.modalSearchBy}>
+                  <Icon name="man" size={25} color={'white'} />
+                  <Text style={styles.modalText}>Add by first name</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </Modal>
@@ -132,8 +144,10 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     top: 0,
     width: '100%',
-    height: '15%',
-    backgroundColor: 'rgba(52, 52, 52, 0.95)',
+    height: '20%',
+    backgroundColor: 'rgba(52, 52, 52, 0.95)'
+  },
+  modalSearchByContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around'
   },
