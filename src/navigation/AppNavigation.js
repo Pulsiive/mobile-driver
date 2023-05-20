@@ -16,6 +16,7 @@ import Settings from '../screens/settings/Settings';
 import Logout from '../screens/settings/Logout';
 import ChangePassword from '../screens/settings/ChangePassword';
 import ChangeEmail from '../screens/settings/ChangeEmail';
+import NotificationScreen from '../screens/settings/NotificationScreen';
 import Profile from '../screens/profile/Profile';
 import Owner from '../screens/profile/Owner';
 import Calendar from '../screens/profile/Calendar';
@@ -118,6 +119,7 @@ const HomeStack = () => (
     <Stack.Screen name="Settings" component={Settings} />
     <Stack.Screen name="ChangePassword" component={ChangePassword} />
     <Stack.Screen name="ChangeEmail" component={ChangeEmail} />
+    <Stack.Screen name="Notification" component={NotificationScreen} />
     <Stack.Screen name="Logout" component={Logout} />
     <Stack.Screen name="Profile" component={Profile} />
     <Stack.Screen
