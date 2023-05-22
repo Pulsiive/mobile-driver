@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react';
-import { StyleSheet, Text, TextInput, View, Alert } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { StyleSheet, Text, TextInput, View, Alert, Platform, Linking } from 'react-native';
 import Button from 'react-native-button';
 import { AppStyles } from '../../AppStyles';
 import api from '../../db/Api';
@@ -63,14 +63,14 @@ function SignUp({ navigation }) {
 
       const res = await api.send('POST', '/api/v1/auth/register', userInput, false);
 
-      if (res.status == 200) {
+      if (res.status === 200) {
         serviceAccessToken.set(res.data.accessToken);
         inputEmail.current.clear();
         inputFirstName.current.clear();
         inputLastName.current.clear();
         inputPassword.current.clear();
         setUserInput({ email: '', firstName: '', lastName: '', password: '' });
-        navigation.navigate('ReqPhoneNumberOTP');
+        navigation.navigate('SendEmailConfirmation', {email: userInput.email});
       } else {
         throw res;
       }

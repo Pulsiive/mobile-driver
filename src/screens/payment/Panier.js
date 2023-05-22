@@ -124,7 +124,7 @@ function Panier({ navigation, route }) {
                         {/* <Button testID={'close-button'} onPress={toggleModal} title="Close" /> */}
                         <TouchableOpacity activeOpacity={0.8} onPress={() => {
                           setModalVisible(false);
-                          navigation.navigate('Checkout', {slot});
+                          navigation.navigate('Checkout', {slot, station});
                         }} style={{color: '#ffffff', elevation: 8, backgroundColor: "black", borderRadius: 10, paddingVertical: 10, paddingHorizontal: 12, width: 100+'%', display:'flex', alignItems:'center', marginTop: 3+ '%',}} >
                             <Text style={{color: '#ffffff', fontSize:20}}> Commander </Text>
                         </TouchableOpacity>

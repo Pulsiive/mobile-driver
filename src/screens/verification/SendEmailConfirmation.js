@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     Btn: {
         boxSizing: 'borderBox',
         width: 50+'%',
-        top: '10%',
+        top: '20%',
         right: '190%',
         marginBottom: 0,
         ...padding(0 ,4.5),
@@ -218,8 +218,8 @@ function SendEmailConfirmation({route, navigation}) {
         const token = args[1];
         const email = args[2];
 
-        if (routeName === 'email-verification')
-            navigation.navigate('VerifyEmailToken', {token, email});
+        //if (routeName === 'email-verification')
+        navigation.navigate('VerifyEmailToken', {token, email});
     }
 
     return (
@@ -227,6 +227,17 @@ function SendEmailConfirmation({route, navigation}) {
             <Image source={AppIcon.images.logo2} style={styles.Logo2} />
             <View style={styles.line}></View>
             <Text style={styles.Welcome}>Un e-mail de confirmation a été envoyé à {email} ! {'\n'} Veuillez vérifier votre e-mail.</Text>
+            <TouchableHighlight onPress={() => {
+                navigation.navigate('ReqPhoneNumberOTP');
+            }}>
+                <View style={styles.groupBtn}>
+                    <View style={styles.Btn}>
+                        <View style={styles.content}>
+                            <Text style={styles.IText}>Passer</Text>
+                        </View>
+                    </View>
+                </View>
+            </TouchableHighlight>
         </View>
     );
 }

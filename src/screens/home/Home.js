@@ -23,10 +23,10 @@ import api from '../../db/Api';
 import Planning from '../planning/Planning';
 import serviceAccessToken from '../../db/AccessToken';
 
-MapboxGL.setAccessToken(
+/*MapboxGL.setAccessToken(
   'pk.eyJ1Ijoic2h5bGsiLCJhIjoiY2w0cmhncHdwMDZydTNjcDhkbTVmZm8xZCJ9.uxYLeAuZdY5VMx4EUBaw_A'
 );
-MapboxGL.setConnected(true);
+MapboxGL.setConnected(true);*/
 
 var axios = require('axios');
 
