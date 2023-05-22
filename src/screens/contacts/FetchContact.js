@@ -1,9 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { View, StyleSheet, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
-
 import { AppIcon } from '../../AppStyles';
-
-import { Linking } from 'react-native';
 
 const FetchContact = ({ data, navigation, removeContact }) => {
   return (
@@ -36,52 +33,59 @@ const FetchContact = ({ data, navigation, removeContact }) => {
                   </Text>
                 </View>
                 <View style={{ flexDirection: 'row' }}>
-                  <TouchableOpacity
-                    onPress={() => {
-                      navigation.navigate(
-                        'Message',
-                        {
-                          imageUri:
-                            'https://robohash.org/maioresaliquidvitae.png?size=40x40&set=set1',
-                          name: plan.user.firstName + ' ' + plan.user.lastName,
-                          receiverId: plan.user.id
-                        },
-                        { screen: 'DrawerStack' }
-                      );
-                      // Linking.openURL('tel:' + '+33 6 24 56 18 03');
-                    }}
-                  >
-                    <Image
-                      source={AppIcon.images.phone}
-                      style={{ height: 30, width: 30, left: 290, top: -40 }}
-                    ></Image>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => {
-                      navigation.navigate(
-                        'Owner',
-                        {
-                          imageUri:
-                            'https://robohash.org/maioresaliquidvitae.png?size=40x40&set=set1',
-                          name: plan.user.firstName + ' ' + plan.user.lastName,
-                          userId: plan.user.id
-                        },
-                        { screen: 'DrawerStack' }
-                      );
-                      // Linking.openURL('tel:' + '+33 6 24 56 18 03');
-                    }}
-                  >
-                    <Image
-                      source={AppIcon.images.profile}
-                      style={{ height: 30, width: 30, left: 220, top: -40 }}
-                    ></Image>
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={() => removeContact(plan.user.id)}>
-                    <Image
-                      source={AppIcon.images.remove}
-                      style={{ height: 30, width: 30, left: 270, top: -40 }}
-                    ></Image>
-                  </TouchableOpacity>
+                  <View style={{ left: 290, top: -40 }}>
+                    <TouchableOpacity
+                      onPress={() => {
+                        navigation.navigate(
+                          'Message',
+                          {
+                            imageUri:
+                              'https://robohash.org/maioresaliquidvitae.png?size=40x40&set=set1',
+                            name: plan.user.firstName + ' ' + plan.user.lastName,
+                            receiverId: plan.user.id
+                          },
+                          { screen: 'DrawerStack' }
+                        );
+                        // Linking.openURL('tel:' + '+33 6 24 56 18 03');
+                      }}
+                    >
+                      <Image
+                        source={AppIcon.images.phone}
+                        style={{ height: 30, width: 30 }}
+                      ></Image>
+                    </TouchableOpacity>
+                  </View>
+
+                  <View style={{ left: 220, top: -40 }}>
+                    <TouchableOpacity
+                      onPress={() => {
+                        navigation.navigate(
+                          'Owner',
+                          {
+                            imageUri:
+                              'https://robohash.org/maioresaliquidvitae.png?size=40x40&set=set1',
+                            name: plan.user.firstName + ' ' + plan.user.lastName,
+                            userId: plan.user.id
+                          },
+                          { screen: 'DrawerStack' }
+                        );
+                        // Linking.openURL('tel:' + '+33 6 24 56 18 03');
+                      }}
+                    >
+                      <Image
+                        source={AppIcon.images.profile}
+                        style={{ height: 30, width: 30 }}
+                      ></Image>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={{ left: 270, top: -40 }}>
+                    <TouchableOpacity onPress={() => removeContact(plan.user.id)}>
+                      <Image
+                        source={AppIcon.images.remove}
+                        style={{ height: 30, width: 30 }}
+                      ></Image>
+                    </TouchableOpacity>
+                  </View>
                 </View>
               </View>
             </View>

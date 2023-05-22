@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Modal, ActivityIndicator } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { StyleSheet, Text, View, Modal, ActivityIndicator, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/Entypo';
 import Button from 'react-native-button';
 import { AppStyles } from '../../AppStyles';
 import api from '../../db/Api';
@@ -71,6 +71,13 @@ function Profile() {
           onRequestClose={() => setMyCommentsModalIsOpen(false)}
         >
           <View style={styles.modalView}>
+            <TouchableOpacity
+              onPress={() => {
+                setMyCommentsModalIsOpen(false);
+              }}
+            >
+              <Icon name="cross" size={30} color="green" />
+            </TouchableOpacity>
             {myCommentsFetchIsLoading ? (
               <ActivityIndicator size="large" />
             ) : (
