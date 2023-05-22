@@ -1,38 +1,50 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { StyleSheet, Text, View, Animated, Image } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Animated,
+  Image,
+  TouchableHighlight,
+  Pressable
+} from 'react-native';
 import { AppIcon, AppStyles } from '../../AppStyles';
 import { ScrollView } from 'react-native-gesture-handler';
 import Backend from '../../db/Backend';
 import { Configuration } from '../../Configuration';
+import MyCalendar from '../booking/MyCalendar';
+import Icon from 'react-native-vector-icons/Entypo';
 
-function Planning() {
+function Planning({ home }) {
   const firstOpacity = useRef(new Animated.Value(0)).current;
   const TranslationUp = useRef(new Animated.Value(-20)).current;
   const [data, setData] = useState({});
-  const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+  const [date, setDate] = useState('');
+  const [dateTemp, setDateTemp] = useState(new Date().toISOString().split('T')[0]);
   let dataArray;
-  const [transformedArray, setTransformedArray] = useState();
+  const [transformedArray, setTransformedArray] = useState([]);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     function fillAgendaWithReservations(slot) {
       console.log('filling agenda');
-      console.log(slot);
       let isAlreadyInAgenda = false;
 
       for (let index = 0; index < slot.length; index++) {
         ///////////////////////////////////////////////////////////////////////
         //    Error checking to see if slot is already contained in Agenda    /
-        for (const idToCheck in data[slot[index].date]) {
-          if (parseInt(data[slot[index].date][idToCheck].id) === index) isAlreadyInAgenda = true;
+        for (const idToCheck in data[slot[index].dateTemp]) {
+          if (parseInt(data[slot[index].dateTemp][idToCheck].id) === index)
+            isAlreadyInAgenda = true;
         }
         if (isAlreadyInAgenda) {
           isAlreadyInAgenda = false;
           break;
         }
         ///////////////////////////////////////////////////////////////////////
-        if (data[slot[index].date] === undefined) data[slot[index].date] = [];
-        data[slot[index].date].push({
-          date: slot[index].date,
+        if (data[slot[index].dateTemp] === undefined) data[slot[index].dateTemp] = [];
+        data[slot[index].dateTemp].push({
+          dateTemp: slot[index].dateTemp,
           id: index,
           Hour: slot[index].opensAt + ' -> ' + slot[index].closeAt,
           Name: slot[index].stationId,
@@ -59,15 +71,12 @@ function Planning() {
         console.log('Fetching reservation to display');
         const slotParsed = [];
         const res = await Backend.getReservations();
-
-        console.log(JSON.stringify(res.data, null, '\t'));
-
         if (res.status === 200) {
           for (var index = 0; index < res.data.length; index++) {
             slotParsed.push({
               id: res.data[index].id,
               stationId: res.data[index].stationPropertiesId,
-              date: res.data[index].opensAt.split('T')[0],
+              dateTemp: res.data[index].opensAt.split('T')[0],
               opensAt: res.data[index].opensAt.split('T')[1].split('.')[0],
               closeAt: res.data[index].closesAt.split('T')[1].split('.')[0],
               isBooked: res.data[index].isBooked
@@ -100,12 +109,77 @@ function Planning() {
     })
   ]).start();
 
+  useEffect(() => {
+    setDate(date.toString().split('T')[0]);
+    try {
+      if (date != '') {
+        setTransformedArray([
+          data[date].map((obj) => {
+            return obj;
+          })
+        ]);
+      } else if (date == '') {
+        dataArray = Object.values(data);
+        setTransformedArray(
+          dataArray.map((objects) => {
+            return objects.map((obj) => {
+              return obj;
+            });
+          })
+        );
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }, [date]);
+
+  const onOpen = (open) => {
+    setDate(new Date());
+    setOpen(!open);
+  };
+
   return (
     <ScrollView style={{ backgroundColor: AppStyles.color.background }}>
+      {!home && (
+        <View style={{ marginBottom: 17 + '%' }}>
+          <Pressable
+            style={{
+              position: 'absolute',
+              width: 50,
+              height: 50,
+              top: 10,
+              left: 5 + '%'
+            }}
+            onPress={() => onOpen(open)}
+          >
+            <Icon name="calendar" size={50} color="grey" />
+          </Pressable>
+          <Pressable
+            style={{
+              position: 'absolute',
+              width: 50,
+              height: 50,
+              top: 10,
+              left: 25 + '%'
+            }}
+            onPress={() => setDate('')}
+          >
+            <Icon name="squared-cross" size={50} color="grey" />
+          </Pressable>
+        </View>
+      )}
+      {open && (
+        <View style={{ marginTop: 10 + '%' }}>
+          <MyCalendar
+            date={{ date }}
+            onChange={(date) => setDate(date)}
+            open={(open) => setOpen(open)}
+          />
+        </View>
+      )}
       {transformedArray?.length > 0 ? (
         transformedArray.map((obj) => {
           return obj.map((plan) => {
-            console.log('PLAN:', plan);
             if (plan.id === 'undefined') {
               return (
                 <View>
@@ -134,7 +208,7 @@ function Planning() {
                     <View style={styles.firstRow}>
                       <Image style={styles.rendCalendar} source={AppIcon.images.calendar}></Image>
                       <Text style={styles.Txtduration}>
-                        {plan.date} - {plan.Hour}
+                        {plan.dateTemp}: {plan.Hour}
                       </Text>
                     </View>
                     <View style={styles.secondRow}>
@@ -195,7 +269,7 @@ const styles = StyleSheet.create({
   itemBookedContainer: {
     backgroundColor: 'grey',
     margin: 5,
-    marginTop: 20,
+    marginTop: 10,
     width: 97 + '%',
     height: 98,
     borderRadius: 15,

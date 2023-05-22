@@ -70,7 +70,12 @@ const DateSlider = ({ date, stationId, setSlot, setModalVisible, onChange }) => 
           </Text>
         </View>
         <View style={styles.safe}>
-          <FetchInfo date={date.toISOString().split('T')[0]} stationId={stationId} setSlot={setSlot} setModalVisible={setModalVisible} />
+          <FetchInfo
+            date={date.toISOString().split('T')[0]}
+            stationId={stationId}
+            setSlot={setSlot}
+            setModalVisible={setModalVisible}
+          />
         </View>
       </View>
     </>

@@ -392,7 +392,11 @@ function Home({ navigation }) {
     );
   };
 
-  const [components, setComponents] = useState([<MyMap />, <MyMessages />, <Planning />]);
+  const [components, setComponents] = useState([
+    <MyMap />,
+    <MyMessages />,
+    <Planning home={true} />
+  ]);
 
   return (
     <ScrollView style={styles.container}>
