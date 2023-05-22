@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react';
-import { StyleSheet, Text, TextInput, View, Alert } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { StyleSheet, Text, TextInput, View, Alert, Platform, Linking } from 'react-native';
 import Button from 'react-native-button';
 import { AppStyles } from '../../AppStyles';
 import api from '../../db/Api';
@@ -70,7 +70,7 @@ function SignUp({ navigation }) {
         inputLastName.current.clear();
         inputPassword.current.clear();
         setUserInput({ email: '', firstName: '', lastName: '', password: '' });
-        navigation.navigate('ReqPhoneNumberOTP');
+        navigation.navigate('SendEmailConfirmation', {email: userInput.email});
       } else {
         throw res;
       }

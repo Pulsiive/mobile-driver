@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, View, TouchableHighlight, Image } from 'react-native';
 import Button from 'react-native-button';
 import { AppIcon, AppStyles } from '../../AppStyles';
+import serviceAccessToken from '../../db/AccessToken';
 
 function Logout({ navigation }) {
   return (
@@ -23,6 +24,7 @@ function Logout({ navigation }) {
         containerStyle={styles.logoutButton}
         style={styles.logoutText}
         onPress={() => {
+          serviceAccessToken.remove();
           navigation.navigate('LoginStack');
         }}
       >
