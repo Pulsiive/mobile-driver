@@ -72,13 +72,15 @@ function Home({ navigation }) {
     console.log(JSON.stringify(messages, null, '\t'));
     return (
       <View style={[styles.container, { height: 198, width: 328 }]}>
-        {messages.length > 0 && (
+        {messages.length > 0 ? (
           <FlatList
             data={messages}
             keyExtractor={(item) => item.message.id}
             renderItem={({ item }) => <Chat chat={item}></Chat>}
             showsVerticalScrollIndicator={false}
           />
+        ) : (
+          <Text style={{ color: 'black' }}>No messages yet</Text>
         )}
       </View>
     );

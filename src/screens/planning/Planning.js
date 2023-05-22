@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Animated, Image } from 'react-native';
 import { AppIcon, AppStyles } from '../../AppStyles';
 import { ScrollView } from 'react-native-gesture-handler';
 import Backend from '../../db/Backend';
+import { Configuration } from '../../Configuration';
 
 function Planning() {
   const firstOpacity = useRef(new Animated.Value(0)).current;
@@ -100,19 +101,23 @@ function Planning() {
   ]).start();
 
   return (
-    <ScrollView>
-      {transformedArray &&
+    <ScrollView style={{ backgroundColor: AppStyles.color.background }}>
+      {transformedArray?.length > 0 ? (
         transformedArray.map((obj) => {
           return obj.map((plan) => {
             console.log('PLAN:', plan);
             if (plan.id === 'undefined') {
               return (
                 <View>
-                  <Text style={{ color: 'white' }}>Nothing</Text>
+                  <Text style={{ color: 'black' }}>Nothing</Text>
                 </View>
               );
             } else if (plan.id < 0) {
-              return <View></View>;
+              return (
+                <View>
+                  <Text style={{ color: 'black' }}>No reservations yet</Text>
+                </View>
+              );
             }
             return (
               <View>
@@ -141,13 +146,23 @@ function Planning() {
               </View>
             );
           });
-        })}
+        })
+      ) : (
+        <View style={styles.container}>
+          <Text style={{ color: 'black' }}>No reservations yet</Text>
+        </View>
+      )}
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   safe: {},
+  container: {
+    flex: 1,
+    backgroundColor: AppStyles.color.background,
+    padding: Configuration.home.listing_item.offset
+  },
   picture: {
     position: 'absolute',
     right: -130,
