@@ -63,7 +63,7 @@ function SignUp({ navigation }) {
 
       const res = await api.send('POST', '/api/v1/auth/register', userInput, false);
 
-      if (res.status == 200) {
+      if (res.status === 200) {
         serviceAccessToken.set(res.data.accessToken);
         inputEmail.current.clear();
         inputFirstName.current.clear();

@@ -57,6 +57,11 @@ class Backend {
     return res;
   };
 
+  getPayments = async () => {
+    const res = await API.send('GET', `/api/v1/payments`, null, true);
+    return res;
+  };
+
   submitPayment = async (paymentIntentId) => {
     const res = await API.send(
       'POST',

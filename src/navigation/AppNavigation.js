@@ -43,6 +43,7 @@ import ReqPhoneNumberOTP from '../screens/verification/ReqPhoneNumberOTP';
 import Checkout from '../screens/payment/Checkout';
 import Panier from '../screens/payment/Panier';
 import PaymentHistory from '../screens/payment/History';
+import InitLinkComponent from '../components/InitLinkComponent';
 
 const Stack = createStackNavigator();
 
@@ -297,6 +298,25 @@ const TabNavigator = () => (
     />
     <BottomTab.Screen
       options={{
+        tabBarLabel: 'Orders',
+        tabBarIcon: ({ focused }) => {
+          return (
+            <Image
+              style={{
+                tintColor: focused ? AppStyles.color.tint : AppStyles.color.grey,
+                width: 30,
+                height: 30
+              }}
+              source={AppIcon.images.logo}
+            />
+          );
+        }
+      }}
+      name="PaymentHistory"
+      component={PaymentHistory}
+    />
+    <BottomTab.Screen
+      options={{
         tabBarLabel: 'Messages',
         tabBarIcon: ({ focused }) => {
           return (
@@ -334,6 +354,7 @@ const DrawerStack = () => (
 
 const RootNavigator = () => (
   <Stack.Navigator initialRouteName="LoginStack" screenOptions={{ headerShown: false }}>
+    <Stack.Screen name="InitLink" component={InitLinkComponent} />
     <Stack.Screen name="LoginStack" component={LoginStack} />
     <Stack.Screen
       name="ReqEmailVerification"
@@ -366,11 +387,6 @@ const RootNavigator = () => (
     <Stack.Screen name="PaymentUICustomScreen" component={PaymentsUICustomScreen} />
     <Stack.Screen name="Panier" component={Panier} options={{ headerShown: false }} />
     <Stack.Screen name="Checkout" component={Checkout} options={{ headerShown: false }} />
-    <Stack.Screen
-      name="PaymentHistory"
-      component={PaymentHistory}
-      options={{ headerShown: false }}
-    />
     <Stack.Screen name="OwnerRating" component={OwnerRating} />
   </Stack.Navigator>
 );

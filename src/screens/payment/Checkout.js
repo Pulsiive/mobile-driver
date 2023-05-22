@@ -66,8 +66,8 @@ function Checkout({ navigation, route }) {
                             <Image style={{flex: 1, width: 90+'%', height:90+'%', resizeMode: 'contain'}} source={AppIcon.images.station3}></Image>
                         </View>
                         <View style={{marginLeft:5+'%', left:30+'%', width: 80+'%'}}>
-                            <Text style={{color:'black', fontSize:20}}>Location Chargeur Type 3</Text>
-                            <Text style={{color:'grey', fontWeight:'bold', fontSize:12}}>M.Mathieu - propriétaire</Text>
+                            <Text style={{color:'black', fontSize:20}}>Location Chargeur {station?.properties?.plugTypes[0] ?? 'non défini'}</Text>
+                            <Text style={{color:'grey', fontWeight:'bold', fontSize:12}}>User - propriétaire</Text>
                         </View>
                     </TouchableOpacity>
 
@@ -88,8 +88,8 @@ function Checkout({ navigation, route }) {
                             <Image style={{flex: 1, width: 70+'%', height:70+'%', resizeMode: 'contain'}} source={AppIcon.images.time}></Image>
                         </View>
                         <View style={{marginLeft:5+'%', left:30+'%', width: 80+'%'}}>
-                            <Text style={{color:'black', fontSize:20}}>Lundi 22 février</Text>
-                            <Text style={{color:'grey', fontWeight:'bold', fontSize:12}}>Horaire: 18h-22h</Text>
+                            <Text style={{color:'black', fontSize:20}}>{slot?.date}</Text>
+                            <Text style={{color:'grey', fontWeight:'bold', fontSize:12}}>Horaire: {slot.Hour}</Text>
                         </View>
                     </TouchableOpacity>
 
@@ -133,8 +133,8 @@ function Checkout({ navigation, route }) {
                             <Image style={{flex: 1, width: 90+'%', height:90+'%', resizeMode: 'contain'}} source={AppIcon.images.location}></Image>
                         </View>
                         <View style={{marginLeft:5+'%', left:50+'%', width: 60+'%'}}>
-                            <Text style={{color:'black', fontSize:16, fontWeight:'bold'}}>3 Boulevard d'Auteuil, 16ème Arrondissement</Text>
-                            <Text style={{color:'grey', marginTop: 2, fontSize:16}}>75016 Paris</Text>
+                            <Text style={{color:'black', fontSize:16, fontWeight:'bold'}}>{station?.coordinates?.address}</Text>
+                            <Text style={{color:'grey', marginTop: 2, fontSize:16}}>{station?.coordinates?.countryCode} {station?.coordinates?.city}</Text>
                         </View>
                     </TouchableOpacity>
 

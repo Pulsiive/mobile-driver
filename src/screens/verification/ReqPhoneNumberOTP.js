@@ -7,7 +7,7 @@ import {
     Text,
     Linking,
     TextInput,
-    SafeAreaView, ActivityIndicator,
+    SafeAreaView, ActivityIndicator, Pressable
 } from 'react-native';
 import {showMessage} from "react-native-flash-message";
 import Backend from '../../db/Backend';
@@ -158,41 +158,35 @@ function ReqPhoneNumberOTP({navigation}) {
          <View style={styles.Line2}></View>
          <SafeAreaView>
          <TextInput
-        style={styles.input}
-        onChangeText={onChangeNumber}
-        value={number}
-        keyboardType="numeric"
-        maxLength={12}
-      />
+            style={styles.input}
+            onChangeText={onChangeNumber}
+            value={number}
+            keyboardType="numeric"
+            maxLength={12}
+        />
           </SafeAreaView>
-            <TouchableHighlight disabled={Boolean(number.length !== 12)} onPress={() => handleSubmit(number)}>
-            <View style={styles.groupBtn}>
-                <View style={styles.Btn}>
-                    <View style={{
-                        backgroundColor: Boolean(number.length !== 12) ? 'grey' : '#81cd2c',
-                        borderRadius: 9,
-                        textAlign: 'center',
-                        height: 100+'%',
-                        width: 93 + '%',
-                        padding: 12,
-                    }}>
-                        {isLoading ? <ActivityIndicator size="small" color="white" /> : <Text style={styles.IText}>Suivant</Text>}
-                    </View>
-                </View>
-            </View>
-            </TouchableHighlight>
-
-          <TouchableHighlight onPress={() => navigation.navigate('DrawerStack')}>
-                  <View style={{
-                      backgroundColor: '#81cd2c',
-                      borderRadius: 9,
-                      textAlign: 'center',
-                      marginTop: 60,
-                      padding: 12,
-                  }}>
-                      <Text style={styles.IText}>Plus tard</Text>
-                  </View>
-          </TouchableHighlight>
+            <Pressable disabled={Boolean(number.length !== 12)} onPress={() => handleSubmit(number)} style={{
+                backgroundColor: Boolean(number.length !== 12) ? 'grey' : '#81cd2c',
+                borderRadius: 9,
+                textAlign: 'center',
+                height: 40,
+                top: 10,
+                padding: 12,
+            }}>
+                {isLoading ? <ActivityIndicator size="small" color="white" /> : <Text style={styles.IText}>Suivant</Text>}
+            </Pressable>
+          <Pressable onPress={() => navigation.navigate('DrawerStack')}>
+              <View style={{
+                  backgroundColor: '#81cd2c',
+                  borderRadius: 9,
+                  textAlign: 'center',
+                  height: 40,
+                  top: 30,
+                  padding: 12,
+              }}>
+                  <Text style={styles.IText}>Plus tard</Text>
+              </View>
+          </Pressable>
       </View>
     );
   }

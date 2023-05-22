@@ -10,11 +10,15 @@ import {
     TouchableHighlight,
 } from 'react-native';
 import { ScrollView } from "react-native-gesture-handler";
+import Backend from '../../db/Backend';
+import { AppIcon } from '../../AppStyles';
+import { showMessage } from 'react-native-flash-message';
 
 
 function History({ navigation }) {
 
     const [payments, setPayments] = useState([]);
+    const [profile, setProfile] = useState([]);
 
         useEffect(() => {
             const fetchPayments = async () => {
@@ -22,6 +26,28 @@ function History({ navigation }) {
                 if (status === 200)
                     setPayments(data);
             }
+
+            const getProfile = async () => {
+                const response = await Backend.me();
+
+                if (response.status === 200) {
+                    setProfile(response.data);
+                    showMessage({
+                        message: `Balance récupéré avec succès`,
+                        type: "success",
+                        backgroundColor: "green"
+                    });
+                } else {
+                    showMessage({
+                        message: 'Impossible de récupérer la balance',
+                        type: "error",
+                        backgroundColor: "red"
+                    });
+                }
+            }
+
+            getProfile();
+
             fetchPayments();
     }, []);
 
@@ -38,7 +64,7 @@ function History({ navigation }) {
 
 
                     <TouchableOpacity style={{marginRight: 'auto'}} onPress={() => navigation.navigate('Aide')}>
-                        <Image style={{width: 20, height:20}} source={back}></Image>
+                        <Image style={{width: 20, height:20}} source={AppIcon.images.back}></Image>
                     </TouchableOpacity>
 
                     <Text style={{color: '#2F313E', fontSize:25, fontWeight: 'bold', marginTop: 3+'%'}}> Mon Historique de paiements </Text>
@@ -47,12 +73,12 @@ function History({ navigation }) {
 
                     <TouchableOpacity style={styles.test}>
                         <View style={{height:40, width: 40, borderRadius: 30, justifyContent:'center', alignItems:'center'}}>
-                            <Image style={{flex: 1, width: 90+'%', height:90+'%', resizeMode: 'contain'}} source={user}></Image>
+                            <Image style={{flex: 1, width: 90+'%', height:90+'%', resizeMode: 'contain'}} source={AppIcon.images.user}></Image>
                         </View>
-                        <View style={{borderRadius: 30, padding:10 , backgroundColor:'#f2f2f2' ,marginLeft:5+'%', left:50+'%', width: 200, justifyContent:'center', alignItems:'center'}}>
-                            <Text style={{color:'black', fontSize:16}}>Cecile Dupont</Text>
-                            <Text style={{color:'black', marginTop: 2, fontSize:12}}>User Id: {payments && payments[0]?.userId}</Text>
-                        </View>
+                        {profile && <View style={{borderRadius: 30, padding:10 , backgroundColor:'#f2f2f2' ,marginLeft:5+'%', left:50+'%', width: 200, justifyContent:'center', alignItems:'center'}}>
+                            <Text style={{color:'black', fontSize:16}}>{profile?.firstName}</Text>
+                            <Text style={{color:'black', marginTop: 2, fontSize:12}}>User Id: {profile?.id}</Text>
+                        </View>}
                     </TouchableOpacity>
 
                     <View style={{marginLeft:-10+'%',marginTop: 7+'%', marginBottom: 2+'%', height: 5, width: 200+'%', backgroundColor:'black'}}></View>
@@ -62,7 +88,7 @@ return (
     <>
         <TouchableOpacity style={styles.test}>
                         <View style={{height:60, width: 60, borderRadius: 50, justifyContent:'center', alignItems:'center'}}>
-                            <Image style={{flex: 1, width: 90+'%', height:90+'%', resizeMode: 'contain'}} source={station1}></Image>
+                            <Image style={{flex: 1, width: 90+'%', height:90+'%', resizeMode: 'contain'}} source={AppIcon.images.station1}></Image>
                         </View>
                         <View style={{marginLeft:5+'%', left:30+'%', width: 80+'%'}}>
                             <Text style={{color:'black', fontSize:16}}>Commande n°{payment.id} -</Text>
@@ -83,7 +109,7 @@ return (
 
                     <TouchableOpacity style={styles.test}>
                         <View style={{height:60, width: 60, borderRadius: 50, justifyContent:'center', alignItems:'center'}}>
-                            <Image style={{flex: 1, width: 90+'%', height:90+'%', resizeMode: 'contain'}} source={station2}></Image>
+                            <Image style={{flex: 1, width: 90+'%', height:90+'%', resizeMode: 'contain'}} source={AppIcon.images.station2}></Image>
                         </View>
                         <View style={{marginLeft:5+'%', left:30+'%', width: 80+'%'}}>
                             <Text style={{color:'black', fontSize:16}}>Commande n°237777 -</Text>
@@ -97,7 +123,7 @@ return (
 
                     <TouchableOpacity style={styles.test}>
                         <View style={{height:60, width: 60, borderRadius: 50, justifyContent:'center', alignItems:'center'}}>
-                            <Image style={{flex: 1, width: 90+'%', height:90+'%', resizeMode: 'contain'}} source={station3}></Image>
+                            <Image style={{flex: 1, width: 90+'%', height:90+'%', resizeMode: 'contain'}} source={AppIcon.images.station3}></Image>
                         </View>
                         <View style={{marginLeft:5+'%', left:30+'%', width: 80+'%'}}>
                             <Text style={{color:'black', fontSize:16}}>Commande n°237324 -</Text>
