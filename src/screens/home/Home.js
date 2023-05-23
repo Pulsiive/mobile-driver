@@ -291,12 +291,12 @@ function Home({ navigation }) {
         <MapboxGL.MapView
           style={styles.map}
           styleURL="mapbox://styles/mapbox/light-v9"
-          zoomLevel={13}
+          zoomLevel={11}
           center={[userPosition]}
           key="map"
         >
           <MapboxGL.Camera
-            zoomLevel={13}
+            zoomLevel={11}
             centerCoordinate={[userPosition[1], userPosition[0]]}
             animationMode={'flyTo'}
             animationDuration={5000}

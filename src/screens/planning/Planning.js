@@ -24,6 +24,7 @@ function Planning({ home }) {
   let dataArray;
   const [transformedArray, setTransformedArray] = useState([]);
   const [open, setOpen] = useState(false);
+  const [fetchStation, setFetchStation] = useState(false);
 
   useEffect(() => {
     function fillAgendaWithReservations(slot) {
@@ -39,7 +40,7 @@ function Planning({ home }) {
         }
         if (isAlreadyInAgenda) {
           isAlreadyInAgenda = false;
-          break;
+          continue;
         }
         ///////////////////////////////////////////////////////////////////////
         if (data[slot[index].dateTemp] === undefined) data[slot[index].dateTemp] = [];
@@ -54,7 +55,7 @@ function Planning({ home }) {
           isBooked: slot[index].isBooked,
           slotId: slot[index].id
         });
-        console.log('pushed one new object');
+        // console.log('pushed one new object');
       }
       dataArray = Object.values(data);
       setTransformedArray(
@@ -91,7 +92,7 @@ function Planning({ home }) {
       }
     }
     fetchReservations();
-  }, []);
+  }, [fetchStation]);
 
   firstOpacity.setValue(0);
   TranslationUp.setValue(-20);
@@ -112,13 +113,7 @@ function Planning({ home }) {
   useEffect(() => {
     setDate(date.toString().split('T')[0]);
     try {
-      if (date != '') {
-        setTransformedArray([
-          data[date].map((obj) => {
-            return obj;
-          })
-        ]);
-      } else if (date == '') {
+      if (date == '') {
         dataArray = Object.values(data);
         setTransformedArray(
           dataArray.map((objects) => {
@@ -127,6 +122,14 @@ function Planning({ home }) {
             });
           })
         );
+      } else if (data[date] == undefined) {
+        setTransformedArray();
+      } else {
+        setTransformedArray([
+          data[date].map((obj) => {
+            return obj;
+          })
+        ]);
       }
     } catch (e) {
       console.log(e);
@@ -165,6 +168,18 @@ function Planning({ home }) {
             onPress={() => setDate('')}
           >
             <Icon name="squared-cross" size={50} color="grey" />
+          </Pressable>
+          <Pressable
+            style={{
+              position: 'absolute',
+              width: 50,
+              height: 50,
+              top: 10,
+              left: 45 + '%'
+            }}
+            onPress={() => setFetchStation(!fetchStation)}
+          >
+            <Icon name="retweet" size={50} color="grey" />
           </Pressable>
         </View>
       )}
@@ -223,7 +238,7 @@ function Planning({ home }) {
         })
       ) : (
         <View style={styles.container}>
-          <Text style={{ color: 'black' }}>No reservations yet</Text>
+          <Text style={{ color: 'black' }}>No reservations</Text>
         </View>
       )}
     </ScrollView>
