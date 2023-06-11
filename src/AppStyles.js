@@ -93,6 +93,8 @@ export const AppIcon = {
     visa: require('../assets/images/visa.png'),
     xMark: require('../assets/images/x-mark.png'),
     applePay: require('../assets/images/apple-pay.png'),
+    stationInformationsModal: require('../assets/images/stationInformationsImage.jpg'),
+    userProfilePicture: require('../assets/images/user.jpeg')
   }
 };
 
