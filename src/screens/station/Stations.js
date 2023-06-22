@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     color: AppStyles.color.white
   },
   loginContainer: {
-    width: AppStyles.buttonWidth.main,
+    width: AppStyles.buttonWidth,
     backgroundColor: AppStyles.color.tint,
     borderRadius: AppStyles.borderRadius.main,
     padding: 10,

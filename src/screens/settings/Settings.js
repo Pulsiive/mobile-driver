@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, View, TouchableHighlight, Image } from 'react-native';
 import Button from 'react-native-button';
 import { AppIcon, AppStyles } from '../../AppStyles';
-import SettingsButton from '../../components/SettingsButton';
+// import SettingsButton from '../../components/SettingsButton';
 
 function Settings({ navigation }) {
   return (
     <View style={styles.container}>
       <Text style={[styles.title, styles.leftTitle]}>Settings</Text>
-      <SettingsButton
+      {/* <SettingsButton
         title="Change password"
         source={AppIcon.images.leftArrow}
         onPress={() => {
@@ -28,7 +28,7 @@ function Settings({ navigation }) {
         onPress={() => {
           navigation.navigate('Notification');
         }}
-      />
+      /> */}
       <View style={styles.leftTitle}>
         <Text style={styles.mutedText}>Your informations</Text>
         <Text style={styles.text}>Country: UK 🇬🇧</Text>
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     color: AppStyles.color.text
   },
   loginContainer: {
-    width: AppStyles.buttonWidth.main,
+    width: AppStyles.buttonWidth,
     backgroundColor: AppStyles.color.tint,
     borderRadius: AppStyles.borderRadius.main,
     padding: 10,

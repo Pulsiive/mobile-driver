@@ -6,38 +6,69 @@ const numColumns = 2;
 
 export const AppStyles = {
   color: {
+    pulsive: '#7fb27c',
+    lightmode: 'white',
+    darkmode: 'black', // à voir après
+    title: 'black',
+    text: 'black',
+    subText: 'darkgrey',
+    label: 'darkgrey',
+    pressed: 'whitesmoke',
+    error: 'firebrick',
+    border: 'darkgrey',
+    borderFocused: 'black',
+    //----------------------
+    white: 'white',
+    grey: 'grey',
+    blue: '#3293fe',
+    lightgrey: 'lightgrey',
+    darkgrey: 'darkgrey',
+    transparent: 'transparent',
+    whitesmoke: 'whitesmoke',
+
+    //----------------------
     main: '#5ea23a',
-    text: '#696969',
-    title: '#464646',
+    // title: '#464646',
     subtitle: '#545454',
-    categoryTitle: '#161616',
+    // categoryTitle: '#161616',
     tint: '#7fb27c',
     description: '#bbbbbb',
-    filterTitle: '#8a8a8a',
-    starRating: '#2bdf85',
-    location: '#a9a9a9',
-    white: 'white',
+    // location: '#a9a9a9',
     facebook: '#337472',
-    grey: 'grey',
     greenBlue: '#00aea8',
-    placeholder: '#a0a0a0',
-    background: '#f2f2f2',
-    blue: '#3293fe'
+    // placeholder: '#a0a0a0',
+    background: '#f2f2f2'
   },
+
   fontSize: {
-    title: 30,
+    title: 24,
     content: 20,
-    normal: 16
+    button: 16,
+    normal: 16,
+    subText: 14
   },
-  buttonWidth: {
-    main: '70%'
+
+  buttonWidth: width * 0.9,
+
+  subtext: {
+    fontSize: 14,
+    marginTop: 2,
+    color: 'darkgrey',
+    fontWeight: '300'
   },
-  textInputWidth: {
-    main: '80%'
+
+  container: {
+    flex: 1,
+    backgroundColor: 'white'
   },
+
+  //------------- à enlever à la fin -------------------
   borderRadius: {
     main: 25,
     small: 5
+  },
+  textInputWidth: {
+    main: '80%'
   }
 };
 
@@ -92,7 +123,7 @@ export const AppIcon = {
     time: require('../assets/images/time.png'),
     visa: require('../assets/images/visa.png'),
     xMark: require('../assets/images/x-mark.png'),
-    applePay: require('../assets/images/apple-pay.png'),
+    applePay: require('../assets/images/apple-pay.png')
   }
 };
 

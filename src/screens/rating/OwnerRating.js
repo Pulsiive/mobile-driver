@@ -205,7 +205,7 @@ const styles = StyleSheet.create({
   },
   submitButton: {
     color: 'white',
-    width: AppStyles.buttonWidth.main,
+    width: AppStyles.buttonWidth,
     borderRadius: AppStyles.borderRadius.main,
     padding: 10
   },

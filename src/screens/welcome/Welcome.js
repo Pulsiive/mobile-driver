@@ -21,6 +21,13 @@ function Welcome({ navigation }) {
       >
         Sign Up
       </Button>
+      <Button
+        containerStyle={styles.loginContainer}
+        style={styles.loginText}
+        onPress={() => navigation.navigate('Components')}
+      >
+        Components
+      </Button>
     </View>
   );
 }
@@ -47,7 +54,7 @@ const styles = StyleSheet.create({
     marginRight: 20
   },
   loginContainer: {
-    width: AppStyles.buttonWidth.main,
+    width: AppStyles.buttonWidth,
     backgroundColor: AppStyles.color.tint,
     borderRadius: AppStyles.borderRadius.main,
     padding: 10,
@@ -57,7 +64,7 @@ const styles = StyleSheet.create({
     color: AppStyles.color.white
   },
   signupContainer: {
-    width: AppStyles.buttonWidth.main,
+    width: AppStyles.buttonWidth,
     backgroundColor: AppStyles.color.white,
     borderRadius: AppStyles.borderRadius.main,
     padding: 8,

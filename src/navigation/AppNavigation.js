@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, StyleSheet, Image } from 'react-native';
+import { Pressable, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -45,20 +45,16 @@ import Panier from '../screens/payment/Panier';
 import PaymentHistory from '../screens/payment/History';
 import InitLinkComponent from '../components/InitLinkComponent';
 
+import Components from '../screens/components/Components';
+
 const Stack = createStackNavigator();
 
 const LoginStack = () => (
-  <Stack.Navigator
-    initialRouteName="Welcome"
-    screenOptions={{
-      headerTintColor: AppStyles.color.tint,
-      headerTitleStyle: styles.headerTitleStyle,
-      headerMode: 'float'
-    }}
-  >
+  <Stack.Navigator initialRouteName="Welcome" screenOptions={styles.screenOptions}>
     <Stack.Screen name="Welcome" component={Welcome} />
     <Stack.Screen name="Login" component={Login} />
     <Stack.Screen name="SignUp" component={SignUp} />
+    <Stack.Screen name="Components" component={Components} />
   </Stack.Navigator>
 );
 
@@ -392,13 +388,20 @@ const RootNavigator = () => (
 );
 
 const AppNavigator = () => (
-  <NavigationContainer>
+  <NavigationContainer style={{ backgroundColor: AppStyles.color.lightmode }}>
     <RootNavigator />
     <FlashMessage position="top" />
   </NavigationContainer>
 );
 
 const styles = StyleSheet.create({
+  screenOptions: {
+    headerStyle: { borderBottomWidth: 1 },
+    headerMode: 'screen',
+    headerShadowVisible: true,
+    headerTransparent: false,
+    headerTitle: ''
+  },
   headerTitleStyle: {
     fontWeight: 'bold',
     textAlign: 'center',

@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
     color: AppStyles.color.text
   },
   loginContainer: {
-    width: AppStyles.buttonWidth.main,
+    width: AppStyles.buttonWidth,
     backgroundColor: AppStyles.color.tint,
     borderRadius: AppStyles.borderRadius.main,
     padding: 10,
@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
     color: AppStyles.color.text
   },
   facebookContainer: {
-    width: AppStyles.buttonWidth.main,
+    width: AppStyles.buttonWidth,
     backgroundColor: AppStyles.color.tint,
     borderRadius: AppStyles.borderRadius.main,
     padding: 10,
