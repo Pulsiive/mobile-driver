@@ -17,6 +17,7 @@ export const AppStyles = {
     error: 'firebrick',
     border: 'darkgrey',
     borderFocused: 'black',
+    overlay: 'rgba(0, 0, 0, 0.5)',
     //----------------------
     white: 'white',
     grey: 'grey',

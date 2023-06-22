@@ -2,10 +2,17 @@ import React from 'react';
 import { Text, StyleSheet, View } from 'react-native';
 import { AppStyles } from '../AppStyles';
 
-const TextTitle = ({ title }) => {
+const TextTitle = ({ title, style }) => {
   return (
     <View>
-      <Text style={styles.title}>{title}</Text>
+      <Text
+        style={{
+          ...styles.title,
+          ...(style || {})
+        }}
+      >
+        {title}
+      </Text>
     </View>
   );
 };

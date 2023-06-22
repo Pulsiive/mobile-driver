@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, ScrollView } from 'react-native';
+import { StyleSheet, Text, ScrollView, View, TouchableOpacity } from 'react-native';
 import { AppStyles } from '../../AppStyles';
 
 import {
@@ -10,12 +10,14 @@ import {
   ButtonText,
   ButtonConditional,
   TextTitle,
-  TextError
+  TextError,
+  ModalSwipeUp
 } from '../../components';
 
 function Components({ navigation }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
 
   const checkForErrors = (input) => {
     if (input == '') return 'Vide';
@@ -26,6 +28,26 @@ function Components({ navigation }) {
     <ScrollView style={styles.container}>
       <TextTitle title="Ma liste de composants" />
       <TextError title="Un exemple d'erreur" />
+      <ButtonCommon title="Modal" onPress={() => setModalVisible(true)} />
+
+      <ModalSwipeUp
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+        // closeButton={true}
+      >
+        <Text style={{ color: 'black', fontWeight: 'bold' }}>Engagement de la communauté</Text>
+        <TextTitle
+          title="Conditions générales d'utilisation de Pulsive"
+          style={{ marginLeft: 0 }}
+        />
+        <Text style={{ color: 'black' }}>
+          En acceptant les conditions générales d'utilisation de Pulsive, je m'engage à respecter
+          les règles de l'application et à respecter les autres utilisateurs
+        </Text>
+        <ButtonText title="En savoir plus >" style={{ fontWeight: 'bold', marginVertical: 20 }} />
+        <ButtonConditional title="Accepter" isEnabled={true} />
+        <ButtonCommon title="Annuler" onPress={() => setModalVisible(false)} />
+      </ModalSwipeUp>
       <InputFieldMultiple
         labels={['Nom', 'E-mail']}
         errorChecks={[checkForErrors, checkForErrors]}
@@ -63,7 +85,7 @@ function Components({ navigation }) {
         subtext="Je test le subtext avec un text long pour voir si ça rend bien Je test le subtext avec un text long pour voir si ça rend bien"
         icon="back-in-time"
       />
-      <ButtonText title="Modifier" />
+      <ButtonText title="Modifier" style={{ margin: 20 }} />
     </ScrollView>
   );
 }

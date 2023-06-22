@@ -6,3 +6,4 @@ export { default as InputFieldMultiple } from './InputFieldMultiple';
 export { default as ButtonText } from './ButtonText';
 export { default as TextError } from './TextError';
 export { default as TextTitle } from './TextTitle';
+export { default as ModalSwipeUp } from './ModalSwipeUp';

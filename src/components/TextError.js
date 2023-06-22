@@ -3,11 +3,16 @@ import { Text, StyleSheet, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import { AppStyles } from '../AppStyles';
 
-const TextError = ({ title }) => {
+const TextError = ({ title, style }) => {
   return (
     <View>
       {title !== '' && (
-        <View style={styles.iconContainer}>
+        <View
+          style={{
+            ...styles.container,
+            ...(style || {})
+          }}
+        >
           <Icon name="info-with-circle" size={16} style={styles.infoIcon} />
           <Text style={styles.error}>{title}</Text>
         </View>
@@ -21,7 +26,7 @@ const styles = StyleSheet.create({
     marginRight: 5,
     color: AppStyles.color.error
   },
-  iconContainer: {
+  container: {
     flexDirection: 'row',
     alignItems: 'center',
     margin: 20
