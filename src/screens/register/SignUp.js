@@ -22,12 +22,14 @@ function SignUp({ navigation }) {
   const [password, setPassword] = useState('');
 
   const [valid, setValid] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [error, setError] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
 
   const onRegister = async () => {
     setError('');
+    setLoading(true);
     try {
       const userInput = {
         email: email,
@@ -37,6 +39,8 @@ function SignUp({ navigation }) {
         dateOfBirth: '2022-09-09T20:32:54.003Z'
       };
       const res = await api.send('POST', '/api/v1/auth/register', userInput, false);
+
+      setLoading(false);
 
       if (res.status === 200) {
         serviceAccessToken.set(res.data.accessToken);
@@ -119,7 +123,6 @@ function SignUp({ navigation }) {
           En acceptant les conditions générales d'utilisation de Pulsive, je m'engage à respecter
           les règles de l'application et à respecter les autres utilisateurs
         </Text>
-        {/* <ButtonText title="En savoir plus >" style={{ fontWeight: 'bold', marginVertical: 20 }} /> */}
         <ButtonConditional
           title="Accepter"
           isEnabled={true}
@@ -127,7 +130,6 @@ function SignUp({ navigation }) {
             acceptGCU();
           }}
         />
-        {/* <ButtonCommon title="Annuler" onPress={() => setModalVisible(false)} /> */}
       </ModalSwipeUp>
       <TextTitle title="Inscription à Pulsive" />
       <TextError title={error} />
@@ -155,7 +157,7 @@ function SignUp({ navigation }) {
         isEnabled={true}
         style={{ backgroundColor: AppStyles.color.darkgrey }}
         onPress={onRegister}
-        loading={true}
+        loading={loading}
       />
     </ScrollView>
   );

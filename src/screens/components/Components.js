@@ -18,6 +18,7 @@ function Components({ navigation }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const checkForErrors = (input) => {
     if (input == '') return 'Vide';
@@ -56,7 +57,8 @@ function Components({ navigation }) {
         subText="Veuillez entrer votre adresse mail"
         setValue={setEmail}
       />
-      <ButtonCommon title="M'inscrire" />
+      <ButtonCommon title="Loading" onPress={() => setLoading(!loading)} />
+      <ButtonCommon title="Loading" loading={loading} />
       <ButtonConditional
         title="Condition 1"
         // isEnabled={true}
@@ -67,6 +69,12 @@ function Components({ navigation }) {
         title="Condition 2"
         isEnabled={true}
         style={{ backgroundColor: AppStyles.color.error }}
+      />
+      <ButtonConditional
+        title="Condition 2"
+        isEnabled={true}
+        style={{ backgroundColor: AppStyles.color.darkgrey }}
+        loading={loading}
       />
       <ButtonTouchable title="Test" subtext="Je test le subtext" icon="awareness-ribbon" />
       <ButtonTouchable title="Test" icon="awareness-ribbon" />

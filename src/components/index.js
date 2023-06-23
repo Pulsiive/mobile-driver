@@ -7,3 +7,4 @@ export { default as ButtonText } from './ButtonText';
 export { default as TextError } from './TextError';
 export { default as TextTitle } from './TextTitle';
 export { default as ModalSwipeUp } from './ModalSwipeUp';
+export { default as AnimatedLoading } from './AnimatedLoading';
