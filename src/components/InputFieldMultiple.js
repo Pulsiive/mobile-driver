@@ -3,6 +3,18 @@ import { View, TextInput, StyleSheet, Animated, Text, TouchableOpacity } from 'r
 import Icon from 'react-native-vector-icons/Entypo';
 import { AppStyles } from '../AppStyles';
 
+{
+  /*
+  <InputFieldMultiple
+    labels(required)={['Label 1', 'Label 2']} // Labels of the input areas
+    setValues(required)={[setLabel1, setLabel2]} // functions to set the values in the parent
+    errorChecks(optional)={[checkForLabel1Errors, checkForLabel2Errors]} // functions to check inputs errors
+    secures(optional)={[true, false]} // to put or not the secureText options
+    subText(optional)="Subtext" // to put a subtext
+  />
+  */
+}
+
 const InputField = ({ labels, errorChecks, subText, setValues, secures }) => {
   const [isFocused, setIsFocused] = useState([...Array(labels.length)].map(() => false));
   const [errors, setErrors] = useState([...Array(labels.length)].map(() => false));
@@ -34,11 +46,13 @@ const InputField = ({ labels, errorChecks, subText, setValues, secures }) => {
       return updatedFocused;
     });
     setValues[index](inputValues[index]);
-    setErrors((prevErrors) => {
-      const updatedErrors = [...prevErrors];
-      updatedErrors[index] = errorChecks[index](inputValues[index]);
-      return updatedErrors;
-    });
+    if (errorChecks && errorChecks[index]) {
+      setErrors((prevErrors) => {
+        const updatedErrors = [...prevErrors];
+        updatedErrors[index] = errorChecks[index](inputValues[index]);
+        return updatedErrors;
+      });
+    }
   };
 
   const handleChangeText = (text, index) => {

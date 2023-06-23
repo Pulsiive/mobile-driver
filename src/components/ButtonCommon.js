@@ -2,6 +2,16 @@ import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { AppStyles } from '../AppStyles';
 
+{
+  /*
+  <ButtonCommon
+    title(required)="ButtonCommon" // text of the button
+    onPress(required)={() => onPress()} // function called when the button is pressed
+    style(optional)={{ insert style here }} // to change the style
+  />
+  */
+}
+
 const ButtonCommon = ({ title, style, onPress }) => {
   const handlePress = () => {
     if (onPress) onPress();

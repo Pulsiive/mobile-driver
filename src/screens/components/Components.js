@@ -33,19 +33,9 @@ function Components({ navigation }) {
       <ModalSwipeUp
         visible={modalVisible}
         onClose={() => setModalVisible(false)}
-        // closeButton={true}
+        closeButton={true}
       >
-        <Text style={{ color: 'black', fontWeight: 'bold' }}>Engagement de la communauté</Text>
-        <TextTitle
-          title="Conditions générales d'utilisation de Pulsive"
-          style={{ marginLeft: 0 }}
-        />
-        <Text style={{ color: 'black' }}>
-          En acceptant les conditions générales d'utilisation de Pulsive, je m'engage à respecter
-          les règles de l'application et à respecter les autres utilisateurs
-        </Text>
-        <ButtonText title="En savoir plus >" style={{ fontWeight: 'bold', marginVertical: 20 }} />
-        <ButtonConditional title="Accepter" isEnabled={true} />
+        <TextTitle title="Exemple de modal" style={{ marginLeft: 0 }} />
         <ButtonCommon title="Annuler" onPress={() => setModalVisible(false)} />
       </ModalSwipeUp>
       <InputFieldMultiple
@@ -83,7 +73,7 @@ function Components({ navigation }) {
       <ButtonTouchable
         title="Touchable"
         subtext="Je test le subtext avec un text long pour voir si ça rend bien Je test le subtext avec un text long pour voir si ça rend bien"
-        icon="back-in-time"
+        // icon="back-in-time"
       />
       <ButtonText title="Modifier" style={{ margin: 20 }} />
     </ScrollView>

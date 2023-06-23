@@ -3,6 +3,15 @@ import { Text, StyleSheet, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import { AppStyles } from '../AppStyles';
 
+{
+  /*
+  <TextError
+    title(required)="Error" // content of the text
+    style(optional)={{ insert style here }} // to change the style
+  />
+  */
+}
+
 const TextError = ({ title, style }) => {
   return (
     <View>

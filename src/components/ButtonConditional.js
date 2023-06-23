@@ -2,6 +2,17 @@ import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { AppStyles } from '../AppStyles';
 
+{
+  /*
+  <ButtonConditional
+    title(required)="ButtonConditional" // text of the button
+    onPress(required)={() => onPress()} // function called when the button is pressed
+    style(optional)={{ insert style here }} // to change the style
+    isEnable(optional)={true} // condition for the button to be enable or not
+  />
+  */
+}
+
 const ButtonConditional = ({ title, style, isEnabled, onPress }) => {
   const isButtonEnabled = isEnabled && typeof isEnabled === 'boolean';
 

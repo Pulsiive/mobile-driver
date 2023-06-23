@@ -3,6 +3,17 @@ import { View, TouchableHighlight, Text, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import { AppStyles } from '../AppStyles';
 
+{
+  /*
+  <ButtonTouchable
+    title(required)="ButtonTouchable" // text of the button
+    onPress(required)={() => onPress()} // function called when the button is pressed
+    style(optional)={{ insert style here }} // to change the style
+    icon(optional)="icon-name" // to put or not an icon
+  />
+  */
+}
+
 const ButtonTouchable = ({ icon, title, subtext, onPress }) => {
   const handlePress = () => {
     if (onPress) onPress();
@@ -41,7 +52,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-start',
     justifyContent: 'space-between',
-    marginRight: '7%'
+    marginRight: 24
   },
   leftContent: {
     flexDirection: 'row',
@@ -52,7 +63,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     alignItems: 'flex-start',
-    marginLeft: '7%'
+    marginLeft: 16
   },
   ButtonTouchableText: {
     textAlign: 'center',

@@ -3,6 +3,18 @@ import { View, TextInput, StyleSheet, Animated, Text, TouchableOpacity } from 'r
 import Icon from 'react-native-vector-icons/Entypo';
 import { AppStyles } from '../AppStyles';
 
+{
+  /*
+  <InputField
+    label(required)="Label" // Label of the input area
+    setValue(required)={setName} // function to set the value in the parent
+    errorCheck(optional)={checkForLabelErrors} // function to check input errors
+    secure(optional)={true} // to put or not the secureText option
+    subText(optional)="Subtext" // to put a subtext
+  />
+  */
+}
+
 const InputField = ({ label, errorCheck, subText, setValue, secure }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [error, setError] = useState(false);
@@ -25,7 +37,7 @@ const InputField = ({ label, errorCheck, subText, setValue, secure }) => {
   const handleBlur = () => {
     setIsFocused(false);
     setValue(inputValue);
-    setError(errorCheck(inputValue));
+    if (errorCheck) setError(errorCheck(inputValue));
   };
 
   const handleChangeText = (text) => {
