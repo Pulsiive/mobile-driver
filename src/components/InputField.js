@@ -15,7 +15,7 @@ import { AppStyles } from '../AppStyles';
   */
 }
 
-const InputField = ({ label, errorCheck, subText, setValue, secure }) => {
+const InputField = ({ label, errorCheck, subText, setValue, secure, ref }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [error, setError] = useState(false);
   const [secureText, setSecureText] = useState(secure);
@@ -51,6 +51,7 @@ const InputField = ({ label, errorCheck, subText, setValue, secure }) => {
         {label}
       </Animated.Text>
       <TextInput
+        ref={ref}
         style={[styles.input, borderStyle, error && styles.errorInput]}
         onFocus={handleFocus}
         onBlur={handleBlur}

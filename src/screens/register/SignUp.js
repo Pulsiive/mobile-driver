@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, Text } from 'react-native';
 import { AppStyles } from '../../AppStyles';
 import api from '../../db/Api';
 import serviceAccessToken from '../../db/AccessToken';
@@ -8,8 +8,12 @@ import {
   InputFieldMultiple,
   ButtonConditional,
   TextError,
-  TextTitle
+  TextTitle,
+  ModalSwipeUp,
+  ButtonCommon,
+  ButtonText
 } from '../../components';
+import { useFocusEffect } from '@react-navigation/native';
 
 function SignUp({ navigation }) {
   const [email, setEmail] = useState('');
@@ -20,8 +24,10 @@ function SignUp({ navigation }) {
   const [valid, setValid] = useState(false);
 
   const [error, setError] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
 
   const onRegister = async () => {
+    setError('');
     try {
       const userInput = {
         email: email,
@@ -34,13 +40,7 @@ function SignUp({ navigation }) {
 
       if (res.status === 200) {
         serviceAccessToken.set(res.data.accessToken);
-        // setEmail('');
-        // setName('');
-        // setFirstName('');
-        // setPassword('');
-        // setValid(false);
-        // setError('');
-        navigation.navigate('SendEmailConfirmation', { email: email });
+        setModalVisible(true);
       } else {
         throw res;
       }
@@ -55,6 +55,17 @@ function SignUp({ navigation }) {
     }
   };
 
+  useFocusEffect(
+    React.useCallback(() => {
+      setEmail('');
+      setName('');
+      setFirstName('');
+      setPassword('');
+      setValid(false);
+      setError('');
+    }, [])
+  );
+
   useEffect(() => {
     if (
       checkForNameErrors(name) ||
@@ -65,6 +76,11 @@ function SignUp({ navigation }) {
       setValid(false);
     else setValid(true);
   }, [email, name, firstName, password]);
+
+  const acceptGCU = () => {
+    navigation.navigate('SendEmailConfirmation', { email: email });
+    setModalVisible(false);
+  };
 
   const checkForEmailErrors = (input) => {
     if (input == '') return 'Veuillez indiquer votre e-mail';
@@ -93,6 +109,26 @@ function SignUp({ navigation }) {
 
   return (
     <ScrollView style={AppStyles.container}>
+      <ModalSwipeUp visible={modalVisible} onClose={() => setModalVisible(false)}>
+        <Text style={{ color: 'black', fontWeight: 'bold' }}>Engagement de la communauté</Text>
+        <TextTitle
+          title="Conditions générales d'utilisation de Pulsive"
+          style={{ marginLeft: 0 }}
+        />
+        <Text style={{ color: 'black', marginBottom: 30 }}>
+          En acceptant les conditions générales d'utilisation de Pulsive, je m'engage à respecter
+          les règles de l'application et à respecter les autres utilisateurs
+        </Text>
+        {/* <ButtonText title="En savoir plus >" style={{ fontWeight: 'bold', marginVertical: 20 }} /> */}
+        <ButtonConditional
+          title="Accepter"
+          isEnabled={true}
+          onPress={() => {
+            acceptGCU();
+          }}
+        />
+        {/* <ButtonCommon title="Annuler" onPress={() => setModalVisible(false)} /> */}
+      </ModalSwipeUp>
       <TextTitle title="Inscription à Pulsive" />
       <TextError title={error} />
       <InputFieldMultiple
@@ -116,9 +152,10 @@ function SignUp({ navigation }) {
       />
       <ButtonConditional
         title="M'inscrire"
-        isEnabled={valid}
+        isEnabled={true}
         style={{ backgroundColor: AppStyles.color.darkgrey }}
         onPress={onRegister}
+        loading={true}
       />
     </ScrollView>
   );

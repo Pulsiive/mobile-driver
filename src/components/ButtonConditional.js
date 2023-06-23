@@ -1,6 +1,7 @@
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { TouchableOpacity, Text, StyleSheet, ActivityIndicator, View } from 'react-native';
 import { AppStyles } from '../AppStyles';
+import AnimatedLoader from 'react-native-animated-loader';
 
 {
   /*
@@ -13,7 +14,7 @@ import { AppStyles } from '../AppStyles';
   */
 }
 
-const ButtonConditional = ({ title, style, isEnabled, onPress }) => {
+const ButtonConditional = ({ title, style, isEnabled, onPress, loading }) => {
   const isButtonEnabled = isEnabled && typeof isEnabled === 'boolean';
 
   const buttonStyle = {
@@ -24,20 +25,36 @@ const ButtonConditional = ({ title, style, isEnabled, onPress }) => {
     if (onPress) onPress();
   };
 
+  const renderContent = () => {
+    if (loading) {
+      return (
+        <AnimatedLoader
+          visible={true}
+          overlayColor="rgba(255,255,255,0.75)"
+          animationStyle={styles.lottie}
+          speed={1}
+        >
+          <Text>Doing something...</Text>
+        </AnimatedLoader>
+      );
+    }
+    return <Text style={styles.buttonText}>{title}</Text>;
+  };
+
   return (
     <TouchableOpacity
       activeOpacity={0.5}
       onPress={handlePress}
-      style={{ ...styles.ButtonConditional, ...buttonStyle, ...(style || {}) }}
-      disabled={!isButtonEnabled}
+      style={[styles.button, buttonStyle, style]}
+      disabled={!isButtonEnabled || loading}
     >
-      <Text style={styles.ButtonConditionalText}>{title}</Text>
+      {renderContent()}
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-  ButtonConditional: {
+  button: {
     borderRadius: 8,
     padding: '4%',
     margin: '2%',
@@ -45,11 +62,19 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     backgroundColor: AppStyles.color.pulsive
   },
-  ButtonConditionalText: {
+  buttonText: {
     fontWeight: 'bold',
     textAlign: 'center',
     color: AppStyles.color.lightmode,
     fontSize: 16
+  },
+  loadingContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  dot: {
+    marginLeft: 6
   }
 });
 
