@@ -17,7 +17,9 @@ import {
 function Components({ navigation }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [modalVisible, setModalVisible] = useState(false);
+  const [test, setTest] = useState('');
+  const [modalVisible1, setModalVisible1] = useState(false);
+  const [modalVisible2, setModalVisible2] = useState(false);
 
   const checkForErrors = (input) => {
     if (input == '') return 'Vide';
@@ -28,16 +30,31 @@ function Components({ navigation }) {
     <ScrollView style={styles.container}>
       <TextTitle title="Ma liste de composants" />
       <TextError title="Un exemple d'erreur" />
-      <ButtonCommon title="Modal" onPress={() => setModalVisible(true)} />
-
+      <ButtonCommon title="Modal 1" onPress={() => setModalVisible1(true)} />
       <ModalSwipeUp
-        visible={modalVisible}
-        onClose={() => setModalVisible(false)}
+        visible={modalVisible1}
+        onClose={() => setModalVisible1(false)}
         closeButton={true}
       >
-        <TextTitle title="Exemple de modal" style={{ marginLeft: 0 }} />
-        <ButtonCommon title="Annuler" onPress={() => setModalVisible(false)} />
+        <TextTitle title="Exemple de modal avec croix" style={{ marginLeft: 0 }} />
+        <ButtonCommon title="Annuler" onPress={() => setModalVisible1(false)} />
       </ModalSwipeUp>
+
+      <ButtonCommon title="Modal 2" onPress={() => setModalVisible2(true)} />
+      <ModalSwipeUp
+        visible={modalVisible2}
+        onClose={() => setModalVisible2(false)}
+        closeButton={false}
+      >
+        <TextTitle title="Exemple de modal sans croix" style={{ marginLeft: 0 }} />
+        <ButtonCommon title="Annuler" onPress={() => setModalVisible2(false)} />
+      </ModalSwipeUp>
+      <InputFieldMultiple
+        labels={['Nom', 'E-mail', 'Test']}
+        errorChecks={[checkForErrors, checkForErrors, checkForErrors]}
+        setValues={[setName, setEmail, setTest]}
+        secures={[false, false, true]}
+      />
       <InputFieldMultiple
         labels={['Nom', 'E-mail']}
         errorChecks={[checkForErrors, checkForErrors]}
@@ -49,6 +66,7 @@ function Components({ navigation }) {
         errorCheck={checkForErrors}
         subText="Veuillez entrer votre nom"
         setValue={setName}
+        secure={true}
       />
       <InputField
         label="E-mail"
@@ -68,8 +86,14 @@ function Components({ navigation }) {
         isEnabled={true}
         style={{ backgroundColor: AppStyles.color.error }}
       />
-      <ButtonTouchable title="Test" subtext="Je test le subtext" icon="awareness-ribbon" />
-      <ButtonTouchable title="Test" icon="awareness-ribbon" />
+      <ButtonTouchable
+        title="Test avec subtext"
+        subtext="Je test le subtext"
+        icon="awareness-ribbon"
+      />
+      <ButtonTouchable title="Test 1" icon="awareness-ribbon" />
+      <ButtonTouchable title="Test 2" icon="awareness-ribbon" />
+      <ButtonTouchable title="Test 3" icon="awareness-ribbon" />
       <ButtonTouchable
         title="Touchable"
         subtext="Je test le subtext avec un text long pour voir si ça rend bien Je test le subtext avec un text long pour voir si ça rend bien"
