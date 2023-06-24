@@ -9,9 +9,7 @@ import {
   ButtonConditional,
   TextError,
   TextTitle,
-  ModalSwipeUp,
-  ButtonCommon,
-  ButtonText
+  ModalSwipeUp
 } from '../../components';
 import { useFocusEffect } from '@react-navigation/native';
 
@@ -26,6 +24,29 @@ function SignUp({ navigation }) {
 
   const [error, setError] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setEmail('');
+      setName('');
+      setFirstName('');
+      setPassword('');
+      setValid(false);
+      setLoading(false);
+      setError('');
+    }, [])
+  );
+
+  useEffect(() => {
+    if (
+      checkForNameErrors(name) ||
+      checkForFirstNameErrors(firstName) ||
+      checkForEmailErrors(email) ||
+      checkForPasswordErrors(password)
+    )
+      setValid(false);
+    else setValid(true);
+  }, [email, name, firstName, password]);
 
   const onRegister = async () => {
     setError('');
@@ -59,35 +80,13 @@ function SignUp({ navigation }) {
     }
   };
 
-  useFocusEffect(
-    React.useCallback(() => {
-      setEmail('');
-      setName('');
-      setFirstName('');
-      setPassword('');
-      setValid(false);
-      setError('');
-    }, [])
-  );
-
-  useEffect(() => {
-    if (
-      checkForNameErrors(name) ||
-      checkForFirstNameErrors(firstName) ||
-      checkForEmailErrors(email) ||
-      checkForPasswordErrors(password)
-    )
-      setValid(false);
-    else setValid(true);
-  }, [email, name, firstName, password]);
-
   const acceptGCU = () => {
     navigation.navigate('SendEmailConfirmation', { email: email });
     setModalVisible(false);
   };
 
   const checkForEmailErrors = (input) => {
-    if (input == '') return 'Veuillez indiquer votre e-mail';
+    if (input == '') return 'Veuillez indiquer votre adresse e-mail';
     if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/.test(input))
       return "Le format n'est pas correct (ex: test@ext.com)";
     return false;
@@ -142,7 +141,7 @@ function SignUp({ navigation }) {
       <InputField
         label="E-mail"
         errorCheck={checkForEmailErrors}
-        subText="Veuillez entrer un e-mail valide"
+        subText="Veuillez entrer une adresse e-mail valide"
         setValue={setEmail}
       />
       <InputField
@@ -154,7 +153,7 @@ function SignUp({ navigation }) {
       />
       <ButtonConditional
         title="M'inscrire"
-        isEnabled={true}
+        isEnabled={valid}
         style={{ backgroundColor: AppStyles.color.darkgrey }}
         onPress={onRegister}
         loading={loading}

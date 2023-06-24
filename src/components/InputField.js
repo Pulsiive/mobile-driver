@@ -15,7 +15,7 @@ import { AppStyles } from '../AppStyles';
   */
 }
 
-const InputField = ({ label, errorCheck, subText, setValue, secure, ref }) => {
+const InputField = ({ label, errorCheck, subText, setValue, secure, style }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [error, setError] = useState(false);
   const [secureText, setSecureText] = useState(secure);
@@ -46,12 +46,16 @@ const InputField = ({ label, errorCheck, subText, setValue, secure, ref }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View
+      style={{
+        ...styles.container,
+        ...(style || {})
+      }}
+    >
       <Animated.Text style={[styles.label, labelStyle, error && styles.errorLabel]}>
         {label}
       </Animated.Text>
       <TextInput
-        ref={ref}
         style={[styles.input, borderStyle, error && styles.errorInput]}
         onFocus={handleFocus}
         onBlur={handleBlur}

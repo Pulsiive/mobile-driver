@@ -6,7 +6,10 @@ const numColumns = 2;
 
 export const AppStyles = {
   color: {
+    // pulsive: '#81CD2C',
     pulsive: '#7fb27c',
+    // pulsiveDark: '#436342',
+    pulsiveDark: '#4D8837',
     lightmode: 'white',
     darkmode: 'black', // à voir après
     title: 'black',
@@ -109,6 +112,7 @@ export const AppIcon = {
     logo2: require('../assets/images/logo-2.png'),
     notif: require('../assets/images/notif.png'),
     Pulsiive: require('../assets/images/Pulsiive.png'),
+    pulsive: require('../assets/images/pulsive.png'),
     bill: require('../assets/images/bill.png'),
     calendar: require('../assets/images/calendar.png'),
     back: require('../assets/images/back.png'),

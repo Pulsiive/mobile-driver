@@ -50,9 +50,15 @@ import Components from '../screens/components/Components';
 const Stack = createStackNavigator();
 
 const LoginStack = () => (
-  <Stack.Navigator initialRouteName="Welcome" screenOptions={styles.screenOptions}>
-    <Stack.Screen name="Welcome" component={Welcome} />
-    <Stack.Screen name="Login" component={Login} />
+  <Stack.Navigator initialRouteName="Login" screenOptions={styles.screenOptions}>
+    {/* <Stack.Screen name="Welcome" component={Welcome} /> */}
+    <Stack.Screen
+      name="Login"
+      component={Login}
+      options={{
+        headerShown: false
+      }}
+    />
     <Stack.Screen name="SignUp" component={SignUp} />
     <Stack.Screen name="Components" component={Components} />
   </Stack.Navigator>

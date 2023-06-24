@@ -1,82 +1,60 @@
-import React, { useState } from 'react';
-import Button from 'react-native-button';
-import { ActivityIndicator, Text, View, StyleSheet } from 'react-native';
-import { AppStyles } from '../../AppStyles';
+import React from 'react';
+import { StyleSheet, Image, View, Text } from 'react-native';
+import { AppIcon, AppStyles } from '../../AppStyles';
+import { ScrollView } from 'react-native-gesture-handler';
+import { ButtonCommon, ButtonConditional, ButtonText, TextTitle } from '../../components';
 
 function Welcome({ navigation }) {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Welcome on Puslive</Text>
-      <Button
-        containerStyle={styles.loginContainer}
-        style={styles.loginText}
-        onPress={() => navigation.navigate('Login')}
-      >
-        Log In
-      </Button>
-      <Button
-        containerStyle={styles.signupContainer}
-        style={styles.signupText}
-        onPress={() => navigation.navigate('SignUp')}
-      >
-        Sign Up
-      </Button>
-      <Button
-        containerStyle={styles.loginContainer}
-        style={styles.loginText}
-        onPress={() => navigation.navigate('Components')}
-      >
-        Components
-      </Button>
-    </View>
+    <ScrollView contentContainerStyle={[AppStyles.container, styles.container]}>
+      <View style={styles.logoContainer}>
+        <Image source={AppIcon.images.logo} style={styles.logo} />
+        <TextTitle title="Pulsive" style={styles.title} />
+      </View>
+      <View style={styles.buttonsContainer}>
+        <ButtonConditional
+          title="Me connecter"
+          isEnabled={true}
+          onPress={() => navigation.navigate('Login')}
+        />
+        <View style={styles.accountContainer}>
+          <Text style={styles.accountText}>Pas encore de compte ?</Text>
+          <ButtonText title="En créer un" onPress={() => navigation.navigate('SignUp')} />
+        </View>
+      </View>
+      <ButtonCommon title="Composants" onPress={() => navigation.navigate('Components')} />
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 150
+    flexGrow: 1,
+    justifyContent: 'space-between',
+    paddingVertical: 40
+  },
+  logoContainer: {
+    alignItems: 'flex-start'
   },
   logo: {
-    width: 200,
-    height: 200
+    width: 50,
+    height: 50
+    // resizeMode: 'cover'
   },
-  title: {
-    fontSize: AppStyles.fontSize.title,
-    fontWeight: 'bold',
-    color: AppStyles.color.tint,
-    marginTop: 20,
-    textAlign: 'center',
-    marginBottom: 20,
-    marginLeft: 20,
-    marginRight: 20
+  accountContainer: {
+    flexDirection: 'row'
   },
-  loginContainer: {
-    width: AppStyles.buttonWidth,
-    backgroundColor: AppStyles.color.tint,
-    borderRadius: AppStyles.borderRadius.main,
-    padding: 10,
-    marginTop: 30
+  accountText: {
+    color: AppStyles.color.text,
+    marginRight: 5
   },
-  loginText: {
-    color: AppStyles.color.white
-  },
-  signupContainer: {
-    width: AppStyles.buttonWidth,
-    backgroundColor: AppStyles.color.white,
-    borderRadius: AppStyles.borderRadius.main,
-    padding: 8,
-    borderWidth: 1,
-    borderColor: AppStyles.color.tint,
-    marginTop: 15
-  },
-  signupText: {
-    color: AppStyles.color.tint
-  },
-  spinner: {
-    marginTop: 200
+  // title: {
+  //   fontSize: 24,
+  //   marginTop: 20
+  // },
+  buttonsContainer: {
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
 
