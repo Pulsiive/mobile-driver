@@ -8,20 +8,6 @@ export default function DrawerContainer({ navigation }) {
     <View style={styles.content}>
       <View style={styles.container}>
         <MenuButton
-          title="Profile"
-          source={AppIcon.images.profile}
-          onPress={() => {
-            navigation.navigate('Profile');
-          }}
-        />
-        <MenuButton
-          title="Settings"
-          source={AppIcon.images.settings}
-          onPress={() => {
-            navigation.navigate('Settings');
-          }}
-        />
-        <MenuButton
           title="Stations"
           source={AppIcon.images.station}
           onPress={() => {

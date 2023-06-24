@@ -142,7 +142,8 @@ const styles = StyleSheet.create({
   label: {
     position: 'absolute',
     left: 10,
-    color: AppStyles.color.label
+    color: AppStyles.color.label,
+    zIndex: 1
   },
   errorLabel: {
     color: AppStyles.color.error
@@ -156,7 +157,8 @@ const styles = StyleSheet.create({
     height: 60,
     paddingTop: 30,
     paddingHorizontal: 10,
-    color: AppStyles.color.text
+    color: AppStyles.color.text,
+    backgroundColor: AppStyles.color.lightmode
   },
   inputError: {
     borderColor: AppStyles.color.error

@@ -1,13 +1,119 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, TextInput, View, TouchableHighlight, Image } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { ScrollView } from 'react-native';
 import Button from 'react-native-button';
 import { AppIcon, AppStyles } from '../../AppStyles';
-// import SettingsButton from '../../components/SettingsButton';
+import {
+  ButtonCommon,
+  ButtonConditional,
+  ButtonTouchable,
+  ModalSwipeUp,
+  TextTitle
+} from '../../components';
+import api from '../../db/Api';
 
 function Settings({ navigation }) {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [profile, setProfile] = useState({
+    firstName: null,
+    lastName: null,
+    email: null
+  });
+
+  useEffect(() => {
+    try {
+      api.send('GET', '/api/v1/profile', null).then((data) =>
+        setProfile({
+          firstName: data.data.firstName,
+          lastName: data.data.lastName,
+          email: data.data.email
+        })
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  }, []);
+
+  const anonymizeEmail = (email) => {
+    if (!email) return 'email';
+
+    const atIndex = email.indexOf('@');
+    if (atIndex === -1) return '';
+
+    const username = email.substring(0, atIndex);
+    const domain = email.substring(atIndex);
+
+    if (username.length <= 2) return email;
+
+    const anonymizedUsername = `${username.charAt(0)}${'*'.repeat(
+      username.length - 2
+    )}${username.charAt(username.length - 1)}`;
+
+    return `${anonymizedUsername}${domain}`;
+  };
+
   return (
-    <View style={styles.container}>
-      <Text style={[styles.title, styles.leftTitle]}>Settings</Text>
+    <ScrollView style={AppStyles.container}>
+      <TextTitle title="Profil" style={{ marginTop: 50 }} />
+      <ButtonTouchable
+        title={profile && profile.firstName ? profile.firstName : 'Accéder au profil'}
+        subtext="Accéder aux informations du profil"
+        image={[AppIcon.images.profile, 60]}
+        onPress={() => {
+          navigation.navigate('Profile');
+        }}
+      />
+
+      <TextTitle
+        title="Paramètres du compte"
+        style={{ fontSize: AppStyles.fontSize.content, marginTop: 30 }}
+      />
+      <ButtonTouchable
+        title="Adresse e-mail"
+        subtext={anonymizeEmail(profile.email)}
+        icon="paper-plane"
+        action="menu"
+      />
+      <ButtonTouchable title="Mot de passe" icon="fingerprint" action="menu" />
+      <ButtonTouchable
+        title="Notifications"
+        icon="bell"
+        onPress={() => {
+          navigation.navigate('Notification');
+        }}
+      />
+
+      <TextTitle
+        title="Assistance"
+        style={{ fontSize: AppStyles.fontSize.content, marginTop: 30 }}
+      />
+      <ButtonTouchable title="Centre d'aide" icon="help-with-circle" />
+      <ButtonTouchable title="Fonctionnement de Pulsive" icon="leaf" />
+      <ButtonTouchable title="Envoyez vos remarques" icon="new-message" />
+
+      <ButtonCommon
+        title="Deconnexion"
+        style={{ marginVertical: 30 }}
+        onPress={() => {
+          setModalVisible(true);
+        }}
+      />
+      <ModalSwipeUp visible={modalVisible} onClose={() => setModalVisible(false)}>
+        <TextTitle title="Êtes vous sûr de vouloir vous deconnecter ?" style={{ marginLeft: 0 }} />
+        <ButtonConditional
+          title="Me deconnecter"
+          isEnabled={true}
+          onPress={() => {
+            setModalVisible(false);
+            navigation.navigate('LoginStack');
+          }}
+        />
+        <ButtonCommon
+          title="Annuler"
+          onPress={() => {
+            setModalVisible(false);
+          }}
+        />
+      </ModalSwipeUp>
       {/* <SettingsButton
         title="Change password"
         source={AppIcon.images.leftArrow}
@@ -21,129 +127,13 @@ function Settings({ navigation }) {
         onPress={() => {
           navigation.navigate('ChangeEmail');
         }}
-      />
-      <SettingsButton
-        title="Notification"
-        source={AppIcon.images.leftArrow}
-        onPress={() => {
-          navigation.navigate('Notification');
-        }}
-      /> */}
-      <View style={styles.leftTitle}>
-        <Text style={styles.mutedText}>Your informations</Text>
-        <Text style={styles.text}>Country: UK 🇬🇧</Text>
-        <Text style={styles.text}>Language: English</Text>
-      </View>
-      <Button
-        containerStyle={styles.logoutButton}
-        style={styles.logoutText}
-        onPress={() => {
-          navigation.navigate('Logout');
-        }}
-      >
-        Logout
-      </Button>
-    </View>
+      />*/}
+    </ScrollView>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center'
-  },
-  btnClickContain: {
-    flexDirection: 'row',
-    padding: 5,
-    marginTop: 5,
-    marginBottom: 5
-  },
-  btnContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    padding: 15
-  },
-  btnIcon: {
-    height: 25,
-    width: 25
-  },
-  btnText: {
-    color: AppStyles.color.title,
-    fontSize: 16,
-    marginLeft: 10,
-    marginTop: 2
-  },
-  title: {
-    fontSize: AppStyles.fontSize.title,
-    fontWeight: 'bold',
-    color: AppStyles.color.tint,
-    marginTop: 20,
-    marginBottom: 20
-  },
-  leftTitle: {
-    alignSelf: 'stretch',
-    textAlign: 'left',
-    marginLeft: 20
-  },
-  text: {
-    fontWeight: 'bold',
-    color: AppStyles.color.title,
-    fontSize: 20,
-    marginBottom: 15
-  },
-  mutedText: {
-    fontWeight: 'bold',
-    color: AppStyles.color.grey,
-    fontSize: 15,
-    marginBottom: 30
-  },
-  content: {
-    paddingLeft: 50,
-    paddingRight: 50,
-    textAlign: 'center',
-    fontSize: AppStyles.fontSize.content,
-    color: AppStyles.color.text
-  },
-  loginContainer: {
-    width: AppStyles.buttonWidth,
-    backgroundColor: AppStyles.color.tint,
-    borderRadius: AppStyles.borderRadius.main,
-    padding: 10,
-    marginTop: 30
-  },
-  loginText: {
-    color: AppStyles.color.white
-  },
-  placeholder: {
-    color: 'red'
-  },
-  InputContainer: {
-    width: AppStyles.textInputWidth.main,
-    marginTop: 30,
-    borderWidth: 1,
-    borderStyle: 'solid',
-    borderColor: AppStyles.color.grey,
-    borderRadius: AppStyles.borderRadius.main
-  },
-  body: {
-    height: 42,
-    paddingLeft: 20,
-    paddingRight: 20,
-    color: AppStyles.color.text
-  },
-  logoutButton: {
-    width: 200,
-    backgroundColor: AppStyles.color.grey,
-    borderRadius: AppStyles.borderRadius.main,
-    padding: 10,
-    marginTop: 30,
-    position: 'absolute',
-    bottom: 20
-  },
-  logoutText: {
-    color: AppStyles.color.white
-  }
-});
+// const styles = StyleSheet.create({
+//
+// });
 
 export default Settings;

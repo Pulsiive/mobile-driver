@@ -119,12 +119,6 @@ const HomeStack = () => (
         headerLeftContainerStyle: { paddingLeft: 10 }
       })}
     />
-    <Stack.Screen name="Settings" component={Settings} />
-    <Stack.Screen name="ChangePassword" component={ChangePassword} />
-    <Stack.Screen name="ChangeEmail" component={ChangeEmail} />
-    <Stack.Screen name="Notification" component={NotificationScreen} />
-    <Stack.Screen name="Logout" component={Logout} />
-    <Stack.Screen name="Profile" component={Profile} />
     <Stack.Screen
       name="Contacts"
       component={Contact}
@@ -135,6 +129,30 @@ const HomeStack = () => (
         headerTitleStyle: { color: 'white', fontWeight: 'bold' }
       }}
     />
+  </Stack.Navigator>
+);
+
+const ProfilStack = () => (
+  <Stack.Navigator
+    initialRouteName="Settings"
+    screenOptions={{
+      headerTintColor: AppStyles.color.tint,
+      headerTitleStyle: styles.headerTitleStyle,
+      headerMode: 'float'
+    }}
+  >
+    <Stack.Screen
+      name="Settings"
+      component={Settings}
+      options={{
+        headerShown: false
+      }}
+    />
+    <Stack.Screen name="ChangePassword" component={ChangePassword} />
+    <Stack.Screen name="ChangeEmail" component={ChangeEmail} />
+    <Stack.Screen name="Notification" component={NotificationScreen} />
+    <Stack.Screen name="Logout" component={Logout} />
+    <Stack.Screen name="Profile" component={Profile} />
   </Stack.Navigator>
 );
 
@@ -335,6 +353,25 @@ const TabNavigator = () => (
       }}
       name="MessagesStack"
       component={MessagesStack}
+    />
+    <BottomTab.Screen
+      options={{
+        tabBarLabel: 'Profil',
+        tabBarIcon: ({ focused }) => {
+          return (
+            <Image
+              style={{
+                tintColor: focused ? AppStyles.color.tint : AppStyles.color.grey,
+                width: 30,
+                height: 30
+              }}
+              source={AppIcon.images.messages}
+            />
+          );
+        }
+      }}
+      name="ProfilStack"
+      component={ProfilStack}
     />
   </BottomTab.Navigator>
 );

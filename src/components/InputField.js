@@ -11,6 +11,7 @@ import { AppStyles } from '../AppStyles';
     errorCheck(optional)={checkForLabelErrors} // function to check input errors
     secure(optional)={true} // to put or not the secureText option
     subText(optional)="Subtext" // to put a subtext
+    style(optional)={{ insert style here }} // to add style
   />
   */
 }
@@ -98,7 +99,8 @@ const styles = StyleSheet.create({
   label: {
     position: 'absolute',
     left: 10,
-    color: AppStyles.color.label
+    color: AppStyles.color.label,
+    zIndex: 1
   },
   errorLabel: {
     color: AppStyles.color.error
@@ -113,7 +115,8 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     paddingHorizontal: 10,
     borderRadius: 8,
-    color: AppStyles.color.text
+    color: AppStyles.color.text,
+    backgroundColor: AppStyles.color.lightmode
   },
   errorInput: {
     borderColor: AppStyles.color.error

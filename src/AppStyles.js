@@ -6,8 +6,8 @@ const numColumns = 2;
 
 export const AppStyles = {
   color: {
-    // pulsive: '#81CD2C',
-    pulsive: '#7fb27c',
+    pulsive: '#81CD2C',
+    // pulsive: '#7fb27c',
     // pulsiveDark: '#436342',
     pulsiveDark: '#4D8837',
     lightmode: 'white',

@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, TouchableHighlight, Text, StyleSheet } from 'react-native';
+import { View, TouchableHighlight, Text, StyleSheet, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
-import { AppStyles } from '../AppStyles';
+import { AppIcon, AppStyles } from '../AppStyles';
+import ButtonText from './ButtonText';
 
 {
   /*
@@ -10,11 +11,12 @@ import { AppStyles } from '../AppStyles';
     onPress(required)={() => onPress()} // function called when the button is pressed
     style(optional)={{ insert style here }} // to change the style
     icon(optional)="icon-name" // to put or not an icon
+    image(optional)="image-name" // to put or not an icon
   />
   */
 }
 
-const ButtonTouchable = ({ icon, title, subtext, onPress }) => {
+const ButtonTouchable = ({ title, subtext, onPress, icon, image, action }) => {
   const handlePress = () => {
     if (onPress) onPress();
   };
@@ -27,13 +29,14 @@ const ButtonTouchable = ({ icon, title, subtext, onPress }) => {
     >
       <View style={styles.contentWrapper}>
         <View style={styles.leftContent}>
-          <Icon name={icon} size={24} color={'black'} />
+          {icon && <Icon name={icon} size={24} color={'black'} />}
+          {image && <Image source={image[0]} style={{ width: image[1], height: image[1] }} />}
           <View style={styles.textContainer}>
             <Text style={styles.ButtonTouchableText}>{title}</Text>
             {subtext && <Text style={AppStyles.subtext}>{subtext}</Text>}
           </View>
         </View>
-        <Icon name="chevron-right" size={20} color={'black'} />
+        <Icon name={action ? action : 'chevron-right'} size={20} color={'black'} />
       </View>
     </TouchableHighlight>
   );
@@ -68,6 +71,7 @@ const styles = StyleSheet.create({
   ButtonTouchableText: {
     textAlign: 'center',
     color: 'black',
+    fontWeight: '300',
     fontSize: 16
   }
 });

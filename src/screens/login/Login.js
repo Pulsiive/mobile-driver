@@ -3,14 +3,7 @@ import { AppIcon, AppStyles } from '../../AppStyles';
 import api from '../../db/Api';
 import serviceAccessToken from '../../db/AccessToken';
 import { useFocusEffect } from '@react-navigation/native';
-import {
-  ButtonConditional,
-  ButtonText,
-  InputField,
-  InputFieldMultiple,
-  TextError,
-  TextTitle
-} from '../../components';
+import { ButtonConditional, ButtonText, InputField, TextError } from '../../components';
 import { ScrollView, StyleSheet, View, Image, Text } from 'react-native';
 
 function Login({ navigation }) {
@@ -98,7 +91,7 @@ function Login({ navigation }) {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.logoContainer}>
-        <Image source={AppIcon.images.logo} style={styles.logo} />
+        <Image source={AppIcon.images.logo2} style={styles.logo} />
         <Image source={AppIcon.images.pulsive} style={styles.pulsive} />
       </View>
       <View style={styles.inputsContainer}>
@@ -143,12 +136,12 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   logo: {
-    height: '36%',
+    height: 120,
     resizeMode: 'contain',
     marginBottom: 10
   },
   pulsive: {
-    height: '20%',
+    height: 80,
     resizeMode: 'contain'
   },
   inputsContainer: {
