@@ -55,6 +55,16 @@ function Settings({ navigation }) {
         lastName: null,
         email: null
       });
+      try {
+        api.send('GET', '/api/v1/profile', null).then((data) =>
+          setProfile({
+            firstName: data.data.firstName,
+            email: data.data.email
+          })
+        );
+      } catch (e) {
+        console.log(e);
+      }
     }, [])
   );
 
@@ -313,26 +323,8 @@ function Settings({ navigation }) {
           }}
         />
       </ModalSwipeUp>
-      {/* <SettingsButton
-        title="Change password"
-        source={AppIcon.images.leftArrow}
-        onPress={() => {
-          navigation.navigate('ChangePassword');
-        }}
-      />
-      <SettingsButton
-        title="Change email"
-        source={AppIcon.images.leftArrow}
-        onPress={() => {
-          navigation.navigate('ChangeEmail');
-        }}
-      />*/}
     </ScrollView>
   );
 }
-
-// const styles = StyleSheet.create({
-//
-// });
 
 export default Settings;

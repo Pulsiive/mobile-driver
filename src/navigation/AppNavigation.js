@@ -365,7 +365,7 @@ const TabNavigator = () => (
                 width: 30,
                 height: 30
               }}
-              source={AppIcon.images.messages}
+              source={AppIcon.images.profile_icon}
             />
           );
         }
