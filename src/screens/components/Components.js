@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, ScrollView, View, TouchableOpacity } from 'react-native';
-import { AppStyles } from '../../AppStyles';
+import { AppStyles, useTheme } from '../../AppStyles';
 
 import {
   ButtonCommon,
@@ -15,23 +15,39 @@ import {
 } from '../../components';
 
 function Components({ navigation }) {
+  const { isDarkMode, toggleTheme, AppColor } = useTheme();
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [test, setTest] = useState('');
-  const [modalVisible1, setModalVisible1] = useState(false);
-  const [modalVisible2, setModalVisible2] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const checkForErrors = (input) => {
     if (input == '') return 'Vide';
     if (input == 'erreur') return 'Oui en effet erreur';
   };
 
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: AppColor.background
+    }
+  });
+
   return (
     <ScrollView style={styles.container}>
       <TextTitle title="Ma liste de composants" />
       <TextError title="Un exemple d'erreur" />
-      <ButtonCommon title="Modal 1" onPress={() => setModalVisible1(true)} />
-      <ModalSwipeUp
+      <ButtonCommon
+        title={isDarkMode ? 'Clair' : 'Sombre'}
+        style={{ marginVertical: 30 }}
+        onPress={() => {
+          toggleTheme();
+        }}
+        loading={loading}
+      />
+      {/* <ButtonCommon title="Modal 1" onPress={() => setModalVisible1(true)} /> */}
+      {/* <ModalSwipeUp
         visible={modalVisible1}
         onClose={() => setModalVisible1(false)}
         closeButton={true}
@@ -48,13 +64,13 @@ function Components({ navigation }) {
       >
         <TextTitle title="Exemple de modal sans croix" style={{ marginLeft: 0 }} />
         <ButtonCommon title="Annuler" onPress={() => setModalVisible2(false)} />
-      </ModalSwipeUp>
-      <InputFieldMultiple
+      </ModalSwipeUp> */}
+      {/* <InputFieldMultiple
         labels={['Nom', 'E-mail', 'Test']}
         errorChecks={[checkForErrors, checkForErrors, checkForErrors]}
         setValues={[setName, setEmail, setTest]}
         secures={[false, false, true]}
-      />
+      /> */}
       <InputFieldMultiple
         labels={['Nom', 'E-mail']}
         errorChecks={[checkForErrors, checkForErrors]}
@@ -74,26 +90,27 @@ function Components({ navigation }) {
         subText="Veuillez entrer votre adresse mail"
         setValue={setEmail}
       />
-      <ButtonCommon title="M'inscrire" />
+      <ButtonCommon title="Loading" onPress={() => setLoading(!loading)} />
+      <ButtonCommon title="Loading" loading={loading} />
       <ButtonConditional
         title="Condition 1"
         // isEnabled={true}
-        // style={{ backgroundColor: AppStyles.color.lightgrey }}
+        // style={{ backgroundColor: AppColor.separator }}
         // onPress={console.log('ok')}
       />
       <ButtonConditional
         title="Condition 2"
         isEnabled={true}
-        style={{ backgroundColor: AppStyles.color.error }}
+        style={{ backgroundColor: AppColor.error }}
       />
-      <ButtonTouchable
-        title="Test avec subtext"
-        subtext="Je test le subtext"
-        icon="awareness-ribbon"
+      <ButtonConditional
+        title="Condition 2"
+        isEnabled={true}
+        style={{ backgroundColor: AppColor.secured }}
+        loading={loading}
       />
-      <ButtonTouchable title="Test 1" icon="awareness-ribbon" />
-      <ButtonTouchable title="Test 2" icon="awareness-ribbon" />
-      <ButtonTouchable title="Test 3" icon="awareness-ribbon" />
+      <ButtonTouchable title="Test" subtext="Je test le subtext" icon="awareness-ribbon" />
+      <ButtonTouchable title="Test" icon="awareness-ribbon" />
       <ButtonTouchable
         title="Touchable"
         subtext="Je test le subtext avec un text long pour voir si ça rend bien Je test le subtext avec un text long pour voir si ça rend bien"
@@ -103,12 +120,5 @@ function Components({ navigation }) {
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: AppStyles.color.lightmode
-  }
-});
 
 export default Components;

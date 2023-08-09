@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   },
   profileName: {
     fontSize: 18,
-    color: AppStyles.color.tint
+    color: AppStyles.color.pulsive
   },
   message: {
     fontSize: 16,

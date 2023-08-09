@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, StyleSheet, View } from 'react-native';
-import { AppStyles } from '../AppStyles';
+import { AppStyles, useTheme } from '../AppStyles';
 
 {
   /*
@@ -12,6 +12,17 @@ import { AppStyles } from '../AppStyles';
 }
 
 const TextTitle = ({ title, style }) => {
+  const { AppColor } = useTheme();
+
+  const styles = StyleSheet.create({
+    title: {
+      fontSize: 26,
+      fontWeight: '500',
+      color: AppColor.title,
+      margin: 20
+    }
+  });
+
   return (
     <View>
       <Text
@@ -25,14 +36,5 @@ const TextTitle = ({ title, style }) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  title: {
-    fontSize: 26,
-    fontWeight: '500',
-    color: AppStyles.color.title,
-    margin: 20
-  }
-});
 
 export default TextTitle;

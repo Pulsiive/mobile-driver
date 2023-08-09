@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: AppStyles.fontSize.title,
     fontWeight: 'bold',
-    color: AppStyles.color.tint,
+    color: AppStyles.color.pulsive,
     marginTop: 20,
     marginBottom: 50
   },
@@ -168,8 +168,8 @@ const styles = StyleSheet.create({
   },
   loginContainer: {
     width: AppStyles.buttonWidth,
-    backgroundColor: AppStyles.color.tint,
-    borderRadius: AppStyles.borderRadius.main,
+    backgroundColor: AppStyles.color.pulsive,
+    borderRadius: AppStyles.borderRadius,
     padding: 10,
     marginTop: 30
   },
@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderStyle: 'solid',
     borderColor: AppStyles.color.grey,
-    borderRadius: AppStyles.borderRadius.main
+    borderRadius: AppStyles.borderRadius
   },
   body: {
     height: 42,
@@ -195,8 +195,8 @@ const styles = StyleSheet.create({
   },
   stationButton: {
     width: 200,
-    backgroundColor: AppStyles.color.tint,
-    borderRadius: AppStyles.borderRadius.main,
+    backgroundColor: AppStyles.color.pulsive,
+    borderRadius: AppStyles.borderRadius,
     padding: 10,
     position: 'absolute',
     bottom: 70
@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
   shareButton: {
     width: 200,
     backgroundColor: AppStyles.color.text,
-    borderRadius: AppStyles.borderRadius.main,
+    borderRadius: AppStyles.borderRadius,
     padding: 10,
     position: 'absolute',
     bottom: 20
@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
   calendarButton: {
     width: 200,
     backgroundColor: AppStyles.color.facebook,
-    borderRadius: AppStyles.borderRadius.main,
+    borderRadius: AppStyles.borderRadius,
     padding: 10,
     position: 'absolute',
     bottom: 120
@@ -223,12 +223,12 @@ const styles = StyleSheet.create({
   rateButton: {
     width: 200,
     backgroundColor: AppStyles.color.text,
-    borderRadius: AppStyles.borderRadius.main,
+    borderRadius: AppStyles.borderRadius,
     padding: 10,
     marginBottom: 10
   },
   modal: {
-    backgroundColor: AppStyles.color.white,
+    backgroundColor: AppStyles.color.background,
     padding: 10,
     height: '70%',
     width: '80%',

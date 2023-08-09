@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, TextInput, StyleSheet, Animated, Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
-import { AppStyles } from '../AppStyles';
+import { AppStyles, useTheme } from '../AppStyles';
 
 {
   /*
@@ -16,6 +16,8 @@ import { AppStyles } from '../AppStyles';
 }
 
 const InputField = ({ labels, errorChecks, subText, setValues, secures }) => {
+  const { AppColor } = useTheme();
+
   const [isFocused, setIsFocused] = useState([...Array(labels.length)].map(() => false));
   const [errors, setErrors] = useState([...Array(labels.length)].map(() => false));
   const [inputValues, setInputValues] = useState([...Array(labels.length)].map(() => ''));
@@ -23,7 +25,7 @@ const InputField = ({ labels, errorChecks, subText, setValues, secures }) => {
 
   const borderStyles = isFocused.map((focused) => ({
     borderWidth: focused ? 2 : 1,
-    borderColor: focused ? AppStyles.color.borderFocused : AppStyles.color.border
+    borderColor: focused ? AppColor.borderFocused : AppColor.border
   }));
 
   const labelStyles = isFocused.map((focused, index) => ({
@@ -76,6 +78,72 @@ const InputField = ({ labels, errorChecks, subText, setValues, secures }) => {
     });
   };
 
+  const styles = StyleSheet.create({
+    container: {
+      marginVertical: '3%',
+      width: AppStyles.buttonWidth,
+      alignSelf: 'center'
+    },
+    errorContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingHorizontal: '1%',
+      marginTop: '2%'
+    },
+    label: {
+      position: 'absolute',
+      left: 10,
+      color: AppColor.label,
+      zIndex: 1
+    },
+    errorLabel: {
+      color: AppColor.error
+    },
+    inputContainer: {
+      flexDirection: 'row',
+      alignItems: 'center'
+    },
+    input: {
+      flex: 1,
+      height: 60,
+      paddingTop: 30,
+      paddingHorizontal: 10,
+      color: AppColor.text,
+      backgroundColor: AppColor.background
+    },
+    inputError: {
+      borderColor: AppColor.error
+    },
+    firstInput: {
+      borderTopLeftRadius: 8,
+      borderTopRightRadius: 8
+    },
+    lastInput: {
+      borderBottomLeftRadius: 8,
+      borderBottomRightRadius: 8
+    },
+    infoIcon: {
+      marginRight: 6,
+      color: AppColor.error
+    },
+    errorText: {
+      color: AppColor.error,
+      fontSize: 12
+    },
+    subText: {
+      marginTop: 6,
+      paddingHorizontal: 6,
+      fontSize: 12,
+      color: AppColor.subText
+    },
+    secureContainer: {
+      padding: 10,
+      position: 'absolute',
+      right: 14,
+      top: 10
+    }
+  });
+
   return (
     <View style={styles.container}>
       {labels.map((label, index) => (
@@ -107,7 +175,7 @@ const InputField = ({ labels, errorChecks, subText, setValues, secures }) => {
               <Icon
                 name={secureTexts[index] ? 'eye-with-line' : 'eye'}
                 size={20}
-                color={AppStyles.color.darkgrey}
+                color={AppColor.secured}
               />
             </TouchableOpacity>
           )}
@@ -126,69 +194,5 @@ const InputField = ({ labels, errorChecks, subText, setValues, secures }) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    marginVertical: '3%',
-    width: AppStyles.buttonWidth,
-    alignSelf: 'center'
-  },
-  errorContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: '1%',
-    marginTop: '2%'
-  },
-  label: {
-    position: 'absolute',
-    left: 10,
-    color: AppStyles.color.label
-  },
-  errorLabel: {
-    color: AppStyles.color.error
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
-  input: {
-    flex: 1,
-    height: 60,
-    paddingTop: 30,
-    paddingHorizontal: 10,
-    color: AppStyles.color.text
-  },
-  inputError: {
-    borderColor: AppStyles.color.error
-  },
-  firstInput: {
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8
-  },
-  lastInput: {
-    borderBottomLeftRadius: 8,
-    borderBottomRightRadius: 8
-  },
-  infoIcon: {
-    marginRight: 6,
-    color: AppStyles.color.error
-  },
-  errorText: {
-    color: AppStyles.color.error,
-    fontSize: 12
-  },
-  subText: {
-    marginTop: 6,
-    paddingHorizontal: 6,
-    fontSize: 12,
-    color: AppStyles.color.subText
-  },
-  secureContainer: {
-    padding: 10,
-    position: 'absolute',
-    right: 14,
-    top: 10
-  }
-});
 
 export default InputField;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, StyleSheet, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
-import { AppStyles } from '../AppStyles';
+import { AppStyles, useTheme } from '../AppStyles';
 
 {
   /*
@@ -13,6 +13,26 @@ import { AppStyles } from '../AppStyles';
 }
 
 const TextError = ({ title, style }) => {
+  const { AppColor } = useTheme();
+
+  const styles = StyleSheet.create({
+    infoIcon: {
+      marginRight: 5,
+      color: AppColor.error
+    },
+    container: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      margin: 20
+    },
+    error: {
+      fontSize: 16,
+      fontWeight: '400',
+      color: AppColor.error,
+      marginLeft: 5
+    }
+  });
+
   return (
     <View>
       {title !== '' && (
@@ -29,23 +49,5 @@ const TextError = ({ title, style }) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  infoIcon: {
-    marginRight: 5,
-    color: AppStyles.color.error
-  },
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    margin: 20
-  },
-  error: {
-    fontSize: 16,
-    fontWeight: '400',
-    color: AppStyles.color.error,
-    marginLeft: 5
-  }
-});
 
 export default TextError;

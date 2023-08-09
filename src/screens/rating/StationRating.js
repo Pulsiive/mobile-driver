@@ -188,7 +188,7 @@ const StationRatingScreen = ({ route, navigation }) => {
             <Button
               style={{
                 ...styles.submitButton,
-                backgroundColor: submitButtonIsDisabled ? 'grey' : AppStyles.color.tint
+                backgroundColor: submitButtonIsDisabled ? 'grey' : AppStyles.color.pulsive
               }}
               disabled={submitButtonIsDisabled}
               onPress={submitRating}
@@ -277,7 +277,7 @@ const styles = StyleSheet.create({
   submitButton: {
     color: 'white',
     width: AppStyles.buttonWidth,
-    borderRadius: AppStyles.borderRadius.main,
+    borderRadius: AppStyles.borderRadius,
     padding: 10
   },
   buttonContainer: {

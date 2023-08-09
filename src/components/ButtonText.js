@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { AppStyles } from '../AppStyles';
+import { AppStyles, useTheme } from '../AppStyles';
 
 {
   /*
@@ -13,9 +13,21 @@ import { AppStyles } from '../AppStyles';
 }
 
 const ButtonText = ({ title, style, onPress }) => {
+  const { AppColor } = useTheme();
+
   const handlePress = () => {
     if (onPress) onPress();
   };
+
+  const styles = StyleSheet.create({
+    button: {
+      alignSelf: 'flex-start'
+    },
+    text: {
+      textDecorationLine: 'underline',
+      color: AppColor.text
+    }
+  });
 
   return (
     <TouchableOpacity onPress={handlePress} style={styles.button}>
@@ -30,15 +42,5 @@ const ButtonText = ({ title, style, onPress }) => {
     </TouchableOpacity>
   );
 };
-
-const styles = StyleSheet.create({
-  button: {
-    alignSelf: 'flex-start'
-  },
-  text: {
-    textDecorationLine: 'underline',
-    color: AppStyles.color.text
-  }
-});
 
 export default ButtonText;

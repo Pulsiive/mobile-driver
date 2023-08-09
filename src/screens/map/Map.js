@@ -157,7 +157,7 @@ function Map({ navigation }) {
             styles.filters,
             {
               backgroundColor: filterSelect == 1 ? AppStyles.color.grey : AppStyles.color.white,
-              color: filterSelect == 1 ? AppStyles.color.white : AppStyles.color.tint
+              color: filterSelect == 1 ? AppStyles.color.white : AppStyles.color.pulsive
             }
           ]}
           onPress={() => setFilterSelect(1)}
@@ -181,7 +181,7 @@ function Map({ navigation }) {
                 styles.filters,
                 {
                   backgroundColor: filterType == 1 ? AppStyles.color.grey : AppStyles.color.white,
-                  color: filterType == 1 ? AppStyles.color.white : AppStyles.color.tint
+                  color: filterType == 1 ? AppStyles.color.white : AppStyles.color.pulsive
                 }
               ]}
               onPress={() => setFilterType(1)}
@@ -193,7 +193,7 @@ function Map({ navigation }) {
                 styles.filters,
                 {
                   backgroundColor: filterType == 2 ? AppStyles.color.grey : AppStyles.color.white,
-                  color: filterType == 2 ? AppStyles.color.white : AppStyles.color.tint
+                  color: filterType == 2 ? AppStyles.color.white : AppStyles.color.pulsive
                 }
               ]}
               onPress={() => setFilterType(2)}
@@ -205,7 +205,7 @@ function Map({ navigation }) {
                 styles.filters,
                 {
                   backgroundColor: filterType == 3 ? AppStyles.color.grey : AppStyles.color.white,
-                  color: filterType == 3 ? AppStyles.color.white : AppStyles.color.tint
+                  color: filterType == 3 ? AppStyles.color.white : AppStyles.color.pulsive
                 }
               ]}
               onPress={() => setFilterType(3)}
@@ -217,7 +217,7 @@ function Map({ navigation }) {
                 styles.filters,
                 {
                   backgroundColor: filterType == 4 ? AppStyles.color.grey : AppStyles.color.white,
-                  color: filterType == 4 ? AppStyles.color.white : AppStyles.color.tint
+                  color: filterType == 4 ? AppStyles.color.white : AppStyles.color.pulsive
                 }
               ]}
               onPress={() => setFilterType(4)}
@@ -229,7 +229,7 @@ function Map({ navigation }) {
                 styles.filters,
                 {
                   backgroundColor: filterType == 5 ? AppStyles.color.grey : AppStyles.color.white,
-                  color: filterType == 5 ? AppStyles.color.white : AppStyles.color.tint
+                  color: filterType == 5 ? AppStyles.color.white : AppStyles.color.pulsive
                 }
               ]}
               onPress={() => setFilterType(5)}
@@ -241,7 +241,7 @@ function Map({ navigation }) {
                 styles.filters,
                 {
                   backgroundColor: filterType == 6 ? AppStyles.color.grey : AppStyles.color.white,
-                  color: filterType == 6 ? AppStyles.color.white : AppStyles.color.tint
+                  color: filterType == 6 ? AppStyles.color.white : AppStyles.color.pulsive
                 }
               ]}
               onPress={() => setFilterType(6)}
@@ -253,7 +253,7 @@ function Map({ navigation }) {
                 styles.filters,
                 {
                   backgroundColor: filterType == 7 ? AppStyles.color.grey : AppStyles.color.white,
-                  color: filterType == 7 ? AppStyles.color.white : AppStyles.color.tint
+                  color: filterType == 7 ? AppStyles.color.white : AppStyles.color.pulsive
                 }
               ]}
               onPress={() => setFilterType(7)}
@@ -265,7 +265,7 @@ function Map({ navigation }) {
                 styles.filters,
                 {
                   backgroundColor: filterType == 8 ? AppStyles.color.grey : AppStyles.color.white,
-                  color: filterType == 8 ? AppStyles.color.white : AppStyles.color.tint
+                  color: filterType == 8 ? AppStyles.color.white : AppStyles.color.pulsive
                 }
               ]}
               onPress={() => setFilterType(8)}
@@ -281,7 +281,7 @@ function Map({ navigation }) {
             styles.filters,
             {
               backgroundColor: filterSelect == 2 ? AppStyles.color.grey : AppStyles.color.white,
-              color: filterSelect == 2 ? AppStyles.color.white : AppStyles.color.tint
+              color: filterSelect == 2 ? AppStyles.color.white : AppStyles.color.pulsive
             }
           ]}
           onPress={() => setFilterSelect(2)}
@@ -330,7 +330,7 @@ function Map({ navigation }) {
             styles.filters,
             {
               backgroundColor: filterSelect == 3 ? AppStyles.color.grey : AppStyles.color.white,
-              color: filterSelect == 3 ? AppStyles.color.white : AppStyles.color.tint
+              color: filterSelect == 3 ? AppStyles.color.white : AppStyles.color.pulsive
             }
           ]}
           onPress={() => setFilterSelect(3)}
@@ -351,7 +351,7 @@ function Map({ navigation }) {
                 styles.filters,
                 {
                   backgroundColor: filterStatut == 2 ? AppStyles.color.grey : AppStyles.color.white,
-                  color: filterStatut == 2 ? AppStyles.color.white : AppStyles.color.tint
+                  color: filterStatut == 2 ? AppStyles.color.white : AppStyles.color.pulsive
                 }
               ]}
               onPress={() => setFilterStatut(2)}
@@ -363,7 +363,7 @@ function Map({ navigation }) {
                 styles.filters,
                 {
                   backgroundColor: filterStatut == 0 ? AppStyles.color.grey : AppStyles.color.white,
-                  color: filterStatut == 0 ? AppStyles.color.white : AppStyles.color.tint
+                  color: filterStatut == 0 ? AppStyles.color.white : AppStyles.color.pulsive
                 }
               ]}
               onPress={() => setFilterStatut(0)}
@@ -375,7 +375,7 @@ function Map({ navigation }) {
                 styles.filters,
                 {
                   backgroundColor: filterStatut == 1 ? AppStyles.color.grey : AppStyles.color.white,
-                  color: filterStatut == 1 ? AppStyles.color.white : AppStyles.color.tint
+                  color: filterStatut == 1 ? AppStyles.color.white : AppStyles.color.pulsive
                 }
               ]}
               onPress={() => setFilterStatut(1)}
@@ -391,7 +391,7 @@ function Map({ navigation }) {
             styles.filters,
             {
               backgroundColor: filterSelect == 4 ? AppStyles.color.grey : AppStyles.color.white,
-              color: filterSelect == 4 ? AppStyles.color.white : AppStyles.color.tint
+              color: filterSelect == 4 ? AppStyles.color.white : AppStyles.color.pulsive
             }
           ]}
           onPress={() => setFilterSelect(4)}
@@ -413,7 +413,7 @@ function Map({ navigation }) {
                 {
                   backgroundColor:
                     filterRating == '0' ? AppStyles.color.grey : AppStyles.color.white,
-                  color: filterRating == '0' ? AppStyles.color.white : AppStyles.color.tint
+                  color: filterRating == '0' ? AppStyles.color.white : AppStyles.color.pulsive
                 }
               ]}
               onPress={() => setFilterRating('0')}
@@ -426,7 +426,7 @@ function Map({ navigation }) {
                 {
                   backgroundColor:
                     filterRating == '1' ? AppStyles.color.grey : AppStyles.color.white,
-                  color: filterRating == '1' ? AppStyles.color.white : AppStyles.color.tint
+                  color: filterRating == '1' ? AppStyles.color.white : AppStyles.color.pulsive
                 }
               ]}
               onPress={() => setFilterRating('1')}
@@ -439,7 +439,7 @@ function Map({ navigation }) {
                 {
                   backgroundColor:
                     filterRating == '2' ? AppStyles.color.grey : AppStyles.color.white,
-                  color: filterRating == '2' ? AppStyles.color.white : AppStyles.color.tint
+                  color: filterRating == '2' ? AppStyles.color.white : AppStyles.color.pulsive
                 }
               ]}
               onPress={() => setFilterRating('2')}
@@ -452,7 +452,7 @@ function Map({ navigation }) {
                 {
                   backgroundColor:
                     filterRating == '3' ? AppStyles.color.grey : AppStyles.color.white,
-                  color: filterRating == '3' ? AppStyles.color.white : AppStyles.color.tint
+                  color: filterRating == '3' ? AppStyles.color.white : AppStyles.color.pulsive
                 }
               ]}
               onPress={() => setFilterRating('3')}
@@ -465,7 +465,7 @@ function Map({ navigation }) {
                 {
                   backgroundColor:
                     filterRating == '4' ? AppStyles.color.grey : AppStyles.color.white,
-                  color: filterRating == '4' ? AppStyles.color.white : AppStyles.color.tint
+                  color: filterRating == '4' ? AppStyles.color.white : AppStyles.color.pulsive
                 }
               ]}
               onPress={() => setFilterRating('4')}
@@ -478,7 +478,7 @@ function Map({ navigation }) {
                 {
                   backgroundColor:
                     filterRating == '5' ? AppStyles.color.grey : AppStyles.color.white,
-                  color: filterRating == '5' ? AppStyles.color.white : AppStyles.color.tint
+                  color: filterRating == '5' ? AppStyles.color.white : AppStyles.color.pulsive
                 }
               ]}
               onPress={() => setFilterRating('5')}
@@ -494,7 +494,7 @@ function Map({ navigation }) {
             styles.filters,
             {
               backgroundColor: filterSelect == 5 ? AppStyles.color.grey : AppStyles.color.white,
-              color: filterSelect == 5 ? AppStyles.color.white : AppStyles.color.tint
+              color: filterSelect == 5 ? AppStyles.color.white : AppStyles.color.pulsive
             }
           ]}
           onPress={() => setFilterSelect(5)}
@@ -966,7 +966,7 @@ function Map({ navigation }) {
                 <Icon
                   name="pin"
                   size={24}
-                  color={charger.public ? AppStyles.color.tint : AppStyles.color.greenBlue}
+                  color={charger.public ? AppStyles.color.pulsive : AppStyles.color.greenBlue}
                 />
               </MapboxGL.PointAnnotation>
             ) : (
@@ -1062,14 +1062,14 @@ function Map({ navigation }) {
             width: 50,
             height: 50,
             borderRadius: 50,
-            backgroundColor: nightMode ? AppStyles.color.white : AppStyles.color.tint
+            backgroundColor: nightMode ? AppStyles.color.white : AppStyles.color.pulsive
           }}
           onPress={() => setNightMode(!nightMode)}
         >
           <Icon
             name="adjust"
             size={30}
-            color={nightMode ? AppStyles.color.tint : AppStyles.color.white}
+            color={nightMode ? AppStyles.color.pulsive : AppStyles.color.white}
           />
         </Pressable>
         <Pressable
@@ -1083,7 +1083,7 @@ function Map({ navigation }) {
             width: 50,
             height: 50,
             borderRadius: 50,
-            backgroundColor: AppStyles.color.tint
+            backgroundColor: AppStyles.color.pulsive
           }}
           onPress={() => setFiltersMenu(!filtersMenu)}
         >
@@ -1101,7 +1101,7 @@ function Map({ navigation }) {
                     <Icon
                       name={modalData.charger.isFavorite ? 'heart' : 'heart-outlined'}
                       size={30}
-                      color={AppStyles.color.tint}
+                      color={AppStyles.color.pulsive}
                     />
                   </Pressable>
                   <Text style={{ fontSize: 20, fontWeight: '800', color: 'black' }}>
@@ -1203,7 +1203,7 @@ const styles = StyleSheet.create({
     marginLeft: '12%'
   },
   userProfile: {
-    backgroundColor: AppStyles.color.tint,
+    backgroundColor: AppStyles.color.pulsive,
     borderRadius: 15,
     padding: 5
   },
@@ -1214,14 +1214,14 @@ const styles = StyleSheet.create({
   },
   filters: {
     backgroundColor: AppStyles.color.white,
-    color: AppStyles.color.tint,
+    color: AppStyles.color.pulsive,
     borderRadius: 50,
     width: 100,
     height: 30,
     marginBottom: '5%'
   },
   apply: {
-    backgroundColor: AppStyles.color.tint,
+    backgroundColor: AppStyles.color.pulsive,
     color: AppStyles.color.white,
     borderRadius: 50,
     width: 100,
@@ -1246,8 +1246,8 @@ const styles = StyleSheet.create({
   },
   bookButton: {
     width: 200,
-    backgroundColor: AppStyles.color.tint,
-    borderRadius: AppStyles.borderRadius.main,
+    backgroundColor: AppStyles.color.pulsive,
+    borderRadius: AppStyles.borderRadius,
     padding: 10,
     marginTop: 30,
     position: 'absolute',

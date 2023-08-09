@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: AppStyles.fontSize.title,
     fontWeight: 'bold',
-    color: AppStyles.color.tint,
+    color: AppStyles.color.pulsive,
     marginTop: 20,
     marginBottom: 20,
     alignSelf: 'stretch',
@@ -120,8 +120,8 @@ const styles = StyleSheet.create({
   },
   actionButton: {
     width: 35,
-    backgroundColor: AppStyles.color.tint,
-    borderRadius: AppStyles.borderRadius.main,
+    backgroundColor: AppStyles.color.pulsive,
+    borderRadius: AppStyles.borderRadius,
     padding: 10,
     marginRight: 10,
     marginBottom: 10

@@ -1,6 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
-import { AppStyles } from '../AppStyles';
+import { AppStyles, useTheme } from '../AppStyles';
+import { AnimatedLoading } from './';
 
 {
   /*
@@ -9,48 +10,62 @@ import { AppStyles } from '../AppStyles';
     onPress(required)={() => onPress()} // function called when the button is pressed
     style(optional)={{ insert style here }} // to change the style
     isEnable(optional)={true} // condition for the button to be enable or not
+    loading(optional)={true} // add or not a loading animation
   />
   */
 }
 
-const ButtonConditional = ({ title, style, isEnabled, onPress }) => {
+const ButtonConditional = ({ title, style, isEnabled, onPress, loading }) => {
+  const { AppColor } = useTheme();
+
   const isButtonEnabled = isEnabled && typeof isEnabled === 'boolean';
 
   const buttonStyle = {
-    opacity: isButtonEnabled ? 1 : 0.5
+    opacity: !isButtonEnabled || loading ? 0.5 : 1
   };
 
   const handlePress = () => {
     if (onPress) onPress();
   };
 
+  const styles = StyleSheet.create({
+    ButtonCommon: {
+      borderRadius: 8,
+      padding: '4%',
+      minHeight: 54,
+      margin: '2%',
+      width: AppStyles.buttonWidth,
+      alignSelf: 'center',
+      backgroundColor: AppColor.pulsive
+    },
+    buttonText: {
+      fontWeight: 'bold',
+      textAlign: 'center',
+      color: AppColor.background,
+      fontSize: 16
+    },
+    loadingText: {
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+      fontSize: 16,
+      color: AppColor.background
+    },
+    dot: {
+      marginHorizontal: 2
+    }
+  });
+
   return (
     <TouchableOpacity
       activeOpacity={0.5}
       onPress={handlePress}
-      style={{ ...styles.ButtonConditional, ...buttonStyle, ...(style || {}) }}
-      disabled={!isButtonEnabled}
+      style={{ ...styles.ButtonCommon, ...buttonStyle, ...(style || {}) }}
+      disabled={!isButtonEnabled || loading}
     >
-      <Text style={styles.ButtonConditionalText}>{title}</Text>
+      {loading ? <AnimatedLoading /> : <Text style={styles.buttonText}>{title}</Text>}
     </TouchableOpacity>
   );
 };
-
-const styles = StyleSheet.create({
-  ButtonConditional: {
-    borderRadius: 8,
-    padding: '4%',
-    margin: '2%',
-    width: AppStyles.buttonWidth,
-    alignSelf: 'center',
-    backgroundColor: AppStyles.color.pulsive
-  },
-  ButtonConditionalText: {
-    fontWeight: 'bold',
-    textAlign: 'center',
-    color: AppStyles.color.lightmode,
-    fontSize: 16
-  }
-});
 
 export default ButtonConditional;

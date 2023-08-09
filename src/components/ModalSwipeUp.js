@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Modal, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
-import { AppStyles } from '../AppStyles';
+import { AppStyles, useTheme } from '../AppStyles';
 
 {
   /*
@@ -16,13 +16,39 @@ import { AppStyles } from '../AppStyles';
 }
 
 const ModalSwipeUp = ({ visible, onClose, children, closeButton }) => {
+  const { AppColor } = useTheme();
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: AppStyles.color.overlay,
+      justifyContent: 'flex-end'
+    },
+    modalContainer: {
+      backgroundColor: AppColor.background,
+      borderTopLeftRadius: 20,
+      borderTopRightRadius: 20,
+      paddingBottom: 40
+    },
+    contentContainer: {
+      paddingHorizontal: 20,
+      paddingTop: 36
+    },
+    closeButton: {
+      top: 10,
+      left: 10,
+      padding: 10,
+      paddingBottom: 0
+    }
+  });
+
   return (
     <Modal animationType="slide" transparent={true} visible={visible} onRequestClose={onClose}>
       <View style={styles.container}>
         <View style={styles.modalContainer}>
           {closeButton && (
             <TouchableOpacity style={styles.closeButton} onPress={onClose}>
-              <Icon name="cross" size={20} color="black" />
+              <Icon name="cross" size={20} color={AppColor.title} />
             </TouchableOpacity>
           )}
           <View style={styles.contentContainer}>{children}</View>
@@ -31,29 +57,5 @@ const ModalSwipeUp = ({ visible, onClose, children, closeButton }) => {
     </Modal>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: AppStyles.color.overlay,
-    justifyContent: 'flex-end'
-  },
-  modalContainer: {
-    backgroundColor: AppStyles.color.lightmode,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    paddingBottom: 40
-  },
-  contentContainer: {
-    paddingHorizontal: 20,
-    paddingTop: 36
-  },
-  closeButton: {
-    top: 10,
-    left: 10,
-    padding: 10,
-    paddingBottom: 0
-  }
-});
 
 export default ModalSwipeUp;

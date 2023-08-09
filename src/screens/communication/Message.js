@@ -91,7 +91,7 @@ function Message(props) {
               marginTop: 5,
               marginHorizontal: 10,
               fontWeight: 'bold',
-              color: AppStyles.color.tint
+              color: AppStyles.color.pulsive
             }}
           >
             {name}
@@ -120,7 +120,7 @@ function Message(props) {
   };
 
   const renderMessage = (id, message, isMe, img) => {
-    const bgColor = isMe ? AppStyles.color.tint : '#4f4f4f';
+    const bgColor = isMe ? AppStyles.color.pulsive : '#4f4f4f';
     const alignment = isMe ? 'flex-end' : 'flex-start';
     const flexAlignment = isMe ? 'column' : 'row';
     const radius = isMe ? { borderTopLeftRadius: 20 } : { borderBottomRightRadius: 20 };
@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    borderColor: AppStyles.color.tint,
+    borderColor: AppStyles.color.pulsive,
     borderWidth: 1,
     color: AppStyles.color.text,
     flex: 1,

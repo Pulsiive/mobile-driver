@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView } from 'react-native';
-import { AppStyles } from '../../AppStyles';
+import { ScrollView, Text } from 'react-native';
+import { AppStyles, useTheme } from '../../AppStyles';
 import api from '../../db/Api';
 import serviceAccessToken from '../../db/AccessToken';
 import {
@@ -8,20 +8,51 @@ import {
   InputFieldMultiple,
   ButtonConditional,
   TextError,
-  TextTitle
+  TextTitle,
+  ModalSwipeUp
 } from '../../components';
+import { useFocusEffect } from '@react-navigation/native';
 
 function SignUp({ navigation }) {
+  const { AppColor } = useTheme();
+
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [firstName, setFirstName] = useState('');
   const [password, setPassword] = useState('');
 
   const [valid, setValid] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [error, setError] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setEmail('');
+      setName('');
+      setFirstName('');
+      setPassword('');
+      setValid(false);
+      setLoading(false);
+      setError('');
+    }, [])
+  );
+
+  useEffect(() => {
+    if (
+      checkForNameErrors(name) ||
+      checkForFirstNameErrors(firstName) ||
+      checkForEmailErrors(email) ||
+      checkForPasswordErrors(password)
+    )
+      setValid(false);
+    else setValid(true);
+  }, [email, name, firstName, password]);
 
   const onRegister = async () => {
+    setError('');
+    setLoading(true);
     try {
       const userInput = {
         email: email,
@@ -32,15 +63,11 @@ function SignUp({ navigation }) {
       };
       const res = await api.send('POST', '/api/v1/auth/register', userInput, false);
 
+      setLoading(false);
+
       if (res.status === 200) {
         serviceAccessToken.set(res.data.accessToken);
-        // setEmail('');
-        // setName('');
-        // setFirstName('');
-        // setPassword('');
-        // setValid(false);
-        // setError('');
-        navigation.navigate('SendEmailConfirmation', { email: email });
+        setModalVisible(true);
       } else {
         throw res;
       }
@@ -55,19 +82,13 @@ function SignUp({ navigation }) {
     }
   };
 
-  useEffect(() => {
-    if (
-      checkForNameErrors(name) ||
-      checkForFirstNameErrors(firstName) ||
-      checkForEmailErrors(email) ||
-      checkForPasswordErrors(password)
-    )
-      setValid(false);
-    else setValid(true);
-  }, [email, name, firstName, password]);
+  const acceptGCU = () => {
+    navigation.navigate('SendEmailConfirmation', { email: email });
+    setModalVisible(false);
+  };
 
   const checkForEmailErrors = (input) => {
-    if (input == '') return 'Veuillez indiquer votre e-mail';
+    if (input == '') return 'Veuillez indiquer votre adresse e-mail';
     if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/.test(input))
       return "Le format n'est pas correct (ex: test@ext.com)";
     return false;
@@ -92,7 +113,25 @@ function SignUp({ navigation }) {
   };
 
   return (
-    <ScrollView style={AppStyles.container}>
+    <ScrollView style={[AppStyles.containerHeader, { backgroundColor: AppColor.background }]}>
+      <ModalSwipeUp visible={modalVisible} onClose={() => setModalVisible(false)}>
+        <Text style={{ color: 'black', fontWeight: 'bold' }}>Engagement de la communauté</Text>
+        <TextTitle
+          title="Conditions générales d'utilisation de Pulsive"
+          style={{ marginLeft: 0 }}
+        />
+        <Text style={{ color: 'black', marginBottom: 30 }}>
+          En acceptant les conditions générales d'utilisation de Pulsive, je m'engage à respecter
+          les règles de l'application et à respecter les autres utilisateurs
+        </Text>
+        <ButtonConditional
+          title="Accepter"
+          isEnabled={true}
+          onPress={() => {
+            acceptGCU();
+          }}
+        />
+      </ModalSwipeUp>
       <TextTitle title="Inscription à Pulsive" />
       <TextError title={error} />
       <InputFieldMultiple
@@ -104,7 +143,7 @@ function SignUp({ navigation }) {
       <InputField
         label="E-mail"
         errorCheck={checkForEmailErrors}
-        subText="Veuillez entrer un e-mail valide"
+        subText="Veuillez entrer une adresse e-mail valide"
         setValue={setEmail}
       />
       <InputField
@@ -117,8 +156,9 @@ function SignUp({ navigation }) {
       <ButtonConditional
         title="M'inscrire"
         isEnabled={valid}
-        style={{ backgroundColor: AppStyles.color.darkgrey }}
+        style={{ backgroundColor: AppColor.disabled }}
         onPress={onRegister}
+        loading={loading}
       />
     </ScrollView>
   );

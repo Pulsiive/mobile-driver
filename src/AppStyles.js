@@ -1,14 +1,107 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import React, { createContext, useContext, useState } from 'react';
+import { StyleSheet, Dimensions, View, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/Entypo';
 
 const { width, height } = Dimensions.get('window');
 const SCREEN_WIDTH = width < height ? width : height;
 const numColumns = 2;
 
+const ContextTheme = createContext();
+
+export const ThemeProvider = ({ children }) => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  const toggleTheme = () => {
+    setIsDarkMode((prevMode) => !prevMode);
+  };
+
+  const AppColor = isDarkMode ? AppStyles.darkStyles : AppStyles.lightStyles;
+
+  return (
+    <ContextTheme.Provider value={{ isDarkMode, toggleTheme, AppColor }}>
+      {children}
+    </ContextTheme.Provider>
+  );
+};
+
+export const useTheme = () => {
+  return useContext(ContextTheme);
+};
+
+const CustomHeader = ({ navigation }) => {
+  const { toggleTheme, AppColor } = useTheme();
+  return (
+    <View
+      style={{
+        position: 'absolute',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 40,
+        height: 40,
+        borderRadius: 100,
+        backgroundColor: AppColor.bottomColor,
+        top: 15,
+        left: 15
+      }}
+    >
+      {/* <TouchableOpacity onPress={() => navigation.goBack()}>
+        <Icon name="arrow-left" size={20} color={AppColor.background} />
+      </TouchableOpacity> */}
+      <TouchableOpacity onPress={() => toggleTheme()}>
+        <Icon name="chevron-left" size={20} color={AppColor.subText} />
+      </TouchableOpacity>
+    </View>
+  );
+};
+export default CustomHeader;
+
 export const AppStyles = {
+  lightStyles: {
+    background: 'white',
+    pulsive: '#81CD2C',
+    title: 'black',
+    text: 'black',
+    subText: '#1c2024',
+    label: '#1c2024',
+    pressed: 'whitesmoke',
+    error: 'firebrick',
+    border: '#1c2024',
+    borderFocused: 'black',
+    disabled: 'lightgrey',
+    secured: '#1c2024',
+    icon: 'grey',
+    separator: 'lightgrey',
+    bottomColor: '#F3F3F3'
+  },
+
+  darkStyles: {
+    background: '#1c2024',
+    pulsive: '#81CD2C',
+    title: '#D1D1D1',
+    text: '#747679',
+    subText: '#747679',
+    label: '#747679',
+    pressed: 'whitesmoke',
+    error: 'firebrick',
+    border: '#747679',
+    borderFocused: 'white',
+    disabled: '#747679',
+    secured: '#747679',
+    icon: 'grey',
+    separator: '#2E343B',
+    bottomColor: '#2E343B'
+  },
+
   color: {
-    pulsive: '#7fb27c',
-    lightmode: 'white',
-    darkmode: 'black', // à voir après
+    // pulsiveDark: '#436342',
+    // pulsiveDark: '#4D8837',
+
+    overlay: 'rgba(0, 0, 0, 0.5)',
+    transparent: 'transparent',
+
+    //---------------------- à supprimer à terme
+    background: 'white',
+    pulsive: '#81CD2C',
     title: 'black',
     text: 'black',
     subText: 'darkgrey',
@@ -17,28 +110,20 @@ export const AppStyles = {
     error: 'firebrick',
     border: 'darkgrey',
     borderFocused: 'black',
-    overlay: 'rgba(0, 0, 0, 0.5)',
-    //----------------------
+    disabled: 'darkgrey',
+    secured: 'darkgrey',
+    separator: 'lightgrey',
+
     white: 'white',
     grey: 'grey',
-    blue: '#3293fe',
-    lightgrey: 'lightgrey',
-    darkgrey: 'darkgrey',
-    transparent: 'transparent',
-    whitesmoke: 'whitesmoke',
 
     //----------------------
     main: '#5ea23a',
-    // title: '#464646',
     subtitle: '#545454',
-    // categoryTitle: '#161616',
     tint: '#7fb27c',
     description: '#bbbbbb',
-    // location: '#a9a9a9',
     facebook: '#337472',
-    greenBlue: '#00aea8',
-    // placeholder: '#a0a0a0',
-    background: '#f2f2f2'
+    greenBlue: '#00aea8'
   },
 
   fontSize: {
@@ -59,15 +144,17 @@ export const AppStyles = {
   },
 
   container: {
+    flex: 1
+  },
+
+  containerHeader: {
     flex: 1,
-    backgroundColor: 'white'
+    paddingTop: 50
   },
 
   //------------- à enlever à la fin -------------------
-  borderRadius: {
-    main: 25,
-    small: 5
-  },
+  borderRadius: 25,
+
   textInputWidth: {
     main: '80%'
   }
@@ -81,13 +168,14 @@ export const AppIcon = {
     marginRight: 10
   },
   style: {
-    tintColor: AppStyles.color.tint,
+    tintColor: AppStyles.color.pulsive,
     width: 25,
     height: 25
   },
   images: {
     home: require('../assets/icons/home.png'),
     profile: require('../assets/icons/profile_2.png'),
+    profile_icon: require('../assets/icons/profile.png'),
     logout: require('../assets/icons/shutdown.png'),
     menu: require('../assets/icons/menu.png'),
     settings: require('../assets/icons/settings.png'),
@@ -109,6 +197,7 @@ export const AppIcon = {
     logo2: require('../assets/images/logo-2.png'),
     notif: require('../assets/images/notif.png'),
     Pulsiive: require('../assets/images/Pulsiive.png'),
+    pulsive: require('../assets/images/pulsive.png'),
     bill: require('../assets/images/bill.png'),
     calendar: require('../assets/images/calendar.png'),
     back: require('../assets/images/back.png'),
