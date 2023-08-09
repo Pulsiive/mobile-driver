@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, View, Text } from 'react-native';
 import { AppIcon, AppStyles, useTheme } from '../../AppStyles';
 import {
   ButtonCommon,
   ButtonConditional,
   ButtonTouchable,
+  FloatingCard,
   InputField,
   InputFieldMultiple,
   ModalSwipeUp,
@@ -75,6 +76,7 @@ function Settings({ navigation }) {
       api.send('GET', '/api/v1/profile', null).then((data) =>
         setProfile({
           firstName: data.data.firstName,
+          lastName: data.data.lastName,
           email: data.data.email
         })
       );
@@ -214,15 +216,30 @@ function Settings({ navigation }) {
     <ScrollView style={[AppStyles.container, { backgroundColor: AppColor.background }]}>
       <TextTitle title="Profil" style={{ marginTop: 50 }} />
       <ButtonTouchable
-        title={profile && profile.firstName ? profile.firstName : 'Accéder au profil'}
+        title={
+          profile && profile.firstName && profile.lastName
+            ? profile.firstName + ' ' + profile.lastName
+            : 'Accéder au profil'
+        }
         subtext="Accéder aux informations du profil"
         image={[AppIcon.images.profile, 60]}
         onPress={() => navigation.navigate('Profile')}
       />
 
+      <FloatingCard>
+        <TextTitle
+          title="Voyagez sereinement et en toute sécurité grâce à Pulsive"
+          style={{ marginVertical: 0, marginHorizontal: 10, fontSize: AppStyles.fontSize.content }}
+        />
+        <Text style={[AppStyles.subtext, { marginHorizontal: 10 }]}>
+          Soyez assuré de trouver des bornes de recharge dans toutes la France et dans le monde
+          entier grâce au réseau d'utilisateurs Pulsive
+        </Text>
+      </FloatingCard>
+
       <TextTitle
         title="Paramètres du compte"
-        style={{ fontSize: AppStyles.fontSize.content, marginTop: 30 }}
+        style={{ fontSize: AppStyles.fontSize.content, marginTop: 10 }}
       />
       <ButtonTouchable
         title="Adresse e-mail"
@@ -322,9 +339,9 @@ function Settings({ navigation }) {
         loading={loading}
       />
       <ModalSwipeUp visible={modalVisible} onClose={() => setModalVisible(false)}>
-        <TextTitle title="Êtes vous sûr de vouloir vous deconnecter ?" style={{ marginLeft: 0 }} />
+        <TextTitle title="Êtes vous sûr de vouloir vous déconnecter ?" style={{ marginLeft: 0 }} />
         <ButtonConditional
-          title="Me deconnecter"
+          title="Me déconnecter"
           isEnabled={true}
           onPress={() => {
             setModalVisible(false);
@@ -336,16 +353,9 @@ function Settings({ navigation }) {
           onPress={() => {
             setModalVisible(false);
           }}
+          style={{ marginBottom: 30 }}
         />
       </ModalSwipeUp>
-      <ButtonCommon
-        title="Components"
-        style={{ marginVertical: 30 }}
-        onPress={() => {
-          navigation.navigate('Components');
-        }}
-        loading={loading}
-      />
     </ScrollView>
   );
 }

@@ -26,7 +26,7 @@ const ButtonTouchable = ({ title, subtext, onPress, icon, image, action }) => {
   const styles = StyleSheet.create({
     container: {
       width: AppStyles.buttonWidth,
-      paddingVertical: '4%',
+      paddingVertical: 14,
       borderBottomColor: AppColor.separator,
       borderBottomWidth: 1,
       backgroundColor: AppColor.transparent,

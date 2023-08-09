@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, Text } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import { AppStyles, useTheme } from '../../AppStyles';
 import api from '../../db/Api';
 import serviceAccessToken from '../../db/AccessToken';
@@ -113,53 +113,59 @@ function SignUp({ navigation }) {
   };
 
   return (
-    <ScrollView style={[AppStyles.containerHeader, { backgroundColor: AppColor.background }]}>
-      <ModalSwipeUp visible={modalVisible} onClose={() => setModalVisible(false)}>
-        <Text style={{ color: 'black', fontWeight: 'bold' }}>Engagement de la communauté</Text>
-        <TextTitle
-          title="Conditions générales d'utilisation de Pulsive"
-          style={{ marginLeft: 0 }}
+    <ScrollView style={[AppStyles.container, { backgroundColor: AppColor.background }]}>
+      <View style={AppStyles.containerHeader}>
+        <ModalSwipeUp
+          visible={modalVisible}
+          onClose={() => setModalVisible(false)}
+          title="Engagement de la communauté"
+        >
+          <TextTitle
+            title="Conditions générales d'utilisation de Pulsive"
+            style={{ marginLeft: 0, marginTop: 10 }}
+          />
+          <Text style={{ color: 'black', marginBottom: 30 }}>
+            En acceptant les conditions générales d'utilisation de Pulsive, je m'engage à respecter
+            les règles de l'application et à respecter les autres utilisateurs
+          </Text>
+          <ButtonConditional
+            title="Accepter"
+            isEnabled={true}
+            onPress={() => {
+              acceptGCU();
+            }}
+            style={{ marginBottom: 30 }}
+          />
+        </ModalSwipeUp>
+        <TextTitle title="Inscription à Pulsive" />
+        <TextError title={error} />
+        <InputFieldMultiple
+          labels={['Nom', 'Prénom']}
+          errorChecks={[checkForNameErrors, checkForFirstNameErrors]}
+          setValues={[setName, setFirstName]}
+          subText="Assurez vous que les informations soient similaires à celles figurantes sur votre carte d'identité"
         />
-        <Text style={{ color: 'black', marginBottom: 30 }}>
-          En acceptant les conditions générales d'utilisation de Pulsive, je m'engage à respecter
-          les règles de l'application et à respecter les autres utilisateurs
-        </Text>
+        <InputField
+          label="E-mail"
+          errorCheck={checkForEmailErrors}
+          subText="Veuillez entrer une adresse e-mail valide"
+          setValue={setEmail}
+        />
+        <InputField
+          label="Mot de passe"
+          errorCheck={checkForPasswordErrors}
+          subText="Votre mot de passe doit contenir au minimun 8 caractères, 1 majuscule/miniscule et 1 chiffre"
+          setValue={setPassword}
+          secure={true}
+        />
         <ButtonConditional
-          title="Accepter"
-          isEnabled={true}
-          onPress={() => {
-            acceptGCU();
-          }}
+          title="M'inscrire"
+          isEnabled={valid}
+          style={{ backgroundColor: AppColor.disabled }}
+          onPress={onRegister}
+          loading={loading}
         />
-      </ModalSwipeUp>
-      <TextTitle title="Inscription à Pulsive" />
-      <TextError title={error} />
-      <InputFieldMultiple
-        labels={['Nom', 'Prénom']}
-        errorChecks={[checkForNameErrors, checkForFirstNameErrors]}
-        setValues={[setName, setFirstName]}
-        subText="Assurez vous que les informations soient similaires à celles figurantes sur votre carte d'identité"
-      />
-      <InputField
-        label="E-mail"
-        errorCheck={checkForEmailErrors}
-        subText="Veuillez entrer une adresse e-mail valide"
-        setValue={setEmail}
-      />
-      <InputField
-        label="Mot de passe"
-        errorCheck={checkForPasswordErrors}
-        subText="Votre mot de passe doit contenir au minimun 8 caractères, 1 majuscule/miniscule et 1 chiffre"
-        setValue={setPassword}
-        secure={true}
-      />
-      <ButtonConditional
-        title="M'inscrire"
-        isEnabled={valid}
-        style={{ backgroundColor: AppColor.disabled }}
-        onPress={onRegister}
-        loading={loading}
-      />
+      </View>
     </ScrollView>
   );
 }

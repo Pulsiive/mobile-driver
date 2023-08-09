@@ -80,15 +80,15 @@ const InputField = ({ labels, errorChecks, subText, setValues, secures }) => {
 
   const styles = StyleSheet.create({
     container: {
-      marginVertical: '3%',
+      marginVertical: 12,
       width: AppStyles.buttonWidth,
       alignSelf: 'center'
     },
     errorContainer: {
       flexDirection: 'row',
       alignItems: 'center',
-      paddingHorizontal: '1%',
-      marginTop: '2%'
+      paddingHorizontal: 2,
+      marginTop: 8
     },
     label: {
       position: 'absolute',
@@ -182,9 +182,9 @@ const InputField = ({ labels, errorChecks, subText, setValues, secures }) => {
         </View>
       ))}
       {errors.map(
-        (error) =>
+        (error, index) =>
           error && (
-            <View style={styles.errorContainer}>
+            <View key={index} style={styles.errorContainer}>
               <Icon name="info-with-circle" size={14} style={styles.infoIcon} />
               <Text style={styles.errorText}>{error}</Text>
             </View>

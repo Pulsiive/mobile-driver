@@ -44,10 +44,7 @@ const CustomHeader = ({ navigation }) => {
         left: 15
       }}
     >
-      {/* <TouchableOpacity onPress={() => navigation.goBack()}>
-        <Icon name="arrow-left" size={20} color={AppColor.background} />
-      </TouchableOpacity> */}
-      <TouchableOpacity onPress={() => toggleTheme()}>
+      <TouchableOpacity onPress={() => navigation.goBack()}>
         <Icon name="chevron-left" size={20} color={AppColor.subText} />
       </TouchableOpacity>
     </View>
@@ -59,14 +56,14 @@ export const AppStyles = {
   lightStyles: {
     background: 'white',
     pulsive: '#81CD2C',
-    title: 'black',
-    text: 'black',
+    title: '#1c2024',
+    text: '#1c2024',
     subText: '#1c2024',
     label: '#1c2024',
     pressed: 'whitesmoke',
     error: 'firebrick',
-    border: '#1c2024',
-    borderFocused: 'black',
+    border: '#lightgrey',
+    borderFocused: '#1c2024',
     disabled: 'lightgrey',
     secured: '#1c2024',
     icon: 'grey',
@@ -78,7 +75,7 @@ export const AppStyles = {
     background: '#1c2024',
     pulsive: '#81CD2C',
     title: '#D1D1D1',
-    text: '#747679',
+    text: '#b0b0b0',
     subText: '#747679',
     label: '#747679',
     pressed: 'whitesmoke',
@@ -130,8 +127,7 @@ export const AppStyles = {
     title: 24,
     content: 20,
     button: 16,
-    normal: 16,
-    subText: 14
+    normal: 16
   },
 
   buttonWidth: width * 0.9,
@@ -148,7 +144,6 @@ export const AppStyles = {
   },
 
   containerHeader: {
-    flex: 1,
     paddingTop: 50
   },
 

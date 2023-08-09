@@ -8,3 +8,5 @@ export { default as TextError } from './TextError';
 export { default as TextTitle } from './TextTitle';
 export { default as ModalSwipeUp } from './ModalSwipeUp';
 export { default as AnimatedLoading } from './AnimatedLoading';
+export { default as FloatingCard } from './FloatingCard';
+export { default as TextList } from './TextList';
