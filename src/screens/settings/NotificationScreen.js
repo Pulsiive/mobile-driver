@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { StyleSheet, Switch, Text, TextInput, View } from 'react-native';
-import { AppIcon, AppStyles, useTheme } from '../../AppStyles';
+import React, { useEffect, useState } from 'react';
+import { View } from 'react-native';
+import { AppStyles, useTheme } from '../../AppStyles';
 import api from '../../db/Api';
 import { showMessage } from 'react-native-flash-message';
 import Backend from '../../db/Backend';
@@ -90,32 +90,6 @@ function NotificationScreen({ navigation }) {
         </View>
       )}
     </ScrollView>
-    // <View style={styles.container}>
-    //   {profile && (
-    //     <View style={styles.viewContainer}>
-    //       <Text style={styles.text}>Alert</Text>
-    //       <Switch
-    //         trackColor={{ false: '#767577', true: 'green' }}
-    //         thumbColor={isAlertEnabled ? 'white' : '#f4f3f4'}
-    //         onValueChange={() => {
-    //           setIsAlertEnabled((previousState) => !previousState);
-    //           onChange(null, !isAlertEnabled);
-    //         }}
-    //         value={isAlertEnabled}
-    //       />
-    //       <Text style={styles.text}>Notification</Text>
-    //       <Switch
-    //         trackColor={{ false: '#767577', true: 'green' }}
-    //         thumbColor={isNotificationEnabled ? 'white' : '#f4f3f4'}
-    //         onValueChange={() => {
-    //           setIsNotificationEnabled((previousState) => !previousState);
-    //           onChange(!isNotificationEnabled);
-    //         }}
-    //         value={isNotificationEnabled}
-    //       />
-    //     </View>
-    //   )}
-    // </View>
   );
 }
 

@@ -20,7 +20,7 @@ import Station from '../screens/station/Station';
 import Stations from '../screens/station/Stations';
 import Messages from '../screens/communication/Messages';
 import Message from '../screens/communication/Message';
-import Map from '../screens/map/Map';
+import Map from '../screens/map/MapNew';
 import Locations from '../screens/map/Locations';
 import Planning from '../screens/planning/Planning';
 import StationRating from '../screens/rating/StationRating';
@@ -170,22 +170,15 @@ const MapStack = () => {
     <Stack.Navigator
       initialRouteName="Home"
       screenOptions={{
-        headerTintColor: AppColor.pulsive,
-        headerTitleStyle: styles.headerTitleStyle,
-        headerMode: 'float'
+        header: ({ navigation }) => <CustomHeader navigation={navigation} />
       }}
     >
       <Stack.Screen
         name="Map"
         component={Map}
-        options={({ navigation }) => ({
-          headerLeft: () => (
-            <Pressable onPress={() => navigation.openDrawer()}>
-              <Image style={styles.iconStyle} source={AppIcon.images.menu} />
-            </Pressable>
-          ),
-          headerLeftContainerStyle: { paddingLeft: 10 }
-        })}
+        options={{
+          headerShown: false
+        }}
       />
       <Stack.Screen name="Locations" component={Locations} />
     </Stack.Navigator>

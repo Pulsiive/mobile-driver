@@ -17,7 +17,15 @@ import TextTitle from './TextTitle';
   */
 }
 
-const ModalSwipeUp = ({ title, visible, onClose, children, closeButton }) => {
+const ModalSwipeUp = ({
+  title,
+  visible,
+  onClose,
+  children,
+  closeButton,
+  bottom,
+  bottomChildren
+}) => {
   const { AppColor } = useTheme();
 
   const styles = StyleSheet.create({
@@ -27,7 +35,7 @@ const ModalSwipeUp = ({ title, visible, onClose, children, closeButton }) => {
       justifyContent: 'flex-end'
     },
     modalContainer: {
-      maxHeight: '90%',
+      maxHeight: '80%',
       minHeight: '30%',
       backgroundColor: AppColor.background,
       borderTopLeftRadius: 20,
@@ -43,6 +51,8 @@ const ModalSwipeUp = ({ title, visible, onClose, children, closeButton }) => {
       alignItems: 'center',
       padding: 10,
       backgroundColor: AppColor.bottomColor,
+      borderBottomColor: AppColor.separator,
+      borderBottomWidth: 1,
       borderTopLeftRadius: 20,
       borderTopRightRadius: 20
     },
@@ -52,6 +62,12 @@ const ModalSwipeUp = ({ title, visible, onClose, children, closeButton }) => {
       width: 30,
       height: 30,
       borderRadius: 100,
+      backgroundColor: AppColor.background
+    },
+    bottomContainer: {
+      padding: 10,
+      borderTopWidth: 1,
+      borderTopColor: AppColor.separator,
       backgroundColor: AppColor.background
     }
   });
@@ -81,6 +97,7 @@ const ModalSwipeUp = ({ title, visible, onClose, children, closeButton }) => {
             <View style={styles.contentContainer}>{children}</View>
           </ScrollView>
         </View>
+        {bottom && <View style={styles.bottomContainer}>{bottomChildren}</View>}
       </View>
     </Modal>
   );

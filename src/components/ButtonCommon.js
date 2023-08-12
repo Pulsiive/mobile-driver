@@ -27,7 +27,7 @@ const ButtonCommon = ({ title, style, onPress, loading }) => {
       borderColor: AppColor.border,
       borderWidth: 1,
       borderRadius: 8,
-      minHeight: 54,
+      minHeight: 50,
       padding: '4%',
       margin: '2%',
       width: AppStyles.buttonWidth,

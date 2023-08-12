@@ -124,6 +124,7 @@ const InputField = ({ label, errorCheck, subText, setValue, secure, style }) => 
         onChangeText={handleChangeText}
         value={inputValue}
         secureTextEntry={secureText}
+        selectionColor={AppColor.icon}
       />
       {secure && (
         <TouchableOpacity style={styles.secureContainer} onPress={() => setSecureText(!secureText)}>

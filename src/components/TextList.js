@@ -7,7 +7,7 @@ import ButtonText from './ButtonText';
 {
   /*
   <TextList
-    titles(required)="Nom: " // text of the list
+    titles(optional)="Nom: " // text of the list
     infos(required)="John" // infos of the list
     subtext(optional)="subtext" // to add a subtext
   />
@@ -42,10 +42,10 @@ const TextList = ({ titles, infos, subtexts }) => {
 
   return (
     <View>
-      {titles.map((title, index) => (
+      {infos.map((info, index) => (
         <View key={index} style={styles.container}>
-          <Text style={styles.titles}>{title}: </Text>
-          <Text style={styles.infos}>{infos[index]}</Text>
+          {titles && <Text style={styles.titles}>{titles[index]}: </Text>}
+          <Text style={styles.infos}>{info}</Text>
         </View>
       ))}
     </View>

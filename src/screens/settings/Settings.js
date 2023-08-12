@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, View, Text } from 'react-native';
+import { ScrollView, View, Text, Image } from 'react-native';
 import { AppIcon, AppStyles, useTheme } from '../../AppStyles';
 import {
   ButtonCommon,
@@ -59,27 +59,26 @@ function Settings({ navigation }) {
         email: null
       });
       try {
-        api.send('GET', '/api/v1/profile', null).then((data) =>
-          setProfile({
-            firstName: data.data.firstName,
-            email: data.data.email
-          })
-        );
+        getProfile();
       } catch (e) {
         console.log(e);
       }
     }, [])
   );
 
+  const getProfile = () => {
+    api.send('GET', '/api/v1/profile', null).then((data) =>
+      setProfile({
+        firstName: data.data.firstName,
+        lastName: data.data.lastName,
+        email: data.data.email
+      })
+    );
+  };
+
   useEffect(() => {
     try {
-      api.send('GET', '/api/v1/profile', null).then((data) =>
-        setProfile({
-          firstName: data.data.firstName,
-          lastName: data.data.lastName,
-          email: data.data.email
-        })
-      );
+      getProfile();
     } catch (e) {
       console.log(e);
     }
@@ -227,14 +226,27 @@ function Settings({ navigation }) {
       />
 
       <FloatingCard>
-        <TextTitle
-          title="Voyagez sereinement et en toute sécurité grâce à Pulsive"
-          style={{ marginVertical: 0, marginHorizontal: 10, fontSize: AppStyles.fontSize.content }}
-        />
-        <Text style={[AppStyles.subtext, { marginHorizontal: 10 }]}>
-          Soyez assuré de trouver des bornes de recharge dans toutes la France et dans le monde
-          entier grâce au réseau d'utilisateurs Pulsive
-        </Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <View style={{ flex: 1 }}>
+            <TextTitle
+              title="Voyagez avec Pulsive"
+              style={{
+                marginVertical: 0,
+                marginHorizontal: 10,
+                fontSize: AppStyles.fontSize.content
+              }}
+            />
+            <Text style={[AppStyles.subtext, { marginHorizontal: 10, marginTop: 10 }]}>
+              Soyez assuré de trouver des bornes de recharge dans toutes la France et dans le monde
+              entier grâce au réseau d'utilisateurs Pulsive
+            </Text>
+          </View>
+          <Image
+            source={isDarkMode ? AppIcon.images.stationDarkmode : AppIcon.images.stationLightmode}
+            style={{ width: '40%', height: '100%' }}
+            resizeMode="contain"
+          />
+        </View>
       </FloatingCard>
 
       <TextTitle

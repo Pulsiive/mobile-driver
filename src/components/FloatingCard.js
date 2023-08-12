@@ -1,7 +1,6 @@
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet, ScrollView, View } from 'react-native';
-import { AppStyles, useTheme } from '../AppStyles';
-import { AnimatedLoading } from '.';
+import { StyleSheet, View } from 'react-native';
+import { useTheme } from '../AppStyles';
 
 {
   /*
@@ -30,7 +29,7 @@ const FloatingCard = ({ children, style }) => {
       paddingHorizontal: 15,
       marginVertical: 30
     },
-    profileContainer: {
+    container: {
       alignItems: 'center'
     }
   });
@@ -42,7 +41,7 @@ const FloatingCard = ({ children, style }) => {
         ...(style || {})
       }}
     >
-      <View style={styles.profileContainer}>{children}</View>
+      <View style={styles.container}>{children}</View>
     </View>
   );
 };

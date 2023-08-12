@@ -40,13 +40,14 @@ function Profile() {
   useEffect(() => {
     setLoading(true);
     try {
-      api.send('GET', '/api/v1/profile', null).then((data) =>
+      api.send('GET', '/api/v1/profile', null).then((data) => {
+        console.log(data.data);
         setProfile({
           firstName: data.data.firstName,
           lastName: data.data.lastName,
           email: data.data.email
-        })
-      );
+        });
+      });
     } catch (e) {
       console.log(e);
     } finally {
@@ -60,7 +61,7 @@ function Profile() {
       setMyCommentsFetchIsLoading(true);
       const myComments = await api.send('GET', '/api/v1/profile/comments/stations');
       setMyComments(myComments.data);
-      console.log(myComments);
+      console.log(myComments.data);
     } catch (e) {
       console.log('Failed to fetch stations comments');
     } finally {
@@ -69,9 +70,6 @@ function Profile() {
   };
 
   const styles = StyleSheet.create({
-    // profileContainer: {
-    //   alignItems: 'center'
-    // },
     profilePicture: {
       width: 100,
       height: 100,

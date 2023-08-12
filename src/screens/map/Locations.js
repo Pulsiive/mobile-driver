@@ -27,6 +27,7 @@ function Locations({ navigation, route }) {
     handleListItemPress(item);
     navigation.goBack();
   };
+
   const renderLocation = ({ item }) => (
     <TouchableOpacity onPress={() => changeLocation(item)}>
       <View>

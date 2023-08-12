@@ -62,13 +62,15 @@ export const AppStyles = {
     label: '#1c2024',
     pressed: 'whitesmoke',
     error: 'firebrick',
-    border: '#lightgrey',
+    border: 'lightgrey',
     borderFocused: '#1c2024',
     disabled: 'lightgrey',
     secured: '#1c2024',
     icon: 'grey',
     separator: 'lightgrey',
-    bottomColor: '#F3F3F3'
+    bottomColor: '#F3F3F3',
+    private: 'grey',
+    public: 'lightgrey'
   },
 
   darkStyles: {
@@ -86,7 +88,9 @@ export const AppStyles = {
     secured: '#747679',
     icon: 'grey',
     separator: '#2E343B',
-    bottomColor: '#2E343B'
+    bottomColor: '#2E343B',
+    private: '#D1D1D1',
+    public: '#747679'
   },
 
   color: {
@@ -208,7 +212,19 @@ export const AppIcon = {
     time: require('../assets/images/time.png'),
     visa: require('../assets/images/visa.png'),
     xMark: require('../assets/images/x-mark.png'),
-    applePay: require('../assets/images/apple-pay.png')
+    applePay: require('../assets/images/apple-pay.png'),
+    loadingPlaneDarkmode: require('../assets/images/loadingPlaneDarkmode.png'),
+    loadingPlaneLightmode: require('../assets/images/loadingPlaneLightmode.png'),
+    // locationLight: require('../assets/images/locationLight.png'),
+    // locationDark: require('../assets/images/locationDark.png'),
+    // boltLight: require('../assets/images/boltLight.png'),
+    // boltDark: require('../assets/images/boltDark.png')
+    loadingLightmode: require('../assets/images/loadingDrawLightmode.png'),
+    loadingDarkmode: require('../assets/images/loadingDrawDarkmode.png'),
+    filtersLightmode: require('../assets/images/filtersDrawLightmode.png'),
+    filtersDarkmode: require('../assets/images/filtersDrawDarkmode.png'),
+    stationLightmode: require('../assets/images/stationDrawLightmode.png'),
+    stationDarkmode: require('../assets/images/stationDrawDarkmode.png')
   }
 };
 

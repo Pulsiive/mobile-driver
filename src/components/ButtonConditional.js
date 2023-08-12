@@ -7,6 +7,7 @@ import { AnimatedLoading } from './';
   /*
   <ButtonConditional
     title(required)="ButtonConditional" // text of the button
+    titleStyle(optional)={{ insert title style here }} // to change the title style
     onPress(required)={() => onPress()} // function called when the button is pressed
     style(optional)={{ insert style here }} // to change the style
     isEnable(optional)={true} // condition for the button to be enable or not
@@ -15,7 +16,7 @@ import { AnimatedLoading } from './';
   */
 }
 
-const ButtonConditional = ({ title, style, isEnabled, onPress, loading }) => {
+const ButtonConditional = ({ title, titleStyle, style, isEnabled, onPress, loading }) => {
   const { AppColor } = useTheme();
 
   const isButtonEnabled = isEnabled && typeof isEnabled === 'boolean';
@@ -31,9 +32,9 @@ const ButtonConditional = ({ title, style, isEnabled, onPress, loading }) => {
   const styles = StyleSheet.create({
     ButtonCommon: {
       borderRadius: 8,
-      padding: '4%',
-      minHeight: 54,
-      margin: '2%',
+      padding: 13,
+      minHeight: 50,
+      margin: 7,
       width: AppStyles.buttonWidth,
       alignSelf: 'center',
       backgroundColor: AppColor.pulsive
@@ -63,7 +64,11 @@ const ButtonConditional = ({ title, style, isEnabled, onPress, loading }) => {
       style={{ ...styles.ButtonCommon, ...buttonStyle, ...(style || {}) }}
       disabled={!isButtonEnabled || loading}
     >
-      {loading ? <AnimatedLoading /> : <Text style={styles.buttonText}>{title}</Text>}
+      {loading ? (
+        <AnimatedLoading />
+      ) : (
+        <Text style={{ ...styles.buttonText, ...(titleStyle || {}) }}>{title}</Text>
+      )}
     </TouchableOpacity>
   );
 };
