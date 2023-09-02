@@ -560,149 +560,6 @@ function Map({ navigation }) {
     );
   };
 
-  // const CommentPicture = ({ pictureId }) => {
-  //   const [imageIsOpen, setImageIsOpen] = useState(false);
-
-  //   return (
-  //     <View>
-  //       <TouchableOpacity onPress={() => setImageIsOpen(true)}>
-  //         <Image
-  //           source={{ uri: `https://ucarecdn.com/${pictureId}/` }}
-  //           style={{ height: 150, width: 150 }}
-  //         />
-  //       </TouchableOpacity>
-  //       <Modal
-  //         animationType={'fade'}
-  //         visible={imageIsOpen}
-  //         onRequestClose={() => setImageIsOpen(false)}
-  //       >
-  //         <View
-  //           style={{
-  //             flexDirection: 'column',
-  //             justifyContent: 'center',
-  //             alignContent: 'center',
-  //             height: '100%'
-  //           }}
-  //         >
-  //           <Image
-  //             source={{ uri: `https://ucarecdn.com/${pictureId}/` }}
-  //             style={{ width: '100%', height: undefined, aspectRatio: 1 }}
-  //           />
-  //         </View>
-  //       </Modal>
-  //     </View>
-  //   );
-  // };
-
-  // const UserComment = ({ userComment }) => {
-  //   const [comment, setComment] = useState(userComment);
-  //   const [userLikedComment, setUserLikedComment] = useState(
-  //     comment.likedBy.find((user) => user.id === userProfile.id) === undefined ? false : true
-  //   );
-  //   const [userDislikedComment, setUserDislikedComment] = useState(
-  //     comment.dislikedBy.find((user) => user.id === userProfile.id) === undefined ? false : true
-  //   );
-
-  //   const ratingStars = [];
-  //   for (let rate = 0; rate < comment.rate; rate++) {
-  //     ratingStars.push(<Icon key={rate} name="star" size={15} color="orange" />);
-  //   }
-
-  //   const likeComment = async () => {
-  //     try {
-  //       if (!userLikedComment) {
-  //         await api.send('POST', `/api/v1/station/rate/like/${comment.id}`);
-  //         setComment({
-  //           ...userComment,
-  //           likedBy: [...userComment.likedBy, userProfile.id],
-  //           likes: userComment.likes + 1,
-  //           dislikes: userDislikedComment ? userComment.dislikes - 1 : userComment.dislikes
-  //         });
-  //         setUserLikedComment(true);
-  //         setUserDislikedComment(false);
-  //       }
-  //     } catch (e) {
-  //       console.log('failed to like comment');
-  //     }
-  //   };
-
-  //   const dislikeComment = async () => {
-  //     try {
-  //       if (!userDislikedComment) {
-  //         await api.send('POST', `/api/v1/station/rate/dislike/${comment.id}`);
-  //         setComment({
-  //           ...userComment,
-  //           dislikedBy: [...userComment.dislikedBy, userProfile.id],
-  //           dislikes: userComment.dislikes + 1,
-  //           likes: userLikedComment ? userComment.likes - 1 : userComment.likes
-  //         });
-  //         setUserLikedComment(false);
-  //         setUserDislikedComment(true);
-  //       }
-  //     } catch (e) {
-  //       console.log('failed to dislike comment');
-  //     }
-  //   };
-
-  //   return (
-  //     <View style={{ marginTop: 10 }}>
-  //       <View style={{ flexDirection: 'row', marginBottom: 10 }}>
-  //         <Icon style={styles.userProfile} name="user" size={30} color="white" />
-  //         <View style={{ marginLeft: 20 }}>
-  //           <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
-  //             <Text
-  //               style={{ fontWeight: 'bold', fontSize: 15 }}
-  //             >{`${comment.author.firstName} ${comment.author.lastName}`}</Text>
-  //             <Text style={{ fontSize: 12, marginLeft: 10 }}>
-  //               {comment.date.slice(0, comment.date.indexOf('T'))}
-  //             </Text>
-  //           </View>
-  //           <View style={{ flexDirection: 'row' }}>
-  //             {ratingStars}
-  //             <Text style={{ marginLeft: 5 }}>{comment.rate}/5</Text>
-  //           </View>
-  //         </View>
-  //       </View>
-  //       {comment.comment ? <Text>{comment.comment}</Text> : undefined}
-  //       {comment.pictures ? (
-  //         <View style={{ marginTop: 5, marginBottom: 5 }}>
-  //           <Carousel
-  //             layout="default"
-  //             sliderWidth={Dimensions.get('window').width}
-  //             itemWidth={Dimensions.get('window').width - 60}
-  //             data={comment.pictures}
-  //             renderItem={({ item }) => <CommentPicture pictureId={item} />}
-  //           />
-  //         </View>
-  //       ) : // </View>
-
-  //       undefined}
-  //       <View style={{ flexDirection: 'row' }}>
-  //         <View style={{ flexDirection: 'row', marginRight: 20 }}>
-  //           <TouchableOpacity onPress={likeComment}>
-  //             <Icon
-  //               name="thumbs-up"
-  //               size={15}
-  //               color={userLikedComment ? AppStyles.color.main : 'grey'}
-  //             />
-  //           </TouchableOpacity>
-  //           <Text>{comment.likes}</Text>
-  //         </View>
-  //         <View style={{ flexDirection: 'row' }}>
-  //           <TouchableOpacity onPress={dislikeComment}>
-  //             <Icon
-  //               name="thumbs-down"
-  //               size={15}
-  //               color={userDislikedComment ? AppStyles.color.main : 'grey'}
-  //             />
-  //           </TouchableOpacity>
-  //           <Text>{comment.dislikes}</Text>
-  //         </View>
-  //       </View>
-  //     </View>
-  //   );
-  // };
-
   function distance(lat1, lon1, lat2, lon2) {
     const R = 6371;
     const dLat = toRad(lat2 - lat1);
@@ -724,49 +581,6 @@ function Map({ navigation }) {
     return deg * (Math.PI / 180);
   }
 
-  // const ModalInformation = (props) => {
-  //   console.log(props.station.charger.location);
-  //   const dist = distance(
-  //     props.station.charger.location[1],
-  //     props.station.charger.location[0],
-  //     userPosition[0],
-  //     userPosition[1]
-  //   );
-  //   const ratingStars = [];
-  //   for (let rate = 0; rate < props.station.charger.rating; rate++) {
-  //     ratingStars.push(<Icon key={rate} name="star" size={20} color="orange" />);
-  //   }
-  //   return (
-  //     <View>
-  //       <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: '2%' }}>
-  //         {ratingStars.length === 0 ? <Text style={{ fontSize: 15 }}>No rating</Text> : ratingStars}
-  //       </View>
-  //       <View style={{ flexDirection: 'row', marginTop: '7%', marginLeft: '5%' }}>
-  //         <Icon name="address" size={30} color="grey" />
-  //         <Text style={{ marginLeft: '8%', marginTop: '1%', color: 'grey' }}>{dist}</Text>
-  //       </View>
-  //       <View style={{ flexDirection: 'row', marginTop: '7%', marginLeft: '5%' }}>
-  //         <Icon name="flow-branch" size={30} color="grey" />
-  //         <Text style={{ marginLeft: '8%', marginTop: '1%', color: 'grey' }}>
-  //           {props.station.charger.type == undefined ? 'no data' : props.station.charger.type}
-  //         </Text>
-  //       </View>
-  //       <View style={{ flexDirection: 'row', marginTop: '7%', marginLeft: '5%' }}>
-  //         <Icon name="credit" size={30} color="grey" />
-  //         <Text style={{ marginLeft: '8%', marginTop: '1%', color: 'grey' }}>
-  //           {props.station.charger.pricing}/h
-  //         </Text>
-  //       </View>
-  //       <View style={{ flexDirection: 'row', marginTop: '7%', marginLeft: '5%' }}>
-  //         <Icon name="flash" size={30} color="grey" />
-  //         <Text style={{ marginLeft: '8%', marginTop: '1%', color: 'grey' }}>
-  //           {props.station.charger.voltage} kWh
-  //         </Text>
-  //       </View>
-  //     </View>
-  //   );
-  // };
-
   const [userStation, setUserStation] = useState([
     {
       name: 'Station test',
@@ -778,21 +592,6 @@ function Map({ navigation }) {
       location: [0, 0]
     }
   ]);
-
-  // const navigateToStationRatingScreen = () => {
-  //   const selectedStation = modalData.charger;
-  //   setModalVisible(false);
-  //   setModalData({});
-  //   navigation.navigate('StationRating', { stationId: selectedStation.id });
-  // };
-
-  // const navigateToStationBookingScreen = () => {
-  //   const selectedStation = modalData.charger;
-  //   setModalVisible(false);
-  //   setModalData({});
-  //   //navigation.navigate('PlanningUser', { stationId: selectedStation.id });
-  //   navigation.navigate('BookingPlanning', { stationId: selectedStation.id });
-  // };
 
   const [fetchStations, setFetchStations] = useState(true);
   const [fetchPosition, setFetchPosition] = useState(false);
@@ -894,7 +693,8 @@ function Map({ navigation }) {
             rates: station.rates,
             address: station.coordinates.address,
             city: station.coordinates.city,
-            postalCode: station.coordinates.postalCode
+            postalCode: station.coordinates.postalCode,
+            owner: station.owner
           });
         }
         setUserStation(stationsParsed);
@@ -931,15 +731,6 @@ function Map({ navigation }) {
   function handleListItemPress(location) {
     setUserPosition([location[1][0], location[1][1]]);
   }
-
-  // const addStationToFavorites = async (stationId) => {
-  //   try {
-  //     await api.send('POST', `/api/v1/station/favorite/${stationId}`);
-  //     setModalData({ ...modalData, charger: { ...modalData.charger, isFavorite: true } });
-  //   } catch (e) {
-  //     console.log('Failed to add station to favorites');
-  //   }
-  // };
 
   return (
     <View style={styles.page}>

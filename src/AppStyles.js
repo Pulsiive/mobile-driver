@@ -72,6 +72,7 @@ export const AppIcon = {
     charger3: require('../assets/images/charger3.jpg'),
     phone: require('../assets/icons/phone.png'),
     remove: require('../assets/icons/remove.png'),
+    edit: require('../assets/icons/edit.png'),
     avis: require('../assets/images/avis.png'),
     logo: require('../assets/images/logo.png'),
     logo2: require('../assets/images/logo-2.png'),
@@ -94,7 +95,8 @@ export const AppIcon = {
     xMark: require('../assets/images/x-mark.png'),
     applePay: require('../assets/images/apple-pay.png'),
     stationInformationsModal: require('../assets/images/stationInformationsImage.jpg'),
-    userProfilePicture: require('../assets/images/user.jpeg')
+    userProfilePicture: require('../assets/images/user.jpeg'),
+    ownerProfilePicture: require('../assets/images/owner.jpeg')
   }
 };
 

@@ -62,7 +62,7 @@ function StationInformations({ station, userProfile, navigation }) {
               style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5 }}
             >
               <Text style={{ fontWeight: 'bold', fontSize: 15, color: 'black' }}>
-                {station.address}
+                {station.public ? station.address : `${station.owner.firstName}'s station`}
               </Text>
               <Pressable onPress={onHeartPressed}>
                 <Icon

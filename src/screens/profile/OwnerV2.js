@@ -54,7 +54,7 @@ const renderRating = (rating, isComment = false) => {
   );
 };
 
-function ProfileHeader({ userName, userRate, userId, navigation }) {
+function ProfileHeader({ userName, userRate, userId, profilePictureUri, navigation }) {
   const navigateToOwnerRating = () => {
     navigation.navigate('OwnerRating', {
       ownerId: userId
@@ -68,7 +68,7 @@ function ProfileHeader({ userName, userRate, userId, navigation }) {
           <Image
             style={{ height: 100 + '%', width: 100 + '%', borderRadius: 50 }}
             source={{
-              uri: 'https://media.gettyimages.com/id/1314489757/fr/photo/smiling-hispanic-man-against-white-background.jpg?s=612x612&w=gi&k=20&c=bH6LQ1NqBgBkrPJUaiRNSVheODv7cwSWrYb6UvyZbfk='
+              uri: profilePictureUri
             }}
           ></Image>
         </View>
@@ -114,7 +114,7 @@ function ProfileHeader({ userName, userRate, userId, navigation }) {
 
 function OwnerV2({ navigation }) {
   const [profile, setProfile] = useState(null);
-  const { name, userId } = useRoute().params;
+  const { name, userId, imageUri } = useRoute().params;
   const [currentTabIndex, setCurrentTabIndex] = useState(-1);
   const [currentTabComponent, setCurrentTabComponent] = useState(undefined);
   const [userRate, setUserRate] = useState(-1);
@@ -139,10 +139,9 @@ function OwnerV2({ navigation }) {
   }, [profile]);
 
   useEffect(() => {
-    console.log(JSON.stringify(profile, null, '\t'));
     if (currentTabIndex >= 0) {
       if (currentTabIndex === 0) {
-        if (profile.privateStations.length > 0) {
+        if (profile.privateStations && profile.privateStations.length > 0) {
           setCurrentTabComponent(<Station ownerId={userId}></Station>);
         } else {
           setCurrentTabComponent(
@@ -182,12 +181,23 @@ function OwnerV2({ navigation }) {
 
   return !profile ? (
     <View style={styles.safe}>
-      <ProfileHeader userName={name} userId={userId} navigation={navigation} />
+      <ProfileHeader
+        userName={name}
+        userId={userId}
+        profilePictureUri={imageUri}
+        navigation={navigation}
+      />
       <ActivityIndicator size="small" color="white" />
     </View>
   ) : (
     <View style={styles.safe}>
-      <ProfileHeader userName={name} userId={userId} userRate={userRate} navigation={navigation} />
+      <ProfileHeader
+        userName={name}
+        userId={userId}
+        userRate={userRate}
+        profilePictureUri={imageUri}
+        navigation={navigation}
+      />
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 15 }}>
         {tabs.map((tab, index) => (
           <TouchableOpacity key={index} onPress={() => setCurrentTabIndex(index)}>
