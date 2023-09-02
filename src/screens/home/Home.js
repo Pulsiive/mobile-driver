@@ -312,7 +312,7 @@ function Home({ navigation }) {
               <Icon
                 name="pin"
                 size={24}
-                color={charger.public ? AppStyles.color.tint : AppStyles.color.greenBlue}
+                color={charger.public ? AppStyles.color.pulsive : AppStyles.color.greenBlue}
               />
             </MapboxGL.PointAnnotation>
           ))}
@@ -341,7 +341,7 @@ function Home({ navigation }) {
                     <Icon
                       name={favStation ? 'heart' : 'heart-outlined'}
                       size={30}
-                      color={AppStyles.color.tint}
+                      color={AppStyles.color.pulsive}
                     />
                   </Pressable>
                   <Text style={{ fontSize: 20, fontWeight: '800', color: 'black' }}>
@@ -433,7 +433,7 @@ const styles = StyleSheet.create({
     height: 200,
     width: '100%',
     marginBottom: 20,
-    backgroundColor: AppStyles.color.white,
+    backgroundColor: AppStyles.color.background,
     borderWidth: 1,
     borderColor: AppStyles.color.grey
   },
@@ -442,7 +442,7 @@ const styles = StyleSheet.create({
     color: 'black'
   },
   modal: {
-    backgroundColor: AppStyles.color.white,
+    backgroundColor: AppStyles.color.background,
     height: '70%',
     width: '80%',
     borderRadius: 10,
@@ -453,15 +453,15 @@ const styles = StyleSheet.create({
   },
   bookButton: {
     width: 200,
-    backgroundColor: AppStyles.color.tint,
-    borderRadius: AppStyles.borderRadius.main,
+    backgroundColor: AppStyles.color.pulsive,
+    borderRadius: AppStyles.borderRadius,
     padding: 10,
     marginTop: 30,
     position: 'absolute',
     bottom: 80
   },
   userProfile: {
-    backgroundColor: AppStyles.color.tint,
+    backgroundColor: AppStyles.color.pulsive,
     borderRadius: 50,
     marginTop: '5%',
     marginBottom: '2%'
@@ -473,7 +473,7 @@ const styles = StyleSheet.create({
   },
   addressText: {
     fontWeight: 'bold',
-    color: AppStyles.color.tint,
+    color: AppStyles.color.pulsive,
     fontSize: 19,
     marginBottom: 15
   },
@@ -513,7 +513,7 @@ const styles = StyleSheet.create({
   },
   profileName: {
     fontSize: 18,
-    color: AppStyles.color.tint
+    color: AppStyles.color.pulsive
   },
   image: {
     width: 45,

@@ -27,6 +27,7 @@ function Locations({ navigation, route }) {
     handleListItemPress(item);
     navigation.goBack();
   };
+
   const renderLocation = ({ item }) => (
     <TouchableOpacity onPress={() => changeLocation(item)}>
       <View>
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: AppStyles.fontSize.title,
     fontWeight: 'bold',
-    color: AppStyles.color.tint,
+    color: AppStyles.color.pulsive,
     marginTop: 20,
     marginBottom: 50
   },
@@ -103,9 +104,9 @@ const styles = StyleSheet.create({
     color: AppStyles.color.text
   },
   loginContainer: {
-    width: AppStyles.buttonWidth.main,
-    backgroundColor: AppStyles.color.tint,
-    borderRadius: AppStyles.borderRadius.main,
+    width: AppStyles.buttonWidth,
+    backgroundColor: AppStyles.color.pulsive,
+    borderRadius: AppStyles.borderRadius,
     padding: 10,
     marginTop: 30
   },
@@ -121,7 +122,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderStyle: 'solid',
     borderColor: AppStyles.color.grey,
-    borderRadius: AppStyles.borderRadius.main
+    borderRadius: AppStyles.borderRadius
   },
   body: {
     height: 42,
@@ -132,7 +133,7 @@ const styles = StyleSheet.create({
   shareButton: {
     width: 200,
     backgroundColor: AppStyles.color.facebook,
-    borderRadius: AppStyles.borderRadius.main,
+    borderRadius: AppStyles.borderRadius,
     padding: 10,
     marginTop: 30,
     position: 'absolute',

@@ -1,251 +1,173 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { StyleSheet, Text, TextInput, View, Alert, Platform, Linking } from 'react-native';
-import Button from 'react-native-button';
-import { AppStyles } from '../../AppStyles';
+import React, { useEffect, useState } from 'react';
+import { ScrollView, Text, View } from 'react-native';
+import { AppStyles, useTheme } from '../../AppStyles';
 import api from '../../db/Api';
 import serviceAccessToken from '../../db/AccessToken';
+import {
+  InputField,
+  InputFieldMultiple,
+  ButtonConditional,
+  TextError,
+  TextTitle,
+  ModalSwipeUp
+} from '../../components';
+import { useFocusEffect } from '@react-navigation/native';
 
 function SignUp({ navigation }) {
-  const inputEmail = useRef(null);
-  const inputFirstName = useRef(null);
-  const inputLastName = useRef(null);
-  const inputPassword = useRef(null);
+  const { AppColor } = useTheme();
 
-  const [userInput, setUserInput] = useState({
-    email: '',
-    password: '',
-    firstName: '',
-    lastName: '',
-    dateOfBirth: '2022-09-09T20:32:54.003Z'
-  });
-  const [errorMessage, setErrorMessage] = useState({
-    email: '',
-    password: '',
-    firstName: '',
-    lastName: ''
-  });
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [password, setPassword] = useState('');
 
-  const handleChange = (text, field) => {
-    userInput[field] = text;
-    setUserInput(userInput);
-  };
+  const [valid, setValid] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const [error, setError] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setEmail('');
+      setName('');
+      setFirstName('');
+      setPassword('');
+      setValid(false);
+      setLoading(false);
+      setError('');
+    }, [])
+  );
+
+  useEffect(() => {
+    if (
+      checkForNameErrors(name) ||
+      checkForFirstNameErrors(firstName) ||
+      checkForEmailErrors(email) ||
+      checkForPasswordErrors(password)
+    )
+      setValid(false);
+    else setValid(true);
+  }, [email, name, firstName, password]);
 
   const onRegister = async () => {
+    setError('');
+    setLoading(true);
     try {
-      errorMessage['email'] = '';
-      errorMessage['password'] = '';
-      errorMessage['lastName'] = '';
-      errorMessage['firstName'] = '';
-
-      if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/.test(userInput.email))
-        errorMessage['email'] = 'Wrong email format (e.g: test@ext.com)';
-      if (userInput.email == '') errorMessage['email'] = 'Please enter your email';
-      if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(userInput.password))
-        errorMessage['password'] =
-          'Wrong password format (at least 8 characters, 1 number, 1 uppercase, 1 lowercase)';
-      if (userInput.password == '') errorMessage['password'] = 'Please enter your password';
-      if (/[^a-zA-Z]+/g.test(userInput.lastName))
-        errorMessage['lastName'] = 'Wrong format (only letters)';
-      if (userInput.lastName == '') errorMessage['lastName'] = 'Please enter your last name';
-      if (/[^a-zA-Z]+/g.test(userInput.firstName))
-        errorMessage['firstName'] = 'Wrong format (only letters)';
-      if (userInput.firstName == '') errorMessage['firstName'] = 'Please enter your first name';
-
-      setErrorMessage({ ...errorMessage });
-
-      if (
-        errorMessage.email !== '' ||
-        errorMessage.password !== '' ||
-        errorMessage.firstName !== '' ||
-        errorMessage.lastName !== ''
-      )
-        throw { data: errorMessage, status: '405' };
-
+      const userInput = {
+        email: email,
+        firstName: firstName,
+        lastName: name,
+        password: password,
+        dateOfBirth: '2022-09-09T20:32:54.003Z'
+      };
       const res = await api.send('POST', '/api/v1/auth/register', userInput, false);
+
+      setLoading(false);
 
       if (res.status === 200) {
         serviceAccessToken.set(res.data.accessToken);
-        inputEmail.current.clear();
-        inputFirstName.current.clear();
-        inputLastName.current.clear();
-        inputPassword.current.clear();
-        setUserInput({ email: '', firstName: '', lastName: '', password: '' });
-        navigation.navigate('SendEmailConfirmation', {email: userInput.email});
+        setModalVisible(true);
       } else {
         throw res;
       }
     } catch (e) {
       console.log(e);
       if (e) {
-        if (e.status === 409) setErrorMessage({ ...errorMessage, email: 'User already exists' });
-        else if (e.status === 422)
-          setErrorMessage({ ...errorMessage, email: 'User registration failed' });
+        if (e.status === 409) setError("L'utilisateur est déjà inscrit");
+        else if (e.status === 422) setError("Echec d'inscription");
       } else {
-        setErrorMessage({ ...errorMessage, email: 'Internal server error' });
+        setError('Error serveur');
       }
     }
   };
 
+  const acceptGCU = () => {
+    navigation.navigate('SendEmailConfirmation', { email: email });
+    setModalVisible(false);
+  };
+
+  const checkForEmailErrors = (input) => {
+    if (input == '') return 'Veuillez indiquer votre adresse e-mail';
+    if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/.test(input))
+      return "Le format n'est pas correct (ex: test@ext.com)";
+    return false;
+  };
+
+  const checkForNameErrors = (input) => {
+    if (input == '') return 'Veuillez indiquer votre nom';
+    if (/[^a-zA-Z]+/g.test(input)) return 'Votre nom doit comprendre uniquement des lettres';
+    return false;
+  };
+
+  const checkForFirstNameErrors = (input) => {
+    if (input == '') return 'Veuillez indiquer votre prénom';
+    if (/[^a-zA-Z]+/g.test(input)) return 'Votre prénom doit comprendre uniquement des lettres';
+    return false;
+  };
+
+  const checkForPasswordErrors = (input) => {
+    if (input == '') return 'Veuillez indiquer votre mot de passe';
+    if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(input)) return 'Format incorrecte';
+    return false;
+  };
+
   return (
-    <View style={styles.container}>
-      <Text style={[styles.title, styles.leftTitle]}>Create new account</Text>
-      <View style={styles.viewContainer}>
-        <TextInput
-          ref={inputEmail}
-          placeholder="Email"
-          onChangeText={(text) => handleChange(text, 'email')}
-          style={[
-            styles.inputContainer,
-            errorMessage.email !== '' ? styles.inputOnError : styles.input
-          ]}
-          placeholderTextColor={AppStyles.color.grey}
+    <ScrollView style={[AppStyles.container, { backgroundColor: AppColor.background }]}>
+      <View style={AppStyles.containerHeader}>
+        <ModalSwipeUp
+          visible={modalVisible}
+          onClose={() => setModalVisible(false)}
+          title="Engagement de la communauté"
+        >
+          <TextTitle
+            title="Conditions générales d'utilisation de Pulsive"
+            style={{ marginLeft: 0, marginTop: 10 }}
+          />
+          <Text style={{ color: 'black', marginBottom: 30 }}>
+            En acceptant les conditions générales d'utilisation de Pulsive, je m'engage à respecter
+            les règles de l'application et à respecter les autres utilisateurs
+          </Text>
+          <ButtonConditional
+            title="Accepter"
+            isEnabled={true}
+            onPress={() => {
+              acceptGCU();
+            }}
+            style={{ marginBottom: 30 }}
+          />
+        </ModalSwipeUp>
+        <TextTitle title="Inscription à Pulsive" />
+        <TextError title={error} />
+        <InputFieldMultiple
+          labels={['Nom', 'Prénom']}
+          errorChecks={[checkForNameErrors, checkForFirstNameErrors]}
+          setValues={[setName, setFirstName]}
+          subText="Assurez vous que les informations soient similaires à celles figurantes sur votre carte d'identité"
         />
-        {errorMessage.email === '' ? (
-          <Text></Text>
-        ) : (
-          <Text style={{ color: 'red' }}>{errorMessage.email}</Text>
-        )}
-      </View>
-
-      <View style={styles.viewContainer}>
-        <TextInput
-          ref={inputFirstName}
-          placeholder="First name"
-          onChangeText={(text) => handleChange(text, 'firstName')}
-          style={[
-            styles.inputContainer,
-            errorMessage.firstName !== '' ? styles.inputOnError : styles.input
-          ]}
-          placeholderTextColor={AppStyles.color.grey}
+        <InputField
+          label="E-mail"
+          errorCheck={checkForEmailErrors}
+          subText="Veuillez entrer une adresse e-mail valide"
+          setValue={setEmail}
         />
-        {errorMessage.firstName === '' ? (
-          <Text></Text>
-        ) : (
-          <Text style={{ color: 'red' }}>{errorMessage.firstName}</Text>
-        )}
-      </View>
-
-      <View style={styles.viewContainer}>
-        <TextInput
-          ref={inputLastName}
-          placeholder="Last name"
-          onChangeText={(text) => handleChange(text, 'lastName')}
-          style={[
-            styles.inputContainer,
-            errorMessage.lastName !== '' ? styles.inputOnError : styles.input
-          ]}
-          placeholderTextColor={AppStyles.color.grey}
+        <InputField
+          label="Mot de passe"
+          errorCheck={checkForPasswordErrors}
+          subText="Votre mot de passe doit contenir au minimun 8 caractères, 1 majuscule/miniscule et 1 chiffre"
+          setValue={setPassword}
+          secure={true}
         />
-        {errorMessage.lastName === '' ? (
-          <Text></Text>
-        ) : (
-          <Text style={{ color: 'red' }}>{errorMessage.lastName}</Text>
-        )}
-      </View>
-
-      <View style={styles.viewContainer}>
-        <TextInput
-          ref={inputPassword}
-          placeholder="Password"
-          onChangeText={(text) => handleChange(text, 'password')}
-          style={[
-            styles.inputContainer,
-            errorMessage.password !== '' ? styles.inputOnError : styles.input
-          ]}
-          placeholderTextColor={AppStyles.color.grey}
-          secureTextEntry={true}
+        <ButtonConditional
+          title="M'inscrire"
+          isEnabled={valid}
+          style={{ backgroundColor: AppColor.disabled }}
+          onPress={onRegister}
+          loading={loading}
         />
-        {errorMessage.password === '' ? (
-          <Text></Text>
-        ) : (
-          <Text style={{ color: 'red' }}>{errorMessage.password}</Text>
-        )}
       </View>
-
-      <Button
-        containerStyle={[styles.facebookContainer, { marginTop: 50 }]}
-        style={styles.facebookText}
-        onPress={() => onRegister()}
-      >
-        Sign Up
-      </Button>
-    </View>
+    </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center'
-  },
-  title: {
-    fontSize: AppStyles.fontSize.title,
-    fontWeight: 'bold',
-    color: AppStyles.color.tint,
-    marginTop: 20,
-    marginBottom: 20
-  },
-  leftTitle: {
-    alignSelf: 'stretch',
-    textAlign: 'left',
-    marginLeft: 20
-  },
-  content: {
-    paddingLeft: 50,
-    paddingRight: 50,
-    textAlign: 'center',
-    fontSize: AppStyles.fontSize.content,
-    color: AppStyles.color.text
-  },
-  loginContainer: {
-    width: AppStyles.buttonWidth.main,
-    backgroundColor: AppStyles.color.tint,
-    borderRadius: AppStyles.borderRadius.main,
-    padding: 10,
-    marginTop: 30
-  },
-  loginText: {
-    color: AppStyles.color.white
-  },
-  placeholder: {
-    color: 'red'
-  },
-  viewContainer: {
-    width: AppStyles.textInputWidth.main,
-    marginTop: 30
-  },
-  inputContainer: {
-    borderWidth: 1,
-    borderStyle: 'solid',
-    borderColor: AppStyles.color.grey,
-    borderRadius: AppStyles.borderRadius.main
-  },
-  input: {
-    height: 42,
-    paddingLeft: 20,
-    paddingRight: 20,
-    color: AppStyles.color.text
-  },
-  inputOnError: {
-    height: 42,
-    paddingLeft: 20,
-    paddingRight: 20,
-    color: AppStyles.color.text,
-    borderWidth: 2,
-    borderStyle: 'solid',
-    borderColor: 'red',
-    borderRadius: AppStyles.borderRadius.main
-  },
-  facebookContainer: {
-    width: AppStyles.buttonWidth.main,
-    backgroundColor: AppStyles.color.tint,
-    borderRadius: AppStyles.borderRadius.main,
-    padding: 10,
-    marginTop: 30
-  },
-  facebookText: {
-    color: AppStyles.color.white
-  }
-});
 
 export default SignUp;

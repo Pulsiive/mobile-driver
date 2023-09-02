@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderStyle: 'solid',
     borderColor: AppStyles.color.grey,
-    borderRadius: AppStyles.borderRadius.main
+    borderRadius: AppStyles.borderRadius
   },
   input: {
     height: 42,
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
     backgroundColor: AppStyles.color.main
   },
   modal: {
-    backgroundColor: AppStyles.color.white,
+    backgroundColor: AppStyles.color.background,
     padding: 10,
     height: '50%',
     width: '80%',

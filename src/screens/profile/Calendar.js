@@ -14,7 +14,7 @@ function CalendarCard(props) {
         margin: 5,
         padding: 20,
         paddingBottom: 0,
-        backgroundColor: AppStyles.color.white,
+        backgroundColor: AppStyles.color.background,
         borderRadius: 15,
         width: 330
         // height: 120
@@ -27,7 +27,7 @@ function CalendarCard(props) {
             marginRight: 8,
             position: 'relative',
             top: 5,
-            backgroundColor: AppStyles.color.tint,
+            backgroundColor: AppStyles.color.pulsive,
             borderRadius: 25,
             height: 20
           }}
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: AppStyles.fontSize.title,
     fontWeight: 'bold',
-    color: AppStyles.color.tint,
+    color: AppStyles.color.pulsive,
     marginTop: 20,
     marginBottom: 50
   },
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
   },
   addressText: {
     fontWeight: 'bold',
-    color: AppStyles.color.tint,
+    color: AppStyles.color.pulsive,
     fontSize: 20,
     marginBottom: 15
   },
@@ -162,9 +162,9 @@ const styles = StyleSheet.create({
     color: AppStyles.color.text
   },
   loginContainer: {
-    width: AppStyles.buttonWidth.main,
-    backgroundColor: AppStyles.color.tint,
-    borderRadius: AppStyles.borderRadius.main,
+    width: AppStyles.buttonWidth,
+    backgroundColor: AppStyles.color.pulsive,
+    borderRadius: AppStyles.borderRadius,
     padding: 10,
     marginTop: 30
   },
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderStyle: 'solid',
     borderColor: AppStyles.color.grey,
-    borderRadius: AppStyles.borderRadius.main
+    borderRadius: AppStyles.borderRadius
   },
   body: {
     height: 42,
@@ -190,8 +190,8 @@ const styles = StyleSheet.create({
   },
   stationButton: {
     width: 200,
-    backgroundColor: AppStyles.color.tint,
-    borderRadius: AppStyles.borderRadius.main,
+    backgroundColor: AppStyles.color.pulsive,
+    borderRadius: AppStyles.borderRadius,
     padding: 10,
     marginTop: 30,
     position: 'absolute',
@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
   shareButton: {
     width: 200,
     backgroundColor: AppStyles.color.text,
-    borderRadius: AppStyles.borderRadius.main,
+    borderRadius: AppStyles.borderRadius,
     padding: 10,
     marginTop: 30,
     position: 'absolute',
