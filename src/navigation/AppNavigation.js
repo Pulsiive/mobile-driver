@@ -40,6 +40,7 @@ import Checkout from '../screens/payment/Checkout';
 import Panier from '../screens/payment/Panier';
 import PaymentHistory from '../screens/payment/History';
 import InitLinkComponent from '../components/InitLinkComponent';
+import StationInformations from '../screens/station/StationInformations';
 
 import Components from '../screens/components/Components';
 import CustomHeader from '../AppStyles';
@@ -449,6 +450,7 @@ const RootNavigator = () => (
     <Stack.Screen name="Panier" component={Panier} options={{ headerShown: false }} />
     <Stack.Screen name="Checkout" component={Checkout} options={{ headerShown: false }} />
     <Stack.Screen name="OwnerRating" component={OwnerRating} />
+    <Stack.Screen name="StationInformations" component={StationInformations} />
   </Stack.Navigator>
 );
 

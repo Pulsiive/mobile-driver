@@ -4,6 +4,7 @@ import api from '../../db/Api';
 import Icon from 'react-native-vector-icons/Entypo';
 import FetchContact from './FetchContact';
 import SearchUserModal from './SearchUserModal';
+import { showMessage } from 'react-native-flash-message';
 
 function Contact({ navigation }) {
   const [contacts, setContacts] = useState(null);
@@ -15,6 +16,12 @@ function Contact({ navigation }) {
     const response = await api.send('GET', '/api/v1/profile/contacts', null, true);
     if (response.status === 200) {
       setContacts(response.data);
+    } else {
+      showMessage({
+        message: `Failed to fetch contacts`,
+        type: 'danger',
+        duration: 2200
+      });
     }
   };
 
@@ -133,6 +140,7 @@ function Contact({ navigation }) {
         data={contacts}
         navigation={navigation}
         removeContact={removeContact}
+        fetchContacts={fetchContacts}
       ></FetchContact>
     </View>
   );
