@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Button from 'react-native-button';
 import { View, StyleSheet, Text, ActivityIndicator, Image } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { AppIcon, AppStyles } from '../../AppStyles';
@@ -12,6 +12,7 @@ import { useFocusEffect } from '@react-navigation/native';
 
 const Favorites = ({ navigation }) => {
   const [stations, setStations] = useState([]);
+  const [userProfile, setUserProfile] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const images = [AppIcon.images.charger1, AppIcon.images.charger2, AppIcon.images.charger3];
 
@@ -21,7 +22,6 @@ const Favorites = ({ navigation }) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      console.log('fetching new stations');
       setIsLoading(true);
       api
         .send('GET', '/api/v1/station/favorites')
@@ -30,8 +30,32 @@ const Favorites = ({ navigation }) => {
           setIsLoading(false);
         })
         .catch(() => console.log('Failed to fetch favorite stations'));
+
+      api
+        .send('GET', '/api/v1/profile')
+        .then((res) => setUserProfile(res.data))
+        .catch(() => console.log('Failed to fetch user profile'));
     }, [])
   );
+
+  const navigateToStationInformations = (station) => {
+    navigation.navigate('StationInformations', {
+      station: {
+        id: station.id,
+        public: station.properties.isPublic,
+        type: station.properties.plugTypes[0],
+        pricing: station.properties.price,
+        voltage: station.properties.maxPower,
+        rating: station.rate,
+        rates: station.rates,
+        address: station.coordinates.address,
+        city: station.coordinates.city,
+        postalCode: station.coordinates.postalCode,
+        owner: station.owner
+      },
+      userProfile
+    });
+  };
 
   if (isLoading) {
     return (
@@ -51,12 +75,14 @@ const Favorites = ({ navigation }) => {
               stars.push(<Icon name="star" size={15} color={'orange'} key={i} />);
             }
             return (
-              <View key={station.id} style={styles.liststationContainer}>
+              <View key={station.id} style={styles.listStationContainer}>
                 <View style={{ flex: 1, marginBottom: 10 }}>
-                  <Image
-                    source={images[Math.floor(Math.random() * images.length)]}
-                    style={{ width: 100, height: '100%', borderRadius: 5 }}
-                  />
+                  <TouchableOpacity onPress={() => navigateToStationInformations(station)}>
+                    <Image
+                      source={images[Math.floor(Math.random() * images.length)]}
+                      style={{ width: 100, height: '100%', borderRadius: 5 }}
+                    />
+                  </TouchableOpacity>
                 </View>
                 <View style={{ flex: 2 }}>
                   <Text style={styles.stationTitle}>
@@ -103,10 +129,10 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     marginLeft: 20
   },
-  liststationContainer: {
+  listStationContainer: {
     flex: 1,
     flexDirection: 'row',
-    width: '90%',
+    width: '95%',
     marginLeft: 10,
     marginBottom: 20,
     borderBottomWidth: 0.75,

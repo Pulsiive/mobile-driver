@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, View, Image, TouchableOpacity, Dimensions } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
 import Carousel from 'react-native-snap-carousel';
@@ -12,7 +12,69 @@ import CommentPicture from './CommentPicture';
 import style from '../style';
 import UserListModal from './UserListModal';
 
-const Comment = ({ item, currentUserId, navigation, displayPictures, customStyle = {} }) => {
+const CommentBody = ({ comment, children, displayPictures, customStyle, isResponse }) => {
+  return (
+    <View
+      style={{
+        ...customStyle,
+        padding: 10,
+        flexDirection: 'column',
+        justifyContent: 'space-between'
+      }}
+    >
+      <View>
+        <View style={{ flexDirection: 'row', alignContent: 'center', marginBottom: 10 }}>
+          <View style={{ width: '20%' }}>
+            <Image
+              style={{ width: 50, height: 50, borderRadius: 30 }}
+              source={{ uri: `https://ucarecdn.com/${comment.author.profilePictureId}/` }}
+            />
+          </View>
+          <View style={{ width: '70%', flexDirection: 'column' }}>
+            <Text style={{ ...style.text, fontWeight: 'bold' }}>
+              {comment.author.firstName} {comment.author.lastName}
+            </Text>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+              <Text style={{ ...style.text, color: 'gray' }}>
+                {comment.date.slice(0, comment.date.indexOf('T'))}
+              </Text>
+              {!isResponse ? (
+                <View style={style.iconLabel}>
+                  <Icon name="star" size={15} color="black" />
+                  <Text style={style.smallText}>{comment.rate}</Text>
+                </View>
+              ) : (
+                <Text style={style.smallText}>Owner</Text>
+              )}
+            </View>
+          </View>
+        </View>
+        {comment.comment && <Text style={style.text}>{comment.comment}</Text>}
+      </View>
+      {comment.pictures && displayPictures && (
+        <View style={{ marginTop: 5, marginBottom: 5 }}>
+          <Carousel
+            layout="default"
+            sliderWidth={Dimensions.get('window').width}
+            itemWidth={Dimensions.get('window').width - 60}
+            data={comment.pictures}
+            renderItem={({ item }) => <CommentPicture pictureId={item} />}
+          />
+        </View>
+      )}
+      {children}
+    </View>
+  );
+};
+
+const Comment = ({
+  item,
+  currentUserId,
+  navigation,
+  displayPictures,
+  displayResponses,
+  customStyle = {}
+}) => {
   const [comment, setComment] = useState(item);
 
   const [userLikedComment, setUserLikedComment] = useState(
@@ -24,6 +86,8 @@ const Comment = ({ item, currentUserId, navigation, displayPictures, customStyle
 
   const [likedByModalIsOpen, setLikedByModalIsOpen] = useState(false);
   const [dislikedByModalIsOpen, setDislikedByModalIsOpen] = useState(false);
+
+  useEffect(() => console.log(comment), [comment]);
 
   const likeComment = async () => {
     if (!userLikedComment) {
@@ -71,51 +135,8 @@ const Comment = ({ item, currentUserId, navigation, displayPictures, customStyle
 
   return (
     <View>
-      <View
-        style={{
-          ...customStyle,
-          padding: 10,
-          flexDirection: 'column',
-          justifyContent: 'space-between'
-        }}
-      >
-        <View>
-          <View style={{ flexDirection: 'row', alignContent: 'center', marginBottom: 10 }}>
-            <View style={{ width: '20%' }}>
-              <Image
-                style={{ width: 50, height: 50, borderRadius: 30 }}
-                source={{ uri: `https://ucarecdn.com/${comment.author.profilePictureId}/` }}
-              />
-            </View>
-            <View style={{ width: '70%', flexDirection: 'column' }}>
-              <Text style={{ ...style.text, fontWeight: 'bold' }}>
-                {comment.author.firstName} {comment.author.lastName}
-              </Text>
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                <Text style={{ ...style.text, color: 'gray' }}>
-                  {comment.date.slice(0, comment.date.indexOf('T'))}
-                </Text>
-                <View style={style.iconLabel}>
-                  <Icon name="star" size={15} color="black" />
-                  <Text style={style.smallText}>{comment.rate}</Text>
-                </View>
-              </View>
-            </View>
-          </View>
-          {comment.comment && <Text style={style.text}>{comment.comment}</Text>}
-        </View>
-        {comment.pictures && displayPictures && (
-          <View style={{ marginTop: 5, marginBottom: 5 }}>
-            <Carousel
-              layout="default"
-              sliderWidth={Dimensions.get('window').width}
-              itemWidth={Dimensions.get('window').width - 60}
-              data={comment.pictures}
-              renderItem={({ item }) => <CommentPicture pictureId={item} />}
-            />
-          </View>
-        )}
-        <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
+      <CommentBody comment={item} displayPictures={displayPictures} customStyle={customStyle}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', marginTop: 20 }}>
           <View style={style.iconLabel}>
             <TouchableOpacity style={{ marginRight: 5 }} onPress={likeComment}>
               <Icon
@@ -149,7 +170,22 @@ const Comment = ({ item, currentUserId, navigation, displayPictures, customStyle
             </TouchableOpacity>
           </View>
         </View>
-      </View>
+      </CommentBody>
+
+      {displayResponses &&
+        comment.responses &&
+        comment.responses.map((response) => {
+          return (
+            <View style={style.divider}>
+              <CommentBody
+                comment={response}
+                displayPictures={false}
+                isResponse
+                customStyle={{ marginLeft: 50 }}
+              />
+            </View>
+          );
+        })}
       {likedByModalIsOpen && (
         <UserListModal
           users={item.likedBy}

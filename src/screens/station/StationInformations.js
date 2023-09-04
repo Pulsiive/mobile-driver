@@ -60,7 +60,8 @@ function ReviewsModal({ visible, station, userId, onClose, navigation }) {
                 item={item}
                 currentUserId={userId}
                 displayPictures
-                customStyle={style.divider}
+                displayResponses
+                customStyle={item.responses.length > 0 ? undefined : style.divider}
                 navigation={navigation}
               />
             )}
@@ -85,7 +86,7 @@ const CarouselReview = ({ item, userId, navigation }) => {
         item={item}
         currentUserId={userId}
         displayPictures={false}
-        customStyle={{ height: 180 }}
+        displayResponses={false}
         navigation={navigation}
       />
     </View>
