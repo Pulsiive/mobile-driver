@@ -36,6 +36,7 @@ import MapboxGL from '@react-native-mapbox-gl/maps';
 import GetLocation from 'react-native-get-location';
 
 import Icon from 'react-native-vector-icons/Entypo';
+import StationInformations from './StationInformations';
 
 import config from '../../db/config';
 import serviceAccessToken from '../../db/AccessToken';
@@ -53,6 +54,7 @@ function Map({ navigation }) {
   const { isDarkMode, AppColor } = useTheme();
 
   const [userPosition, setUserPosition] = useState([0, 0]);
+  const [userProfile, setUserProfile] = useState();
   const [resetPosition, setResetPosition] = useState(true);
   const [fetchPosition, setFetchPosition] = useState(false);
 
@@ -68,6 +70,7 @@ function Map({ navigation }) {
   const [nbStations, setNbStations] = useState(0);
   const [stationModal, setStationModal] = useState(false);
 
+  const [selectedStation, setSelectedStation] = useState();
   // const [modalData, setModalData] = useState({});
   // const [modalVisible, setModalVisible] = useState(false);
   // const setModal = (charger) => {
@@ -203,7 +206,11 @@ function Map({ navigation }) {
           rating: station.rate,
           location: [Number(station.coordinates.long), Number(station.coordinates.lat)],
           isFavorite: favoriteStations?.find(({ id }) => id === station.id) !== undefined,
-          rates: station.rates
+          rates: station.rates,
+          address: station.coordinates.address,
+          city: station.coordinates.city,
+          postalCode: station.coordinates.postalCode,
+          owner: station.owner
         });
     }
     setNbStations(stationsParsed.length);
@@ -231,6 +238,9 @@ function Map({ navigation }) {
       const { geometry } = e;
       setUserPosition([geometry.coordinates[1], geometry.coordinates[0]]);
       setFetchPosition(false);
+    }
+    if (selectedStation) {
+      setSelectedStation(undefined);
     }
   };
 
@@ -333,7 +343,7 @@ function Map({ navigation }) {
                     <MapboxGL.PointAnnotation
                       id={charger.name}
                       coordinate={charger.location}
-                      onSelected={() => setModal(charger)}
+                      onSelected={() => setSelectedStation(charger)}
                       key={index}
                     >
                       <Icon
@@ -531,77 +541,13 @@ function Map({ navigation }) {
           </ModalSwipeUp>
         </>
       )}
-
-      {/* {modalVisible ? (
-        <Modal animationType={'fade'} transparent={true} visible={true} onRequestClose={{}}>
-          <View style={styles.modal}>
-            <View>
-              <View
-                style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: '5%' }}
-              >
-                <Pressable onPress={() => addStationToFavorites(modalData.charger.id)}>
-                  <Icon
-                    name={modalData.charger.isFavorite ? 'heart' : 'heart-outlined'}
-                    size={30}
-                    color={AppStyles.color.pulsive}
-                  />
-                </Pressable>
-                <Text style={{ fontSize: 20, fontWeight: '800', color: 'black' }}>
-                  {modalData.charger.name}
-                </Text>
-                <Pressable
-                  onPress={() => {
-                    setModalVisible(false);
-                  }}
-                >
-                  <Icon name="cross" size={30} color="green" />
-                </Pressable>
-              </View>
-              <ModalInformation station={modalData} />
-            </View>
-            <View>
-              <SafeAreaView style={{ height: '60%', padding: '5%' }}>
-                <ScrollView>
-                  <View>
-                    {modalData.charger.rates.length > 0 ? (
-                      modalData.charger.rates.map((comment) => (
-                        <UserComment userComment={comment} key={comment.id} />
-                      ))
-                    ) : (
-                      <Text>
-                        Be the first to rate this station to help other users in their search !
-                      </Text>
-                    )}
-                  </View>
-                </ScrollView>
-              </SafeAreaView>
-            </View>
-            {!modalData.charger.public ? (
-              <View style={{ display: 'flex', alignItems: 'center' }}>
-                <Button
-                  containerStyle={styles.bookButton}
-                  style={styles.shareText}
-                  onPress={navigateToStationBookingScreen}
-                >
-                  Book
-                </Button>
-              </View>
-            ) : (
-              <View style={{ display: 'flex', alignItems: 'center' }}>
-                <Button
-                  containerStyle={styles.bookButton}
-                  style={styles.shareText}
-                  onPress={navigateToStationRatingScreen}
-                >
-                  Rate
-                </Button>
-              </View>
-            )}
-          </View>
-        </Modal>
-      ) : (
-        <></>
-      )} */}
+      {selectedStation && (
+        <StationInformations
+          station={selectedStation}
+          userProfile={userProfile}
+          navigation={navigation}
+        />
+      )}
     </View>
   );
 }
