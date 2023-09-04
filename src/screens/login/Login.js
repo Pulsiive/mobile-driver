@@ -6,7 +6,10 @@ import { useFocusEffect } from '@react-navigation/native';
 import { ButtonConditional, ButtonText, InputField, TextError } from '../../components';
 import { ScrollView, StyleSheet, View, Image, Text } from 'react-native';
 
+import { useUserSet } from '../../contexts/UserContext';
+
 function Login({ navigation }) {
+  const setUser = useUserSet();
   const { AppColor } = useTheme();
 
   const [email, setEmail] = useState('');
@@ -46,6 +49,15 @@ function Login({ navigation }) {
     else setValid(true);
   }, [email, password]);
 
+  const setUserProfile = async () => {
+    console.log('settings user profile');
+    const userObject = await api.send('get', '/api/v1/profile');
+    if (userObject.status === 200) {
+      setUser(userObject.data);
+    } else throw "Can't fetch user profile";
+    //TODO: handle entire app error message if user object not set
+  };
+
   const onLogin = async () => {
     setError('');
     setLoading(true);
@@ -60,10 +72,14 @@ function Login({ navigation }) {
 
       if (res.status == 200) {
         serviceAccessToken.set(res.data.accessToken);
-        setEmail('');
-        setPassword('');
-        setValid(false);
-        navigation.navigate('DrawerStack');
+        setUserProfile()
+          .then(() => {
+            setEmail('');
+            setPassword('');
+            setValid(false);
+            navigation.navigate('DrawerStack');
+          })
+          .catch((e) => console.log(e));
       } else {
         throw res;
       }
