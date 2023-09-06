@@ -1,20 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Modal,
-  ActivityIndicator,
-  TouchableOpacity,
-  ScrollView,
-  Image
-} from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, ScrollView, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
-import Button from 'react-native-button';
-import { AppIcon, AppStyles, useTheme } from '../../AppStyles';
+import { AppStyles, useTheme } from '../../AppStyles';
 import api from '../../db/Api';
-import { FlatList } from 'react-native-gesture-handler';
-import { showMessage } from 'react-native-flash-message';
 import {
   AnimatedLoading,
   ButtonCommon,
@@ -24,36 +12,16 @@ import {
   TextTitle
 } from '../../components';
 
+import { getUser } from '../../contexts/UserContext';
+
 function Profile() {
+  const user = getUser();
   const { AppColor } = useTheme();
 
   const [myCommentsModalIsOpen, setMyCommentsModalIsOpen] = useState(false);
   const [myComments, setMyComments] = useState([]);
   const [myCommentsFetchIsLoading, setMyCommentsFetchIsLoading] = useState(false);
-  const [profile, setProfile] = useState({
-    firstName: null,
-    lastName: null,
-    email: null
-  });
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    setLoading(true);
-    try {
-      api.send('GET', '/api/v1/profile', null).then((data) => {
-        console.log(data.data);
-        setProfile({
-          firstName: data.data.firstName,
-          lastName: data.data.lastName,
-          email: data.data.email
-        });
-      });
-    } catch (e) {
-      console.log(e);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  const [loading, setLoading] = useState(false);
 
   const openMyCommentsModal = async () => {
     try {
@@ -120,35 +88,23 @@ function Profile() {
       color: AppColor.icon
     }
   });
+
   return (
     <ScrollView style={[AppStyles.container, { backgroundColor: AppColor.background }]}>
       <View style={AppStyles.containerHeader}>
         <FloatingCard>
-          {loading ? (
-            <View style={styles.profilePicture}>
-              <AnimatedLoading />
-            </View>
-          ) : false ? (
-            <Image
-              source={{
-                uri: 'https://vignette.wikia.nocookie.net/krypton-series/images/3/36/Dev-Em_BioPic.jpg/revision/latest/top-crop/width/360/height/360?cb=20180303151203'
-              }}
-              style={styles.profilePicture}
-            />
-          ) : (
-            <View style={styles.profilePicture}>
-              {profile.firstName && <Text style={styles.initialsText}>{profile.firstName[0]}</Text>}
-            </View>
-          )}
+          <View style={styles.profilePicture}>
+            {user.firstName && <Text style={styles.initialsText}>{user.firstName[0]}</Text>}
+          </View>
           <TextTitle
-            title={profile.firstName + ' ' + profile.lastName}
+            title={user.firstName + ' ' + user.lastName}
             style={{ marginBottom: 0, marginTop: 5 }}
           />
           <Text style={[AppStyles.subtext, { color: AppColor.text }]}>Conducteur</Text>
         </FloatingCard>
         <TextList
           titles={['Prénom', 'Nom', 'E-mail']}
-          infos={[profile.firstName, profile.lastName, profile.email]}
+          infos={[user.firstName, user.lastName, user.email]}
         />
         <TextTitle title="Mes commentaires" style={{ marginTop: 40 }} />
         <ButtonCommon
@@ -213,98 +169,5 @@ function Profile() {
     </ScrollView>
   );
 }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     alignItems: 'center'
-//   },
-//   title: {
-//     fontSize: AppStyles.fontSize.title,
-//     fontWeight: 'bold',
-//     color: AppStyles.color.pulsive,
-//     marginTop: 20,
-//     marginBottom: 50
-//   },
-//   leftTitle: {
-//     alignSelf: 'stretch',
-//     textAlign: 'left',
-//     marginLeft: 20
-//   },
-//   text: {
-//     fontWeight: 'bold',
-//     color: AppStyles.color.title,
-//     fontSize: 20,
-//     marginBottom: 15
-//   },
-//   content: {
-//     paddingLeft: 50,
-//     paddingRight: 50,
-//     textAlign: 'center',
-//     fontSize: AppStyles.fontSize.content,
-//     color: AppStyles.color.text
-//   },
-//   loginContainer: {
-//     width: AppStyles.buttonWidth,
-//     backgroundColor: AppStyles.color.pulsive,
-//     borderRadius: AppStyles.borderRadius,
-//     padding: 10,
-//     marginTop: 30
-//   },
-//   loginText: {
-//     color: AppStyles.color.white
-//   },
-//   placeholder: {
-//     color: 'red'
-//   },
-//   InputContainer: {
-//     width: AppStyles.textInputWidth.main,
-//     marginTop: 30,
-//     borderWidth: 1,
-//     borderStyle: 'solid',
-//     borderColor: AppStyles.color.grey,
-//     borderRadius: AppStyles.borderRadius
-//   },
-//   body: {
-//     height: 42,
-//     paddingLeft: 20,
-//     paddingRight: 20,
-//     color: AppStyles.color.text
-//   },
-//   shareButton: {
-//     width: 200,
-//     backgroundColor: AppStyles.color.facebook,
-//     borderRadius: AppStyles.borderRadius,
-//     padding: 10,
-//     marginTop: 30,
-//     position: 'absolute',
-//     bottom: 20
-//   },
-//   shareText: {
-//     color: AppStyles.color.white
-//   },
-//   // centeredView: {
-//   //   flex: 1,
-//   //   justifyContent: 'center',
-//   //   alignItems: 'center',
-//   //   marginTop: 22
-//   // },
-//   modalView: {
-//     margin: 20,
-//     marginTop: '20%',
-//     backgroundColor: 'white',
-//     borderRadius: 10,
-//     padding: 35,
-//     alignItems: 'center',
-//     shadowColor: '#000',
-//     shadowOffset: {
-//       width: 0,
-//       height: 2
-//     },
-//     shadowOpacity: 0.25,
-//     shadowRadius: 4,
-//     elevation: 5
-//   }
-// });
 
 export default Profile;

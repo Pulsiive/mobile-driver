@@ -34,10 +34,14 @@ function Login({ navigation }) {
     const redirectIfLoggedIn = async () => {
       const accessToken = await serviceAccessToken.get();
       if (accessToken) {
-        setEmail('');
-        setPassword('');
-        setValid(false);
-        navigation.navigate('DrawerStack');
+        setUserProfile()
+          .then(() => {
+            setEmail('');
+            setPassword('');
+            setValid(false);
+            navigation.navigate('DrawerStack');
+          })
+          .catch((e) => console.log(e));
       }
     };
 

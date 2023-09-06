@@ -18,7 +18,7 @@ import Comment from './comment/Comment';
 
 import style from './style';
 
-function ReviewsModal({ visible, station, userId, onClose, navigation }) {
+function ReviewsModal({ visible, station, onClose, navigation }) {
   return (
     <SafeAreaView style={{ width: '100%', backgroundColor: 'white' }}>
       <Modal animationType="slide" visible={visible} onRequestClose={() => onClose()}>
@@ -44,7 +44,7 @@ function ReviewsModal({ visible, station, userId, onClose, navigation }) {
           >
             <View style={style.iconLabel}>
               <Icon name="star" size={20} color="black" />
-              <Text style={style.h2}>{station.rating}</Text>
+              <Text style={style.h2}>{station.rate}</Text>
             </View>
             <Text style={{ ...style.h2, marginLeft: 5, marginRight: 5 }}>·</Text>
             <Text style={style.h2}>
@@ -58,7 +58,6 @@ function ReviewsModal({ visible, station, userId, onClose, navigation }) {
             renderItem={({ item }) => (
               <Comment
                 item={item}
-                currentUserId={userId}
                 displayPictures
                 displayResponses
                 customStyle={item.responses.length > 0 ? undefined : style.divider}
@@ -73,7 +72,7 @@ function ReviewsModal({ visible, station, userId, onClose, navigation }) {
   );
 }
 
-const CarouselReview = ({ item, userId, navigation }) => {
+const CarouselReview = ({ item, navigation }) => {
   return (
     <View
       style={{
@@ -84,7 +83,6 @@ const CarouselReview = ({ item, userId, navigation }) => {
     >
       <Comment
         item={item}
-        currentUserId={userId}
         displayPictures={false}
         displayResponses={false}
         navigation={navigation}
@@ -94,7 +92,7 @@ const CarouselReview = ({ item, userId, navigation }) => {
 };
 
 function StationInformations({ route, navigation }) {
-  const { station, userProfile } = route.params;
+  const { station } = route.params;
   const [reviewsModalIsOpen, setReviewsModalIsOpen] = useState(false);
 
   return (
@@ -106,7 +104,9 @@ function StationInformations({ route, navigation }) {
               <Icon name="chevron-left" color="gray" size={25} />
             </TouchableOpacity>
             <Text style={style.h1}>
-              {station.public ? station.address : `${station.owner.firstName}'s station `}
+              {station.properties.isPublic
+                ? station.coordinates.address
+                : `${station.owner.firstName}'s station `}
             </Text>
             <View
               style={{
@@ -117,16 +117,17 @@ function StationInformations({ route, navigation }) {
             >
               <View style={style.iconLabel}>
                 <Icon name="star" size={15} color="black" />
-                <Text style={style.smallText}>{station.rating}</Text>
+                <Text style={style.smallText}>{station.rate}</Text>
               </View>
               <Text style={{ ...style.smallText, marginLeft: 5, marginRight: 5 }}>·</Text>
               <Text style={style.smallText}>
                 {station.rates.length} {station.rates.length > 1 ? 'reviews' : 'review'}
               </Text>
             </View>
-            {station.public && (
+            {station.properties.isPublic && (
               <Text style={style.smallText}>
-                {station.address}, {station.city} {station.postalCode}, France
+                {station.coordinates.address}, {station.coordinates.city}{' '}
+                {station.coordinates.postalCode}, France
               </Text>
             )}
           </View>
@@ -134,18 +135,22 @@ function StationInformations({ route, navigation }) {
             <Text style={style.h2}>Station Properties</Text>
             <View style={style.iconLabel}>
               <Icon name="flow-branch" size={28} color="grey" />
-              <Text style={style.text}>{station.type == undefined ? 'no data' : station.type}</Text>
+              <Text style={style.text}>
+                {station.properties.plugTypes.toString().length == 0
+                  ? 'no data'
+                  : station.properties.plugTypes.toString()}
+              </Text>
             </View>
             <View style={style.iconLabel}>
               <Icon name="flash" size={28} color="grey" />
-              <Text style={style.text}>{station.voltage} kWh</Text>
+              <Text style={style.text}>{station.properties.maxPower} kWh</Text>
             </View>
             <View style={style.iconLabel}>
               <Icon name="credit" size={28} color="grey" />
-              <Text style={style.text}>{station.pricing} / hour</Text>
+              <Text style={style.text}>{station.properties.price} / hour</Text>
             </View>
           </View>
-          {!station.public && (
+          {!station.properties.isPublic && (
             <View style={style.divider}>
               <Text style={style.h2}>Owner profile</Text>
               <View
@@ -186,7 +191,7 @@ function StationInformations({ route, navigation }) {
               </View>
             </View>
           )}
-          {station.rates.length > 0 && (
+          {station.rates.length > 0 ? (
             <View>
               <View
                 style={{
@@ -196,7 +201,7 @@ function StationInformations({ route, navigation }) {
               >
                 <View style={style.iconLabel}>
                   <Icon name="star" size={20} color="black" />
-                  <Text style={style.h2}>{station.rating}</Text>
+                  <Text style={style.h2}>{station.rate}</Text>
                 </View>
                 <Text style={{ ...style.h2, marginLeft: 5, marginRight: 5 }}>·</Text>
                 <Text style={style.h2}>
@@ -207,9 +212,7 @@ function StationInformations({ route, navigation }) {
                 <Carousel
                   layout="default"
                   data={station.rates.slice(0, 3)}
-                  renderItem={({ item }) => (
-                    <CarouselReview item={item} userId={userProfile.id} navigation={navigation} />
-                  )}
+                  renderItem={({ item }) => <CarouselReview item={item} navigation={navigation} />}
                   itemWidth={Dimensions.get('screen').width - 100}
                   sliderWidth={Dimensions.get('screen').width}
                 />
@@ -236,6 +239,8 @@ function StationInformations({ route, navigation }) {
                 </Text>
               </TouchableOpacity>
             </View>
+          ) : (
+            <Text style={style.h3}>No reviews for now</Text>
           )}
         </View>
       </ScrollView>
@@ -254,19 +259,21 @@ function StationInformations({ route, navigation }) {
           <TouchableOpacity
             style={style.button}
             onPress={() =>
-              navigation.navigate(station.public ? 'StationRating' : 'BookingPlanning', {
-                stationId: station.id
-              })
+              navigation.navigate(
+                station.properties.isPublic ? 'StationRating' : 'BookingPlanning',
+                {
+                  stationId: station.id
+                }
+              )
             }
           >
-            <Text style={style.buttonText}>{station.public ? 'Rate' : 'Rent'}</Text>
+            <Text style={style.buttonText}>{station.properties.isPublic ? 'Rate' : 'Rent'}</Text>
           </TouchableOpacity>
         </View>
         <ReviewsModal
           visible={reviewsModalIsOpen}
           onClose={() => setReviewsModalIsOpen(false)}
           station={station}
-          userId={userProfile.id}
           navigation={navigation}
         />
       </View>

@@ -1,75 +1,35 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Button from 'react-native-button';
 import { View, StyleSheet, Text, ActivityIndicator, Image } from 'react-native';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { AppIcon, AppStyles } from '../../AppStyles';
-import api from '../../db/Api';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { useFocusEffect } from '@react-navigation/native';
+import { getUser } from '../../contexts/UserContext';
 
 const Favorites = ({ navigation }) => {
-  const [stations, setStations] = useState([]);
-  const [userProfile, setUserProfile] = useState();
-  const [isLoading, setIsLoading] = useState(true);
+  const user = getUser();
+
   const images = [AppIcon.images.charger1, AppIcon.images.charger2, AppIcon.images.charger3];
 
   const navigateToStationRatingScreen = (stationId) => {
     navigation.navigate('StationRating', { stationId });
   };
 
-  useFocusEffect(
-    React.useCallback(() => {
-      setIsLoading(true);
-      api
-        .send('GET', '/api/v1/station/favorites')
-        .then((res) => {
-          setStations(res.data);
-          setIsLoading(false);
-        })
-        .catch(() => console.log('Failed to fetch favorite stations'));
-
-      api
-        .send('GET', '/api/v1/profile')
-        .then((res) => setUserProfile(res.data))
-        .catch(() => console.log('Failed to fetch user profile'));
-    }, [])
-  );
-
   const navigateToStationInformations = (station) => {
     navigation.navigate('StationInformations', {
-      station: {
-        id: station.id,
-        public: station.properties.isPublic,
-        type: station.properties.plugTypes[0],
-        pricing: station.properties.price,
-        voltage: station.properties.maxPower,
-        rating: station.rate,
-        rates: station.rates,
-        address: station.coordinates.address,
-        city: station.coordinates.city,
-        postalCode: station.coordinates.postalCode,
-        owner: station.owner
-      },
-      userProfile
+      station
     });
   };
 
-  if (isLoading) {
-    return (
-      <View>
-        <ActivityIndicator size="large" />
-      </View>
-    );
-  }
   return (
     <SafeAreaView>
       <ScrollView>
         <Text style={styles.title}>Favorite stations</Text>
         <View>
-          {stations.map((station) => {
+          {user.favoriteStations.map((station) => {
             const stars = [];
             for (let i = 0; i < station.rate; i++) {
               stars.push(<Icon name="star" size={15} color={'orange'} key={i} />);

@@ -12,8 +12,6 @@ export const useUserUpdate = () => useContext(UserUpdateContext);
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState({});
 
-  useEffect(() => console.log('user was updated'), [user]);
-
   const updateUser = (update) => {
     setUser({ ...user, ...update });
   };
