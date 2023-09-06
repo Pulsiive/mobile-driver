@@ -54,7 +54,6 @@ function Login({ navigation }) {
   }, [email, password]);
 
   const setUserProfile = async () => {
-    console.log('settings user profile');
     const userObject = await api.send('get', '/api/v1/profile');
     if (userObject.status === 200) {
       setUser(userObject.data);

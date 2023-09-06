@@ -12,8 +12,6 @@ function StationInformations({ station, navigation }) {
   const updateUser = useUserUpdate();
   const isFavorite = user.favoriteStations.find(({ id }) => id === station.id) !== undefined;
 
-  useEffect(() => console.log(station), []);
-
   const onHeartPressed = async () => {
     let reqType = isFavorite ? 'DELETE' : 'POST';
 
