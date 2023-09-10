@@ -16,6 +16,8 @@ import {
 import api from '../../db/Api';
 import { AppIcon } from '../../AppStyles';
 import Station from '../station/Station';
+import { getUser, useUserUpdate } from '../../contexts/UserContext';
+import { showMessage } from 'react-native-flash-message';
 
 const renderRating = (rating, isComment = false) => {
   const stars = new Array(rating.rate).fill(<Icon name="star" size={20} color={'orange'} />);
@@ -55,14 +57,69 @@ const renderRating = (rating, isComment = false) => {
 };
 
 function ProfileHeader({ userName, userRate, userId, profilePictureUri, navigation }) {
+  const user = getUser(); //this is the object of the current user using the app
+  const updateUser = useUserUpdate();
+
+  const [isContact, setIsContact] = useState(
+    user.contacts.find((contact) => contact.user.id === userId) !== undefined
+  );
+
   const navigateToOwnerRating = () => {
     navigation.navigate('OwnerRating', {
       ownerId: userId
     });
   };
 
+  const removeContact = async () => {
+    const res = await api.send('DELETE', `/api/v1/profile/contact/${userId}`);
+    if (res.status !== -1) {
+      updateUser({ contacts: user.contacts.filter((contact) => contact.user.id !== userId) });
+      setIsContact(false);
+    } else {
+      showMessage({
+        message: `Failed to delete contact`,
+        type: 'danger',
+        duration: 2200
+      });
+    }
+  };
+
+  const addContact = async () => {
+    const newContact = await api.send('POST', `/api/v1/profile/contact/${userId}`);
+    if (newContact.status !== -1) {
+      updateUser({ contacts: [...user.contacts, newContact.data] });
+      setIsContact(true);
+    } else {
+      showMessage({
+        message: `Failed to add contact`,
+        type: 'danger',
+        duration: 2200
+      });
+    }
+  };
+
   return (
     <View style={{ marginBottom: '20%' }}>
+      <View>
+        <View
+          style={{
+            position: 'absolute',
+            alignItems: 'center',
+            marginLeft: '80%',
+            marginTop: 10
+          }}
+        >
+          {isContact ? (
+            <TouchableOpacity onPress={removeContact}>
+              <Image style={{ height: 40, width: 40 }} source={AppIcon.images.removeUser} />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity onPress={addContact}>
+              <Image style={{ height: 40, width: 40 }} source={AppIcon.images.addUser} />
+            </TouchableOpacity>
+          )}
+        </View>
+      </View>
       <View style={styles.top}>
         <View style={styles.badge}>
           <Image

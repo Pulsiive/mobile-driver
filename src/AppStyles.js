@@ -228,7 +228,9 @@ export const AppIcon = {
     filtersLightmode: require('../assets/images/filtersDrawLightmode.png'),
     filtersDarkmode: require('../assets/images/filtersDrawDarkmode.png'),
     stationLightmode: require('../assets/images/stationDrawLightmode.png'),
-    stationDarkmode: require('../assets/images/stationDrawDarkmode.png')
+    stationDarkmode: require('../assets/images/stationDrawDarkmode.png'),
+    addUser: require('../assets/icons/add-user.png'),
+    removeUser: require('../assets/icons/remove-user.png')
   }
 };
 
