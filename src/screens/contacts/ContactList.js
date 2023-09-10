@@ -1,60 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { View, ActivityIndicator, Modal, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import api from '../../db/Api';
 import Icon from 'react-native-vector-icons/Entypo';
 import FetchContact from './FetchContact';
 import SearchUserModal from './SearchUserModal';
-import { showMessage } from 'react-native-flash-message';
 
 function Contact({ navigation }) {
-  const [contacts, setContacts] = useState(null);
   const [addContactModalIsOpen, setAddContactModalIsOpen] = useState(false);
   const [searchUserModalIsOpen, setSearchUserModalIsOpen] = useState(false);
   const [searchKey, setSearchKey] = useState('');
 
-  const fetchContacts = async () => {
-    const response = await api.send('GET', '/api/v1/profile/contacts', null, true);
-    if (response.status === 200) {
-      setContacts(response.data);
-    } else {
-      showMessage({
-        message: `Failed to fetch contacts`,
-        type: 'danger',
-        duration: 2200
-      });
-    }
-  };
-
-  const removeContact = async (userId) => {
-    try {
-      await api.send('DELETE', `/api/v1/profile/contact/${userId}`);
-      setContacts(contacts.filter((contact) => contact.user.id !== userId));
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  useEffect(() => {
-    fetchContacts();
-  }, []);
-
-  const onCloseSearchUserModal = () => {
-    setSearchUserModalIsOpen(false);
-    fetchContacts();
-  };
-
-  return !contacts ? (
-    <View
-      style={{
-        backgroundColor: 'black',
-        width: 100 + '%',
-        height: 100 + '%',
-        top: 0 + '%'
-      }}
-    >
-      <ActivityIndicator size="small" color="white" />
-    </View>
-  ) : (
+  return (
     <View
       style={{
         flex: 1,
@@ -127,21 +82,12 @@ function Contact({ navigation }) {
         </View>
       </Modal>
       {searchUserModalIsOpen && (
-        <SearchUserModal
-          onClose={onCloseSearchUserModal}
-          searchKey={searchKey}
-          contacts={contacts}
-        />
+        <SearchUserModal onClose={() => setSearchUserModalIsOpen(false)} searchKey={searchKey} />
       )}
       <TouchableOpacity onPress={() => setAddContactModalIsOpen(true)}>
         <Icon name="add-user" size={25} color={'white'} />
       </TouchableOpacity>
-      <FetchContact
-        data={contacts}
-        navigation={navigation}
-        removeContact={removeContact}
-        fetchContacts={fetchContacts}
-      ></FetchContact>
+      <FetchContact navigation={navigation}></FetchContact>
     </View>
   );
 }

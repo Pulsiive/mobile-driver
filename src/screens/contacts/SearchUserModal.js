@@ -11,8 +11,11 @@ import {
 } from 'react-native';
 import api from '../../db/Api';
 import Icon from 'react-native-vector-icons/Entypo';
+import { getUser, useUserUpdate } from '../../contexts/UserContext';
 
-function SearchUserModal({ onClose, searchKey, contacts }) {
+function SearchUserModal({ onClose, searchKey }) {
+  const user = getUser();
+  const updateUser = useUserUpdate();
   const [searchData, setSearchData] = useState('');
   const [users, setUsers] = useState([]);
 
@@ -25,7 +28,8 @@ function SearchUserModal({ onClose, searchKey, contacts }) {
       //remove users that are already contacts
       setUsers(
         users.data.users.filter(
-          (user) => contacts.find((contact) => contact.user.id === user.id) === undefined
+          (foundUser) =>
+            user.contacts.find((contact) => contact.user.id === foundUser.id) === undefined
         )
       );
     } catch (e) {
@@ -34,12 +38,11 @@ function SearchUserModal({ onClose, searchKey, contacts }) {
   };
 
   const addContact = async (userId) => {
-    try {
-      await api.send('POST', `/api/v1/profile/contact/${userId}`);
-      onClose();
-    } catch (e) {
-      console.log(e);
+    const newContact = await api.send('POST', `/api/v1/profile/contact/${userId}`);
+    if (newContact.status !== -1) {
+      updateUser({ contacts: [...user.contacts, newContact.data] });
     }
+    onClose();
   };
 
   return (
