@@ -5,6 +5,7 @@ import { TextInput } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Entypo';
 import api from '../../db/Api';
 import { showMessage } from 'react-native-flash-message';
+import { getUser, useUserUpdate } from '../../contexts/UserContext';
 
 const EditContactModal = ({ isVisible, contact, onClose }) => {
   const [customNameValue, setCustomNameValue] = useState(contact.customName);
@@ -12,7 +13,7 @@ const EditContactModal = ({ isVisible, contact, onClose }) => {
 
   const updateContact = async () => {
     const res = await api.send('PUT', '/api/v1/profile/contact/update', {
-      contactId: contact.id,
+      contactId: contact.user.id,
       customName: customNameValue,
       description: descriptionValue
     });
@@ -23,7 +24,7 @@ const EditContactModal = ({ isVisible, contact, onClose }) => {
         duration: 2200
       });
     } else {
-      onClose();
+      onClose(res.data);
     }
   };
 
@@ -88,9 +89,25 @@ const EditContactModal = ({ isVisible, contact, onClose }) => {
   );
 };
 
-const FetchContact = ({ data, navigation, removeContact, fetchContacts }) => {
+const FetchContact = ({ navigation }) => {
+  const user = getUser();
+  const updateUser = useUserUpdate();
+
   const [editContactModalIsOpen, setEditContactModalIsOpen] = useState(false);
   const [selectedContact, setSelectedContact] = useState();
+
+  const removeContact = async (userId) => {
+    const res = await api.send('DELETE', `/api/v1/profile/contact/${userId}`);
+    if (res.status !== -1) {
+      updateUser({ contacts: user.contacts.filter((contact) => contact.user.id !== userId) });
+    } else {
+      showMessage({
+        message: `Failed to delete contact`,
+        type: 'danger',
+        duration: 2200
+      });
+    }
+  };
 
   const navigateToUserProfilePage = (user) => {
     navigation.navigate(
@@ -127,10 +144,10 @@ const FetchContact = ({ data, navigation, removeContact, fetchContacts }) => {
         showsVerticalScrollIndicator={false}
         style={{ backgroundColor: 'black', flex: 1 }}
       >
-        {data.map((plan) => {
+        {user.contacts.map((plan) => {
           return (
-            <View style={{ borderBottomColor: 'gray', borderBottomWidth: 1 }}>
-              <View key={plan.user.id} style={styles.container}>
+            <View key={plan.user.id} style={{ borderBottomColor: 'gray', borderBottomWidth: 1 }}>
+              <View style={styles.container}>
                 <View style={{ width: '70%', alignItems: 'center', flexDirection: 'row' }}>
                   <TouchableOpacity onPress={() => navigateToUserProfilePage(plan.user)}>
                     <Image
@@ -154,15 +171,7 @@ const FetchContact = ({ data, navigation, removeContact, fetchContacts }) => {
                   <TouchableOpacity onPress={() => navigateToUserMessages(plan.user)}>
                     <Image source={AppIcon.images.phone} style={{ height: 30, width: 30 }}></Image>
                   </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() =>
-                      onEditContactPress({
-                        ...plan.user,
-                        customName: plan.customName,
-                        description: plan.description
-                      })
-                    }
-                  >
+                  <TouchableOpacity onPress={() => onEditContactPress(plan)}>
                     <Image source={AppIcon.images.edit} style={{ height: 30, width: 30 }}></Image>
                   </TouchableOpacity>
                   <TouchableOpacity onPress={() => removeContact(plan.user.id)}>
@@ -181,10 +190,16 @@ const FetchContact = ({ data, navigation, removeContact, fetchContacts }) => {
         <EditContactModal
           isVisible={editContactModalIsOpen}
           contact={selectedContact}
-          onClose={() => {
+          onClose={(updatedContact) => {
             setEditContactModalIsOpen(false);
             setSelectedContact(undefined);
-            fetchContacts();
+            if (updatedContact) {
+              updateUser({
+                contacts: user.contacts.map((contact) =>
+                  contact.user.id === updatedContact.user.id ? updatedContact : contact
+                )
+              });
+            }
           }}
         />
       )}

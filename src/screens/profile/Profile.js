@@ -11,17 +11,23 @@ import {
   TextList,
   TextTitle
 } from '../../components';
-
-import { getUser } from '../../contexts/UserContext';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import FormData from 'form-data';
+import { showMessage } from 'react-native-flash-message';
+import { getUser, useUserUpdate } from '../../contexts/UserContext';
 
 function Profile() {
   const user = getUser();
+  const updateUser = useUserUpdate();
+
   const { AppColor } = useTheme();
 
   const [myCommentsModalIsOpen, setMyCommentsModalIsOpen] = useState(false);
   const [myComments, setMyComments] = useState([]);
   const [myCommentsFetchIsLoading, setMyCommentsFetchIsLoading] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const [changeProfilePicModalIsOpen, setChangeProfilePicModalIsOpen] = useState(false);
 
   const openMyCommentsModal = async () => {
     try {
@@ -37,12 +43,52 @@ function Profile() {
     }
   };
 
+  const uploadPicture = async (picture) => {
+    if (picture.uri && picture.name) {
+      const formData = new FormData();
+
+      formData.append('file', { uri: picture.uri, type: 'image/jpeg', name: picture.name });
+      const res = await api.send('POST', '/api/v1/profile/picture', formData, true, true);
+      if (res.status === -1) {
+        showMessage({
+          message: `Impossible de traiter l'image`,
+          type: 'error',
+          backgroundColor: 'red'
+        });
+      } else {
+        showMessage({
+          message: `Photo de profile traitée avec succès`,
+          type: 'success',
+          backgroundColor: 'green'
+        });
+        updateUser({ profilePictureId: res.data.file });
+      }
+    }
+  };
+
+  const takePictureFromCamera = async () => {
+    const result = await launchCamera({
+      mediaType: 'photo'
+    });
+    if (!result.didCancel && !result.errorCode) {
+      uploadPicture({ uri: result.assets[0].uri, name: result.assets[0].fileName });
+    }
+    setChangeProfilePicModalIsOpen(false);
+  };
+
+  const selectPictureFromStorage = async () => {
+    const result = await launchImageLibrary({ mediaType: 'photo' });
+    if (!result.didCancel && !result.errorCode) {
+      uploadPicture({ uri: result.assets[0].uri, name: result.assets[0].fileName });
+    }
+    setChangeProfilePicModalIsOpen(false);
+  };
+
   const styles = StyleSheet.create({
     profilePicture: {
       width: 100,
       height: 100,
       borderRadius: 100,
-      backgroundColor: AppColor.title,
       justifyContent: 'center',
       alignItems: 'center'
     },
@@ -94,7 +140,12 @@ function Profile() {
       <View style={AppStyles.containerHeader}>
         <FloatingCard>
           <View style={styles.profilePicture}>
-            {user.firstName && <Text style={styles.initialsText}>{user.firstName[0]}</Text>}
+            {user.firstName && (
+              <Image
+                style={{ width: 100, height: 100, borderRadius: 70 }}
+                source={{ uri: `https://ucarecdn.com/${user.profilePictureId}/` }}
+              />
+            )}
           </View>
           <TextTitle
             title={user.firstName + ' ' + user.lastName}
@@ -105,6 +156,12 @@ function Profile() {
         <TextList
           titles={['Prénom', 'Nom', 'E-mail']}
           infos={[user.firstName, user.lastName, user.email]}
+        />
+        <ButtonCommon
+          title="Changer ma photo de profil"
+          onPress={() => {
+            setChangeProfilePicModalIsOpen(true);
+          }}
         />
         <TextTitle title="Mes commentaires" style={{ marginTop: 40 }} />
         <ButtonCommon
@@ -165,6 +222,25 @@ function Profile() {
             )}
           </View>
         )}
+      </ModalSwipeUp>
+      <ModalSwipeUp
+        title="Changer ma photo de profil"
+        visible={changeProfilePicModalIsOpen}
+        onClose={() => setChangeProfilePicModalIsOpen(false)}
+        closeButton
+      >
+        <ButtonCommon
+          title="Choisir depuis la galerie"
+          onPress={() => {
+            selectPictureFromStorage();
+          }}
+        />
+        <ButtonCommon
+          title="Utiliser la caméra"
+          onPress={() => {
+            takePictureFromCamera();
+          }}
+        />
       </ModalSwipeUp>
     </ScrollView>
   );
