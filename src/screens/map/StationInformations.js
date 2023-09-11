@@ -1,26 +1,38 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { View, Image, Text, Pressable } from 'react-native';
 import { AppIcon, AppStyles } from '../../AppStyles';
 import { showMessage } from 'react-native-flash-message';
 import Icon from 'react-native-vector-icons/Entypo';
 import api from '../../db/Api';
 
-function StationInformations({ station, userProfile, navigation }) {
-  const [stationIsFavorite, setStationIsFavorite] = useState(station.isFavorite);
+import { getUser, useUserUpdate } from '../../contexts/UserContext';
+
+function StationInformations({ station, navigation }) {
+  const user = getUser();
+  const updateUser = useUserUpdate();
+  const isFavorite = user.favoriteStations.find(({ id }) => id === station.id) !== undefined;
+
+  useEffect(() => console.log(station), []);
 
   const onHeartPressed = async () => {
-    let reqType = stationIsFavorite ? 'DELETE' : 'POST';
+    let reqType = isFavorite ? 'DELETE' : 'POST';
+
     const res = await api.send(reqType, `/api/v1/station/favorite/${station.id}`);
     if (res.status === -1) {
       showMessage({
         message: `Failed to ${
-          stationIsFavorite ? 'remove' : 'add'
+          isFavorite ? 'remove' : 'add'
         } the selected station to your list of favorites`,
         type: 'danger',
         duration: 2200
       });
     } else {
-      setStationIsFavorite(!stationIsFavorite);
+      if (!isFavorite) {
+        updateUser({ favoriteStations: [...user.favoriteStations, station] });
+      } else
+        updateUser({
+          favoriteStations: user.favoriteStations.filter(({ id }) => id !== station.id)
+        });
     }
   };
 
@@ -40,8 +52,7 @@ function StationInformations({ station, userProfile, navigation }) {
       <Pressable
         onPress={() =>
           navigation.navigate('StationInformations', {
-            station: station,
-            userProfile
+            station
           })
         }
       >
@@ -62,11 +73,13 @@ function StationInformations({ station, userProfile, navigation }) {
               style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5 }}
             >
               <Text style={{ fontWeight: 'bold', fontSize: 15, color: 'black' }}>
-                {station.public ? station.address : `${station.owner.firstName}'s station`}
+                {station.properties.isPublic
+                  ? station.coordinates.address
+                  : `${station.owner.firstName}'s station`}
               </Text>
               <Pressable onPress={onHeartPressed}>
                 <Icon
-                  name={stationIsFavorite ? 'heart' : 'heart-outlined'}
+                  name={isFavorite ? 'heart' : 'heart-outlined'}
                   size={22}
                   color={AppStyles.color.tint}
                 />
@@ -75,22 +88,24 @@ function StationInformations({ station, userProfile, navigation }) {
             <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
               <Icon name="flow-branch" size={20} color="grey" />
               <Text style={{ color: 'grey' }}>
-                {station.type == undefined ? 'no data' : station.type}
+                {station.properties.plugTypes.toString().length == 0
+                  ? 'no data'
+                  : station.properties.plugTypes.toString()}
               </Text>
             </View>
             <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
               <Icon name="flash" size={20} color="grey" />
-              <Text style={{ color: 'grey' }}>{station.voltage} kWh</Text>
+              <Text style={{ color: 'grey' }}>{station.properties.maxPower} kWh</Text>
             </View>
-            {station.rating !== 0 && (
+            {station.rate !== 0 && (
               <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
                 <Icon name="star" size={20} color="grey" />
-                <Text style={{ color: 'grey' }}>{station.rating}</Text>
+                <Text style={{ color: 'grey' }}>{station.rate}</Text>
               </View>
             )}
             <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
               <Icon name="credit" size={20} color="grey" />
-              <Text style={{ color: 'grey' }}>{station.pricing} / hour</Text>
+              <Text style={{ color: 'grey' }}>{station.properties.price} / hour</Text>
             </View>
           </View>
         </View>

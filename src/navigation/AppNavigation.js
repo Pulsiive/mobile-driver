@@ -44,6 +44,9 @@ import StationInformations from '../screens/station/StationInformations';
 
 import Components from '../screens/components/Components';
 import CustomHeader from '../AppStyles';
+
+import { UserProvider } from '../contexts/UserContext';
+
 const Stack = createStackNavigator();
 
 const LoginStack = () => (
@@ -463,7 +466,9 @@ const AppNavigator = () => {
         backgroundColor: AppColor.background
       }}
     >
-      <RootNavigator />
+      <UserProvider>
+        <RootNavigator />
+      </UserProvider>
       <FlashMessage position="top" />
     </NavigationContainer>
   );

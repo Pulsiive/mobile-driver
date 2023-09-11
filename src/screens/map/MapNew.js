@@ -1,17 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Pressable,
-  PermissionsAndroid,
-  Modal,
-  SafeAreaView,
-  ScrollView,
-  Dimensions,
-  Image,
-  TouchableOpacity
-} from 'react-native';
+import { StyleSheet, View, PermissionsAndroid, Image } from 'react-native';
 import {
   AnimatedLoading,
   ButtonConditional,
@@ -21,15 +9,9 @@ import {
   FloatingButton,
   ModalSwipeUp,
   SearchBar,
-  Separator,
   TextTitle
 } from '../../components';
 
-import api from '../../db/Api';
-
-import Carousel from 'react-native-snap-carousel';
-
-import Button from 'react-native-button';
 import { AppIcon, AppStyles, useTheme } from '../../AppStyles';
 
 import MapboxGL from '@react-native-mapbox-gl/maps';
@@ -54,7 +36,6 @@ function Map({ navigation }) {
   const { isDarkMode, AppColor } = useTheme();
 
   const [userPosition, setUserPosition] = useState([0, 0]);
-  const [userProfile, setUserProfile] = useState();
   const [resetPosition, setResetPosition] = useState(true);
   const [fetchPosition, setFetchPosition] = useState(false);
 
@@ -71,28 +52,7 @@ function Map({ navigation }) {
   const [stationModal, setStationModal] = useState(false);
 
   const [selectedStation, setSelectedStation] = useState();
-  // const [modalData, setModalData] = useState({});
-  // const [modalVisible, setModalVisible] = useState(false);
-  // const setModal = (charger) => {
-  //   setModalVisible(true);
-  //   setModalData({
-  //     // name: props.event.properties.id,
-  //     // location: props.event.geometry.coordinates,
-  //     charger: charger
-  //   });
-  // };
-
-  const [userStation, setUserStation] = useState([
-    {
-      name: 'Station test',
-      public: true,
-      type: 'Type test',
-      pricing: 0,
-      voltage: 0,
-      rating: 0,
-      location: [0, 0]
-    }
-  ]);
+  const [userStation, setUserStation] = useState();
 
   const [loadingLocation, setLoadingLocation] = useState(true);
   const [loading, setLoading] = useState(true);
@@ -161,7 +121,6 @@ function Map({ navigation }) {
         userLong: userPosition[1]
       }
     });
-    console.log('params:', data);
     var conf = {
       method: 'post',
       url: config.API_URL + '/api/v1/stations',
@@ -172,47 +131,15 @@ function Map({ navigation }) {
       data: data
     };
 
-    // const conf = api.send('GET', '/api/v1/stations/all');
-    let favoriteStations = [];
-    try {
-      const favoriteStationsObject = await api.send('GET', '/api/v1/station/favorites');
-      favoriteStations = favoriteStationsObject.data;
-    } catch (e) {
-      console.log('failed to fetch user favorite stations');
-    }
-
-    try {
-      const userProfileObject = await api.send('GET', '/api/v1/profile');
-      console.log(userProfileObject.data);
-      setUserProfile(userProfileObject.data);
-    } catch (e) {
-      console.log('failed to fetch user profile');
-    }
-
     const res = await axios(conf);
-    console.log(res);
-    console.log(JSON.stringify(res.data, null, '\t'));
-    var stationsParsed = [];
-    for (var index = 0; index < res.data.stations.length; index++) {
-      const station = res.data.stations[index];
-      if (station.rate >= filterRating)
-        stationsParsed.push({
-          id: station.id,
-          name: 'Station ' + index,
-          public: station.properties.isPublic,
-          type: station.properties.plugTypes[0],
-          pricing: station.properties.price,
-          voltage: station.properties.maxPower,
-          rating: station.rate,
-          location: [Number(station.coordinates.long), Number(station.coordinates.lat)],
-          isFavorite: favoriteStations?.find(({ id }) => id === station.id) !== undefined,
-          rates: station.rates,
-          address: station.coordinates.address,
-          city: station.coordinates.city,
-          postalCode: station.coordinates.postalCode,
-          owner: station.owner
-        });
-    }
+    var stationsParsed = res.data.stations
+      .map((station, index) => ({
+        ...station,
+        name: 'Station ' + index,
+        type: station.properties.plugTypes[0],
+        location: [Number(station.coordinates.long), Number(station.coordinates.lat)]
+      }))
+      .filter((station) => station.rate >= filterRating);
     setNbStations(stationsParsed.length);
     setUserStation(stationsParsed);
     if (res.status == 200) {
@@ -541,13 +468,7 @@ function Map({ navigation }) {
           </ModalSwipeUp>
         </>
       )}
-      {selectedStation && (
-        <StationInformations
-          station={selectedStation}
-          userProfile={userProfile}
-          navigation={navigation}
-        />
-      )}
+      {selectedStation && <StationInformations station={selectedStation} navigation={navigation} />}
     </View>
   );
 }

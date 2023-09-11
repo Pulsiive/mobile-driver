@@ -12,6 +12,8 @@ import CommentPicture from './CommentPicture';
 import style from '../style';
 import UserListModal from './UserListModal';
 
+import { getUser, useUserUpdate } from '../../../contexts/UserContext';
+
 const CommentBody = ({ comment, children, displayPictures, customStyle, isResponse }) => {
   return (
     <View
@@ -67,35 +69,33 @@ const CommentBody = ({ comment, children, displayPictures, customStyle, isRespon
   );
 };
 
-const Comment = ({
-  item,
-  currentUserId,
-  navigation,
-  displayPictures,
-  displayResponses,
-  customStyle = {}
-}) => {
+const Comment = ({ item, navigation, displayPictures, displayResponses, customStyle = {} }) => {
+  const user = getUser();
+  const updateUser = useUserUpdate();
+
   const [comment, setComment] = useState(item);
 
   const [userLikedComment, setUserLikedComment] = useState(
-    comment.likedBy.find((user) => user.id === currentUserId) === undefined ? false : true
+    user.likedRatings.find((rating) => rating.id === item.id) !== undefined
   );
   const [userDislikedComment, setUserDislikedComment] = useState(
-    comment.dislikedBy.find((user) => user.id === currentUserId) === undefined ? false : true
+    user.dislikedRatings.find((rating) => rating.id === item.id) !== undefined
   );
 
   const [likedByModalIsOpen, setLikedByModalIsOpen] = useState(false);
   const [dislikedByModalIsOpen, setDislikedByModalIsOpen] = useState(false);
 
-  useEffect(() => console.log(comment), [comment]);
-
   const likeComment = async () => {
     if (!userLikedComment) {
       const res = await api.send('POST', `/api/v1/station/rate/like/${comment.id}`);
       if (res.status !== -1) {
+        updateUser({
+          likedRatings: [...user.likedRatings, comment],
+          dislikedRatings: user.dislikedRatings.filter(({ id }) => id !== comment.id)
+        });
         setComment({
           ...comment,
-          likedBy: [...comment.likedBy, currentUserId],
+          likedBy: [...comment.likedBy, user.id],
           likes: comment.likes + 1,
           dislikes: userDislikedComment ? comment.dislikes - 1 : comment.dislikes
         });
@@ -115,14 +115,18 @@ const Comment = ({
     if (!userDislikedComment) {
       const res = await api.send('POST', `/api/v1/station/rate/dislike/${comment.id}`);
       if (res.status !== -1) {
+        updateUser({
+          dislikedRatings: [...user.dislikedRatings, comment],
+          likedRatings: user.likedRatings.filter(({ id }) => id !== comment.id)
+        });
         setComment({
           ...comment,
-          dislikedBy: [...comment.dislikedBy, currentUserId],
+          dislikedBy: [...comment.dislikedBy, user.id],
           dislikes: comment.dislikes + 1,
           likes: userLikedComment ? comment.likes - 1 : comment.likes
         });
-        setUserLikedComment(false);
         setUserDislikedComment(true);
+        setUserLikedComment(false);
       } else {
         showMessage({
           message: `Failed to dislike the comment.`,
