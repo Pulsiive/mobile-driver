@@ -240,11 +240,21 @@ function Map({ navigation }) {
   return (
     <View style={[AppStyles.container, { backgroundColor: AppColor.background }]}>
       {loadingLocation ? (
-        <Image
-          source={isDarkMode ? AppIcon.images.loadingDarkmode : AppIcon.images.loadingLightmode}
-          style={{ width: '100%', height: '100%' }}
-          resizeMode="contain"
-        />
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <Image
+            source={isDarkMode ? AppIcon.images.loadingDarkmode : AppIcon.images.loadingLightmode}
+            style={{ position: 'absolute', width: '100%', height: '100%' }}
+            resizeMode="contain"
+          />
+          <View
+            style={{
+              position: 'absolute',
+              top: '80%'
+            }}
+          >
+            <AnimatedLoading style={{ backgroundColor: AppColor.title }} />
+          </View>
+        </View>
       ) : (
         <>
           <View style={styles.container}>
@@ -304,6 +314,17 @@ function Map({ navigation }) {
             }}
             onPress={() => setFetchPosition(!fetchPosition)}
           />
+          {fetchPosition && (
+            <TextTitle
+              title="Cliquez où vous le souhaitez sur la map pour changer de localisation"
+              style={{
+                position: 'absolute',
+                bottom: '10%',
+                fontSize: AppStyles.fontSize.content,
+                alignSelf: 'center'
+              }}
+            />
+          )}
           <FloatingButton
             icon="location"
             style={{ top: 90, right: 75, marginRight: '5%' }}
