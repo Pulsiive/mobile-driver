@@ -286,7 +286,7 @@ function Map({ navigation }) {
                       <Icon
                         name="location-pin"
                         size={24}
-                        color={index % 2 == 0 ? AppColor.public : AppColor.private}
+                        color={charger.properties.isPublic ? AppColor.public : AppColor.private}
                       />
                     </MapboxGL.PointAnnotation>
                   ))}
