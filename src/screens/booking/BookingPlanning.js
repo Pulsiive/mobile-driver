@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { View, Image, StyleSheet, TouchableHighlight, Text, SafeAreaView, Pressable, Modal } from 'react-native';
+import { View, Image, TouchableOpacity, StyleSheet, TouchableHighlight, Text, SafeAreaView, Pressable, Modal } from 'react-native';
 
 import DateSlider from './DateSlider';
 import { AppIcon } from '../../AppStyles';
+import * as Animatable from 'react-native-animatable';
 
 function BookingPlanning({ navigation, route }) {
   const { stationId } = route.params;
@@ -11,7 +12,7 @@ function BookingPlanning({ navigation, route }) {
   const [slot, setSlot] = useState(null);
 
   return (
-    <View style={{ flex: 1, backgroundColor: 'black' }}>
+    <View style={{ flex: 1, backgroundColor: '#333333' }}>
       <View style={styles.group}>
         <Image source={AppIcon.images.logo} style={styles.logo} />
         <Image source={AppIcon.images.Pulsiive} style={styles.Pulsiive} />
@@ -55,21 +56,25 @@ function BookingPlanning({ navigation, route }) {
         </View>
       </Modal>
 
-      <View style={styles.welcome}>
-        <Text style={styles.first}>Station {stationId}</Text>
-        <Text style={styles.second}>Voyons voir le planning d'aujourd'hui !</Text>
-        <TouchableHighlight
-          style={styles.profilButton}
-          onPress={() => navigation.navigate('Home')}
-        >
-          <Image
-            style={styles.profil}
-            source={{
-              uri: 'https://image.shutterstock.com/image-photo/photo-handsome-nice-guy-getting-260nw-1478654612.jpg'
-            }}
-          ></Image>
-        </TouchableHighlight>
+      <View style={styles.welcomeContainer}>
+        <View style={styles.card}>
+          <Text style={styles.first}>Station Id:</Text>
+          <Text style={styles.first}>{stationId}</Text>
+          <Text style={styles.second}>Voyons voir le planning d'aujourd'hui !</Text>
+          <TouchableOpacity
+            style={styles.profilButton}
+            onPress={() => navigation.navigate('Home')}
+          >
+            <Animatable.Image animation="bounce" iterationCount="infinite"
+              style={styles.profil}
+              source={{
+                uri: 'https://image.shutterstock.com/image-photo/photo-handsome-nice-guy-getting-260nw-1478654612.jpg'
+              }}
+            ></Animatable.Image>
+          </TouchableOpacity>
+        </View>
       </View>
+
       <DateSlider date={date} onChange={(newDate) => setDate(newDate)} stationId={stationId} setModalVisible={setModalVisible} slot={slot} setSlot={setSlot} />
     </View>
   );
@@ -213,7 +218,27 @@ const styles = StyleSheet.create({
     width: 20,
     position: 'absolute',
     right: 40
-  }
+  },
+  welcomeContainer: {
+    position: 'absolute',
+    top: 12 + '%',
+    left: 4 + '%',
+    width: '91%',
+    alignItems: 'center', // Center the card horizontally
+  },
+  card: {
+    backgroundColor: 'black',
+    borderRadius: 10,
+    width: '100%',
+    padding: 10,
+    shadowColor: 'white',
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
+    elevation: 10,
+    alignItems: 'center',
+  },
+  
 });
 
 export default BookingPlanning;

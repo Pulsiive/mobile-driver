@@ -1,24 +1,27 @@
 import React, { useEffect, useState, useRef } from 'react';
 import {
-    View,
-    Image,
-    StyleSheet,
-    Text,
-    TouchableOpacity
+  View,
+  Image,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
 } from 'react-native';
 
-import Modal from "react-native-modal";
+import Modal from 'react-native-modal';
+
 import { AppIcon } from '../../AppStyles';
 import { showMessage } from 'react-native-flash-message';
 import Backend from '../../db/Backend';
-
+import * as Animatable from 'react-native-animatable';
 
 function Panier({ navigation, route }) {
-  const slot = route.params.slot;
+    const slot = route.params.slot;
   const stationId = route.params.stationId;
   console.log(stationId);
   const [isModalVisible, setModalVisible] = useState(false);
   const [station, setStation] = useState(null);
+  const [promoCode, setPromoCode] = useState('');
 
   useEffect(() => {
     const getStation = async () => {
@@ -44,205 +47,353 @@ function Panier({ navigation, route }) {
     getStation();
   }, []);
 
-    const toggleModal = () => {
-      setModalVisible(!isModalVisible);
-    };
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
 
+  const handlePromoCodeChange = (text) => {
+  setPromoCode(text);
+  };
 
-    return (
-        <View style={{ flex: 1, backgroundColor: 'white' }}>
-            <View style={{ flex: 1, marginLeft: 5.5 + '%', top: -5+'%' }}>
+  // Additional handler for applying the promo code
+  const applyPromoCode = () => {
+    // Perform the necessary action with the promo code (e.g., validate, calculate discounts, etc.)
+    // For demonstration purposes, we'll just log the promo code value here.
+    console.log('Promo code applied:', promoCode);
+    // You can implement the logic to apply the promo code as needed.
+  };
 
-                    <TouchableOpacity style={{marginRight: 'auto', top: 10+'%'}} onPress={() => navigation.navigate('BookingPlanning', {stationId})}>
+  return (
+    <View style={{ flex: 1, backgroundColor: 'white' }}>
+      <View style={styles.container}>
+
+        <TouchableOpacity style={{marginRight: 'auto', top: 10+'%'}} onPress={() => navigation.navigate('BookingPlanning', {stationId})}>
                         <Image style={{width: 20, height:20}} source={AppIcon.images.back}></Image>
-                    </TouchableOpacity>
+        </TouchableOpacity>
 
-                    <Text style={styles.header}> Paniers </Text>
+        <Text style={styles.header}> Paniers </Text>
 
-                    <View style={{top: 20+'%', marginBottom: 3+'%' ,height: 1, width: 90+'%', backgroundColor:'black'}}></View>
-                    <TouchableOpacity style={styles.history2}  onPress={toggleModal}>
-                        <View style={{backgroundColor:'#f4f4f5', height:40, width: 40, borderRadius: 50, justifyContent:'center', alignItems:'center'}}>
-                            <Image style={{flex: 1, width: 50+'%', height:50+'%', resizeMode: 'contain'}} source={AppIcon.images.eclair}></Image>
-                        </View>
-                      {station && <View style={{left:50+'%', width: 200}}>
-                          <Text style={{color:'black', fontSize:16}}>Chargeur {station?.properties?.plugTypes[0] ?? 'non défini'}</Text>
-                          <Text style={{color:'grey', marginTop: 6, fontSize:8}}>{station?.properties?.id ?? 'non défini'}</Text>
-                            <Text style={{color:'grey', marginTop: 6, fontSize:12}}>M.George</Text>
-                            <Text style={{color:'grey', marginTop: 6, fontSize:12}}>{station?.properties?.price/100}€ / minute</Text>
-                        </View>}
-                        <View style={{position:'absolute', right: 30}}>
-                            <Image source={AppIcon.images.arrowRight}></Image>
-                        </View>
-                    </TouchableOpacity>
+        <Animatable.View animation="jello" iterationCount="infinite" style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <TouchableOpacity style={styles.itemContainer} onPress={toggleModal}>
+          <View style={styles.itemIconContainer}>
+            <Image style={styles.itemIcon} source={AppIcon.images.station_img} />
+          </View>
+          <View style={styles.itemDetails}>
+            <Text style={styles.itemName}>Chargeur {station?.properties?.plugTypes[0] ?? 'non défini'}</Text>
+            <Text style={styles.itemDetail}>ID: {station?.properties?.id ?? 'non défini'}</Text>
+            <Text style={styles.itemDetail}>M.Mathieu</Text>
+            <Text style={styles.itemPrice}>{station?.properties?.price/100}€ / minute</Text>
+          </View>
+        </TouchableOpacity>
+        </Animatable.View >
 
+        {/* The modal component */}
+        <Modal
+          isVisible={isModalVisible}
+          onSwipeComplete={toggleModal}
+          swipeDirection={['up', 'left', 'right', 'down']}
+          style={styles.modalContainer}
+        >
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Votre Commande</Text>
 
-                    <Modal
-                      testID={'modal'}
-                      isVisible={isModalVisible}
-                      onSwipeComplete={toggleModal}
-                      swipeDirection={['up', 'left', 'right', 'down']}
-                      style={styles.view}>
+            {/* Order details inside the modal */}
+            <TouchableOpacity style={styles.modalItemContainer} onPress={toggleModal}>
+              <View style={styles.itemIconContainer}>
+                <Image style={styles.itemIcon} source={AppIcon.images.checkIcon} />
+              </View>
+              <View style={styles.modalItemDetails}>
+                <Text style={styles.itemName}>Chargeur {station?.properties?.plugTypes[0] ?? 'non défini'}</Text>
+                <Text style={styles.itemDetail}>M.Mathieu</Text>
+              </View>
+              <Text style={styles.itemPrice}>{station?.properties?.price/100}€ / minute</Text>
+            </TouchableOpacity>
 
-                      <View style={styles.content}>
+            <View style={styles.horizontalLine} />
+            <View style={styles.spaceAfterHorizontalLine} /> 
 
-                        <View style={{display:'flex', flexDirection: 'row'}}>
-                            <Text style={styles.contentTitle}>Votre Commande</Text>
-                            <TouchableOpacity style={{width: 30, height:30, marginLeft: 'auto'}} onPress={toggleModal}>
-                                <Image style={{width: 30, height:30, marginLeft: 'auto'}} source={AppIcon.images.xMark}></Image>
-                            </TouchableOpacity>
-                        </View>
-
-                        <View style={{ marginTop:7+'%', marginBottom: 2+'%' , height: 1, width: 100+'%', backgroundColor:'black'}}></View>
-
-                        <TouchableOpacity style={styles.test}>
-                        <View style={{backgroundColor:'#f4f4f5', height:40, width: 40, borderRadius: 50, justifyContent:'center', alignItems:'center'}}>
-                            <Image style={{flex: 1, width: 70+'%', height:70+'%', resizeMode: 'contain'}} source={AppIcon.images.borne}></Image>
-                        </View>
-                          {station && <View style={{left:50+'%', width: 200}}>
-                            <Text style={{color:'black', fontSize:16}}>Chargeur {station?.properties?.plugTypes[0] ?? 'non défini'}</Text>
-                            <Text style={{color:'grey', marginTop: 2, fontSize:12, fontWeight:'bold'}}>M.George</Text>
-                        </View>}
-                        <View style={{position:'absolute', right: 30}}>
-                            <Text style={{color:'black', marginTop: 2, fontSize:12, fontWeight:'bold'}}>{station?.properties?.price/100}€ / minute</Text>
-                        </View>
-                        </TouchableOpacity>
-
-                        <View style={{ marginTop:7+'%', marginBottom: 2+'%' , height: 1, width: 100+'%', backgroundColor:'black'}}></View>
-
-                        <View style={{display:'flex', flexDirection: 'row'}}>
-                            <Text style={{color:'black', fontSize:20}}>Sous-total</Text>
-                            <Text style={{color:'black', fontSize:20, marginLeft: 'auto'}}>3.00€</Text>
-                        </View>
-                        <View style={{display:'flex', flexDirection: 'row', marginTop:3+'%', padding: 5 ,backgroundColor:'#f2f2f2'}}>
-                            <Text style={{color:'black', fontSize:20}}>Add note</Text>
-                            <Text style={{color:'black', fontSize:20, marginLeft: 'auto'}}>+</Text>
-                        </View>
-
-                        <View style={{marginTop:7+'%', marginBottom: 2+'%' , height: 1, width: 100+'%', backgroundColor:'black'}}></View>
-
-
-                        {/* <Button testID={'close-button'} onPress={toggleModal} title="Close" /> */}
-                        <TouchableOpacity activeOpacity={0.8} onPress={() => {
-                          setModalVisible(false);
-                          navigation.navigate('Checkout', {slot, station});
-                        }} style={{color: '#ffffff', elevation: 8, backgroundColor: "black", borderRadius: 10, paddingVertical: 10, paddingHorizontal: 12, width: 100+'%', display:'flex', alignItems:'center', marginTop: 3+ '%',}} >
-                            <Text style={{color: '#ffffff', fontSize:20}}> Commander </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity activeOpacity={0.8} style={{backgroundColor: '#f2f2f2', elevation: 8, borderRadius: 10, paddingVertical: 10, paddingHorizontal: 12, width: 100+'%', display:'flex', alignItems:'center', marginTop: 3+ '%',}} >
-                            <Text style={{color: 'black', fontSize:20}}> Ajouter une commande </Text>
-                        </TouchableOpacity>
-                      </View>
-
-                    </Modal>
-
+            {/* Content for Taxes, Services, and Discounts */}
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Taxes</Text>
+              <Text style={styles.sectionContent}>Total taxes: 2.50€</Text>
             </View>
-        </View>
-    );
+
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Services</Text>
+              <Text style={styles.sectionContent}>Service charge: 5.00€</Text>
+            </View>
+
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Discounts</Text>
+              <Text style={styles.sectionContent}>Promo code applied: XYZ123</Text>
+              <Text style={styles.sectionContent}>Discount amount: -7.50€</Text>
+            </View>
+
+            {/* Promo code input */}
+            <View style={styles.promoCodeContainer}>
+              <TextInput
+                style={styles.promoCodeInput}
+                placeholder="Enter promo code"
+                value={promoCode}
+                onChangeText={handlePromoCodeChange}
+              />
+              <TouchableOpacity
+                style={styles.applyButton}
+                onPress={applyPromoCode}
+                activeOpacity={0.8}
+              >
+                <Text style={styles.applyButtonText}>Apply</Text>
+              </TouchableOpacity>
+            </View>
+
+            <View style={styles.horizontalLine} />
+
+            {/* Subtotal */}
+            <View style={styles.subtotalContainer}>
+              <Text style={styles.subtotalText}>Sous-total</Text>
+              <Text style={styles.subtotalAmount}>10.00€</Text>
+            </View>
+
+            {/* Modal buttons */}
+            <View style={styles.modalButtonContainer}>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() => navigation.navigate('Checkout', {slot, station})}
+                style={styles.commanderButton}
+              >
+                <Text style={styles.buttonText}>Commander</Text>
+              </TouchableOpacity>
+            </View>
+
+            {/* Close modal button */}
+            <TouchableOpacity
+              style={styles.closeButton}
+              onPress={toggleModal}
+              activeOpacity={0.7}
+            >
+              <Image source={AppIcon.images.xMark} style={styles.closeIcon} />
+            </TouchableOpacity>
+          </View>
+        </Modal>
+
+      </View>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-    header: {
-        position: 'absolute',
-        fontWeight:'bold',
-        fontSize:30,
-        top:15+'%',
-        color: '#2F313E',
+  container: {
+    flex: 1,
+    marginLeft: '5.5%',
+    top: -5,
+  },
+  backButton: {
+    marginRight: 'auto',
+    top: '10%',
+  },
+  backIcon: {
+    width: 20,
+    height: 20,
+  },
+  header: {
+    position: 'absolute',
+    fontWeight: 'bold',
+    fontSize: 30,
+    top: '15%',
+    color: '#2F313E',
+  },
+//   itemContainer: {
+//     height: '9%',
+//     top: '40%',
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//   },
+  itemContainer: {
+    backgroundColor: 'white', // Set the background color to white
+    borderRadius: 10, // Add border radius for rounded corners
+    shadowColor: '#000', // Set shadow color
+    shadowOffset: {
+      width: 0,
+      height: 4,
     },
-    reception:{
-        height: 5.8+'%',
-        top: 50+'%',
-        display:'flex',
-        flexDirection: 'row',
-        alignItems:'center',
-        // backgroundColor:'red',
-    },
-    history2:{
-        height: 9+'%',
-        top: 40+'%',
-        display:'flex',
-        flexDirection: 'row',
-        alignItems:'center',
-        // backgroundColor:'red',
-    },
-    test:{
-        height: 9+'%',
-        display:'flex',
-        flexDirection: 'row',
-        alignItems:'center',
-        // backgroundColor:'red',
-    },
-    word: {
-        position: 'absolute',
-        top:20.4+'%',
-        fontWeight:'bold',
-        color: '#2F313E',
-    },
-    recent: {
-        position: 'absolute',
-        top:35.3+'%',
-        fontWeight:'bold',
-        color: '#2F313E',
-    },
-    container:
-    {
-        flex:1,
-        top: 47+'%',
-        // height: 50+'%',
-    },
-    content: {
-        backgroundColor: 'white',
-        padding: 22,
-        display:'flex',
-        flexDirection: 'column',
-        // justifyContent: 'center',
-        //justifyContent: 'center',
-        //alignItems: 'center',
-        borderRadius: 4,
-        borderColor: 'rgba(0, 0, 0, 0.1)',
-      },
-      contentTitle: {
-        fontSize: 23,
-        fontWeight:'bold',
-        marginBottom: 12,
-        color: "#2F313E",
-        marginLeft: 'auto',
-    },
-    view: {
-        justifyContent: 'flex-end',
-        margin: 0,
-    },
-    appButtonContainer: {
-        color: "#ffffff",
-        elevation: 8,
-        backgroundColor: "#009688",
-        borderRadius: 10,
-        // paddingVertical: 10,
-        // paddingHorizontal: 12
-        height: 6+'%',
-        top: 76+'%',
-        display:'flex',
-        flexDirection: 'row',
-        alignItems:'center',
-        justifyContent: 'center',
-        marginLeft: 10+ '%',
-        marginRight: 15.5+'%'
-    },
-    ModalButton: {
-        color: "#ffffff",
-        elevation: 8,
-        backgroundColor: "black",
-        borderRadius: 10,
-        paddingVertical: 10,
-        paddingHorizontal: 12,
-        width: 100+'%',
-        // top: 76+'%',
-        display:'flex',
-        // flexDirection: 'row',
-        alignItems:'center',
-        // justifyContent: 'center',
-        marginTop: 3+ '%',
-        // marginRight: 15.5+'%'
-    },
+    shadowOpacity: 0.3, // Adjust shadow opacity
+    shadowRadius: 4, // Adjust shadow radius
+    elevation: 10, // Android shadow elevation
+    marginVertical: 10, // Add vertical margin for spacing
+    padding: 16, // Add padding inside the card
+  },
+  itemIconContainer: {
+    backgroundColor: '#f4f4f5',
+    height: 40,
+    width: 40,
+    borderRadius: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  itemIcon: {
+    flex: 1,
+    width: '70%',
+    height: '70%',
+    resizeMode: 'contain',
+  },
+  itemDetails: {
+    marginLeft: 12,
+  },
+  itemName: {
+    color: 'black',
+    fontSize: 18, // Ajuster la taille du texte pour le nom de l'article
+    fontWeight: 'bold', // Utiliser du texte en gras pour le nom de l'article
+    marginBottom: 4, // Espacement entre le nom de l'article et le détail
+  },
+  itemDetail: {
+    color: 'grey',
+    marginTop: 6,
+  },
+  itemPrice: {
+    color: 'black',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  horizontalLine: {
+    marginTop: 20,
+    marginBottom: 3,
+    height: 1,
+    width: '90%',
+    backgroundColor: 'black',
+  },
+  modalContainer: {
+    justifyContent: 'flex-end',
+    margin: 0,
+  },
+  modalContent: {
+    backgroundColor: '#FFFFFF', // Blanc
+    padding: 22,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
+  modalTitle: {
+    fontSize: 26,
+    fontWeight: 'bold',
+    marginBottom: 16,
+    color: '#2F313E',
+    textAlign: 'center',
+  },
+  modalItemContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  modalItemDetails: {
+    flex: 1,
+    marginLeft: 12,
+  },
+  newSection: {
+    marginBottom: 16,
+  },
+  newSectionTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 8,
+    color: '#2F313E',
+  },
+  newSectionText: {
+    color: '#2F313E',
+    fontSize: 16,
+  },
+  subtotalContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 16,
+  },
+  subtotalText: {
+    color: '#2F313E',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  subtotalAmount: {
+    color: '#2F313E',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  modalButtonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end', // Pour aligner le bouton sur la droite
+    marginBottom: 20,
+  },
+  commanderButton: {
+    backgroundColor: '#00A84A',
+    borderRadius: 8, // Un petit arrondi pour le bouton
+    paddingVertical: 10, // Ajuster la taille verticale du bouton
+    paddingHorizontal: 12, // Ajuster la taille horizontale du bouton
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16, // Ajuster la taille du texte du bouton
+    fontWeight: 'bold',
+  },
+  ajouterButton: {
+    flex: 1,
+    backgroundColor: '#F2F2F2',
+    borderRadius: 10,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    marginLeft: 16,
+    alignItems: 'center',
+  },
+  closeButton: {
+    alignSelf: 'flex-start',
+    padding: 10,
+    position: 'absolute',
+    top: '5%',
+    right: '5%',
+  },
+  closeIcon: {
+    width: 24,
+    height: 24,
+  },
+  promoCodeContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  promoCodeInput: {
+    flex: 1,
+    backgroundColor: '#F2F2F2',
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    fontSize: 16,
+  },
+  applyButton: {
+    marginLeft: 16,
+    backgroundColor: '#00A84A',
+    borderRadius: 8,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+    alignItems: 'center',
+  },
+  applyButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  spaceAfterHorizontalLine: {
+    marginTop: 20,
+  },
+  section: {
+    marginBottom: 10, // Adjust the separation between sections
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#2F313E', // Text color for section titles
+  },
+  sectionContent: {
+    fontSize: 16,
+    color: '#2F313E', // Text color for section content
+  },
 });
 
 export default Panier;
