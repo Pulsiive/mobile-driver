@@ -43,20 +43,43 @@ const style = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'baseline'
   },
+  // button: {
+  //   backgroundColor: AppStyles.color.main,
+  //   borderRadius: 5,
+  //   height: 35,
+  //   width: '50%',
+  //   paddingHorizontal: 5,
+  //   paddingVertical: 5
+  // },
+  // buttonText: {
+  //   color: 'white',
+  //   fontSize: 18,
+  //   alignSelf: 'center',
+  //   textTransform: 'uppercase'
+  // },
   button: {
-    backgroundColor: AppStyles.color.main,
-    borderRadius: 5,
-    height: 35,
-    width: '50%',
-    paddingHorizontal: 5,
-    paddingVertical: 5
+    backgroundColor: 'green', 
+    borderRadius: 10,
+    height: 35, // Increase the height for a larger button
+    width: '50%', // Adjust the width as needed
+    paddingHorizontal: 5, // Increase padding for spacing
+    paddingVertical: 5, // Increase padding for spacing
+    shadowColor: 'black',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 10, // Android shadow
   },
   buttonText: {
     color: 'white',
     fontSize: 18,
     alignSelf: 'center',
-    textTransform: 'uppercase'
-  }
+    textTransform: 'uppercase',
+    fontWeight: 'bold', // Add fontWeight for a bolder text
+  },
 });
 
 export default style;

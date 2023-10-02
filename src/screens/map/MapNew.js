@@ -24,6 +24,7 @@ import config from '../../db/config';
 import serviceAccessToken from '../../db/AccessToken';
 import { useFocusEffect } from '@react-navigation/native';
 import * as locations from '../../locations';
+import * as Animatable from 'react-native-animatable';
 
 var axios = require('axios');
 
@@ -243,7 +244,7 @@ function Map({ navigation }) {
     <View style={[AppStyles.container, { backgroundColor: AppColor.background }]}>
       {loadingLocation ? (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Image
+          <Animatable.Image animation="wobble" iterationCount="infinite"
             source={isDarkMode ? AppIcon.images.loadingDarkmode : AppIcon.images.loadingLightmode}
             style={{ position: 'absolute', width: '100%', height: '100%' }}
             resizeMode="contain"

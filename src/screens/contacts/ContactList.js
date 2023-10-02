@@ -15,7 +15,7 @@ function Contact({ navigation }) {
         flex: 1,
         alignItems: 'center',
         top: 0 + '%',
-        backgroundColor: 'black'
+        backgroundColor: 'white'
       }}
     >
       <Modal
@@ -85,7 +85,7 @@ function Contact({ navigation }) {
         <SearchUserModal onClose={() => setSearchUserModalIsOpen(false)} searchKey={searchKey} />
       )}
       <TouchableOpacity onPress={() => setAddContactModalIsOpen(true)}>
-        <Icon name="add-user" size={25} color={'white'} />
+        <Icon name="add-user" size={30} color={'black'} />
       </TouchableOpacity>
       <FetchContact navigation={navigation}></FetchContact>
     </View>

@@ -7,6 +7,8 @@ import api from '../../db/Api';
 import { showMessage } from 'react-native-flash-message';
 import { getUser, useUserUpdate } from '../../contexts/UserContext';
 
+import * as Animatable from 'react-native-animatable';
+
 const EditContactModal = ({ isVisible, contact, onClose }) => {
   const [customNameValue, setCustomNameValue] = useState(contact.customName);
   const [descriptionValue, setDescriptionValue] = useState(contact.description);
@@ -140,51 +142,46 @@ const FetchContact = ({ navigation }) => {
 
   return (
     <View style={{ width: 100 + '%', height: '100%' }}>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={{ backgroundColor: 'black', flex: 1 }}
-      >
+      <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: 'white', flex: 1 }}>
+        <Animatable.View animation="fadeIn" duration={7000}>
+        {/* Add an empty space at the top */}
+        <View style={{ height: 20 }} />
         {user.contacts.map((plan) => {
-          return (
-            <View key={plan.user.id} style={{ borderBottomColor: 'gray', borderBottomWidth: 1 }}>
-              <View style={styles.container}>
-                <View style={{ width: '70%', alignItems: 'center', flexDirection: 'row' }}>
-                  <TouchableOpacity onPress={() => navigateToUserProfilePage(plan.user)}>
-                    <Image
-                      style={styles.img}
-                      source={{
-                        uri: `https://ucarecdn.com/${plan.user.profilePictureId}/`
-                      }}
-                    ></Image>
-                  </TouchableOpacity>
-                  <View>
-                    <Text style={{ color: 'white', fontWeight: 'bold', marginLeft: 15 }}>
-                      {plan.customName
-                        ? plan.customName
-                        : plan.user.firstName + ' ' + plan.user.lastName}
-                    </Text>
-                  </View>
-                </View>
-                <View
-                  style={{ flexDirection: 'row', width: '30%', justifyContent: 'space-around' }}
-                >
-                  <TouchableOpacity onPress={() => navigateToUserMessages(plan.user)}>
-                    <Image source={AppIcon.images.phone} style={{ height: 30, width: 30 }}></Image>
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={() => onEditContactPress(plan)}>
-                    <Image source={AppIcon.images.edit} style={{ height: 30, width: 30 }}></Image>
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={() => removeContact(plan.user.id)}>
-                    <Image source={AppIcon.images.remove} style={{ height: 30, width: 30 }}></Image>
-                  </TouchableOpacity>
-                </View>
+        return (
+          <View key={plan.user.id} style={styles.container}>
+            <View style={{ width: '70%', alignItems: 'center', flexDirection: 'row' }}>
+              <TouchableOpacity onPress={() => navigateToUserProfilePage(plan.user)}>
+                <Image
+                  style={styles.img}
+                  source={{
+                    uri: `https://ucarecdn.com/${plan.user.profilePictureId}/`
+                  }}
+                ></Image>
+              </TouchableOpacity>
+              {/* Add margin to the right of the Image */}
+              <View style={{ marginLeft: 15 }}>
+                <Text style={styles.cardText}>
+                  {plan.customName
+                    ? plan.customName
+                    : plan.user.firstName + ' ' + plan.user.lastName}
+                </Text>
               </View>
-              {plan.description && (
-                <Text style={{ color: 'lightgray', margin: 15 }}>{plan.description}</Text>
-              )}
             </View>
-          );
+            <View style={{ flexDirection: 'row', width: '30%', justifyContent: 'space-around' }}>
+              <TouchableOpacity onPress={() => navigateToUserMessages(plan.user)}>
+                <Image source={AppIcon.images.phone2} style={{ height: 30, width: 30 }}></Image>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => onEditContactPress(plan)}>
+                <Image source={AppIcon.images.edit2} style={{ height: 30, width: 30 }}></Image>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => removeContact(plan.user.id)}>
+                <Image source={AppIcon.images.trash} style={{ height: 30, width: 30 }}></Image>
+              </TouchableOpacity>
+            </View>
+          </View>
+        );
         })}
+      </Animatable.View>
       </ScrollView>
       {selectedContact && (
         <EditContactModal
@@ -212,11 +209,25 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: 15
+    padding: 20,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 }, // Increase the shadow offset
+    shadowOpacity: 0.3, // Increase shadow opacity
+    shadowRadius: 6, // Increase shadow radius
+    elevation: 6, // Increase elevation for Android shadow
+    marginBottom: 20,
+    height: 100,
+  },
+  cardText: {
+    color: 'black', // Dark text color
+    fontWeight: 'bold',
+    fontSize: 18,
   },
   img: {
-    width: 50,
-    height: 50,
+    width: 60,
+    height: 60,
     borderRadius: 50
   },
   input: {
@@ -226,7 +237,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 18,
     padding: 10
-  }
+  },
 });
 
 export default FetchContact;

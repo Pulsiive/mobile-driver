@@ -53,7 +53,7 @@ function Checkout({ navigation, route }) {
                 <View style={styles.content}>
 
 
-                    <TouchableOpacity style={{marginRight: 'auto'}} onPress={() => navigation.navigate('Aide')}>
+                    <TouchableOpacity style={{marginRight: 'auto'}} onPress={() => navigation.navigate('Home')}>
                         <Image style={{width: 20, height:20}} source={AppIcon.images.back}></Image>
                     </TouchableOpacity>
 

@@ -190,8 +190,11 @@ export const AppIcon = {
     charger2: require('../assets/images/charger2.jpg'),
     charger3: require('../assets/images/charger3.jpg'),
     phone: require('../assets/icons/phone.png'),
+    phone2: require('../assets/icons/phone2.png'),
     remove: require('../assets/icons/remove.png'),
+    trash: require('../assets/icons/trash.png'),
     edit: require('../assets/icons/edit.png'),
+    edit2: require('../assets/icons/edit2.png'),
     avis: require('../assets/images/avis.png'),
     logo: require('../assets/images/logo.png'),
     logo2: require('../assets/images/logo-2.png'),
@@ -230,7 +233,9 @@ export const AppIcon = {
     stationLightmode: require('../assets/images/stationDrawLightmode.png'),
     stationDarkmode: require('../assets/images/stationDrawDarkmode.png'),
     addUser: require('../assets/icons/add-user.png'),
-    removeUser: require('../assets/icons/remove-user.png')
+    removeUser: require('../assets/icons/remove-user.png'),
+    loadingImage: require('../assets/icons/loading.png'),
+    checkIcon: require('../assets/icons/checkIcon.png')
   }
 };
 
