@@ -1,13 +1,16 @@
 import React, { useEffect } from 'react';
 import { View, Image, Text, Pressable } from 'react-native';
-import { AppIcon, AppStyles } from '../../AppStyles';
+import { AppIcon, AppStyles, useTheme } from '../../AppStyles';
 import { showMessage } from 'react-native-flash-message';
 import Icon from 'react-native-vector-icons/Entypo';
 import api from '../../db/Api';
 
 import { getUser, useUserUpdate } from '../../contexts/UserContext';
+import { TextTitle } from '../../components';
 
 function StationInformations({ station, navigation }) {
+  const { AppColor } = useTheme();
+
   const user = getUser();
   const updateUser = useUserUpdate();
   const isFavorite = user.favoriteStations.find(({ id }) => id === station.id) !== undefined;
@@ -37,14 +40,15 @@ function StationInformations({ station, navigation }) {
   return (
     <View
       style={{
-        width: '92%',
-        backgroundColor: 'white',
+        width: '94%',
+        backgroundColor: AppColor.background,
         height: '20%',
         borderRadius: 10,
-        marginLeft: 20,
-        bottom: '1%',
+        marginHorizontal: '3%',
+        bottom: '2%',
         position: 'absolute',
-        padding: 3
+        padding: 5,
+        elevation: 3
       }}
     >
       <Pressable
@@ -70,40 +74,51 @@ function StationInformations({ station, navigation }) {
             <View
               style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5 }}
             >
-              <Text style={{ fontWeight: 'bold', fontSize: 15, color: 'black' }}>
-                {station.properties.isPublic
-                  ? station.coordinates.address
-                  : `${station.owner.firstName}'s station`}
-              </Text>
+              <TextTitle
+                title={
+                  station.properties.isPublic
+                    ? station.coordinates.address
+                    : `${station.owner.firstName}'s station`
+                }
+                style={{ fontSize: AppStyles.fontSize.normal, margin: 0 }}
+              />
               <Pressable onPress={onHeartPressed}>
                 <Icon
                   name={isFavorite ? 'heart' : 'heart-outlined'}
                   size={22}
-                  color={AppStyles.color.tint}
+                  color={AppColor.pulsive}
                 />
               </Pressable>
             </View>
-            <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
-              <Icon name="flow-branch" size={20} color="grey" />
-              <Text style={{ color: 'grey' }}>
-                {station.properties.plugTypes.toString().length == 0
-                  ? 'no data'
-                  : station.properties.plugTypes.toString()}
-              </Text>
-            </View>
-            <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
-              <Icon name="flash" size={20} color="grey" />
-              <Text style={{ color: 'grey' }}>{station.properties.maxPower} kWh</Text>
-            </View>
-            {station.rate !== 0 && (
-              <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
-                <Icon name="star" size={20} color="grey" />
-                <Text style={{ color: 'grey' }}>{station.rate}</Text>
+            <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Icon name="flow-branch" size={18} color={AppColor.icon} />
+                <Text style={{ color: AppColor.icon, marginLeft: 3, marginBottom: 2 }}>
+                  {station.properties.plugTypes.toString().length == 0
+                    ? 'no data'
+                    : station.properties.plugTypes.toString()}
+                </Text>
               </View>
-            )}
-            <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
-              <Icon name="credit" size={20} color="grey" />
-              <Text style={{ color: 'grey' }}>{station.properties.price} / hour</Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Icon name="flash" size={18} color={AppColor.icon} />
+                <Text style={{ color: AppColor.icon, marginLeft: 3, marginBottom: 2 }}>
+                  {station.properties.maxPower} kWh
+                </Text>
+              </View>
+              {station.rate !== 0 && (
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Icon name="star" size={18} color={AppColor.icon} />
+                  <Text style={{ color: AppColor.icon, marginLeft: 3, marginBottom: 2 }}>
+                    {station.rate}
+                  </Text>
+                </View>
+              )}
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Icon name="credit" size={18} color={AppColor.icon} />
+                <Text style={{ color: AppColor.icon, marginLeft: 3, marginBottom: 2 }}>
+                  {station.properties.price} / hour
+                </Text>
+              </View>
             </View>
           </View>
         </View>
