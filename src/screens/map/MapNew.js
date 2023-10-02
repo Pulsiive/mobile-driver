@@ -92,8 +92,8 @@ function Map({ navigation }) {
           })
             .then((location) => {
               console.log(location);
-              // setUserPosition([location.latitude, location.longitude]);
-              setUserPosition([48.85836907344881, 2.3412766196414907]);
+              setUserPosition([location.latitude, location.longitude]);
+              // setUserPosition([48.85836907344881, 2.3412766196414907]);
               setLoadingLocation(false);
             })
             .catch((error) => {
@@ -142,6 +142,7 @@ function Map({ navigation }) {
       .filter((station) => station.rate >= filterRating);
     setNbStations(stationsParsed.length);
     setUserStation(stationsParsed);
+    console.log(JSON.stringify(stationsParsed, null, '\t'));
     if (res.status == 200) {
       console.log('OK');
     } else {
@@ -169,6 +170,7 @@ function Map({ navigation }) {
     if (selectedStation) {
       setSelectedStation(undefined);
     }
+    setDrawPin(true);
   };
 
   const resetAllFilters = async () => {
@@ -281,7 +283,7 @@ function Map({ navigation }) {
                       id={charger.name}
                       coordinate={charger.location}
                       onSelected={() => setSelectedStation(charger)}
-                      key={index}
+                      key={charger.id}
                     >
                       <Icon
                         name="location-pin"
@@ -312,7 +314,9 @@ function Map({ navigation }) {
               right: 0,
               marginRight: '5%'
             }}
-            onPress={() => setFetchPosition(!fetchPosition)}
+            onPress={() => {
+              setFetchPosition(!fetchPosition), setDrawPin(!drawPin), setSelectedStation(undefined);
+            }}
           />
           {fetchPosition && (
             <TextTitle
@@ -328,7 +332,9 @@ function Map({ navigation }) {
           <FloatingButton
             icon="location"
             style={{ top: 90, right: 75, marginRight: '5%' }}
-            onPress={() => setResetPosition(!resetPosition)}
+            onPress={() => {
+              setResetPosition(!resetPosition), setSelectedStation(undefined);
+            }}
           />
           <SearchBar
             title="Chercher"
