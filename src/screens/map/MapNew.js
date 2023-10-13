@@ -93,8 +93,8 @@ function Map({ navigation }) {
           })
             .then((location) => {
               console.log(location);
-              setUserPosition([location.latitude, location.longitude]);
-              // setUserPosition([48.85836907344881, 2.3412766196414907]);
+              // setUserPosition([location.latitude, location.longitude]);
+              setUserPosition([48.85836907344881, 2.3412766196414907]);
               setLoadingLocation(false);
             })
             .catch((error) => {
@@ -244,19 +244,21 @@ function Map({ navigation }) {
     <View style={[AppStyles.container, { backgroundColor: AppColor.background }]}>
       {loadingLocation ? (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Animatable.Image animation="wobble" iterationCount="infinite"
+          <Animatable.Image
+            animation="wobble"
+            iterationCount="infinite"
             source={isDarkMode ? AppIcon.images.loadingDarkmode : AppIcon.images.loadingLightmode}
             style={{ position: 'absolute', width: '100%', height: '100%' }}
             resizeMode="contain"
           />
-          <View
+          {/* <View
             style={{
               position: 'absolute',
               top: '80%'
             }}
           >
             <AnimatedLoading style={{ backgroundColor: AppColor.title }} />
-          </View>
+          </View> */}
         </View>
       ) : (
         <>

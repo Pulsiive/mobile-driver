@@ -58,6 +58,7 @@ export const AppStyles = {
     pulsive: '#81CD2C',
     title: '#1c2024',
     text: '#1c2024',
+    lightText: 'grey',
     subText: '#1c2024',
     label: '#1c2024',
     pressed: 'whitesmoke',
@@ -70,7 +71,8 @@ export const AppStyles = {
     separator: 'lightgrey',
     bottomColor: '#F3F3F3',
     private: 'grey',
-    public: 'lightgrey'
+    public: 'lightgrey',
+    rate: 'orange'
   },
 
   darkStyles: {
@@ -78,9 +80,10 @@ export const AppStyles = {
     pulsive: '#81CD2C',
     title: '#D1D1D1',
     text: '#b0b0b0',
+    lightText: 'grey',
     subText: '#747679',
     label: '#747679',
-    pressed: 'whitesmoke',
+    pressed: '#2E343B ',
     error: 'firebrick',
     border: '#747679',
     borderFocused: 'white',
@@ -90,7 +93,8 @@ export const AppStyles = {
     separator: '#2E343B',
     bottomColor: '#2E343B',
     private: '#D1D1D1',
-    public: '#747679'
+    public: '#747679',
+    rate: 'orange'
   },
 
   color: {

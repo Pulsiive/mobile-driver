@@ -449,7 +449,14 @@ const RootNavigator = () => (
       options={{ headerShown: false }}
     />
     <Stack.Screen name="DrawerStack" component={DrawerStack} />
-    <Stack.Screen name="StationRating" component={StationRating} />
+    <Stack.Screen
+      name="StationRating"
+      component={StationRating}
+      options={{
+        headerShown: true,
+        header: ({ navigation }) => <CustomHeader navigation={navigation} />
+      }}
+    />
     <Stack.Screen name="BookingPlanning" component={BookingPlanning} />
     <Stack.Screen name="PaymentUICustomScreen" component={PaymentsUICustomScreen} />
     <Stack.Screen name="Panier" component={Panier} options={{ headerShown: false }} />
