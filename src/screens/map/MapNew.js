@@ -24,6 +24,7 @@ import config from '../../db/config';
 import serviceAccessToken from '../../db/AccessToken';
 import { useFocusEffect } from '@react-navigation/native';
 import * as locations from '../../locations';
+import * as Animatable from 'react-native-animatable';
 
 var axios = require('axios');
 
@@ -142,6 +143,7 @@ function Map({ navigation }) {
       .filter((station) => station.rate >= filterRating);
     setNbStations(stationsParsed.length);
     setUserStation(stationsParsed);
+    console.log(JSON.stringify(stationsParsed, null, '\t'));
     if (res.status == 200) {
       console.log('OK');
     } else {
@@ -169,6 +171,7 @@ function Map({ navigation }) {
     if (selectedStation) {
       setSelectedStation(undefined);
     }
+    setDrawPin(true);
   };
 
   const resetAllFilters = async () => {
@@ -241,19 +244,21 @@ function Map({ navigation }) {
     <View style={[AppStyles.container, { backgroundColor: AppColor.background }]}>
       {loadingLocation ? (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Image
+          <Animatable.Image
+            animation="wobble"
+            iterationCount="infinite"
             source={isDarkMode ? AppIcon.images.loadingDarkmode : AppIcon.images.loadingLightmode}
             style={{ position: 'absolute', width: '100%', height: '100%' }}
             resizeMode="contain"
           />
-          <View
+          {/* <View
             style={{
               position: 'absolute',
               top: '80%'
             }}
           >
             <AnimatedLoading style={{ backgroundColor: AppColor.title }} />
-          </View>
+          </View> */}
         </View>
       ) : (
         <>
@@ -281,7 +286,7 @@ function Map({ navigation }) {
                       id={charger.name}
                       coordinate={charger.location}
                       onSelected={() => setSelectedStation(charger)}
-                      key={index}
+                      key={charger.id}
                     >
                       <Icon
                         name="location-pin"
@@ -312,7 +317,9 @@ function Map({ navigation }) {
               right: 0,
               marginRight: '5%'
             }}
-            onPress={() => setFetchPosition(!fetchPosition)}
+            onPress={() => {
+              setFetchPosition(!fetchPosition), setDrawPin(!drawPin), setSelectedStation(undefined);
+            }}
           />
           {fetchPosition && (
             <TextTitle
@@ -328,7 +335,9 @@ function Map({ navigation }) {
           <FloatingButton
             icon="location"
             style={{ top: 90, right: 75, marginRight: '5%' }}
-            onPress={() => setResetPosition(!resetPosition)}
+            onPress={() => {
+              setResetPosition(!resetPosition), setSelectedStation(undefined);
+            }}
           />
           <SearchBar
             title="Chercher"

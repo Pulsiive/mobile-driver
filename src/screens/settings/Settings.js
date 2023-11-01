@@ -16,6 +16,8 @@ import api from '../../db/Api';
 import { showMessage } from 'react-native-flash-message';
 import { useFocusEffect } from '@react-navigation/native';
 
+import * as Animatable from 'react-native-animatable';
+
 function Settings({ navigation }) {
   const { isDarkMode, toggleTheme, AppColor } = useTheme();
 
@@ -242,7 +244,7 @@ function Settings({ navigation }) {
               entier grâce au réseau d'utilisateurs Pulsive
             </Text>
           </View>
-          <Image
+          <Animatable.Image animation="pulse" easing="ease-out" iterationCount="infinite"
             source={isDarkMode ? AppIcon.images.stationDarkmode : AppIcon.images.stationLightmode}
             style={{ width: '40%', height: '100%' }}
             resizeMode="contain"
@@ -317,6 +319,13 @@ function Settings({ navigation }) {
           navigation.navigate('Notification');
         }}
       />
+      <ButtonTouchable
+        title="Bons de réduction"
+        icon="wallet"
+        onPress={() => {
+          navigation.navigate('PromoCodesPage');
+        }}
+      />
 
       <TextTitle
         title="Personnalisation"
@@ -343,14 +352,15 @@ function Settings({ navigation }) {
         icon="new-message"
       />
 
-      <ButtonCommon
+      <ButtonCommon 
         title="Deconnexion"
         style={{ marginVertical: 30 }}
         onPress={() => {
           setModalVisible(true);
         }}
         loading={loading}
-      />
+      /> 
+
       <ModalSwipeUp visible={modalVisible} onClose={() => setModalVisible(false)}>
         <TextTitle title="Êtes vous sûr de vouloir vous déconnecter ?" style={{ marginLeft: 0 }} />
         <ButtonConditional

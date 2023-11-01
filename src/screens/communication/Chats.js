@@ -7,6 +7,7 @@ import Chat from './Chat';
 import api from '../../db/Api';
 import ProfilePicture from '../../components/ProfilePicture';
 
+import * as Animatable from 'react-native-animatable';
 import Icon from 'react-native-vector-icons/Entypo';
 
 function Chats() {
@@ -54,9 +55,11 @@ function Chats() {
           showsVerticalScrollIndicator={false}
         />
       )}
+      <Animatable.View animation="bounce" iterationCount="infinite">
       <TouchableOpacity style={styles.roundButton1} onPress={() => setNewChatModalIsOpen(true)}>
         <Icon name="circle-with-plus" size={20} color={'white'} />
       </TouchableOpacity>
+      </Animatable.View> 
       <Modal
         animationType="slide"
         visible={newChatModalIsOpen}

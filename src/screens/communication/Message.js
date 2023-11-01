@@ -18,6 +18,8 @@ import Icon from 'react-native-vector-icons/Entypo';
 import api from '../../db/Api';
 import ProfilePicture from '../../components/ProfilePicture';
 
+import * as Animatable from 'react-native-animatable';
+
 function Message(props) {
   const width = Dimensions.get('window').width;
   const { imageUri, name, receiverId } = useRoute().params;
@@ -73,67 +75,77 @@ function Message(props) {
 
   const RenderHeaderSection = () => {
     return (
-      <View style={{ marginTop: 20, flexDirection: 'row', justifyContent: 'space-between' }}>
-        <TouchableOpacity
-          onPress={() => onPress()}
-          style={{
-            backgroundColor: AppStyles.color.text,
-            borderRadius: 20,
-            marginHorizontal: 10,
-            padding: 10
-          }}
-        >
-          <Text> VIEW PROFILE </Text>
-        </TouchableOpacity>
-        <View style={{ maxWidth: 130 }}>
-          <Text
+      <View
+        style={{
+          marginTop: 20,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center'
+        }}
+      >
+        <Animatable.View animation="pulse" iterationCount="infinite">
+          <TouchableOpacity
+            onPress={() => onPress()}
             style={{
-              fontSize: 22,
-              marginTop: 5,
+              backgroundColor: 'white',
+              paddingHorizontal: 20,
+              paddingVertical: 10,
+              shadowColor: 'black',
+              shadowOffset: { width: 0, height: 4 }, // Shadow offset
+              shadowOpacity: 1, // Shadow opacity
+              shadowRadius: 4, // Shadow radius
+              borderRadius: 10,
               marginHorizontal: 10,
-              fontWeight: 'bold',
-              color: AppStyles.color.pulsive
+              elevation: 10 // Add elevation for Android
             }}
           >
-            {name}
-          </Text>
+            <Text style={{ color: 'darkgrey', fontWeight: 'bold' }}> {name} </Text>
+          </TouchableOpacity>
+        </Animatable.View>
+
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Pressable
+            style={{
+              marginHorizontal: 5,
+              padding: 10
+            }}
+            onPress={() => Alert.alert('You have reported this user')}
+          >
+            <Icon name="warning" size={20} color="grey" />
+          </Pressable>
+          <Pressable
+            style={{
+              marginHorizontal: 5,
+              padding: 10
+            }}
+            onPress={() => Alert.alert('You have deleted this conversation')}
+          >
+            <Icon name="trash" size={20} color="grey" />
+          </Pressable>
         </View>
-        <Pressable
-          style={{
-            marginHorizontal: 5,
-            padding: 10
-          }}
-          onPress={() => Alert.alert('You have reported this user')}
-        >
-          <Icon name="warning" size={20} color="grey" />
-        </Pressable>
-        <Pressable
-          style={{
-            marginHorizontal: 5,
-            padding: 10
-          }}
-          onPress={() => Alert.alert('You have deleted this conversation')}
-        >
-          <Icon name="trash" size={20} color="grey" />
-        </Pressable>
       </View>
     );
   };
 
   const renderMessage = (id, message, isMe, img) => {
-    const bgColor = isMe ? AppStyles.color.pulsive : '#4f4f4f';
+    const bgColor = isMe ? '#39e600' : '#d9d9d9';
     const alignment = isMe ? 'flex-end' : 'flex-start';
     const flexAlignment = isMe ? 'column' : 'row';
-    const radius = isMe ? { borderTopLeftRadius: 20 } : { borderBottomRightRadius: 20 };
+    const radius = isMe ? { borderTopLeftRadius: 80 } : { borderBottomRightRadius: 80 };
     return (
       <View
         key={id}
         style={{
           width: width,
           paddingHorizontal: 20,
-          marginVertical: 5,
+          marginVertical: 10,
           alignItems: alignment,
-          flexDirection: flexAlignment
+          flexDirection: flexAlignment,
+          shadowColor: 'black',
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.2,
+          shadowRadius: 2,
+          elevation: 2
         }}
       >
         {isMe ? null : (
@@ -147,16 +159,17 @@ function Message(props) {
           style={{
             maxWidth: width * 0.7,
             backgroundColor: bgColor,
-            borderTopRightRadius: 20,
-            borderBottomLeftRadius: 20,
-            ...radius,
-            padding: 10
+            borderTopRightRadius: 80,
+            borderBottomLeftRadius: 80,
+            ...radius, // Border radius applied here
+            padding: 10,
+            overflow: 'hidden'
           }}
         >
           {img ? (
             <Image source={{ uri: img }} style={{ width: width * 0.65, height: 150 }} />
           ) : null}
-          <Text style={{ fontSize: 16, padding: 10 }}>{message}</Text>
+          <Text style={{ fontSize: 16, color: 'white', padding: 5 }}>{message}</Text>
         </View>
       </View>
     );
@@ -201,7 +214,7 @@ function Message(props) {
             placeholder="Your message..."
             value={text}
           />
-          <Icon name="arrow-up" size={25} style={styles.sendIcon} onPress={sendMessage} />
+          <Icon name="paper-plane" size={25} style={styles.sendIcon} onPress={sendMessage} />
         </View>
       </View>
     </View>
@@ -221,12 +234,18 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    borderColor: AppStyles.color.pulsive,
+    borderColor: 'transparent', // Set border color to transparent
     borderWidth: 1,
     color: AppStyles.color.text,
     flex: 1,
     borderRadius: 15,
-    paddingLeft: 15
+    paddingLeft: 15,
+    backgroundColor: 'white', // Add a white background color
+    shadowColor: 'black', // Black shadow
+    shadowOffset: { width: 0, height: 4 }, // Shadow offset
+    shadowOpacity: 0.5, // Shadow opacity
+    shadowRadius: 4, // Shadow radius
+    elevation: 4 // Elevation for Android
   },
   messagesList: {
     marginBottom: 100

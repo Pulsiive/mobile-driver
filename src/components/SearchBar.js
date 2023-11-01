@@ -1,20 +1,8 @@
 import React, { useState } from 'react';
-import {
-  FlatList,
-  Modal,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View
-} from 'react-native';
+import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { AppStyles, useTheme } from '../AppStyles';
 import Icon from 'react-native-vector-icons/Entypo';
-import ButtonCommon from './ButtonCommon';
 import Separator from './Separator';
-import FloatingButton from './FloatingButton';
-import TextTitle from './TextTitle';
 import ButtonConditional from './ButtonConditional';
 
 {

@@ -41,6 +41,7 @@ import Panier from '../screens/payment/Panier';
 import PaymentHistory from '../screens/payment/History';
 import InitLinkComponent from '../components/InitLinkComponent';
 import StationInformations from '../screens/station/StationInformations';
+import PromoCodesPage from '../screens/promo/Codepromo';
 
 import Components from '../screens/components/Components';
 import CustomHeader from '../AppStyles';
@@ -135,8 +136,8 @@ const HomeStack = () => {
         options={{
           headerShown: true,
           headerTitle: 'Contact',
-          headerStyle: { backgroundColor: 'black' },
-          headerTitleStyle: { color: 'white', fontWeight: 'bold' }
+          headerStyle: { backgroundColor: 'white' },
+          headerTitleStyle: { color: 'black', fontWeight: 'bold' }
         }}
       />
     </Stack.Navigator>
@@ -161,6 +162,7 @@ const ProfilStack = () => {
         }}
       />
       <Stack.Screen name="Notification" component={NotificationScreen} />
+      <Stack.Screen name="PromoCodesPage" component={PromoCodesPage} />
       <Stack.Screen name="Profile" component={Profile} />
       <Stack.Screen name="Components" component={Components} />
     </Stack.Navigator>
@@ -447,7 +449,14 @@ const RootNavigator = () => (
       options={{ headerShown: false }}
     />
     <Stack.Screen name="DrawerStack" component={DrawerStack} />
-    <Stack.Screen name="StationRating" component={StationRating} />
+    <Stack.Screen
+      name="StationRating"
+      component={StationRating}
+      options={{
+        headerShown: true,
+        header: ({ navigation }) => <CustomHeader navigation={navigation} />
+      }}
+    />
     <Stack.Screen name="BookingPlanning" component={BookingPlanning} />
     <Stack.Screen name="PaymentUICustomScreen" component={PaymentsUICustomScreen} />
     <Stack.Screen name="Panier" component={Panier} options={{ headerShown: false }} />
