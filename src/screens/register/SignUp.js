@@ -12,6 +12,7 @@ import {
   ModalSwipeUp
 } from '../../components';
 import { useFocusEffect } from '@react-navigation/native';
+import messaging from '@react-native-firebase/messaging';
 
 function SignUp({ navigation }) {
   const { AppColor } = useTheme();
@@ -54,12 +55,14 @@ function SignUp({ navigation }) {
     setError('');
     setLoading(true);
     try {
+      const fcmToken = await messaging().getToken();
       const userInput = {
         email: email,
         firstName: firstName,
         lastName: name,
         password: password,
-        dateOfBirth: '2022-09-09T20:32:54.003Z'
+        dateOfBirth: '2022-09-09T20:32:54.003Z',
+        fcmToken
       };
       const res = await api.send('POST', '/api/v1/auth/register', userInput, false);
 

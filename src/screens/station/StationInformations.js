@@ -17,6 +17,7 @@ import Icon from 'react-native-vector-icons/Entypo';
 import Comment from './comment/Comment';
 
 import style from './style';
+import ProfilePicture from '../../components/ProfilePicture';
 
 function ReviewsModal({ visible, station, onClose, navigation }) {
   return (
@@ -173,15 +174,15 @@ function StationInformations({ route, navigation }) {
                   style={{ width: '30%', alignItems: 'center' }}
                   onPress={() =>
                     navigation.navigate('Owner', {
-                      imageUri: `https://ucarecdn.com/${station.owner.profilePictureId}/`,
+                      imageUri: station.owner.profilePictureId,
                       name: `${station.owner.firstName} ${station.owner.lastName}`,
                       userId: station.owner.id
                     })
                   }
                 >
-                  <Image
-                    style={{ width: 50, height: 50, borderRadius: 40 }}
-                    source={{ uri: `https://ucarecdn.com/${station.owner.profilePictureId}/` }}
+                  <ProfilePicture
+                    profilePictureId={station.owner.profilePictureId}
+                    borderRadius={40}
                   />
                 </TouchableOpacity>
               </View>

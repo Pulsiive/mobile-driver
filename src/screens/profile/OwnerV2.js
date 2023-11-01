@@ -18,6 +18,7 @@ import { AppIcon } from '../../AppStyles';
 import Station from '../station/Station';
 import { getUser, useUserUpdate } from '../../contexts/UserContext';
 import { showMessage } from 'react-native-flash-message';
+import ProfilePicture from '../../components/ProfilePicture';
 
 const renderRating = (rating, isComment = false) => {
   const stars = new Array(rating.rate).fill(<Icon name="star" size={20} color={'orange'} />);
@@ -56,7 +57,7 @@ const renderRating = (rating, isComment = false) => {
   );
 };
 
-function ProfileHeader({ userName, userRate, userId, profilePictureUri, navigation }) {
+function ProfileHeader({ userName, userRate, userId, profilePictureId, navigation }) {
   const user = getUser(); //this is the object of the current user using the app
   const updateUser = useUserUpdate();
 
@@ -122,12 +123,12 @@ function ProfileHeader({ userName, userRate, userId, profilePictureUri, navigati
       </View>
       <View style={styles.top}>
         <View style={styles.badge}>
-          <Image
-            style={{ height: 100 + '%', width: 100 + '%', borderRadius: 50 }}
-            source={{
-              uri: profilePictureUri
-            }}
-          ></Image>
+          <ProfilePicture
+            profilePictureId={profilePictureId}
+            height="100%"
+            width="100%"
+            borderRadius={50}
+          />
         </View>
         <View style={styles.borderBagde}></View>
       </View>
@@ -241,7 +242,7 @@ function OwnerV2({ navigation }) {
       <ProfileHeader
         userName={name}
         userId={userId}
-        profilePictureUri={imageUri}
+        profilePictureId={imageUri}
         navigation={navigation}
       />
       <ActivityIndicator size="small" color="white" />
@@ -252,7 +253,7 @@ function OwnerV2({ navigation }) {
         userName={name}
         userId={userId}
         userRate={userRate}
-        profilePictureUri={imageUri}
+        profilePictureId={imageUri}
         navigation={navigation}
       />
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 15 }}>

@@ -15,6 +15,7 @@ import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import FormData from 'form-data';
 import { showMessage } from 'react-native-flash-message';
 import { getUser, useUserUpdate } from '../../contexts/UserContext';
+import ProfilePicture from '../../components/ProfilePicture';
 
 function Profile() {
   const user = getUser();
@@ -141,9 +142,11 @@ function Profile() {
         <FloatingCard>
           <View style={styles.profilePicture}>
             {user.firstName && (
-              <Image
-                style={{ width: 100, height: 100, borderRadius: 70 }}
-                source={{ uri: `https://ucarecdn.com/${user.profilePictureId}/` }}
+              <ProfilePicture
+                width={100}
+                height={100}
+                borderRadius={100}
+                profilePictureId={user.profilePictureId}
               />
             )}
           </View>

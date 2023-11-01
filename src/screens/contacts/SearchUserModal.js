@@ -12,6 +12,7 @@ import {
 import api from '../../db/Api';
 import Icon from 'react-native-vector-icons/Entypo';
 import { getUser, useUserUpdate } from '../../contexts/UserContext';
+import ProfilePicture from '../../components/ProfilePicture';
 
 function SearchUserModal({ onClose, searchKey }) {
   const user = getUser();
@@ -86,12 +87,7 @@ function SearchUserModal({ onClose, searchKey }) {
             return (
               <View style={{ alignItems: 'center' }} key={user.id}>
                 <View style={styles.modalFoundUsersContainer}>
-                  <Image
-                    style={{ width: 50, height: 50, borderRadius: 50 }}
-                    source={{
-                      uri: 'https://robohash.org/maioresaliquidvitae.png?size=40x40&set=set1'
-                    }}
-                  ></Image>
+                  <ProfilePicture profilePictureId={user.profilePictureId} borderRadius={50} />
                   <View
                     style={{
                       flexDirection: 'column',
