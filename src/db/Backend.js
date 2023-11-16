@@ -80,6 +80,11 @@ class Backend {
   async createStripePaymentIntent() {
     return await API.send('POST', '/api/v1/payment-request', null, true);
   }
+
+  getUserFromId = async (id) => {
+    const res = await API.send('GET', `/api/v1/user/${id}`, null, true);
+    return res;
+  };
 }
 
 const service = new Backend();

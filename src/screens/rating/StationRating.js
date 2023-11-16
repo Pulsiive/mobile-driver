@@ -27,6 +27,7 @@ import {
   InputField,
   ModalSwipeUp,
   Separator,
+  TextSubTitle,
   TextTitle
 } from '../../components';
 
@@ -238,10 +239,9 @@ const StationRatingScreen = ({ route, navigation }) => {
               alignItems: 'center'
             }}
           >
-            <TextTitle
+            <TextSubTitle
               title="Merci pour votre aide !"
               style={{
-                margin: 0,
                 marginBottom: 15
               }}
             />

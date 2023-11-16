@@ -65,11 +65,9 @@ function Chats() {
           showsVerticalScrollIndicator={false}
         />
       )}
-      <Animatable.View animation="bounce" iterationCount="infinite">
       <TouchableOpacity style={styles.roundButton1} onPress={() => setNewChatModalIsOpen(true)}>
         <Icon name="circle-with-plus" size={20} color={'white'} />
       </TouchableOpacity>
-      </Animatable.View> 
       <Modal
         animationType="slide"
         visible={newChatModalIsOpen}

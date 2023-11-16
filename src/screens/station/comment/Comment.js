@@ -68,7 +68,7 @@ const CommentBody = ({ comment, displayPictures, customStyle, isResponse }) => {
             <Text
               style={{
                 color: AppColor.text,
-                fontSize: AppStyles.fontSize.content,
+                fontSize: AppStyles.fontSize.subTitle,
                 fontWeight: '500'
               }}
             >
@@ -87,7 +87,9 @@ const CommentBody = ({ comment, displayPictures, customStyle, isResponse }) => {
         </View>
       </View>
       <View style={{ marginVertical: 10 }}>
-        <Text style={{ color: AppColor.text, fontSize: AppStyles.fontSize.normal }}>{message}</Text>
+        <Text style={{ color: AppColor.text, fontSize: AppStyles.fontSize.content }}>
+          {message}
+        </Text>
       </View>
 
       {comment.pictures && displayPictures && (

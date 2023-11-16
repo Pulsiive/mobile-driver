@@ -16,13 +16,6 @@ export default function DrawerContainer({ navigation }) {
             navigation.navigate('Stations');
           }}
         />
-        <MenuButton
-          title="Contacts"
-          source={AppIcon.images.station}
-          onPress={() => {
-            navigation.navigate('Contacts');
-          }}
-        />
       </View>
     </View>
   );

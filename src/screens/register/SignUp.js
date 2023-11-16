@@ -9,7 +9,8 @@ import {
   ButtonConditional,
   TextError,
   TextTitle,
-  ModalSwipeUp
+  ModalSwipeUp,
+  TextSubTitle
 } from '../../components';
 import { useFocusEffect } from '@react-navigation/native';
 
@@ -118,11 +119,11 @@ function SignUp({ navigation }) {
         <ModalSwipeUp
           visible={modalVisible}
           onClose={() => setModalVisible(false)}
-          title="Engagement de la communauté"
+          title="Termes et conditions"
         >
-          <TextTitle
+          <TextSubTitle
             title="Conditions générales d'utilisation de Pulsive"
-            style={{ marginLeft: 0, marginTop: 10 }}
+            style={{ margin: 20, marginLeft: 0, marginTop: 10 }}
           />
           <Text style={{ color: 'black', marginBottom: 30 }}>
             En acceptant les conditions générales d'utilisation de Pulsive, je m'engage à respecter

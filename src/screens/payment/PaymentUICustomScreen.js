@@ -104,10 +104,10 @@ export default function PaymentsUICustomScreen({ route, navigation }) {
     if (error) {
       Alert.alert(`Error code: ${error.code}`, error.message);
     } else {
-      Alert.alert('Success', 'The payment was confirmed successfully!');
       const { data, status } = await Backend.bookSlot(slot_id);
       console.log(data, status);
       if (status === 200) {
+        // Alert.alert('Success', 'The payment was confirmed successfully!');
         showMessage({
           duration: 4000,
           message: `Créneau réservé avec succès !`,
@@ -116,6 +116,16 @@ export default function PaymentsUICustomScreen({ route, navigation }) {
           backgroundColor: 'green'
         });
         navigation.navigate('PlanningStack');
+      } else if (status === 409) {
+        // Alert.alert('Success', 'The payment was confirmed successfully!');
+        showMessage({
+          duration: 4000,
+          message: `Désolé, le créneau a déjà été reservé`,
+          description: 'Vous allez ếtre redirigé sur la page de planning',
+          type: 'error',
+          backgroundColor: 'red'
+        });
+        navigation.goBack();
       }
       setPaymentSheetEnabled(false);
     }

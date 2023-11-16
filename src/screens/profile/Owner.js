@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
     paddingLeft: 50,
     paddingRight: 50,
     textAlign: 'center',
-    fontSize: AppStyles.fontSize.content,
+    fontSize: AppStyles.fontSize.subTitle,
     color: AppStyles.color.text
   },
   loginContainer: {

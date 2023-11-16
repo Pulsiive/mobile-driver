@@ -74,8 +74,14 @@ function Message(props) {
 
   const RenderHeaderSection = () => {
     return (
-      <View style={{ marginTop: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-        <Animatable.View animation="pulse" iterationCount="infinite">
+      <View
+        style={{
+          marginTop: 20,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center'
+        }}
+      >
         <TouchableOpacity
           onPress={() => onPress()}
           style={{
@@ -88,39 +94,38 @@ function Message(props) {
             shadowRadius: 4, // Shadow radius
             borderRadius: 10,
             marginHorizontal: 10,
-            elevation: 10, // Add elevation for Android
+            elevation: 10 // Add elevation for Android
           }}
         >
-          <Text style={{color: 'darkgrey', fontWeight: 'bold',}}> {name} </Text>
+          <Text style={{ color: 'darkgrey', fontWeight: 'bold' }}> {name} </Text>
         </TouchableOpacity>
-        </Animatable.View> 
 
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-        <Pressable
-          style={{
-            marginHorizontal: 5,
-            padding: 10
-          }}
-          onPress={() => Alert.alert('You have reported this user')}
-        >
-          <Icon name="warning" size={20} color="grey" />
-        </Pressable>
-        <Pressable
-          style={{
-            marginHorizontal: 5,
-            padding: 10
-          }}
-          onPress={() => Alert.alert('You have deleted this conversation')}
-        >
-          <Icon name="trash" size={20} color="grey" />
-        </Pressable>
-      </View>
+          <Pressable
+            style={{
+              marginHorizontal: 5,
+              padding: 10
+            }}
+            onPress={() => Alert.alert('You have reported this user')}
+          >
+            <Icon name="warning" size={20} color="grey" />
+          </Pressable>
+          <Pressable
+            style={{
+              marginHorizontal: 5,
+              padding: 10
+            }}
+            onPress={() => Alert.alert('You have deleted this conversation')}
+          >
+            <Icon name="trash" size={20} color="grey" />
+          </Pressable>
+        </View>
       </View>
     );
   };
 
   const renderMessage = (id, message, isMe, img) => {
-    const bgColor = isMe ? '#39e600' : '#d9d9d9';
+    const bgColor = isMe ? '#81CD2C' : '#d9d9d9';
     const alignment = isMe ? 'flex-end' : 'flex-start';
     const flexAlignment = isMe ? 'column' : 'row';
     const radius = isMe ? { borderTopLeftRadius: 80 } : { borderBottomRightRadius: 80 };
@@ -137,7 +142,7 @@ function Message(props) {
           shadowOffset: { width: 0, height: 2 },
           shadowOpacity: 0.2,
           shadowRadius: 2,
-          elevation: 2,
+          elevation: 2
         }}
       >
         {isMe ? null : (
@@ -148,7 +153,7 @@ function Message(props) {
                 width: 50,
                 height: 50,
                 borderRadius: 25,
-                marginRight: 10,
+                marginRight: 10
               }}
             />
           </TouchableOpacity>
@@ -161,7 +166,7 @@ function Message(props) {
             borderBottomLeftRadius: 80,
             ...radius, // Border radius applied here
             padding: 10,
-            overflow: 'hidden',
+            overflow: 'hidden'
           }}
         >
           {img ? (
@@ -243,7 +248,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 4 }, // Shadow offset
     shadowOpacity: 0.5, // Shadow opacity
     shadowRadius: 4, // Shadow radius
-    elevation: 4, // Elevation for Android
+    elevation: 4 // Elevation for Android
   },
   messagesList: {
     marginBottom: 100

@@ -127,18 +127,16 @@ const FetchInfo = ({ date, stationId, setSlot, setModalVisible }) => {
                 key={plan.slotId}
               >
                 <View>
-                  <Image style={styles.picture} source={{ uri: plan.picture }}></Image>
-                  <Text style={styles.name}>{plan.slotId}</Text>
+                  {/* <Image style={styles.picture} source={{ uri: plan.picture }}></Image> */}
+                  <Text style={styles.name}>{plan.date}</Text>
                   <View style={styles.firstRow}>
                     <Image style={styles.rendCalendar} source={AppIcon.images.calendar}></Image>
-                    <Text style={styles.Txtduration}>
-                      {plan.date} - {plan.Hour}
-                    </Text>
+                    <Text style={styles.Txtduration}>{plan.Hour}</Text>
                   </View>
-                  <View style={styles.secondRow}>
+                  {/* <View style={styles.secondRow}>
                     <Image style={styles.rendbill} source={AppIcon.images.bill}></Image>
                     <Text style={styles.Txtbill}>{plan.content}</Text>
-                  </View>
+                  </View> */}
                 </View>
               </Animated.View>
             </Pressable>
@@ -164,7 +162,7 @@ const styles = StyleSheet.create({
     color: 'white',
     position: 'absolute',
     fontWeight: '700',
-    fontSize: 15,
+    fontSize: 20,
     top: -20,
     marginLeft: 20
   },
@@ -191,8 +189,8 @@ const styles = StyleSheet.create({
     overflow: 'hidden'
   },
   rendCalendar: {
-    width: 14,
-    height: 11,
+    width: 18,
+    height: 16,
     top: 4
   },
   firstRow: {
@@ -203,6 +201,7 @@ const styles = StyleSheet.create({
   },
   Txtduration: {
     marginLeft: 10,
+    fontSize: 18,
     color: 'white'
   },
   secondRow: {

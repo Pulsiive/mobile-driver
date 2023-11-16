@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { View, ActivityIndicator, Modal, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import FetchContact from './FetchContact';
 import SearchUserModal from './SearchUserModal';
+import { AppIcon, AppStyles, useTheme } from '../../AppStyles';
+import { ButtonCommon, FloatingButton, ModalSwipeUp, Separator, TextTitle } from '../../components';
 
 function Contact({ navigation }) {
+  const { AppColor } = useTheme();
+
   const [addContactModalIsOpen, setAddContactModalIsOpen] = useState(false);
   const [searchUserModalIsOpen, setSearchUserModalIsOpen] = useState(false);
   const [searchKey, setSearchKey] = useState('');
@@ -13,107 +17,76 @@ function Contact({ navigation }) {
     <View
       style={{
         flex: 1,
-        alignItems: 'center',
-        top: 0 + '%',
-        backgroundColor: 'white'
+        backgroundColor: AppColor.background,
+        paddingTop: 60,
+        paddingHorizontal: 20
       }}
     >
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={addContactModalIsOpen}
-        onRequestClose={() => setAddContactModalIsOpen(false)}
+      <TextTitle title="Vos contacts" style={{ fontWeight: 'bold', marginLeft: 10 }} />
+      <Separator style={{ marginTop: 0, marginBottom: 10 }} />
+      {/* <View
+        style={{
+          zIndex: 20,
+          position: 'absolute',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: 40,
+          height: 40,
+          borderRadius: 100,
+          backgroundColor: AppColor.bottomColor,
+          bottom: 15,
+          right: 15
+        }}
       >
-        <View style={styles.modalContainer}>
-          <View style={{ marginBottom: 10 }}>
-            <TouchableOpacity
-              onPress={() => {
-                setAddContactModalIsOpen(false);
-              }}
-            >
-              <Icon name="cross" size={30} color="white" />
-            </TouchableOpacity>
-          </View>
+        <TouchableOpacity onPress={() => setAddContactModalIsOpen(true)}>
+          <Icon name="plus" size={20} color={AppColor.subText} />
+        </TouchableOpacity>
+      </View> */}
+      <ModalSwipeUp
+        visible={addContactModalIsOpen}
+        onClose={() => setAddContactModalIsOpen(false)}
+        closeButton={true}
+        title="Ajoutez un contact"
+      >
+        <ButtonCommon
+          title="Via son mail"
+          onPress={() => {
+            setAddContactModalIsOpen(false);
+            setSearchKey('email');
+            setSearchUserModalIsOpen(true);
+          }}
+        />
+        <ButtonCommon
+          title="Via son nom de famille"
+          onPress={() => {
+            setAddContactModalIsOpen(false);
+            setSearchKey('last_name');
+            setSearchUserModalIsOpen(true);
+          }}
+        />
+        <ButtonCommon
+          title="Via son prénom"
+          onPress={() => {
+            setAddContactModalIsOpen(false);
+            setSearchKey('first_name');
+            setSearchUserModalIsOpen(true);
+          }}
+          style={{ marginBottom: 30 }}
+        />
+      </ModalSwipeUp>
 
-          <View style={styles.modalSearchByContainer}>
-            <View>
-              <TouchableOpacity
-                onPress={() => {
-                  setAddContactModalIsOpen(false);
-                  setSearchKey('email');
-                  setSearchUserModalIsOpen(true);
-                }}
-              >
-                <View style={styles.modalSearchBy}>
-                  <Icon name="email" size={25} color={'white'} />
-                  <Text style={styles.modalText}>Add by email</Text>
-                </View>
-              </TouchableOpacity>
-            </View>
-            <View>
-              <TouchableOpacity
-                onPress={() => {
-                  setAddContactModalIsOpen(false);
-                  setSearchKey('last_name');
-                  setSearchUserModalIsOpen(true);
-                }}
-              >
-                <View style={styles.modalSearchBy}>
-                  <Icon name="fingerprint" size={25} color={'white'} />
-                  <Text style={styles.modalText}>Add by last name</Text>
-                </View>
-              </TouchableOpacity>
-            </View>
-            <View>
-              <TouchableOpacity
-                onPress={() => {
-                  setAddContactModalIsOpen(false);
-                  setSearchKey('first_name');
-                  setSearchUserModalIsOpen(true);
-                }}
-              >
-                <View style={styles.modalSearchBy}>
-                  <Icon name="man" size={25} color={'white'} />
-                  <Text style={styles.modalText}>Add by first name</Text>
-                </View>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      </Modal>
       {searchUserModalIsOpen && (
         <SearchUserModal onClose={() => setSearchUserModalIsOpen(false)} searchKey={searchKey} />
       )}
-      <TouchableOpacity onPress={() => setAddContactModalIsOpen(true)}>
-        <Icon name="add-user" size={30} color={'black'} />
-      </TouchableOpacity>
+
       <FetchContact navigation={navigation}></FetchContact>
+      <FloatingButton
+        icon="plus"
+        style={{ bottom: 15, right: 15, backgroundColor: AppColor.bottomColor }}
+        onPress={() => setAddContactModalIsOpen(true)}
+      />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  modalContainer: {
-    padding: 10,
-    paddingTop: 30,
-    top: 0,
-    width: '100%',
-    height: '20%',
-    backgroundColor: 'rgba(52, 52, 52, 0.95)'
-  },
-  modalSearchByContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around'
-  },
-  modalSearchBy: {
-    flexDirection: 'column',
-    alignItems: 'center'
-  },
-  modalText: {
-    marginTop: 5,
-    fontSize: 12,
-    color: 'white'
-  }
-});
 
 export default Contact;

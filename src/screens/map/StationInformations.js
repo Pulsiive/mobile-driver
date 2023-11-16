@@ -7,7 +7,7 @@ import IconAwesome from 'react-native-vector-icons/FontAwesome';
 import api from '../../db/Api';
 
 import { getUser, useUserUpdate } from '../../contexts/UserContext';
-import { FloatingButton, TextTitle } from '../../components';
+import { FloatingButton, TextSubTitle, TextTitle } from '../../components';
 
 function StationInformations({ station, navigation }) {
   const { AppColor } = useTheme();
@@ -60,7 +60,11 @@ function StationInformations({ station, navigation }) {
       >
         <View style={{ flex: 1, minHeight: '60%' }}>
           <Image
-            source={AppIcon.images.stationInformationsModal}
+            source={
+              station.properties.isPublic
+                ? AppIcon.images.stationInformationsModal
+                : AppIcon.images.stationPrivate
+            }
             style={{
               width: '100%',
               height: '100%',
@@ -83,13 +87,13 @@ function StationInformations({ station, navigation }) {
         <View style={{ padding: 10, paddingHorizontal: 15 }}>
           <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
             <View style={{ flex: 1 }}>
-              <TextTitle
+              <TextSubTitle
                 title={
                   station.properties.isPublic
                     ? station.coordinates.address
                     : `Borne de ${station.owner.firstName}`
                 }
-                style={{ fontSize: AppStyles.fontSize.normal, margin: 0 }}
+                style={{ fontSize: AppStyles.fontSize.contentTitle }}
               />
             </View>
             {station.rates.length > 0 && (
@@ -126,93 +130,6 @@ function StationInformations({ station, navigation }) {
         </View>
       </Pressable>
     </View>
-
-    // <View
-    //   style={{
-    //     width: '94%',
-    //     backgroundColor: AppColor.background,
-    //     height: '20%',
-    //     borderRadius: 10,
-    //     marginHorizontal: '3%',
-    //     bottom: '2%',
-    //     position: 'absolute',
-    //     padding: 5,
-    //     elevation: 3
-    //   }}
-    // >
-    //   <Pressable
-    //     onPress={() =>
-    //       navigation.navigate('StationInformations', {
-    //         station
-    //       })
-    //     }
-    //   >
-    //     <View style={{ flexDirection: 'row' }}>
-    //       <View style={{ width: '30%' }}>
-    //         <Image
-    //           source={AppIcon.images.stationInformationsModal}
-    //           style={{
-    //             width: '100%',
-    //             height: '100%',
-    //             borderTopLeftRadius: 10,
-    //             borderBottomLeftRadius: 10
-    //           }}
-    //         />
-    //       </View>
-    //       <View style={{ width: '65%', marginLeft: 15 }}>
-    //         <View
-    //           style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 5 }}
-    //         >
-    //           <TextTitle
-    //             title={
-    //               station.properties.isPublic
-    //                 ? station.coordinates.address
-    //                 : `Borne de ${station.owner.firstName}`
-    //             }
-    //             style={{ fontSize: AppStyles.fontSize.normal, margin: 0 }}
-    //           />
-    //           <Pressable onPress={onHeartPressed}>
-    //             <Icon
-    //               name={isFavorite ? 'heart' : 'heart-outlined'}
-    //               size={22}
-    //               color={AppColor.pulsive}
-    //             />
-    //           </Pressable>
-    //         </View>
-    //         <View style={{ flex: 1, justifyContent: 'flex-end' }}>
-    //           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-    //             <Icon name="flow-branch" size={18} color={AppColor.icon} />
-    //             <Text style={{ color: AppColor.icon, marginLeft: 3, marginBottom: 2 }}>
-    //               {station.properties.plugTypes.toString().length == 0
-    //                 ? 'no data'
-    //                 : station.properties.plugTypes.toString()}
-    //             </Text>
-    //           </View>
-    //           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-    //             <Icon name="flash" size={18} color={AppColor.icon} />
-    //             <Text style={{ color: AppColor.icon, marginLeft: 3, marginBottom: 2 }}>
-    //               {station.properties.maxPower} kWh
-    //             </Text>
-    //           </View>
-    //           {station.rate !== 0 && (
-    //             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-    //               <Icon name="star" size={18} color={AppColor.icon} />
-    //               <Text style={{ color: AppColor.icon, marginLeft: 3, marginBottom: 2 }}>
-    //                 {station.rate}
-    //               </Text>
-    //             </View>
-    //           )}
-    //           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-    //             <Icon name="credit" size={18} color={AppColor.icon} />
-    //             <Text style={{ color: AppColor.icon, marginLeft: 3, marginBottom: 2 }}>
-    //               {station.properties.price} / heure
-    //             </Text>
-    //           </View>
-    //         </View>
-    //       </View>
-    //     </View>
-    //   </Pressable>
-    // </View>
   );
 }
 

@@ -19,17 +19,15 @@ const FloatingButton = ({ style, icon, iconColor, onPress }) => {
       position: 'absolute',
       width: 50,
       height: 50,
-      backgroundColor: AppColor.background,
-      borderColor: AppColor.bottomColor,
+      backgroundColor: AppColor.bottomColor,
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: AppColor.background,
       borderRadius: 100,
-      elevation: 3,
+      elevation: 2,
       shadowColor: AppColor.title,
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.3,
-      shadowRadius: 4
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.25,
+      shadowRadius: 1.5
     }
   });
 
