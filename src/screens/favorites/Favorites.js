@@ -31,9 +31,11 @@ const Favorites = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={[AppStyles.container, { backgroundColor: AppColor.background }]}>
+    <SafeAreaView
+      style={[AppStyles.container, { backgroundColor: AppColor.background, paddingTop: 30 }]}
+    >
       <ScrollView>
-        <TextTitle title="Vos favorites" style={{ paddingVertical: 10 }} />
+        <TextTitle title="Vos favorites" style={{ paddingBottom: 10 }} />
         <View>
           {user.favoriteStations.map((station) => {
             return (
@@ -110,24 +112,26 @@ const Favorites = ({ navigation }) => {
                         par heure
                       </Text>
                       <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
-                        <FloatingButton
-                          icon="new-message"
-                          iconColor={AppColor.title}
-                          style={{
-                            top: -32,
-                            right: 0,
-                            width: 40,
-                            height: 40
-                          }}
-                          onPress={() => navigateToStationScreen(true, station.id)}
-                        />
+                        {station.properties.isPublic && (
+                          <FloatingButton
+                            icon="new-message"
+                            iconColor={AppColor.title}
+                            style={{
+                              top: -32,
+                              right: 0,
+                              width: 40,
+                              height: 40
+                            }}
+                            onPress={() => navigateToStationScreen(true, station.id)}
+                          />
+                        )}
                         {!station.properties.isPublic && (
                           <FloatingButton
                             icon="calendar"
                             iconColor={AppColor.title}
                             style={{
                               top: -32,
-                              right: 50,
+                              right: 0,
                               width: 40,
                               height: 40
                             }}

@@ -152,17 +152,6 @@ export const AppStyles = {
 
   container: {
     flex: 1
-  },
-
-  containerHeader: {
-    paddingTop: 50
-  },
-
-  //------------- à enlever à la fin -------------------
-  borderRadius: 25,
-
-  textInputWidth: {
-    main: '80%'
   }
 };
 

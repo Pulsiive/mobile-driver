@@ -65,7 +65,7 @@ function NotificationScreen({ navigation }) {
   return (
     <ScrollView style={[AppStyles.container, { backgroundColor: AppColor.background }]}>
       {profile && (
-        <View style={AppStyles.containerHeader}>
+        <View style={{ paddingTop: 50 }}>
           <TextSubTitle title="Gérer vos notifications" style={{ margin: 20 }} />
           <ButtonConditional
             title="Alertes"

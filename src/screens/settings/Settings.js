@@ -215,8 +215,10 @@ function Settings({ navigation }) {
   };
 
   return (
-    <ScrollView style={[AppStyles.container, { backgroundColor: AppColor.background }]}>
-      <TextTitle title="Profil" style={{ marginTop: 50 }} />
+    <ScrollView
+      style={[AppStyles.container, { backgroundColor: AppColor.background, paddingTop: 30 }]}
+    >
+      <TextTitle title="Profil" />
       <ButtonTouchable
         title={
           profile && profile.firstName && profile.lastName

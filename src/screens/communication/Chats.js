@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderStyle: 'solid',
     borderColor: AppStyles.color.grey,
-    borderRadius: AppStyles.borderRadius
+    borderRadius: 25
   },
   input: {
     height: 42,

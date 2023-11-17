@@ -138,7 +138,7 @@ function Profile() {
 
   return (
     <ScrollView style={[AppStyles.container, { backgroundColor: AppColor.background }]}>
-      <View style={AppStyles.containerHeader}>
+      <View style={{ paddingTop: 50 }}>
         <FloatingCard>
           <View style={styles.profilePicture}>
             {user.firstName && (

@@ -163,13 +163,13 @@ const styles = StyleSheet.create({
     paddingLeft: 50,
     paddingRight: 50,
     textAlign: 'center',
-    fontSize: AppStyles.fontSize.subTitle,
+    fontSize: AppStyles.fontSize.content,
     color: AppStyles.color.text
   },
   loginContainer: {
     width: AppStyles.buttonWidth,
     backgroundColor: AppStyles.color.pulsive,
-    borderRadius: AppStyles.borderRadius,
+    borderRadius: 25,
     padding: 10,
     marginTop: 30
   },
@@ -180,12 +180,12 @@ const styles = StyleSheet.create({
     color: 'red'
   },
   InputContainer: {
-    width: AppStyles.textInputWidth.main,
+    width: '80%',
     marginTop: 30,
     borderWidth: 1,
     borderStyle: 'solid',
     borderColor: AppStyles.color.grey,
-    borderRadius: AppStyles.borderRadius
+    borderRadius: 25
   },
   body: {
     height: 42,
@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
   stationButton: {
     width: 200,
     backgroundColor: AppStyles.color.pulsive,
-    borderRadius: AppStyles.borderRadius,
+    borderRadius: 25,
     padding: 10,
     position: 'absolute',
     bottom: 70
@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
   shareButton: {
     width: 200,
     backgroundColor: AppStyles.color.text,
-    borderRadius: AppStyles.borderRadius,
+    borderRadius: 25,
     padding: 10,
     position: 'absolute',
     bottom: 20
@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
   calendarButton: {
     width: 200,
     backgroundColor: AppStyles.color.facebook,
-    borderRadius: AppStyles.borderRadius,
+    borderRadius: 25,
     padding: 10,
     position: 'absolute',
     bottom: 120
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
   rateButton: {
     width: 200,
     backgroundColor: AppStyles.color.text,
-    borderRadius: AppStyles.borderRadius,
+    borderRadius: 25,
     padding: 10,
     marginBottom: 10
   },

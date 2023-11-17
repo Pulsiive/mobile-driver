@@ -234,34 +234,26 @@ function StationInformations({ route, navigation }) {
               {station.rates.length > 0 ? (
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <IconAwesome name="star" size={26} color={AppColor.text} />
-                  <Text
+                  <TextSubTitle
+                    title={station.rate + ' · '}
                     style={{
-                      fontSize: AppStyles.fontSize.title,
-                      fontWeight: '500',
-                      marginHorizontal: 5,
-                      color: AppColor.text
+                      marginLeft: 5
                     }}
-                  >
-                    {station.rate} ·
-                  </Text>
+                  />
                 </View>
               ) : (
-                <Text style={{ color: AppColor.subText }}>Aucune note ·</Text>
+                <Text style={{ color: AppColor.subText }}>Aucune note · </Text>
               )}
               {station.rates.length > 0 ? (
-                <Text
-                  style={{
-                    fontSize: AppStyles.fontSize.title,
-                    fontWeight: '500',
-                    color: AppColor.subText
-                  }}
-                >
-                  {station.rates.length > 1
-                    ? station.rates.length + ' commentaires'
-                    : '1 comentaire'}
-                </Text>
+                <TextSubTitle
+                  title={
+                    station.rates.length > 1
+                      ? station.rates.length + ' commentaires'
+                      : '1 comentaire'
+                  }
+                />
               ) : (
-                <Text style={{ color: AppColor.subText }}> Aucun commentaire </Text>
+                <Text style={{ color: AppColor.subText }}>Aucun commentaire </Text>
               )}
             </View>
           )}

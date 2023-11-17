@@ -5,6 +5,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import Backend from '../../db/Backend';
 import Icon from 'react-native-vector-icons/Entypo';
 import {
+  AnimatedLoading,
   Badge,
   ButtonCommon,
   FilterTab,
@@ -77,6 +78,7 @@ function Planning({ navigation }) {
   const [reservationsFetch, setReservationsFetch] = useState([]);
   const [reservations, setReservations] = useState([]);
   const [filter, setFilter] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   function formatReservationDate(dateString) {
     const date = parseISO(dateString);
@@ -111,7 +113,7 @@ function Planning({ navigation }) {
               };
             })
           );
-          console.log(JSON.stringify(slotParsed, null, '\t'));
+          // console.log(JSON.stringify(slotParsed, null, '\t'));
           setReservationsFetch(slotParsed);
         } else {
           throw new Error(`Erreur lors de la récupération des réservations : ${res.status}`);
@@ -119,6 +121,8 @@ function Planning({ navigation }) {
       } catch (e) {
         console.error(e);
         alert('Une erreur est survenue lors de la récupération des réservations.');
+      } finally {
+        setLoading(false);
       }
     }
     fetchReservations();
@@ -175,20 +179,26 @@ function Planning({ navigation }) {
               style={{ marginBottom: 0, marginHorizontal: 0, marginTop: 30 }}
             />
           </View>
-          {reservations.length == 0 ? (
-            <View style={{ marginHorizontal: 20, marginTop: 0 }}>
-              <TextSubTitle title="Rien à voir... pour l'instant !" style={{ marginTop: 30 }} />
-              <TextContent
-                title="Il n'est jamais trop tard pour remplir votre planning de réservations"
-                style={{ marginTop: 10 }}
-              />
-            </View>
+          {loading ? (
+            <AnimatedLoading style={{ backgroundColor: AppColor.title, marginTop: 20 }} />
           ) : (
-            <ScrollView>
-              {reservations.map((plan) => (
-                <ReservationCard reservations={plan} />
-              ))}
-            </ScrollView>
+            <>
+              {reservations.length == 0 ? (
+                <View style={{ marginHorizontal: 20, marginTop: 0 }}>
+                  <TextSubTitle title="Rien à voir... pour l'instant !" style={{ marginTop: 30 }} />
+                  <TextContent
+                    title="Il n'est jamais trop tard pour remplir votre planning de réservations"
+                    style={{ marginTop: 10 }}
+                  />
+                </View>
+              ) : (
+                <ScrollView>
+                  {reservations.map((plan) => (
+                    <ReservationCard key={plan.id} reservations={plan} />
+                  ))}
+                </ScrollView>
+              )}
+            </>
           )}
         </>
       ) : (

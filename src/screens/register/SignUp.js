@@ -115,7 +115,7 @@ function SignUp({ navigation }) {
 
   return (
     <ScrollView style={[AppStyles.container, { backgroundColor: AppColor.background }]}>
-      <View style={AppStyles.containerHeader}>
+      <View style={{ paddingTop: 50 }}>
         <ModalSwipeUp
           visible={modalVisible}
           onClose={() => setModalVisible(false)}
