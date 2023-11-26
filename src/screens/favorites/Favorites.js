@@ -1,21 +1,27 @@
 import React from 'react';
-import Button from 'react-native-button';
-import { View, StyleSheet, Text, ActivityIndicator, Image } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/Entypo';
+import IconAwesome from 'react-native-vector-icons/FontAwesome';
 
-import { AppIcon, AppStyles } from '../../AppStyles';
+import { AppIcon, AppStyles, useTheme } from '../../AppStyles';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { getUser } from '../../contexts/UserContext';
+import {
+  FloatingButton,
+  FloatingNormalCard,
+  TextContent,
+  TextSubTitle,
+  TextTitle
+} from '../../components';
 
 const Favorites = ({ navigation }) => {
   const user = getUser();
+  const { AppColor } = useTheme();
 
-  const images = [AppIcon.images.charger1, AppIcon.images.charger2, AppIcon.images.charger3];
-
-  const navigateToStationRatingScreen = (stationId) => {
-    navigation.navigate('StationRating', { stationId });
+  const navigateToStationScreen = (rate, stationId) => {
+    navigation.navigate(rate ? 'StationRating' : 'BookingPlanning', { stationId });
   };
 
   const navigateToStationInformations = (station) => {
@@ -25,51 +31,118 @@ const Favorites = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView>
+    <SafeAreaView
+      style={[AppStyles.container, { backgroundColor: AppColor.background, paddingTop: 30 }]}
+    >
       <ScrollView>
-        <Text style={styles.title}>Favorite stations</Text>
+        <TextTitle title="Vos favorites" style={{ paddingBottom: 10 }} />
         <View>
           {user.favoriteStations.map((station) => {
-            const stars = [];
-            for (let i = 0; i < station.rate; i++) {
-              stars.push(<Icon name="star" size={15} color={'orange'} key={i} />);
-            }
             return (
-              <View key={station.id} style={styles.listStationContainer}>
-                <View style={{ flex: 1, marginBottom: 10 }}>
-                  <TouchableOpacity onPress={() => navigateToStationInformations(station)}>
-                    <Image
-                      source={images[Math.floor(Math.random() * images.length)]}
-                      style={{ width: 100, height: '100%', borderRadius: 5 }}
-                    />
-                  </TouchableOpacity>
-                </View>
-                <View style={{ flex: 2 }}>
-                  <Text style={styles.stationTitle}>
-                    {station.coordinates.address.slice(
-                      0,
-                      station.coordinates.address.indexOf('75')
-                    )}
-                  </Text>
-                  <Text style={{ fontSize: 18 }}>{station.coordinates.city}</Text>
-                  <View style={{ flexDirection: 'row' }}>{stars}</View>
-                  <Text style={{ fontSize: 15 }}>
-                    {station.properties.isPublic ? 'Public' : 'Private'} /
-                    {station.properties.plugTypes.toString()} / {station.properties.price}
-                  </Text>
-                  <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
-                    <Button
-                      containerStyle={styles.actionButton}
-                      onPress={() => navigateToStationRatingScreen(station.id)}
-                    >
-                      <Icon name="comment" color={'white'} size={15}></Icon>
-                    </Button>
-                    <Button containerStyle={styles.actionButton}>
-                      <Icon name="calendar" color={'white'} size={15}></Icon>
-                    </Button>
+              <FloatingNormalCard
+                key={station.id}
+                style={{ paddingLeft: 0, paddingVertical: 0, marginVertical: 8 }}
+              >
+                <View style={{ flexDirection: 'row' }}>
+                  <View style={{ maxHeight: 120, height: '100%', marginRight: 10 }}>
+                    <TouchableOpacity onPress={() => navigateToStationInformations(station)}>
+                      <Image
+                        source={
+                          station.properties.isPublic
+                            ? AppIcon.images.stationInformationsModal
+                            : AppIcon.images.stationPrivate
+                        }
+                        style={{
+                          width: 100,
+                          height: '100%',
+                          borderTopLeftRadius: 20,
+                          borderBottomLeftRadius: 20
+                        }}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                  <View style={{ flex: 1, paddingVertical: 7, paddingRight: 5 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+                      <View style={{ flex: 1 }}>
+                        <TextSubTitle
+                          title={
+                            station.properties.isPublic
+                              ? station.coordinates.address
+                              : `Borne de ${station.owner.firstName}`
+                          }
+                          inLine={true}
+                          style={{ fontSize: AppStyles.fontSize.content }}
+                        />
+                      </View>
+                      {station.rates.length > 0 && (
+                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                          <IconAwesome name="star" size={14} color={AppColor.title} />
+                          <Text style={{ color: AppColor.title, marginLeft: 3, marginBottom: 2 }}>
+                            {station.rate}
+                          </Text>
+                        </View>
+                      )}
+                    </View>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                      <Icon name="flow-branch" size={18} color={AppColor.icon} />
+                      <Text style={{ color: AppColor.icon, marginLeft: 3, marginBottom: 2 }}>
+                        {station.properties.plugTypes.toString().length == 0
+                          ? 'no data'
+                          : station.properties.plugTypes.toString()}
+                      </Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                      <Icon name="flash" size={18} color={AppColor.icon} />
+                      <Text style={{ color: AppColor.icon, marginLeft: 3, marginBottom: 2 }}>
+                        {station.properties.maxPower} kWh
+                      </Text>
+                    </View>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
+                      <Text
+                        style={{
+                          color: AppColor.text,
+                          marginLeft: 3,
+                          marginBottom: 2,
+                          fontWeight: '600'
+                        }}
+                      >
+                        {station.properties.price}€
+                      </Text>
+                      <Text style={{ color: AppColor.text, marginLeft: 3, marginBottom: 2 }}>
+                        par heure
+                      </Text>
+                      <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
+                        {station.properties.isPublic && (
+                          <FloatingButton
+                            icon="new-message"
+                            iconColor={AppColor.title}
+                            style={{
+                              top: -32,
+                              right: 0,
+                              width: 40,
+                              height: 40
+                            }}
+                            onPress={() => navigateToStationScreen(true, station.id)}
+                          />
+                        )}
+                        {!station.properties.isPublic && (
+                          <FloatingButton
+                            icon="calendar"
+                            iconColor={AppColor.title}
+                            style={{
+                              top: -32,
+                              right: 0,
+                              width: 40,
+                              height: 40
+                            }}
+                            onPress={() => navigateToStationScreen(false, station.id)}
+                          />
+                        )}
+                      </View>
+                    </View>
                   </View>
                 </View>
-              </View>
+              </FloatingNormalCard>
             );
           })}
         </View>
@@ -77,41 +150,5 @@ const Favorites = ({ navigation }) => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  title: {
-    fontSize: AppStyles.fontSize.title,
-    fontWeight: 'bold',
-    color: AppStyles.color.pulsive,
-    marginTop: 20,
-    marginBottom: 20,
-    alignSelf: 'stretch',
-    textAlign: 'left',
-    marginLeft: 20
-  },
-  listStationContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    width: '95%',
-    marginLeft: 10,
-    marginBottom: 20,
-    borderBottomWidth: 0.75,
-    borderBottomColor: 'gray',
-    flexDirection: 'row',
-    justifyContent: 'center'
-  },
-  stationTitle: {
-    fontSize: 18,
-    fontWeight: 'bold'
-  },
-  actionButton: {
-    width: 35,
-    backgroundColor: AppStyles.color.pulsive,
-    borderRadius: AppStyles.borderRadius,
-    padding: 10,
-    marginRight: 10,
-    marginBottom: 10
-  }
-});
 
 export default Favorites;

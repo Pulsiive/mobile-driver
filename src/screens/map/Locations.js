@@ -100,13 +100,13 @@ const styles = StyleSheet.create({
     paddingLeft: 50,
     paddingRight: 50,
     textAlign: 'center',
-    fontSize: AppStyles.fontSize.content,
+    fontSize: AppStyles.fontSize.subTitle,
     color: AppStyles.color.text
   },
   loginContainer: {
     width: AppStyles.buttonWidth,
     backgroundColor: AppStyles.color.pulsive,
-    borderRadius: AppStyles.borderRadius,
+    borderRadius: 25,
     padding: 10,
     marginTop: 30
   },
@@ -117,12 +117,12 @@ const styles = StyleSheet.create({
     color: 'red'
   },
   InputContainer: {
-    width: AppStyles.textInputWidth.main,
+    width: '80%',
     marginTop: 30,
     borderWidth: 1,
     borderStyle: 'solid',
     borderColor: AppStyles.color.grey,
-    borderRadius: AppStyles.borderRadius
+    borderRadius: 25
   },
   body: {
     height: 42,
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
   shareButton: {
     width: 200,
     backgroundColor: AppStyles.color.facebook,
-    borderRadius: AppStyles.borderRadius,
+    borderRadius: 25,
     padding: 10,
     marginTop: 30,
     position: 'absolute',

@@ -83,25 +83,23 @@ function Message(props) {
           alignItems: 'center'
         }}
       >
-        <Animatable.View animation="pulse" iterationCount="infinite">
-          <TouchableOpacity
-            onPress={() => onPress()}
-            style={{
-              backgroundColor: 'white',
-              paddingHorizontal: 20,
-              paddingVertical: 10,
-              shadowColor: 'black',
-              shadowOffset: { width: 0, height: 4 }, // Shadow offset
-              shadowOpacity: 1, // Shadow opacity
-              shadowRadius: 4, // Shadow radius
-              borderRadius: 10,
-              marginHorizontal: 10,
-              elevation: 10 // Add elevation for Android
-            }}
-          >
-            <Text style={{ color: 'darkgrey', fontWeight: 'bold' }}> {name} </Text>
-          </TouchableOpacity>
-        </Animatable.View>
+        <TouchableOpacity
+          onPress={() => onPress()}
+          style={{
+            backgroundColor: 'white',
+            paddingHorizontal: 20,
+            paddingVertical: 10,
+            shadowColor: 'black',
+            shadowOffset: { width: 0, height: 4 }, // Shadow offset
+            shadowOpacity: 1, // Shadow opacity
+            shadowRadius: 4, // Shadow radius
+            borderRadius: 10,
+            marginHorizontal: 10,
+            elevation: 10 // Add elevation for Android
+          }}
+        >
+          <Text style={{ color: 'darkgrey', fontWeight: 'bold' }}> {name} </Text>
+        </TouchableOpacity>
 
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Pressable
@@ -128,7 +126,7 @@ function Message(props) {
   };
 
   const renderMessage = (id, message, isMe, img) => {
-    const bgColor = isMe ? '#39e600' : '#d9d9d9';
+    const bgColor = isMe ? '#81CD2C' : '#d9d9d9';
     const alignment = isMe ? 'flex-end' : 'flex-start';
     const flexAlignment = isMe ? 'column' : 'row';
     const radius = isMe ? { borderTopLeftRadius: 80 } : { borderBottomRightRadius: 80 };

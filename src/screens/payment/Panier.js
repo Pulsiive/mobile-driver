@@ -1,12 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import {
-  View,
-  Image,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-} from 'react-native';
+import { View, Image, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native';
 
 import Modal from 'react-native-modal';
 
@@ -16,7 +9,7 @@ import Backend from '../../db/Backend';
 import * as Animatable from 'react-native-animatable';
 
 function Panier({ navigation, route }) {
-    const slot = route.params.slot;
+  const slot = route.params.slot;
   const stationId = route.params.stationId;
   console.log(stationId);
   const [isModalVisible, setModalVisible] = useState(false);
@@ -32,17 +25,17 @@ function Panier({ navigation, route }) {
         console.log(station);
         showMessage({
           message: `Station récupéré avec succès`,
-          type: "success",
-          backgroundColor: "green"
+          type: 'success',
+          backgroundColor: 'green'
         });
       } else {
         showMessage({
           message: 'Impossible de récupérer la station',
-          type: "error",
-          backgroundColor: "red"
+          type: 'error',
+          backgroundColor: 'red'
         });
       }
-    }
+    };
 
     getStation();
   }, []);
@@ -52,7 +45,7 @@ function Panier({ navigation, route }) {
   };
 
   const handlePromoCodeChange = (text) => {
-  setPromoCode(text);
+    setPromoCode(text);
   };
 
   // Additional handler for applying the promo code
@@ -66,26 +59,34 @@ function Panier({ navigation, route }) {
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
       <View style={styles.container}>
-
-        <TouchableOpacity style={{marginRight: 'auto', top: 10+'%'}} onPress={() => navigation.navigate('BookingPlanning', {stationId})}>
-                        <Image style={{width: 20, height:20}} source={AppIcon.images.back}></Image>
+        <TouchableOpacity
+          style={{ marginRight: 'auto', top: 10 + '%' }}
+          onPress={() => navigation.navigate('BookingPlanning', { stationId })}
+        >
+          <Image style={{ width: 20, height: 20 }} source={AppIcon.images.back}></Image>
         </TouchableOpacity>
 
         <Text style={styles.header}> Paniers </Text>
 
-        <Animatable.View animation="jello" iterationCount="infinite" style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <TouchableOpacity style={styles.itemContainer} onPress={toggleModal}>
-          <View style={styles.itemIconContainer}>
-            <Image style={styles.itemIcon} source={AppIcon.images.station_img} />
-          </View>
-          <View style={styles.itemDetails}>
-            <Text style={styles.itemName}>Chargeur {station?.properties?.plugTypes[0] ?? 'non défini'}</Text>
-            <Text style={styles.itemDetail}>ID: {station?.properties?.id ?? 'non défini'}</Text>
-            <Text style={styles.itemDetail}>M.Mathieu</Text>
-            <Text style={styles.itemPrice}>{station?.properties?.price/100}€ / minute</Text>
-          </View>
-        </TouchableOpacity>
-        </Animatable.View >
+        <Animatable.View
+          animation="jello"
+          iterationCount="infinite"
+          style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+        >
+          <TouchableOpacity style={styles.itemContainer} onPress={toggleModal}>
+            <View style={styles.itemIconContainer}>
+              <Image style={styles.itemIcon} source={AppIcon.images.station_img} />
+            </View>
+            <View style={styles.itemDetails}>
+              <Text style={styles.itemName}>
+                Chargeur {station?.properties?.plugTypes[0] ?? 'non défini'}
+              </Text>
+              <Text style={styles.itemDetail}>ID: {station?.properties?.id ?? 'non défini'}</Text>
+              <Text style={styles.itemDetail}>M.Mathieu</Text>
+              <Text style={styles.itemPrice}>{station?.properties?.price / 100}€ / minute</Text>
+            </View>
+          </TouchableOpacity>
+        </Animatable.View>
 
         {/* The modal component */}
         <Modal
@@ -103,14 +104,16 @@ function Panier({ navigation, route }) {
                 <Image style={styles.itemIcon} source={AppIcon.images.checkIcon} />
               </View>
               <View style={styles.modalItemDetails}>
-                <Text style={styles.itemName}>Chargeur {station?.properties?.plugTypes[0] ?? 'non défini'}</Text>
+                <Text style={styles.itemName}>
+                  Chargeur {station?.properties?.plugTypes[0] ?? 'non défini'}
+                </Text>
                 <Text style={styles.itemDetail}>M.Mathieu</Text>
               </View>
-              <Text style={styles.itemPrice}>{station?.properties?.price/100}€ / minute</Text>
+              <Text style={styles.itemPrice}>{station?.properties?.price / 100}€ / minute</Text>
             </TouchableOpacity>
 
             <View style={styles.horizontalLine} />
-            <View style={styles.spaceAfterHorizontalLine} /> 
+            <View style={styles.spaceAfterHorizontalLine} />
 
             {/* Content for Taxes, Services, and Discounts */}
             <View style={styles.section}>
@@ -158,7 +161,10 @@ function Panier({ navigation, route }) {
             <View style={styles.modalButtonContainer}>
               <TouchableOpacity
                 activeOpacity={0.8}
-                onPress={() => navigation.navigate('Checkout', {slot, station})}
+                onPress={() => {
+                  navigation.navigate('Checkout', { slot, station });
+                  setModalVisible(false);
+                }}
                 style={styles.commanderButton}
               >
                 <Text style={styles.buttonText}>Commander</Text>
@@ -166,16 +172,11 @@ function Panier({ navigation, route }) {
             </View>
 
             {/* Close modal button */}
-            <TouchableOpacity
-              style={styles.closeButton}
-              onPress={toggleModal}
-              activeOpacity={0.7}
-            >
+            <TouchableOpacity style={styles.closeButton} onPress={toggleModal} activeOpacity={0.7}>
               <Image source={AppIcon.images.xMark} style={styles.closeIcon} />
             </TouchableOpacity>
           </View>
         </Modal>
-
       </View>
     </View>
   );
@@ -185,42 +186,42 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginLeft: '5.5%',
-    top: -5,
+    top: -5
   },
   backButton: {
     marginRight: 'auto',
-    top: '10%',
+    top: '10%'
   },
   backIcon: {
     width: 20,
-    height: 20,
+    height: 20
   },
   header: {
     position: 'absolute',
     fontWeight: 'bold',
     fontSize: 30,
     top: '15%',
-    color: '#2F313E',
+    color: '#2F313E'
   },
-//   itemContainer: {
-//     height: '9%',
-//     top: '40%',
-//     flexDirection: 'row',
-//     alignItems: 'center',
-//   },
+  //   itemContainer: {
+  //     height: '9%',
+  //     top: '40%',
+  //     flexDirection: 'row',
+  //     alignItems: 'center',
+  //   },
   itemContainer: {
     backgroundColor: 'white', // Set the background color to white
     borderRadius: 10, // Add border radius for rounded corners
     shadowColor: '#000', // Set shadow color
     shadowOffset: {
       width: 0,
-      height: 4,
+      height: 4
     },
     shadowOpacity: 0.3, // Adjust shadow opacity
     shadowRadius: 4, // Adjust shadow radius
     elevation: 10, // Android shadow elevation
     marginVertical: 10, // Add vertical margin for spacing
-    padding: 16, // Add padding inside the card
+    padding: 16 // Add padding inside the card
   },
   itemIconContainer: {
     backgroundColor: '#f4f4f5',
@@ -228,109 +229,109 @@ const styles = StyleSheet.create({
     width: 40,
     borderRadius: 50,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   itemIcon: {
     flex: 1,
     width: '70%',
     height: '70%',
-    resizeMode: 'contain',
+    resizeMode: 'contain'
   },
   itemDetails: {
-    marginLeft: 12,
+    marginLeft: 12
   },
   itemName: {
     color: 'black',
     fontSize: 18, // Ajuster la taille du texte pour le nom de l'article
     fontWeight: 'bold', // Utiliser du texte en gras pour le nom de l'article
-    marginBottom: 4, // Espacement entre le nom de l'article et le détail
+    marginBottom: 4 // Espacement entre le nom de l'article et le détail
   },
   itemDetail: {
     color: 'grey',
-    marginTop: 6,
+    marginTop: 6
   },
   itemPrice: {
     color: 'black',
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: 'bold'
   },
   horizontalLine: {
     marginTop: 20,
     marginBottom: 3,
     height: 1,
     width: '90%',
-    backgroundColor: 'black',
+    backgroundColor: 'black'
   },
   modalContainer: {
     justifyContent: 'flex-end',
-    margin: 0,
+    margin: 0
   },
   modalContent: {
     backgroundColor: '#FFFFFF', // Blanc
     padding: 22,
     borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
+    borderTopRightRadius: 20
   },
   modalTitle: {
     fontSize: 26,
     fontWeight: 'bold',
     marginBottom: 16,
     color: '#2F313E',
-    textAlign: 'center',
+    textAlign: 'center'
   },
   modalItemContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: 16
   },
   modalItemDetails: {
     flex: 1,
-    marginLeft: 12,
+    marginLeft: 12
   },
   newSection: {
-    marginBottom: 16,
+    marginBottom: 16
   },
   newSectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 8,
-    color: '#2F313E',
+    color: '#2F313E'
   },
   newSectionText: {
     color: '#2F313E',
-    fontSize: 16,
+    fontSize: 16
   },
   subtotalContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 16,
+    marginBottom: 16
   },
   subtotalText: {
     color: '#2F313E',
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: 'bold'
   },
   subtotalAmount: {
     color: '#2F313E',
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: 'bold'
   },
   modalButtonContainer: {
     flexDirection: 'row',
     justifyContent: 'flex-end', // Pour aligner le bouton sur la droite
-    marginBottom: 20,
+    marginBottom: 20
   },
   commanderButton: {
     backgroundColor: '#00A84A',
     borderRadius: 8, // Un petit arrondi pour le bouton
     paddingVertical: 10, // Ajuster la taille verticale du bouton
     paddingHorizontal: 12, // Ajuster la taille horizontale du bouton
-    alignItems: 'center',
+    alignItems: 'center'
   },
   buttonText: {
     color: 'white',
     fontSize: 16, // Ajuster la taille du texte du bouton
-    fontWeight: 'bold',
+    fontWeight: 'bold'
   },
   ajouterButton: {
     flex: 1,
@@ -339,24 +340,24 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     paddingHorizontal: 16,
     marginLeft: 16,
-    alignItems: 'center',
+    alignItems: 'center'
   },
   closeButton: {
     alignSelf: 'flex-start',
     padding: 10,
     position: 'absolute',
     top: '5%',
-    right: '5%',
+    right: '5%'
   },
   closeIcon: {
     width: 24,
-    height: 24,
+    height: 24
   },
   promoCodeContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: 16
   },
   promoCodeInput: {
     flex: 1,
@@ -364,7 +365,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 12,
-    fontSize: 16,
+    fontSize: 16
   },
   applyButton: {
     marginLeft: 16,
@@ -372,28 +373,28 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingVertical: 10,
     paddingHorizontal: 12,
-    alignItems: 'center',
+    alignItems: 'center'
   },
   applyButtonText: {
     color: 'white',
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: 'bold'
   },
   spaceAfterHorizontalLine: {
-    marginTop: 20,
+    marginTop: 20
   },
   section: {
-    marginBottom: 10, // Adjust the separation between sections
+    marginBottom: 10 // Adjust the separation between sections
   },
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#2F313E', // Text color for section titles
+    color: '#2F313E' // Text color for section titles
   },
   sectionContent: {
     fontSize: 16,
-    color: '#2F313E', // Text color for section content
-  },
+    color: '#2F313E' // Text color for section content
+  }
 });
 
 export default Panier;

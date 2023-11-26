@@ -15,6 +15,7 @@ import {
   FloatingButton,
   ModalSwipeUp,
   Separator,
+  TextSubTitle,
   TextTitle
 } from '../../components';
 
@@ -84,7 +85,11 @@ function StationInformations({ route, navigation }) {
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView style={{ flex: 1, backgroundColor: AppColor.background }}>
         <Image
-          source={AppIcon.images.stationInformationsModal}
+          source={
+            station.properties.isPublic
+              ? AppIcon.images.stationInformationsModal
+              : AppIcon.images.stationPrivate
+          }
           style={{ width: '100%', height: '40%', maxHeight: 200 }}
         />
         <FloatingButton
@@ -116,13 +121,13 @@ function StationInformations({ route, navigation }) {
             marginBottom: '50%'
           }}
         >
-          <TextTitle
+          <TextSubTitle
             title={
               station.properties.isPublic
                 ? station.coordinates.address
                 : `Borne de ${station.owner.firstName}`
             }
-            style={{ fontWeight: 'bold', marginLeft: 0 }}
+            style={{ marginTop: 20 }}
           />
           {station.properties.isPublic && (
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -131,7 +136,7 @@ function StationInformations({ route, navigation }) {
                   <IconAwesome name="star" size={16} color={AppColor.text} />
                   <Text
                     style={{
-                      fontSize: AppStyles.fontSize.normal,
+                      fontSize: AppStyles.fontSize.content,
                       marginHorizontal: 5,
                       color: AppColor.text
                     }}
@@ -144,7 +149,7 @@ function StationInformations({ route, navigation }) {
               )}
               {station.rates.length > 0 ? (
                 <ButtonText
-                  style={{ fontSize: AppStyles.fontSize.button, fontWeight: '500' }}
+                  style={{ fontSize: AppStyles.fontSize.content, fontWeight: '500' }}
                   title={`${
                     station.rates.length > 1
                       ? station.rates.length + ' commentaires'
@@ -181,7 +186,7 @@ function StationInformations({ route, navigation }) {
               <Icon name="flow-branch" size={28} color={AppColor.text} />
               <Text
                 style={{
-                  fontSize: AppStyles.fontSize.normal,
+                  fontSize: AppStyles.fontSize.content,
                   color: AppColor.text,
                   marginLeft: 10
                 }}
@@ -200,7 +205,7 @@ function StationInformations({ route, navigation }) {
               <Icon name="flash" size={28} color={AppColor.text} />
               <Text
                 style={{
-                  fontSize: AppStyles.fontSize.normal,
+                  fontSize: AppStyles.fontSize.content,
                   color: AppColor.text,
                   marginLeft: 10
                 }}
@@ -212,7 +217,7 @@ function StationInformations({ route, navigation }) {
               <Icon name="credit" size={28} color={AppColor.text} />
               <Text
                 style={{
-                  fontSize: AppStyles.fontSize.normal,
+                  fontSize: AppStyles.fontSize.content,
                   color: AppColor.text,
                   marginLeft: 10
                 }}
@@ -229,34 +234,26 @@ function StationInformations({ route, navigation }) {
               {station.rates.length > 0 ? (
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <IconAwesome name="star" size={26} color={AppColor.text} />
-                  <Text
+                  <TextSubTitle
+                    title={station.rate + ' · '}
                     style={{
-                      fontSize: AppStyles.fontSize.title,
-                      fontWeight: '500',
-                      marginHorizontal: 5,
-                      color: AppColor.text
+                      marginLeft: 5
                     }}
-                  >
-                    {station.rate} ·
-                  </Text>
+                  />
                 </View>
               ) : (
-                <Text style={{ color: AppColor.subText }}>Aucune note ·</Text>
+                <Text style={{ color: AppColor.subText }}>Aucune note · </Text>
               )}
               {station.rates.length > 0 ? (
-                <Text
-                  style={{
-                    fontSize: AppStyles.fontSize.title,
-                    fontWeight: '500',
-                    color: AppColor.subText
-                  }}
-                >
-                  {station.rates.length > 1
-                    ? station.rates.length + ' commentaires'
-                    : '1 comentaire'}
-                </Text>
+                <TextSubTitle
+                  title={
+                    station.rates.length > 1
+                      ? station.rates.length + ' commentaires'
+                      : '1 comentaire'
+                  }
+                />
               ) : (
-                <Text style={{ color: AppColor.subText }}> Aucun commentaire </Text>
+                <Text style={{ color: AppColor.subText }}>Aucun commentaire </Text>
               )}
             </View>
           )}

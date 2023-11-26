@@ -454,7 +454,7 @@ const styles = StyleSheet.create({
   bookButton: {
     width: 200,
     backgroundColor: AppStyles.color.pulsive,
-    borderRadius: AppStyles.borderRadius,
+    borderRadius: 25,
     padding: 10,
     marginTop: 30,
     position: 'absolute',

@@ -16,13 +16,23 @@ import { AppStyles, useTheme } from '../AppStyles';
   */
 }
 
-const InputField = ({ label, errorCheck, subText, setValue, secure, style }) => {
+const InputField = ({
+  label,
+  errorCheck,
+  subText,
+  setValue,
+  secure,
+  style,
+  icon,
+  iconOnPress,
+  initialValue = ''
+}) => {
   const { AppColor } = useTheme();
 
   const [isFocused, setIsFocused] = useState(false);
   const [error, setError] = useState(false);
   const [secureText, setSecureText] = useState(secure);
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState(initialValue);
 
   const borderStyle = {
     borderWidth: isFocused ? 2 : 1,
@@ -136,6 +146,11 @@ const InputField = ({ label, errorCheck, subText, setValue, secure, style }) => 
           <Icon name="info-with-circle" size={14} style={styles.infoIcon} />
           <Text style={styles.errorText}>{error}</Text>
         </View>
+      )}
+      {icon && (
+        <TouchableOpacity style={styles.secureContainer} onPress={iconOnPress}>
+          <Icon name={icon} size={20} color={AppColor.icon} />
+        </TouchableOpacity>
       )}
       {subText && <Text style={styles.subText}>{subText}</Text>}
     </View>

@@ -111,6 +111,7 @@ export default function PaymentsUICustomScreen({ route, navigation }) {
       });
       console.log(data, status);
       if (status === 200) {
+        // Alert.alert('Success', 'The payment was confirmed successfully!');
         showMessage({
           duration: 4000,
           message: `Demande de réservation crée avec succès ! !`,
@@ -120,6 +121,16 @@ export default function PaymentsUICustomScreen({ route, navigation }) {
           backgroundColor: 'green'
         });
         navigation.navigate('PlanningStack');
+      } else if (status === 409) {
+        // Alert.alert('Success', 'The payment was confirmed successfully!');
+        showMessage({
+          duration: 4000,
+          message: `Désolé, le créneau a déjà été reservé`,
+          description: 'Vous allez ếtre redirigé sur la page de planning',
+          type: 'error',
+          backgroundColor: 'red'
+        });
+        navigation.goBack();
       }
       setPaymentSheetEnabled(false);
     }

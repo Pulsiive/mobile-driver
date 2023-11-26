@@ -3,8 +3,6 @@ import { StyleSheet, Dimensions, View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 
 const { width, height } = Dimensions.get('window');
-const SCREEN_WIDTH = width < height ? width : height;
-const numColumns = 2;
 
 const ContextTheme = createContext();
 
@@ -29,7 +27,7 @@ export const useTheme = () => {
 };
 
 const CustomHeader = ({ navigation }) => {
-  const { toggleTheme, AppColor } = useTheme();
+  const { AppColor } = useTheme();
   return (
     <View
       style={{
@@ -41,7 +39,12 @@ const CustomHeader = ({ navigation }) => {
         borderRadius: 100,
         backgroundColor: AppColor.bottomColor,
         top: 15,
-        left: 15
+        left: 15,
+        elevation: 4,
+        shadowColor: AppColor.title,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.3,
+        shadowRadius: 2
       }}
     >
       <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -132,10 +135,10 @@ export const AppStyles = {
   },
 
   fontSize: {
-    title: 24,
-    content: 20,
-    button: 16,
-    normal: 16
+    title: 34,
+    subTitle: 24,
+    contentTitle: 20,
+    content: 16
   },
 
   buttonWidth: width * 0.9,
@@ -149,17 +152,6 @@ export const AppStyles = {
 
   container: {
     flex: 1
-  },
-
-  containerHeader: {
-    paddingTop: 50
-  },
-
-  //------------- à enlever à la fin -------------------
-  borderRadius: 25,
-
-  textInputWidth: {
-    main: '80%'
   }
 };
 
@@ -176,6 +168,10 @@ export const AppIcon = {
     height: 25
   },
   images: {
+    favorite_logo: require('../assets/icons/favorite_logo.png'),
+    messages_logo: require('../assets/icons/messages_logo.png'),
+    planning_logo: require('../assets/icons/planning_logo.png'),
+    profile_logo: require('../assets/icons/profile_logo.png'),
     home: require('../assets/icons/home.png'),
     profile: require('../assets/icons/profile_2.png'),
     profile_icon: require('../assets/icons/profile.png'),
@@ -226,10 +222,6 @@ export const AppIcon = {
     ownerProfilePicture: require('../assets/images/owner.jpeg'),
     loadingPlaneDarkmode: require('../assets/images/loadingPlaneDarkmode.png'),
     loadingPlaneLightmode: require('../assets/images/loadingPlaneLightmode.png'),
-    // locationLight: require('../assets/images/locationLight.png'),
-    // locationDark: require('../assets/images/locationDark.png'),
-    // boltLight: require('../assets/images/boltLight.png'),
-    // boltDark: require('../assets/images/boltDark.png')
     loadingLightmode: require('../assets/images/loadingDrawLightmode.png'),
     loadingDarkmode: require('../assets/images/loadingDrawDarkmode.png'),
     filtersLightmode: require('../assets/images/filtersDrawLightmode.png'),
@@ -239,7 +231,8 @@ export const AppIcon = {
     addUser: require('../assets/icons/add-user.png'),
     removeUser: require('../assets/icons/remove-user.png'),
     loadingImage: require('../assets/icons/loading.png'),
-    checkIcon: require('../assets/icons/checkIcon.png')
+    checkIcon: require('../assets/icons/checkIcon.png'),
+    stationPrivate: require('../assets/images/borneprive.jpg')
   }
 };
 

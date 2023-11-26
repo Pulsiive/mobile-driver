@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { View, Modal, Image, TouchableOpacity } from 'react-native';
+import { useTheme } from '../../../AppStyles';
 
 const CommentPicture = ({ pictureId }) => {
+  const { AppColor } = useTheme();
+
   const [imageIsOpen, setImageIsOpen] = useState(false);
 
   return (
@@ -32,7 +35,8 @@ const CommentPicture = ({ pictureId }) => {
             flexDirection: 'column',
             justifyContent: 'center',
             alignContent: 'center',
-            height: '100%'
+            height: '100%',
+            backgroundColor: AppColor.background
           }}
         >
           <Image

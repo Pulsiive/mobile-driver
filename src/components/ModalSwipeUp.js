@@ -3,6 +3,7 @@ import { View, Modal, StyleSheet, TouchableOpacity, ScrollView } from 'react-nat
 import Icon from 'react-native-vector-icons/Entypo';
 import { AppStyles, useTheme } from '../AppStyles';
 import TextTitle from './TextTitle';
+import TextSubTitle from './TextSubTitle';
 
 {
   /*
@@ -24,7 +25,8 @@ const ModalSwipeUp = ({
   children,
   closeButton,
   bottom,
-  bottomChildren
+  bottomChildren,
+  style
 }) => {
   const { AppColor } = useTheme();
 
@@ -75,17 +77,15 @@ const ModalSwipeUp = ({
   return (
     <Modal animationType="slide" transparent={true} visible={visible} onRequestClose={onClose}>
       <View style={styles.container}>
-        <View style={styles.modalContainer}>
+        <View
+          style={{
+            ...styles.modalContainer,
+            ...(style || {})
+          }}
+        >
           {(title || closeButton) && (
             <View style={styles.header}>
-              {title ? (
-                <TextTitle
-                  title={title}
-                  style={{ margin: 0, marginLeft: 10, fontSize: AppStyles.fontSize.content }}
-                />
-              ) : (
-                <View></View>
-              )}
+              {title ? <TextSubTitle title={title} style={{ marginLeft: 10 }} /> : <View></View>}
               {closeButton && (
                 <TouchableOpacity onPress={onClose} style={styles.closeButton}>
                   <Icon name="cross" size={20} color={AppColor.subText} />

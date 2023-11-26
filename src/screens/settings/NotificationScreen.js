@@ -5,7 +5,7 @@ import api from '../../db/Api';
 import { showMessage } from 'react-native-flash-message';
 import Backend from '../../db/Backend';
 import { ScrollView } from 'react-native-gesture-handler';
-import { ButtonConditional, TextTitle } from '../../components';
+import { ButtonConditional, TextSubTitle, TextTitle } from '../../components';
 
 function NotificationScreen({ navigation }) {
   const { AppColor } = useTheme();
@@ -65,8 +65,8 @@ function NotificationScreen({ navigation }) {
   return (
     <ScrollView style={[AppStyles.container, { backgroundColor: AppColor.background }]}>
       {profile && (
-        <View style={AppStyles.containerHeader}>
-          <TextTitle title="Gérer mes notifications" />
+        <View style={{ paddingTop: 50 }}>
+          <TextSubTitle title="Gérer vos notifications" style={{ margin: 20 }} />
           <ButtonConditional
             title="Alertes"
             style={{ backgroundColor: isAlertEnabled ? AppColor.pulsive : AppColor.disabled }}

@@ -20,7 +20,7 @@ import Station from '../screens/station/Station';
 import Stations from '../screens/station/Stations';
 import Messages from '../screens/communication/Messages';
 import Message from '../screens/communication/Message';
-import Map from '../screens/map/MapNew';
+import Map from '../screens/map/Map';
 import Locations from '../screens/map/Locations';
 import Planning from '../screens/planning/Planning';
 import StationRating from '../screens/rating/StationRating';
@@ -73,7 +73,7 @@ const MessagesStack = () => {
 
   return (
     <Stack.Navigator
-      initialRouteName="Home"
+      initialRouteName="Messages"
       screenOptions={{
         headerTintColor: AppColor.pulsive,
         headerTitleStyle: styles.headerTitleStyle,
@@ -106,47 +106,35 @@ const MessagesStack = () => {
   );
 };
 
-const HomeStack = () => {
-  const { AppColor } = useTheme();
+// const HomeStack = () => {
+//   const { AppColor } = useTheme();
 
-  return (
-    <Stack.Navigator
-      initialRouteName="Home"
-      screenOptions={{
-        headerTintColor: AppColor.pulsive,
-        headerTitleStyle: styles.headerTitleStyle,
-        headerMode: 'float'
-      }}
-    >
-      <Stack.Screen
-        name="Home"
-        component={Home}
-        options={({ navigation }) => ({
-          headerLeft: () => (
-            <Pressable onPress={() => navigation.openDrawer()}>
-              <Image style={styles.iconStyle} source={AppIcon.images.menu} />
-            </Pressable>
-          ),
-          headerLeftContainerStyle: { paddingLeft: 10 }
-        })}
-      />
-      <Stack.Screen
-        name="Contacts"
-        component={Contact}
-        options={{
-          headerShown: true,
-          headerTitle: 'Contact',
-          headerStyle: { backgroundColor: 'white' },
-          headerTitleStyle: { color: 'black', fontWeight: 'bold' }
-        }}
-      />
-    </Stack.Navigator>
-  );
-};
+//   return (
+//     <Stack.Navigator
+//       initialRouteName="Home"
+//       screenOptions={{
+//         headerTintColor: AppColor.pulsive,
+//         headerTitleStyle: styles.headerTitleStyle,
+//         headerMode: 'float'
+//       }}
+//     >
+//       <Stack.Screen
+//         name="Home"
+//         component={Home}
+//         options={({ navigation }) => ({
+//           headerLeft: () => (
+//             <Pressable onPress={() => navigation.openDrawer()}>
+//               <Image style={styles.iconStyle} source={AppIcon.images.menu} />
+//             </Pressable>
+//           ),
+//           headerLeftContainerStyle: { paddingLeft: 10 }
+//         })}
+//       />
+//     </Stack.Navigator>
+//   );
+// };
 
 const ProfilStack = () => {
-  const { AppColor } = useTheme();
-
   return (
     <Stack.Navigator
       initialRouteName="Settings"
@@ -165,13 +153,24 @@ const ProfilStack = () => {
       <Stack.Screen name="PromoCodesPage" component={PromoCodesPage} />
       <Stack.Screen name="Profile" component={Profile} />
       <Stack.Screen name="Components" component={Components} />
+      <Stack.Screen name="Contacts" component={Contact} />
+      <Stack.Screen name="PaymentHistory" component={PaymentHistory} />
+      <Stack.Screen
+        name="Owner"
+        component={OwnerV2}
+        options={{
+          headerShown: true,
+          headerTitle: 'Profil',
+          headerStyle: { backgroundColor: 'black' },
+          headerTitleStyle: { color: 'white', fontWeight: 'bold' }
+        }}
+      />
+      <Stack.Screen name="Message" component={Message} />
     </Stack.Navigator>
   );
 };
 
 const MapStack = () => {
-  const { AppColor } = useTheme();
-
   return (
     <Stack.Navigator
       initialRouteName="Home"
@@ -192,57 +191,27 @@ const MapStack = () => {
 };
 
 const PlanningStack = () => {
-  const { AppColor } = useTheme();
-
   return (
     <Stack.Navigator
       initialRouteName="Home"
       screenOptions={{
-        headerTintColor: AppColor.pulsive,
-        headerTitleStyle: styles.headerTitleStyle,
-        headerMode: 'float'
+        headerShown: false
       }}
     >
-      <Stack.Screen
-        name="Planning"
-        component={Planning}
-        options={({ navigation }) => ({
-          headerLeft: () => (
-            <Pressable onPress={() => navigation.openDrawer()}>
-              <Image style={styles.iconStyle} source={AppIcon.images.menu} />
-            </Pressable>
-          ),
-          headerLeftContainerStyle: { paddingLeft: 10 }
-        })}
-      />
+      <Stack.Screen name="Planning" component={Planning} />
     </Stack.Navigator>
   );
 };
 
 const FavoritesStack = () => {
-  const { AppColor } = useTheme();
-
   return (
     <Stack.Navigator
       initialRouteName="Home"
       screenOptions={{
-        headerTintColor: AppColor.pulsive,
-        headerTitleStyle: styles.headerTitleStyle,
-        headerMode: 'float'
+        headerShown: false
       }}
     >
-      <Stack.Screen
-        name="Favorites"
-        component={Favorites}
-        options={({ navigation }) => ({
-          headerLeft: () => (
-            <Pressable onPress={() => navigation.openDrawer()}>
-              <Image style={styles.iconStyle} source={AppIcon.images.menu} />
-            </Pressable>
-          ),
-          headerLeftContainerStyle: { paddingLeft: 10 }
-        })}
-      />
+      <Stack.Screen name="Favorites" component={Favorites} />
     </Stack.Navigator>
   );
 };
@@ -254,7 +223,7 @@ const TabNavigator = () => {
 
   return (
     <BottomTab.Navigator
-      initialRouteName="Home"
+      initialRouteName="MapStack"
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: AppColor.pulsive,
@@ -267,7 +236,7 @@ const TabNavigator = () => {
         }
       }}
     >
-      <BottomTab.Screen
+      {/* <BottomTab.Screen
         options={{
           tabBarLabel: 'Home',
           tabBarIcon: ({ focused }) => {
@@ -285,6 +254,25 @@ const TabNavigator = () => {
         }}
         name="HomeStack"
         component={HomeStack}
+      /> */}
+      <BottomTab.Screen
+        options={{
+          tabBarLabel: 'Planning',
+          tabBarIcon: ({ focused }) => {
+            return (
+              <Image
+                style={{
+                  tintColor: focused ? AppColor.pulsive : AppColor.icon,
+                  width: 20,
+                  height: 20
+                }}
+                source={AppIcon.images.planning_logo}
+              />
+            );
+          }
+        }}
+        name="PlanningStack"
+        component={PlanningStack}
       />
       <BottomTab.Screen
         options={{
@@ -297,7 +285,7 @@ const TabNavigator = () => {
                   width: 20,
                   height: 20
                 }}
-                source={AppIcon.images.heart}
+                source={AppIcon.images.favorite_logo}
               />
             );
           }
@@ -313,54 +301,16 @@ const TabNavigator = () => {
               <Image
                 style={{
                   tintColor: focused ? AppColor.pulsive : AppColor.icon,
-                  width: 20,
-                  height: 20
-                }}
-                source={AppIcon.images.map}
-              />
-            );
-          }
-        }}
-        name="MapStack"
-        component={MapStack}
-      />
-      <BottomTab.Screen
-        options={{
-          tabBarLabel: 'Planning',
-          tabBarIcon: ({ focused }) => {
-            return (
-              <Image
-                style={{
-                  tintColor: focused ? AppColor.pulsive : AppColor.icon,
-                  width: 20,
-                  height: 20
-                }}
-                source={AppIcon.images.planning}
-              />
-            );
-          }
-        }}
-        name="PlanningStack"
-        component={PlanningStack}
-      />
-      <BottomTab.Screen
-        options={{
-          tabBarLabel: 'Orders',
-          tabBarIcon: ({ focused }) => {
-            return (
-              <Image
-                style={{
-                  tintColor: focused ? AppColor.pulsive : AppColor.icon,
-                  width: 20,
-                  height: 20
+                  width: 35,
+                  height: 35
                 }}
                 source={AppIcon.images.logo}
               />
             );
           }
         }}
-        name="PaymentHistory"
-        component={PaymentHistory}
+        name="MapStack"
+        component={MapStack}
       />
       <BottomTab.Screen
         options={{
@@ -373,7 +323,7 @@ const TabNavigator = () => {
                   width: 20,
                   height: 20
                 }}
-                source={AppIcon.images.messages}
+                source={AppIcon.images.messages_logo}
               />
             );
           }
@@ -392,7 +342,7 @@ const TabNavigator = () => {
                   width: 20,
                   height: 20
                 }}
-                source={AppIcon.images.profile_icon}
+                source={AppIcon.images.profile_logo}
               />
             );
           }

@@ -11,12 +11,12 @@ import { AppStyles, useTheme } from '../AppStyles';
   */
 }
 
-const TextTitle = ({ title, style }) => {
+const TextTitle = ({ title, style, inLine }) => {
   const { AppColor } = useTheme();
 
   const styles = StyleSheet.create({
     title: {
-      fontSize: 26,
+      fontSize: AppStyles.fontSize.title,
       fontWeight: '500',
       color: AppColor.title,
       margin: 20
@@ -25,14 +25,28 @@ const TextTitle = ({ title, style }) => {
 
   return (
     <View>
-      <Text
-        style={{
-          ...styles.title,
-          ...(style || {})
-        }}
-      >
-        {title}
-      </Text>
+      {inLine ? (
+        <Text
+          numberOfLines={1}
+          ellipsizeMode="tail"
+          style={{
+            flexShrink: 1,
+            ...styles.title,
+            ...(style || {})
+          }}
+        >
+          {title}
+        </Text>
+      ) : (
+        <Text
+          style={{
+            ...styles.title,
+            ...(style || {})
+          }}
+        >
+          {title}
+        </Text>
+      )}
     </View>
   );
 };

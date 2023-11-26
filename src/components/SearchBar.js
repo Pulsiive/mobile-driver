@@ -77,7 +77,7 @@ const SearchBar = ({ title, subtext, style, icon, list, onPress, onSelect }) => 
     title: {
       color: AppColor.title,
       fontWeight: '500',
-      fontSize: AppStyles.fontSize.normal
+      fontSize: AppStyles.fontSize.content
     },
     subtext: {
       fontSize: 12,
@@ -95,7 +95,7 @@ const SearchBar = ({ title, subtext, style, icon, list, onPress, onSelect }) => 
       marginLeft: 30
     },
     item: {
-      fontSize: AppStyles.fontSize.normal,
+      fontSize: AppStyles.fontSize.content,
       lineHeight: 24,
       color: AppColor.text,
       paddingVertical: 14

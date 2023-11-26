@@ -15,8 +15,7 @@ import style from '../style';
 import UserListModal from './UserListModal';
 
 import { getUser, useUserUpdate } from '../../../contexts/UserContext';
-import { ButtonText } from '../../../components';
-import ProfilePicture from '../../../components/ProfilePicture';
+import { ButtonText, TextContent, TextSubTitle, ProfilePicture } from '../../../components';
 
 const CommentBody = ({ comment, displayPictures, customStyle, isResponse }) => {
   const { AppColor } = useTheme();
@@ -68,15 +67,12 @@ const CommentBody = ({ comment, displayPictures, customStyle, isResponse }) => {
         </View>
         <View style={{ width: '70%', flexDirection: 'column', marginLeft: 10 }}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <Text
+            <TextSubTitle
+              title={comment.author.firstName + ' ' + comment.author.lastName}
               style={{
-                color: AppColor.text,
-                fontSize: AppStyles.fontSize.content,
-                fontWeight: '500'
+                fontSize: AppStyles.fontSize.contentTitle
               }}
-            >
-              {comment.author.firstName} {comment.author.lastName}
-            </Text>
+            />
             {!isResponse && (
               <View style={{ flexDirection: 'row', alignItems: 'baseline', alignSelf: 'flex-end' }}>
                 <IconAwesome name="star" size={14} color={AppColor.text} />
@@ -84,13 +80,13 @@ const CommentBody = ({ comment, displayPictures, customStyle, isResponse }) => {
               </View>
             )}
           </View>
-          <Text style={{ color: AppColor.text, fontWeight: '300' }}>
-            {getTimeSincePost(comment.date)}{' '}
-          </Text>
+          <TextContent title={getTimeSincePost(comment.date) + ' '} />
         </View>
       </View>
       <View style={{ marginVertical: 10 }}>
-        <Text style={{ color: AppColor.text, fontSize: AppStyles.fontSize.normal }}>{message}</Text>
+        <Text style={{ color: AppColor.text, fontSize: AppStyles.fontSize.content }}>
+          {message}
+        </Text>
       </View>
 
       {comment.pictures && displayPictures && (

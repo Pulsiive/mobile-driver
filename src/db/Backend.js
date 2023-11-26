@@ -84,6 +84,11 @@ class Backend {
   createReservationRequest = async (data) => {
     return await API.send('POST', '/api/v1/driver/reservations/requests', data, true);
   };
+
+  getUserFromId = async (id) => {
+    const res = await API.send('GET', `/api/v1/user/${id}`, null, true);
+    return res;
+  };
 }
 
 const service = new Backend();

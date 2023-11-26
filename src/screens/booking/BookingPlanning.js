@@ -1,5 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { View, Image, TouchableOpacity, StyleSheet, TouchableHighlight, Text, SafeAreaView, Pressable, Modal } from 'react-native';
+import {
+  View,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  TouchableHighlight,
+  Text,
+  SafeAreaView,
+  Pressable,
+  Modal
+} from 'react-native';
 
 import DateSlider from './DateSlider';
 import { AppIcon } from '../../AppStyles';
@@ -28,7 +38,8 @@ function BookingPlanning({ navigation, route }) {
         transparent={true}
         onRequestClose={() => {
           setModalVisible(!modalVisible);
-        }}>
+        }}
+      >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text style={styles.modalText}>Êtes-vous sur de vouloir réserver ce créneau ?</Text>
@@ -38,10 +49,11 @@ function BookingPlanning({ navigation, route }) {
                 setModalVisible(false);
 
                 if (slot) {
-                  navigation.navigate('Panier', {slot, stationId});
+                  navigation.navigate('Panier', { slot, stationId });
                   setSlot(null);
                 }
-              }}>
+              }}
+            >
               <Text style={styles.textStyle}>Je réserve</Text>
             </Pressable>
             <Pressable
@@ -49,7 +61,8 @@ function BookingPlanning({ navigation, route }) {
               onPress={() => {
                 setModalVisible(false);
                 setSlot(null);
-              }}>
+              }}
+            >
               <Text style={styles.textStyle}>Annuler</Text>
             </Pressable>
           </View>
@@ -58,24 +71,30 @@ function BookingPlanning({ navigation, route }) {
 
       <View style={styles.welcomeContainer}>
         <View style={styles.card}>
-          <Text style={styles.first}>Station Id:</Text>
-          <Text style={styles.first}>{stationId}</Text>
+          {/* a changer */}
+          <Text style={styles.first}>Borne de warmup</Text>
           <Text style={styles.second}>Voyons voir le planning d'aujourd'hui !</Text>
-          <TouchableOpacity
-            style={styles.profilButton}
-            onPress={() => navigation.navigate('Home')}
-          >
-            <Animatable.Image animation="bounce" iterationCount="infinite"
+          <TouchableOpacity style={styles.profilButton} onPress={() => navigation.navigate('Home')}>
+            <Image
+              animation="bounce"
+              iterationCount="infinite"
               style={styles.profil}
               source={{
                 uri: 'https://image.shutterstock.com/image-photo/photo-handsome-nice-guy-getting-260nw-1478654612.jpg'
               }}
-            ></Animatable.Image>
+            />
           </TouchableOpacity>
         </View>
       </View>
 
-      <DateSlider date={date} onChange={(newDate) => setDate(newDate)} stationId={stationId} setModalVisible={setModalVisible} slot={slot} setSlot={setSlot} />
+      <DateSlider
+        date={date}
+        onChange={(newDate) => setDate(newDate)}
+        stationId={stationId}
+        setModalVisible={setModalVisible}
+        slot={slot}
+        setSlot={setSlot}
+      />
     </View>
   );
 }
@@ -85,7 +104,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 22,
+    marginTop: 22
   },
   modalView: {
     margin: 20,
@@ -96,35 +115,35 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 2
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 5,
+    elevation: 5
   },
   button: {
     borderRadius: 20,
     padding: 10,
-    elevation: 2,
+    elevation: 2
   },
   buttonOpen: {
-    backgroundColor: '#F194FF',
+    backgroundColor: '#F194FF'
   },
   buttonClose: {
-    backgroundColor: '#7FCB2B',
+    backgroundColor: '#7FCB2B'
   },
   buttonCancel: {
     marginTop: 10,
-    backgroundColor: 'red',
+    backgroundColor: 'red'
   },
   textStyle: {
     color: 'white',
     fontWeight: 'bold',
-    textAlign: 'center',
+    textAlign: 'center'
   },
   modalText: {
     marginBottom: 15,
-    textAlign: 'center',
+    textAlign: 'center'
   },
   safe: {
     flex: 1,
@@ -224,7 +243,7 @@ const styles = StyleSheet.create({
     top: 12 + '%',
     left: 4 + '%',
     width: '91%',
-    alignItems: 'center', // Center the card horizontally
+    alignItems: 'center' // Center the card horizontally
   },
   card: {
     backgroundColor: 'black',
@@ -236,9 +255,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 5,
     elevation: 10,
-    alignItems: 'center',
-  },
-  
+    alignItems: 'center'
+  }
 });
 
 export default BookingPlanning;
