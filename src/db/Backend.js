@@ -80,6 +80,10 @@ class Backend {
   async createStripePaymentIntent() {
     return await API.send('POST', '/api/v1/payment-request', null, true);
   }
+
+  createReservationRequest = async (data) => {
+    return await API.send('POST', '/api/v1/driver/reservations/requests', data, true);
+  };
 }
 
 const service = new Backend();

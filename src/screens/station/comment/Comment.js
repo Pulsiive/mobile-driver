@@ -16,6 +16,7 @@ import UserListModal from './UserListModal';
 
 import { getUser, useUserUpdate } from '../../../contexts/UserContext';
 import { ButtonText } from '../../../components';
+import ProfilePicture from '../../../components/ProfilePicture';
 
 const CommentBody = ({ comment, displayPictures, customStyle, isResponse }) => {
   const { AppColor } = useTheme();
@@ -58,9 +59,11 @@ const CommentBody = ({ comment, displayPictures, customStyle, isResponse }) => {
     >
       <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
         <View style={{ width: '20%' }}>
-          <Image
-            style={{ width: 50, height: 50, borderRadius: 100 }}
-            source={{ uri: `https://ucarecdn.com/${comment.author.profilePictureId}/` }}
+          <ProfilePicture
+            width={50}
+            height={50}
+            borderRadius={100}
+            profilePictureId={comment.author.profilePictureId}
           />
         </View>
         <View style={{ width: '70%', flexDirection: 'column', marginLeft: 10 }}>
