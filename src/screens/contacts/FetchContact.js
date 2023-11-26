@@ -7,13 +7,16 @@ import IconAwesome from 'react-native-vector-icons/FontAwesome';
 import api from '../../db/Api';
 import { showMessage } from 'react-native-flash-message';
 import { getUser, useUserUpdate } from '../../contexts/UserContext';
+
+import * as Animatable from 'react-native-animatable';
 import { useTheme } from '../../AppStyles';
 import {
   ButtonCommon,
   ButtonConditional,
   InputField,
   ModalSwipeUp,
-  Separator
+  Separator,
+  ProfilePicture
 } from '../../components';
 
 const EditContactModal = ({ isVisible, contact, onClose }) => {
@@ -112,10 +115,7 @@ const ContactItem = ({
     <View style={{ paddingVertical: 10, alignItems: 'center' }}>
       <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
         <TouchableOpacity onPress={() => navigateToUserProfilePage(plan.user)}>
-          <Image
-            style={{ width: 50, height: 50, borderRadius: 25 }}
-            source={{ uri: `https://ucarecdn.com/${plan.user.profilePictureId}/` }}
-          />
+          <ProfilePicture profilePictureId={plan.user.profilePictureId} borderRadius={25} />
         </TouchableOpacity>
         <View style={{ marginLeft: 15, flex: 1 }}>
           <Text style={{ fontSize: 20, fontWeight: '600', color: AppColor.text }}>
@@ -200,19 +200,27 @@ const FetchContact = ({ navigation }) => {
   };
 
   const navigateToUserProfilePage = (user) => {
-    navigation.navigate('Owner', {
-      imageUri: `https://ucarecdn.com/${user.profilePictureId}/`,
-      name: user.firstName + ' ' + user.lastName,
-      userId: user.id
-    });
+    navigation.navigate(
+      'Owner',
+      {
+        imageUri: user.profilePictureId,
+        name: user.firstName + ' ' + user.lastName,
+        userId: user.id
+      },
+      { screen: 'DrawerStack' }
+    );
   };
 
   const navigateToUserMessages = (user) => {
-    navigation.navigate('Message', {
-      imageUri: `https://ucarecdn.com/${user.profilePictureId}/`,
-      name: user.firstName + ' ' + user.lastName,
-      receiverId: user.id
-    });
+    navigation.navigate(
+      'Message',
+      {
+        imageUri: user.profilePictureId,
+        name: user.firstName + ' ' + user.lastName,
+        receiverId: user.id
+      },
+      { screen: 'DrawerStack' }
+    );
   };
 
   const onEditContactPress = (user) => {

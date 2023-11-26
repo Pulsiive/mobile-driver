@@ -16,6 +16,7 @@ import { FlatList, TextInput, TouchableOpacity } from 'react-native-gesture-hand
 import { AppStyles } from '../../AppStyles';
 import Icon from 'react-native-vector-icons/Entypo';
 import api from '../../db/Api';
+import ProfilePicture from '../../components/ProfilePicture';
 
 import * as Animatable from 'react-native-animatable';
 
@@ -147,15 +148,9 @@ function Message(props) {
       >
         {isMe ? null : (
           <TouchableOpacity onPress={() => onPress()}>
-            <Image
-              source={{ uri: imageUri }}
-              style={{
-                width: 50,
-                height: 50,
-                borderRadius: 25,
-                marginRight: 10
-              }}
-            />
+            <View style={{ marginRight: 10 }}>
+              <ProfilePicture profilePictureId={imageUri} borderRadius={25} />
+            </View>
           </TouchableOpacity>
         )}
         <View

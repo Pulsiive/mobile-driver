@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Dimensions, Image, StyleSheet, View, TouchableWithoutFeedback, Text } from 'react-native';
 import { AppStyles } from '../../AppStyles';
+import ProfilePicture from '../../components/ProfilePicture';
 
 function Chat({ chat }) {
   const name = `${chat.user.firstName} ${chat.user.lastName}`;
@@ -12,7 +13,7 @@ function Chat({ chat }) {
   const navigation = useNavigation();
   const onPress = () => {
     navigation.navigate('Message', {
-      imageUri: chat.user.profilePictureUri,
+      imageUri: chat.user.profilePictureId,
       name,
       receiverId: chat.user.id
     });
@@ -44,10 +45,11 @@ function Chat({ chat }) {
         <View style={styles.separator}></View>
         <View style={styles.container}>
           <View style={styles.imageContainer}>
-            <Image
-              source={{ uri: chat.user.profilePictureUri }}
-              resizeMode="cover"
-              style={styles.image}
+            <ProfilePicture
+              profilePictureId={chat.user.profilePictureId}
+              width={45}
+              height={45}
+              borderRadius={22.5}
             />
           </View>
           <View></View>
@@ -76,11 +78,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 10
-  },
-  image: {
-    width: 45,
-    height: 45,
-    borderRadius: 22.5
   },
   chatContainer: {
     width: '75%'

@@ -74,7 +74,8 @@ function Settings({ navigation }) {
       setProfile({
         firstName: data.data.firstName,
         lastName: data.data.lastName,
-        email: data.data.email
+        email: data.data.email,
+        profilePictureId: data.data.profilePictureId
       })
     );
   };
@@ -226,7 +227,7 @@ function Settings({ navigation }) {
             : 'Accéder au profil'
         }
         subtext="Accéder aux informations du profil"
-        image={[AppIcon.images.profile, 60]}
+        profilePicture={{ id: profile.profilePictureId, height: 60, width: 60, borderRadius: 70 }}
         onPress={() => navigation.navigate('Profile')}
       />
 

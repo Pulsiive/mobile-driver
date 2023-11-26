@@ -104,14 +104,19 @@ export default function PaymentsUICustomScreen({ route, navigation }) {
     if (error) {
       Alert.alert(`Error code: ${error.code}`, error.message);
     } else {
-      const { data, status } = await Backend.bookSlot(slot_id);
+      Alert.alert('Success', 'The payment was confirmed successfully!');
+      const { data, status } = await Backend.createReservationRequest({
+        slotId: slot_id,
+        price: 20
+      });
       console.log(data, status);
       if (status === 200) {
         // Alert.alert('Success', 'The payment was confirmed successfully!');
         showMessage({
           duration: 4000,
-          message: `Créneau réservé avec succès !`,
-          description: 'Retrouvez vos réservations sur votre planning.',
+          message: `Demande de réservation crée avec succès ! !`,
+          description:
+            'La réservation sera sur votre calendrier après acceptation du propriétaire.',
           type: 'success',
           backgroundColor: 'green'
         });
