@@ -20,3 +20,4 @@ export { default as FilterBubble } from './FilterBubble';
 export { default as FilterSlider } from './FilterSlider';
 export { default as FloatingButton } from './FloatingButton';
 export { default as Badge } from './Badge';
+export { default as ProfilePicture } from './ProfilePicture';
