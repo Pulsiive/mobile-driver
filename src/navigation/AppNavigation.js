@@ -140,7 +140,7 @@ const TabNavigator = () => {
             );
           }
         }}
-        name="Profile"
+        name="Settings"
         component={Settings}
       />
     </Tab.Navigator>
@@ -157,7 +157,6 @@ const RootNavigator = () => {
     })
     .flat();
 
-  console.log(screens);
   return (
     <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
       {screens}

@@ -15,11 +15,6 @@ const getRoutes = () => {
   const { AppColor } = useTheme();
 
   return [
-    // {
-    //   name: 'Map',
-    //   component: Map,
-    //   options: { headerShown: false }
-    // },
     {
       name: 'Locations',
       component: Locations,
