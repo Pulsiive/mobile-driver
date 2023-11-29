@@ -18,6 +18,9 @@ import {
 import { format, parseISO, compareDesc, isPast, isFuture } from 'date-fns';
 import { fr } from 'date-fns/locale';
 
+import InProgressReservationAlert from './InProgressReservationAlert';
+import InProgressReservationModal from './InProgressReservationModal';
+
 const ReservationCard = ({ reservations }) => {
   const { AppColor } = useTheme();
 
@@ -52,7 +55,7 @@ const ReservationCard = ({ reservations }) => {
     >
       <View style={{ height: 80 }}>
         <TextSubTitle
-          title={'Borne de ' + reservations.owner}
+          title={'Borne de ' + reservations.owner.firstName}
           style={{ marginBottom: 16, fontSize: AppStyles.fontSize.contentTitle }}
         />
         <Badge
@@ -72,6 +75,7 @@ const ReservationCard = ({ reservations }) => {
     </FloatingNormalCard>
   );
 };
+
 function Planning({ navigation }) {
   const { AppColor } = useTheme();
 
@@ -79,6 +83,10 @@ function Planning({ navigation }) {
   const [reservations, setReservations] = useState([]);
   const [filter, setFilter] = useState(0);
   const [loading, setLoading] = useState(true);
+
+  const [inProgressReservation, setInProgressReservation] = useState(null);
+  const [isInProgressReservationModalOpen, setIsInProgressReservationModalOpen] = useState(false);
+  const [isInProgressReservationFinished, setIsInProgressReservationFinished] = useState(false);
 
   function formatReservationDate(dateString) {
     const date = parseISO(dateString);
@@ -96,6 +104,7 @@ function Planning({ navigation }) {
   useEffect(() => {
     async function fetchReservations() {
       try {
+        const now = new Date();
         const res = await Backend.getReservations();
         // console.log(JSON.stringify(res.data, null, '\t'));
         if (res.status === 200) {
@@ -104,13 +113,29 @@ function Planning({ navigation }) {
           );
           let slotParsed = await Promise.all(
             sortedReservations.map(async (slot) => {
-              const owner = await Backend.getUserFromId(slot.driverId);
-              return {
+              const owner = await Backend.getUserFromId(slot.stationProperties.station.ownerId);
+              const formatedReservation = {
                 ...slot,
                 dateTemp: formatReservationDate(slot.opensAt),
                 slotTime: formatReservationTime(slot.opensAt, slot.closesAt),
-                owner: owner.data.firstName
+                owner: {
+                  id: owner.data.id,
+                  firstName: owner.data.firstName,
+                  lastName: owner.data.lastName,
+                  profilePictureId: owner.data.profilePictureId,
+                  ratings: owner.data.receivedRatings
+                },
+                address: slot.stationProperties.station.coordinates.address,
+                city: slot.stationProperties.station.coordinates.city,
+                price: slot.stationProperties.price
               };
+              if (
+                new Date(formatedReservation.opensAt).getTime() <= now.getTime() &&
+                new Date(formatedReservation.closesAt).getTime() >= now.getTime()
+              ) {
+                setInProgressReservation(formatedReservation);
+              }
+              return formatedReservation;
             })
           );
           // console.log(JSON.stringify(slotParsed, null, '\t'));
@@ -164,6 +189,12 @@ function Planning({ navigation }) {
   return (
     <View style={[AppStyles.container, styles.container]}>
       <TextTitle title="Vos réservations" style={{ marginBottom: 0 }} />
+      {inProgressReservation && !isInProgressReservationFinished && (
+        <InProgressReservationAlert
+          reservation={inProgressReservation}
+          onClick={() => setIsInProgressReservationModalOpen(true)}
+        />
+      )}
       {reservations ? (
         <>
           <View style={styles.planning}>
@@ -215,6 +246,18 @@ function Planning({ navigation }) {
             onPress={() => navigation.navigate('Map')}
           />
         </View>
+      )}
+      {inProgressReservation && (
+        <InProgressReservationModal
+          isOpen={isInProgressReservationModalOpen}
+          onClose={() => setIsInProgressReservationModalOpen(false)}
+          onFinish={() => {
+            setIsInProgressReservationFinished(true);
+            setIsInProgressReservationModalOpen(false);
+          }}
+          reservation={inProgressReservation}
+          navigation={navigation}
+        />
       )}
     </View>
   );
