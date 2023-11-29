@@ -197,45 +197,47 @@ function OwnerV2({ navigation }) {
   }, [profile]);
 
   useEffect(() => {
-    if (currentTabIndex >= 0) {
-      if (currentTabIndex === 0) {
-        if (profile.privateStations && profile.privateStations.length > 0) {
-          setCurrentTabComponent(<Station ownerId={userId}></Station>);
-        } else {
-          setCurrentTabComponent(
-            <Text style={{ fontSize: 14, color: 'white' }}>User has no stations yet.</Text>
-          );
-        }
-      } else if (currentTabIndex === 2) {
-        if (profile.receivedRatings.length > 0) {
-          console.log(profile.receivedRatings);
-          setCurrentTabComponent(
-            <FlatList
-              data={profile.receivedRatings}
-              renderItem={({ item }) => renderRating(item)}
-            ></FlatList>
-          );
-        } else {
-          setCurrentTabComponent(
-            <Text style={{ fontSize: 14, color: 'white' }}>User has no ratings yet.</Text>
-          );
-        }
-      } else if (currentTabIndex === 3) {
-        if (profile.wroteRatings.length > 0) {
-          setCurrentTabComponent(
-            <FlatList
-              data={profile.wroteRatings}
-              renderItem={({ item }) => renderRating(item, true)}
-            ></FlatList>
-          );
-        } else {
-          setCurrentTabComponent(
-            <Text style={{ fontSize: 14, color: 'white' }}>User has no comments yet.</Text>
-          );
-        }
-      } else setCurrentTabComponent(undefined);
+    if (profile) {
+      if (currentTabIndex >= 0) {
+        if (currentTabIndex === 0) {
+          if (profile.privateStations && profile.privateStations.length > 0) {
+            setCurrentTabComponent(<Station ownerId={userId}></Station>);
+          } else {
+            setCurrentTabComponent(
+              <Text style={{ fontSize: 14, color: 'white' }}>User has no stations yet.</Text>
+            );
+          }
+        } else if (currentTabIndex === 2) {
+          if (profile.receivedRatings.length > 0) {
+            console.log(profile.receivedRatings);
+            setCurrentTabComponent(
+              <FlatList
+                data={profile.receivedRatings}
+                renderItem={({ item }) => renderRating(item)}
+              ></FlatList>
+            );
+          } else {
+            setCurrentTabComponent(
+              <Text style={{ fontSize: 14, color: 'white' }}>User has no ratings yet.</Text>
+            );
+          }
+        } else if (currentTabIndex === 3) {
+          if (profile.wroteRatings.length > 0) {
+            setCurrentTabComponent(
+              <FlatList
+                data={profile.wroteRatings}
+                renderItem={({ item }) => renderRating(item, true)}
+              ></FlatList>
+            );
+          } else {
+            setCurrentTabComponent(
+              <Text style={{ fontSize: 14, color: 'white' }}>User has no comments yet.</Text>
+            );
+          }
+        } else setCurrentTabComponent(undefined);
+      }
     }
-  }, [currentTabIndex]);
+  }, [currentTabIndex, profile]);
 
   return !profile ? (
     <View style={styles.safe}>
