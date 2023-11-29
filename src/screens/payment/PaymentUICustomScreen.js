@@ -120,7 +120,7 @@ export default function PaymentsUICustomScreen({ route, navigation }) {
           type: 'success',
           backgroundColor: 'green'
         });
-        navigation.navigate('PlanningStack');
+        navigation.navigate('Planning');
       } else if (status === 409) {
         // Alert.alert('Success', 'The payment was confirmed successfully!');
         showMessage({

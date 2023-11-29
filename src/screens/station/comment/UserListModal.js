@@ -10,7 +10,7 @@ import ProfilePicture from '../../../components/ProfilePicture';
 function Item({ user, navigation }) {
   const navigateToUserProfile = () => {
     navigation.navigate('Owner', {
-      imageUri: `https://ucarecdn.com/${user.profilePictureId}/`,
+      imageUri: user.profilePictureId,
       name: `${user.firstName} ${user.lastName}`,
       userId: user.id
     });

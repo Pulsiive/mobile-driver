@@ -126,7 +126,7 @@ function VerifyPhoneNumberOTP({ route, navigation }) {
         type: 'success',
         backgroundColor: 'green'
       });
-      navigation.navigate('DrawerStack');
+      navigation.navigate('TabNavigator');
     } else if (res.status === 401) {
       showMessage({
         duration: 4000,
