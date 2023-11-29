@@ -382,7 +382,7 @@ function Settings({ navigation }) {
           isEnabled={true}
           onPress={() => {
             setModalVisible(false);
-            navigation.navigate('LoginStack');
+            navigation.navigate('Login');
           }}
         />
         <ButtonCommon

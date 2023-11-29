@@ -227,7 +227,7 @@ function Checkout({ navigation, route }) {
                                         type: "success",
                                         backgroundColor: "green"
                                     });
-                                    navigation.navigate('PlanningStack');
+                                    navigation.navigate('Planning');
                                 } else {
                                     showMessage({
                                         duration: 4000,

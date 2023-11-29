@@ -186,7 +186,7 @@ function ReqPhoneNumberOTP({ navigation }) {
           <Text style={styles.IText}>Suivant</Text>
         )}
       </Pressable>
-      <Pressable onPress={() => navigation.navigate('DrawerStack')}>
+      <Pressable onPress={() => navigation.navigate('TabNavigator')}>
         <View
           style={{
             backgroundColor: '#81cd2c',

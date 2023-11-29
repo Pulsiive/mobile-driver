@@ -41,7 +41,7 @@ function Login({ navigation }) {
             setEmail('');
             setPassword('');
             setValid(false);
-            navigation.navigate('DrawerStack');
+            navigation.navigate('TabNavigator');
           })
           .catch((e) => console.log(e));
       }
@@ -96,7 +96,7 @@ function Login({ navigation }) {
             setValid(false);
 
             setTimeout(() => {
-              navigation.navigate('DrawerStack');
+              navigation.navigate('TabNavigator');
             }, 3000);
           })
           .catch((e) => console.log(e));

@@ -61,7 +61,7 @@ function Panier({ navigation, route }) {
       <View style={styles.container}>
         <TouchableOpacity
           style={{ marginRight: 'auto', top: 10 + '%' }}
-          onPress={() => navigation.navigate('BookingPlanning', { stationId })}
+          onPress={() => navigation.navigate('Planning', { stationId })}
         >
           <Image style={{ width: 20, height: 20 }} source={AppIcon.images.back}></Image>
         </TouchableOpacity>

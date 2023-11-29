@@ -283,7 +283,7 @@ function Home({ navigation }) {
       setModalVisible(false);
       setModalData({});
       //navigation.navigate('PlanningUser', { stationId: selectedStation.id });
-      navigation.navigate('BookingPlanning', { stationId: selectedStation.id });
+      navigation.navigate('Planning', { stationId: selectedStation.id });
     };
 
     return (

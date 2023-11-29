@@ -200,27 +200,19 @@ const FetchContact = ({ navigation }) => {
   };
 
   const navigateToUserProfilePage = (user) => {
-    navigation.navigate(
-      'Owner',
-      {
-        imageUri: user.profilePictureId,
-        name: user.firstName + ' ' + user.lastName,
-        userId: user.id
-      },
-      { screen: 'DrawerStack' }
-    );
+    navigation.navigate('Owner', {
+      imageUri: user.profilePictureId,
+      name: user.firstName + ' ' + user.lastName,
+      userId: user.id
+    });
   };
 
   const navigateToUserMessages = (user) => {
-    navigation.navigate(
-      'Message',
-      {
-        imageUri: user.profilePictureId,
-        name: user.firstName + ' ' + user.lastName,
-        receiverId: user.id
-      },
-      { screen: 'DrawerStack' }
-    );
+    navigation.navigate('Message', {
+      imageUri: user.profilePictureId,
+      name: user.firstName + ' ' + user.lastName,
+      receiverId: user.id
+    });
   };
 
   const onEditContactPress = (user) => {
