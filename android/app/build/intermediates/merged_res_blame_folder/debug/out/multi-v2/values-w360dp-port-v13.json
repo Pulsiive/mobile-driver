@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/home/maxime/Epitech/EIP/mobile-driver/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-w360dp-port-v13/values-w360dp-port-v13.xml",
+            "outputFile": "/home/ilias/Pulsive/repositories/mobile-driver/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-w360dp-port-v13/values-w360dp-port-v13.xml",
             "map": [
                 {
-                    "source": "/home/maxime/.gradle/caches/transforms-3/6916c9a48e813e2ad0ceb7f51451d040/transformed/material-1.5.0/res/values-w360dp-port-v13/values-w360dp-port-v13.xml",
+                    "source": "/home/ilias/.gradle/caches/transforms-3/432c09ba1a6b164e517236f0ab50d5e6/transformed/material-1.5.0/res/values-w360dp-port-v13/values-w360dp-port-v13.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",

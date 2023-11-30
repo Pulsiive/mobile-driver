@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/home/maxime/Epitech/EIP/mobile-driver/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-ms-rMY/values-ms-rMY.xml",
+            "outputFile": "/home/ilias/Pulsive/repositories/mobile-driver/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-ms-rMY/values-ms-rMY.xml",
             "map": [
                 {
-                    "source": "/home/maxime/.gradle/caches/transforms-3/d1bc5f828d2ad9e10a5d9dc25a72449c/transformed/jetified-stripe-core-20.5.0/res/values-ms-rMY/values-ms-rMY.xml",
+                    "source": "/home/ilias/.gradle/caches/transforms-3/1adc83f0a9b135aeae13962e90ca93a8/transformed/jetified-stripe-core-20.5.0/res/values-ms-rMY/values-ms-rMY.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10",
                         "startColumns": "4,4,4,4,4,4,4,4,4",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "/home/maxime/.gradle/caches/transforms-3/025918c0025e48d56b240fab13174262/transformed/jetified-payments-ui-core-20.5.0/res/values-ms-rMY/values-ms-rMY.xml",
+                    "source": "/home/ilias/.gradle/caches/transforms-3/3a33275ce0e219daf7064f48764e0b89/transformed/jetified-payments-ui-core-20.5.0/res/values-ms-rMY/values-ms-rMY.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -38,7 +38,7 @@
                     }
                 },
                 {
-                    "source": "/home/maxime/.gradle/caches/transforms-3/7b806cb9e153c6e7039bdc26301ef179/transformed/jetified-stripe-3ds2-android-6.1.5/res/values-ms-rMY/values-ms-rMY.xml",
+                    "source": "/home/ilias/.gradle/caches/transforms-3/40042ad9a3b91c6264f7a8a4497aaefb/transformed/jetified-stripe-3ds2-android-6.1.5/res/values-ms-rMY/values-ms-rMY.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8",
                         "startColumns": "4,4,4,4,4,4,4",
@@ -55,7 +55,7 @@
                     }
                 },
                 {
-                    "source": "/home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/res/values-ms-rMY/values-ms-rMY.xml",
+                    "source": "/home/ilias/.gradle/caches/transforms-3/0b0ecc7970ee99adb4404207368ea20c/transformed/jetified-payments-core-20.5.0/res/values-ms-rMY/values-ms-rMY.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -72,7 +72,7 @@
                     }
                 },
                 {
-                    "source": "/home/maxime/.gradle/caches/transforms-3/d7ebd5bb1d864c3198a63b04f7cfdbd4/transformed/jetified-paymentsheet-20.5.0/res/values-ms-rMY/values-ms-rMY.xml",
+                    "source": "/home/ilias/.gradle/caches/transforms-3/93cfefcae910f342864e6f6e05238aa7/transformed/jetified-paymentsheet-20.5.0/res/values-ms-rMY/values-ms-rMY.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
