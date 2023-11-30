@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { StyleSheet, Text, View } from 'react-native';
 import { AppStyles, useTheme } from '../../AppStyles';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -81,6 +82,7 @@ function Planning({ navigation }) {
 
   const [reservationsFetch, setReservationsFetch] = useState([]);
   const [reservations, setReservations] = useState([]);
+  const [reservationRequests, setReservationsRequests] = useState(null);
   const [filter, setFilter] = useState(0);
   const [loading, setLoading] = useState(true);
 
@@ -100,6 +102,47 @@ function Planning({ navigation }) {
       locale: fr
     })}`;
   }
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const fetchReservationsRequests = async () => {
+        if (filter === 1) {
+          const requests = await Backend.getReservationRequests();
+          if (requests.status !== -1) {
+            const sortedReservations = requests.data.sort((a, b) =>
+              compareDesc(parseISO(a.slot.opensAt), parseISO(b.slot.opensAt))
+            );
+            const slotParsed = await Promise.all(
+              sortedReservations.map(async (request) => {
+                const owner = await Backend.getUserFromId(
+                  request.slot.stationProperties.station.ownerId
+                );
+                const formatedReservation = {
+                  ...request.slot,
+                  dateTemp: formatReservationDate(request.slot.opensAt),
+                  slotTime: formatReservationTime(request.slot.opensAt, request.slot.closesAt),
+                  owner: {
+                    id: owner.data.id,
+                    firstName: owner.data.firstName,
+                    lastName: owner.data.lastName,
+                    profilePictureId: owner.data.profilePictureId,
+                    ratings: owner.data.receivedRatings
+                  },
+                  address: request.slot.stationProperties.station.coordinates.address,
+                  city: request.slot.stationProperties.station.coordinates.city,
+                  price: request.slot.stationProperties.price
+                };
+                return formatedReservation;
+              })
+            );
+            setReservationsRequests(slotParsed);
+          }
+        }
+      };
+
+      fetchReservationsRequests();
+    }, [filter])
+  );
 
   useEffect(() => {
     async function fetchReservations() {
@@ -158,7 +201,7 @@ function Planning({ navigation }) {
 
     switch (filter) {
       case 1:
-        filteredReservations = reservationsFetch.filter((reservation) => !reservation.isBooked);
+        filteredReservations = reservationRequests;
         break;
       case 2:
         filteredReservations = reservationsFetch.filter(
@@ -171,7 +214,7 @@ function Planning({ navigation }) {
         );
         break;
       default:
-        filteredReservations = [...reservationsFetch];
+        filteredReservations = [...reservationsFetch, ...reservationRequests];
     }
 
     setReservations(filteredReservations);

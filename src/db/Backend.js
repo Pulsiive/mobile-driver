@@ -47,6 +47,11 @@ class Backend {
     return res;
   };
 
+  getReservationRequests = async () => {
+    const res = await API.send('GET', '/api/v1/driver/reservations/requests/', null, true);
+    return res;
+  };
+
   getStation = async (stationId) => {
     const res = await API.send('GET', `/api/v1/profile/station/${stationId}`, null, false);
     return res;

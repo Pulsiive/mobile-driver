@@ -2,9 +2,10 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/Entypo';
 import { Pressable, Text, View } from 'react-native';
 import CountDown from 'react-native-countdown-component';
-import { ModalSwipeUp, ProfilePicture } from '../../components';
+import { ModalSwipeUp, ProfilePicture, ButtonText } from '../../components';
 import { default as FontAwesomeIcon } from 'react-native-vector-icons/FontAwesome';
 import { showMessage } from 'react-native-flash-message';
+import Backend from '../../db/Backend';
 
 const InProgressReservationModal = ({ isOpen, onClose, onFinish, reservation, navigation }) => {
   const diff = (new Date(reservation.closesAt).getTime() - new Date().getTime()) / 1000;
@@ -26,6 +27,15 @@ const InProgressReservationModal = ({ isOpen, onClose, onFinish, reservation, na
       type: 'info'
     });
     onFinish();
+  };
+
+  const navigateToStationInformations = async () => {
+    const station = await Backend.getStation(reservation.stationProperties.stationId);
+    if (station.status !== -1) {
+      navigation.navigate('StationInformations', {
+        station: { ...station.data.station, owner: reservation.owner }
+      });
+    }
   };
 
   return (
@@ -75,9 +85,11 @@ const InProgressReservationModal = ({ isOpen, onClose, onFinish, reservation, na
           </View>
           <View style={{ flexDirection: 'row' }}>
             <Icon name="location-pin" size={20} color="black" />
-            <Text style={{ marginLeft: 5, fontSize: 18, color: 'black' }}>
-              {`${reservation.address}, ${reservation.city}`}
-            </Text>
+            <ButtonText
+              style={{ marginLeft: 5, fontSize: 18, color: 'black' }}
+              title={`${reservation.address}, ${reservation.city}`}
+              onPress={navigateToStationInformations}
+            />
           </View>
           <View style={{ flexDirection: 'row', marginLeft: 3 }}>
             <FontAwesomeIcon name="euro" size={20} color="black" />
