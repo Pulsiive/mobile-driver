@@ -82,7 +82,7 @@ function Planning({ navigation }) {
 
   const [reservationsFetch, setReservationsFetch] = useState([]);
   const [reservations, setReservations] = useState([]);
-  const [reservationRequests, setReservationsRequests] = useState(null);
+  const [reservationRequests, setReservationsRequests] = useState([]);
   const [filter, setFilter] = useState(0);
   const [loading, setLoading] = useState(true);
 
