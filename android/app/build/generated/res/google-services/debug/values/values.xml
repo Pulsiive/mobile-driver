@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="gcm_defaultSenderId" translatable="false">915547065321</string>
+    <string name="google_api_key" translatable="false">AIzaSyD5nWI1a1H7fgotM8DpKSFTm_pi-u4u6GQ</string>
+    <string name="google_app_id" translatable="false">1:915547065321:android:caaf928ecfdc1ed64c1978</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyD5nWI1a1H7fgotM8DpKSFTm_pi-u4u6GQ</string>
+    <string name="google_storage_bucket" translatable="false">pulsive-85ebf.appspot.com</string>
+    <string name="project_id" translatable="false">pulsive-85ebf</string>
+</resources>
