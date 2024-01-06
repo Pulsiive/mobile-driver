@@ -38,13 +38,17 @@ const FetchInfo = ({ date, stationId, setSlot, setModalVisible }) => {
         data[slot[index].date].push({
           date: slot[index].date,
           id: index,
-          Hour: slot[index].opensAt + ' -> ' + slot[index].closeAt,
+          Hour: slot[index].opensAt + ' - ' + slot[index].closeAt,
           Name: slot[index].stationId,
           picture:
             'https://thumbs.dreamstime.com/b/jeune-femme-heureuse-de-brunette-avec-le-sourire-%C3%A9tonnant-26038696.jpg',
           content: '',
           isBooked: slot[index].isBooked,
-          slotId: slot[index].id
+          slotId: slot[index].id,
+          price: slot[index].price,
+          pricePerMin: slot[index].pricePerMin,
+          nbMins: slot[index].nbMins,
+          brutPrice: slot[index].brutPrice
         });
         console.log('pushed one new object');
       }
@@ -56,6 +60,7 @@ const FetchInfo = ({ date, stationId, setSlot, setModalVisible }) => {
         console.log('Fetching station slot reservation to display');
         const slotParsed = [];
         const res = await Backend.getSlots(stationId);
+        console.log(res);
 
         if (res.status === 200) {
           for (var index = 0; index < res.data.length; index++) {
@@ -65,7 +70,11 @@ const FetchInfo = ({ date, stationId, setSlot, setModalVisible }) => {
               date: res.data[index].opensAt.split('T')[0],
               opensAt: res.data[index].opensAt.split('T')[1].split('.')[0],
               closeAt: res.data[index].closesAt.split('T')[1].split('.')[0],
-              isBooked: res.data[index].isBooked
+              isBooked: res.data[index].isBooked,
+              price: res.data[index].price,
+              pricePerMin: res.data[index].price_per_minute,
+              nbMins: res.data[index].nb_mins,
+              brutPrice: res.data[index].brut_price,
             });
           }
           fillAgendaWithReservations(slotParsed);
@@ -128,16 +137,12 @@ const FetchInfo = ({ date, stationId, setSlot, setModalVisible }) => {
               >
                 <View>
                   <Image style={styles.picture} source={{ uri: plan.picture }}></Image>
-                  <Text style={styles.name}>{plan.slotId}</Text>
+                  <Text style={styles.name}>{plan.price} € ({plan.pricePerMin} € / Min)</Text>
                   <View style={styles.firstRow}>
                     <Image style={styles.rendCalendar} source={AppIcon.images.calendar}></Image>
                     <Text style={styles.Txtduration}>
                       {plan.date} - {plan.Hour}
                     </Text>
-                  </View>
-                  <View style={styles.secondRow}>
-                    <Image style={styles.rendbill} source={AppIcon.images.bill}></Image>
-                    <Text style={styles.Txtbill}>{plan.content}</Text>
                   </View>
                 </View>
               </Animated.View>

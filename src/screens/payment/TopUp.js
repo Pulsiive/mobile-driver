@@ -332,14 +332,14 @@ function Settings({ navigation }) {
       />
 
       <TextTitle
-        title="Portefeuille"
+        title="Top up"
         style={{ fontSize: AppStyles.fontSize.content, marginTop: 30 }}
       />
       <ButtonCommon
-        title={`Ajouter de l'argent (${profile.balance/100} €)`}
+        title="Ajouter de l'argent"
         style={{ marginVertical: 10 }}
         onPress={() => {
-          navigation.navigate('TopUp')
+          navigation.navigate('PaymentUICustomScreen')
         }}
       />
 

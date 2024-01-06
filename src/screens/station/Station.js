@@ -29,7 +29,7 @@ function Station({ ownerId }) {
         <View style={styles.description}>
           <Text style={styles.textDescription}>Type: {props.item.properties.plugTypes}</Text>
           <Text style={styles.textDescription}>Power: {props.item.properties.maxPower} kW</Text>
-          <Text style={styles.textDescription}>Price: {props.item.properties.price} €/h</Text>
+          <Text style={styles.textDescription}>Price: {props.item.properties.price/100} €/ minute</Text>
           <Text style={styles.textDescription}>
             Charger(s): {props.item.properties.nbChargingPoints}
           </Text>

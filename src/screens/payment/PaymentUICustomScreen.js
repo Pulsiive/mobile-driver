@@ -1,23 +1,27 @@
-import React, { useState } from 'react';
-import { Alert, StyleSheet, View } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { Alert, Animated, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useStripe, Address, BillingDetails, StripeProvider } from '@stripe/stripe-react-native';
 import { colors } from './colors';
 import Button from './Button';
 import { showMessage } from 'react-native-flash-message';
 import Backend from '../../db/Backend';
 import PaymentScreen from './PaymentScreen';
+import MaskInput, { createNumberMask } from 'react-native-mask-input';
 
 export default function PaymentsUICustomScreen({ route, navigation }) {
-  const slot_id = route.params.slot_id;
+  const [brutPrice, setBrutPrice] = useState('15');
   const { initPaymentSheet, presentPaymentSheet, confirmPaymentSheetPayment } = useStripe();
   const [paymentSheetEnabled, setPaymentSheetEnabled] = useState(false);
   const [loading, setLoading] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState(null);
   const [clientSecret, setClientSecret] = useState(null);
-  const [paymentIntentId, setPaymentIntentId] = useState(null);
+  const [paymentIntentId, setPaymentIntentId] = useState();
+  const stateRef = useRef();
+
+  stateRef.current = paymentIntentId;
 
   const fetchPaymentSheetParams = async () => {
-    const response = await Backend.createStripePaymentIntent();
+    const response = await Backend.createStripePaymentIntent(Number(brutPrice) * 100);
     if (response.status === 200) {
       setPaymentIntentId(response.data.id);
       return {
@@ -35,7 +39,6 @@ export default function PaymentsUICustomScreen({ route, navigation }) {
 
     try {
       const { paymentIntent } = await fetchPaymentSheetParams();
-      console.log(paymentIntent);
 
       const address = {
         city: 'Paris',
@@ -94,18 +97,30 @@ export default function PaymentsUICustomScreen({ route, navigation }) {
 
   const onPressBuy = async () => {
     setLoading(true);
+
+    await Backend.updateStripePaymentIntent(Number(brutPrice) * 100, paymentIntentId);
+
     const { error } = await confirmPaymentSheetPayment();
 
-    const response = await Backend.submitPayment(paymentIntentId);
+    await Backend.submitPayment(paymentIntentId);
 
-    if (response.status !== 200) {
-      Alert.alert(`Error code: ${response.status}`, response.data);
-    }
     if (error) {
-      Alert.alert(`Error code: ${error.code}`, error.message);
+      showMessage({
+        duration: 4000,
+        message: `Une erreur est survenue`,
+        type: 'danger',
+        backgroundColor: 'red'
+      });
     } else {
-      Alert.alert('Success', 'The payment was confirmed successfully!');
-      const { data, status } = await Backend.bookSlot(slot_id);
+      showMessage({
+        duration: 4000,
+        message: `Paiement effectué avec succès !`,
+        description: 'Réservez votre prochaine borne dès maintenant',
+        type: 'success',
+        backgroundColor: 'green'
+      });
+      navigation.goBack();
+      /*const { data, status } = await Backend.bookSlot(slot_id);
       console.log(data, status);
       if (status === 200) {
         showMessage({
@@ -117,14 +132,19 @@ export default function PaymentsUICustomScreen({ route, navigation }) {
         });
         navigation.navigate('PlanningStack');
       }
-      setPaymentSheetEnabled(false);
+      setPaymentSheetEnabled(false);*/
     }
     setLoading(false);
   };
 
+  const dollarMask = createNumberMask({
+    prefix: ['€', ' '],
+    delimiter: '.',
+    separator: ',',
+    precision: 2,
+  })
+
   return (
-    // In your app’s checkout, make a network request to the backend and initialize PaymentSheet.
-    // To reduce loading time, make this request before the Checkout button is tapped, e.g. when the screen is loaded.
     <StripeProvider
       publishableKey="pk_test_51JKmWpGB07Bddq7mTyK0kTy9mxkFiD3PFxADPd7Ig0i0LLI2iAwUym5bTzRtjwyyH1aA1rM7QLADb8O21UisPCId00udEw4kUG"
       threeDSecureParams={{
@@ -150,12 +170,28 @@ export default function PaymentsUICustomScreen({ route, navigation }) {
       }}
     >
       <PaymentScreen onInit={initialisePaymentSheet}>
+        <View style={{ marginTop: '20%'}}>
+          <Text
+            style={{color: 'white', textAlign: 'center', fontSize: 10, fontWeight: 'bold', marginBottom: 50}}
+          >
+            Entrer le montant
+          </Text>
+          <MaskInput
+            value={brutPrice}
+            style={{color: 'white', textAlign: 'center', fontSize: 50, fontWeight: 'bold'}}
+            onChangeText={(masked, unmasked) => {
+              setBrutPrice(unmasked);
+            }}
+            mask={dollarMask}
+            autoFocus={true}
+          />
+        </View>
         <View style={{ marginTop: '20%' }}>
           <Button
             variant="primary"
             loading={loading}
             title={'Choisir une méthode de paiement'}
-            disabled={!paymentSheetEnabled}
+            disabled={!paymentSheetEnabled || !Number(brutPrice)}
             onPress={choosePaymentOption}
           />
         </View>
@@ -164,7 +200,7 @@ export default function PaymentsUICustomScreen({ route, navigation }) {
           <Button
             variant="primary"
             loading={loading}
-            disabled={!paymentMethod || !paymentSheetEnabled}
+            disabled={!paymentSheetEnabled || !Number(brutPrice) || !paymentMethod}
             title={`Payer${paymentMethod ? ` avec ${paymentMethod.label}` : ''}`}
             onPress={onPressBuy}
           />

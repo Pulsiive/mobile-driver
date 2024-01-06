@@ -1,7 +1,7 @@
 // import { AntDesign, Entypo, FontAwesome, FontAwesome5, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { useRoute } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   View,
   StyleSheet,
@@ -16,12 +16,20 @@ import { FlatList, TextInput, TouchableOpacity } from 'react-native-gesture-hand
 import { AppStyles } from '../../AppStyles';
 import Icon from 'react-native-vector-icons/Entypo';
 import api from '../../db/Api';
+import config from '../../db/config';
+import { getUser } from '../../contexts/UserContext';
+import serviceAccessToken from '../../db/AccessToken';
 
 function Message(props) {
+  const user = getUser();
   const width = Dimensions.get('window').width;
+  let ws = null;
   const { imageUri, name, receiverId } = useRoute().params;
   const [text, setText] = React.useState('');
   const [messages, setMessages] = useState();
+  const stateRef = useRef();
+
+  stateRef.current = messages;
 
   const navigation = useNavigation();
   const onPress = () => {
@@ -32,29 +40,71 @@ function Message(props) {
     });
   };
 
+
   useEffect(() => {
-    //TODO: add receiver / author ID as param in API route
-    const interval = setInterval(() => {
-      api.send('GET', '/api/v1/profile/messages').then((messages) => {
-        const sortedMessages = messages.data.receivedMessages
-          .filter((message) => message.authorId === receiverId)
-          .map((message) => ({ ...message, sent: false }));
-        sortedMessages.push(
-          ...messages.data.sentMessages
-            .filter((message) => message.receiverId === receiverId)
-            .map((message) => ({ ...message, sent: true }))
-        );
-        sortedMessages.sort((a, b) => {
-          return new Date(b.createdAt) - new Date(a.createdAt);
-        });
-        setMessages(sortedMessages);
+
+    api.send('GET', '/api/v1/profile/messages').then((messages) => {
+      const sortedMessages = messages.data.receivedMessages
+        .filter((message) => message.authorId === receiverId)
+        .map((message) => ({ ...message, sent: false }));
+      sortedMessages.push(
+        ...messages.data.sentMessages
+          .filter((message) => message.receiverId === receiverId)
+          .map((message) => ({ ...message, sent: true }))
+      );
+      sortedMessages.sort((a, b) => {
+        return new Date(b.createdAt) - new Date(a.createdAt);
       });
-    }, 1000);
-    return () => clearInterval(interval);
+      setMessages(sortedMessages);
+    });
+
+
+    ws = new WebSocket(config.WS_URL);
+    console.log(config.WS_URL, user.id);
+
+    ws.onopen = async () => {
+      console.log('La connexion WebSocket est ouverte.');
+      let accessToken = await serviceAccessToken.get();
+      ws.send(accessToken);
+    };
+
+    ws.onmessage = (e) => {
+        console.log('Nouveau message reçu :', e.data);
+
+        try {
+          const newMsg = JSON.parse(e.data);
+          console.log(newMsg.authorId);
+          if (newMsg.authorId === receiverId) {
+            setMessages([{
+              id: newMsg.id,
+              authorId: newMsg.authorId,
+              receiverId: newMsg.receiverId,
+              body: newMsg.body,
+              read: newMsg.read,
+              sent: false
+            }, ...stateRef.current]);
+          }
+        } catch (e) {
+          console.log(e);
+        }
+    };
+
+    ws.onclose = () => {
+      console.log('La connexion WebSocket est fermée.');
+    };
+
+    return () => {
+      ws.close();
+    };
   }, []);
 
   const sendMessage = async () => {
     try {
+      console.log({message: {
+        receiverId,
+          body: text,
+          createdAt: new Date()
+      }});
       const newMessage = await api.send('POST', '/api/v1/profile/message', {
         message: {
           receiverId,
@@ -62,7 +112,7 @@ function Message(props) {
           createdAt: new Date()
         }
       });
-      setMessages([...messages, { ...newMessage.data, sent: true }]);
+      setMessages([{ ...newMessage.data, sent: true }, ...stateRef.current]);
       setText('');
     } catch (e) {
       console.log('ERROR');
@@ -126,7 +176,7 @@ function Message(props) {
     const radius = isMe ? { borderTopLeftRadius: 20 } : { borderBottomRightRadius: 20 };
     return (
       <View
-        key={id}
+        key={`${id}-${Math.random()}`}
         style={{
           width: width,
           paddingHorizontal: 20,
@@ -184,7 +234,7 @@ function Message(props) {
         style={styles.messagesList}
         data={messages}
         // ListHeaderComponent={renderHeaderSection()}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => `${item.id}-${Math.random()}`}
         renderItem={renderItem}
         showsVerticalScrollIndicator={false}
       />

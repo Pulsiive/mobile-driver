@@ -147,7 +147,7 @@ function StationInformations({ route, navigation }) {
             </View>
             <View style={style.iconLabel}>
               <Icon name="credit" size={28} color="grey" />
-              <Text style={style.text}>{station.properties.price} / hour</Text>
+              <Text style={style.text}>{station.properties.price/100} € / minute</Text>
             </View>
           </View>
           {!station.properties.isPublic && (

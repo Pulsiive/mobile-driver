@@ -39,6 +39,11 @@
 	<dict>
 		<key>NSExceptionDomains</key>
 		<dict>
+			<key>ec2-3-141-10-180.us-east-2.compute.amazonaws.com</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
 			<key>localhost</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>

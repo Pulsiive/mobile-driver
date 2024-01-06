@@ -68,7 +68,7 @@ function Panier({ navigation, route }) {
                           <Text style={{color:'black', fontSize:16}}>Chargeur {station?.properties?.plugTypes[0] ?? 'non défini'}</Text>
                           <Text style={{color:'grey', marginTop: 6, fontSize:8}}>{station?.properties?.id ?? 'non défini'}</Text>
                             <Text style={{color:'grey', marginTop: 6, fontSize:12}}>M.George</Text>
-                            <Text style={{color:'grey', marginTop: 6, fontSize:12}}>{station?.properties?.price/100}€ / minute</Text>
+                            <Text style={{color:'grey', marginTop: 6, fontSize:12}}>{slot.price} € ({slot.pricePerMin} € / minute)</Text>
                         </View>}
                         <View style={{position:'absolute', right: 30}}>
                             <Image source={AppIcon.images.arrowRight}></Image>
@@ -103,7 +103,7 @@ function Panier({ navigation, route }) {
                             <Text style={{color:'grey', marginTop: 2, fontSize:12, fontWeight:'bold'}}>M.George</Text>
                         </View>}
                         <View style={{position:'absolute', right: 30}}>
-                            <Text style={{color:'black', marginTop: 2, fontSize:12, fontWeight:'bold'}}>{station?.properties?.price/100}€ / minute</Text>
+                            <Text style={{color:'black', marginTop: 2, fontSize:12, fontWeight:'bold'}}>{slot.pricePerMin}€ / minute</Text>
                         </View>
                         </TouchableOpacity>
 
@@ -111,7 +111,7 @@ function Panier({ navigation, route }) {
 
                         <View style={{display:'flex', flexDirection: 'row'}}>
                             <Text style={{color:'black', fontSize:20}}>Sous-total</Text>
-                            <Text style={{color:'black', fontSize:20, marginLeft: 'auto'}}>3.00€</Text>
+                            <Text style={{color:'black', fontSize:20, marginLeft: 'auto'}}>{slot.price} €</Text>
                         </View>
                         <View style={{display:'flex', flexDirection: 'row', marginTop:3+'%', padding: 5 ,backgroundColor:'#f2f2f2'}}>
                             <Text style={{color:'black', fontSize:20}}>Add note</Text>

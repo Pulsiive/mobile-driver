@@ -103,7 +103,7 @@ function StationInformations({ station, navigation }) {
             )}
             <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
               <Icon name="credit" size={20} color="grey" />
-              <Text style={{ color: 'grey' }}>{station.properties.price} / hour</Text>
+              <Text style={{ color: 'grey' }}>{station.properties.price/100} € / minute</Text>
             </View>
           </View>
         </View>

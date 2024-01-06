@@ -160,6 +160,7 @@ const ProfilStack = () => {
           headerShown: false
         }}
       />
+      <Stack.Screen name="TopUp" component={PaymentsUICustomScreen} />
       <Stack.Screen name="Notification" component={NotificationScreen} />
       <Stack.Screen name="Profile" component={Profile} />
       <Stack.Screen name="Components" component={Components} />
@@ -449,7 +450,9 @@ const RootNavigator = () => (
     <Stack.Screen name="DrawerStack" component={DrawerStack} />
     <Stack.Screen name="StationRating" component={StationRating} />
     <Stack.Screen name="BookingPlanning" component={BookingPlanning} />
-    <Stack.Screen name="PaymentUICustomScreen" component={PaymentsUICustomScreen} />
+    <Stack.Screen name="PaymentUICustomScreen" component={PaymentsUICustomScreen} screenOptions={{
+      header: ({ navigation }) => <CustomHeader navigation={navigation} />
+    }} />
     <Stack.Screen name="Panier" component={Panier} options={{ headerShown: false }} />
     <Stack.Screen name="Checkout" component={Checkout} options={{ headerShown: false }} />
     <Stack.Screen name="OwnerRating" component={OwnerRating} />

@@ -104,35 +104,6 @@ return (
 
 })}
 
-
-
-
-                    <TouchableOpacity style={styles.test}>
-                        <View style={{height:60, width: 60, borderRadius: 50, justifyContent:'center', alignItems:'center'}}>
-                            <Image style={{flex: 1, width: 90+'%', height:90+'%', resizeMode: 'contain'}} source={AppIcon.images.station2}></Image>
-                        </View>
-                        <View style={{marginLeft:5+'%', left:30+'%', width: 80+'%'}}>
-                            <Text style={{color:'black', fontSize:16}}>Commande n°237777 -</Text>
-                            <Text style={{color:'black', fontSize:16}}>Location Chargeur Type 2</Text>
-                            <Text style={{color:'grey', fontWeight:'bold', fontSize:12}}>10,27€ - paiement Paypal</Text>
-                            <Text style={{color:'grey', fontWeight:'bold', fontSize:12}}>28 mai 2022</Text>
-                        </View>
-                    </TouchableOpacity>
-
-                    <View style={{marginTop: 7+'%', height: 1, width: 100+'%', backgroundColor:'#d9d9d9'}}></View>
-
-                    <TouchableOpacity style={styles.test}>
-                        <View style={{height:60, width: 60, borderRadius: 50, justifyContent:'center', alignItems:'center'}}>
-                            <Image style={{flex: 1, width: 90+'%', height:90+'%', resizeMode: 'contain'}} source={AppIcon.images.station3}></Image>
-                        </View>
-                        <View style={{marginLeft:5+'%', left:30+'%', width: 80+'%'}}>
-                            <Text style={{color:'black', fontSize:16}}>Commande n°237324 -</Text>
-                            <Text style={{color:'black', fontSize:16}}>Location Chargeur Type 3</Text>
-                            <Text style={{color:'grey', fontWeight:'bold', fontSize:12}}>21,01€ - paiement VISA</Text>
-                            <Text style={{color:'grey', fontWeight:'bold', fontSize:12}}>11 avril 2022</Text>
-                        </View>
-                    </TouchableOpacity>
-
                     <View style={{marginLeft:-10+'%',marginTop: 7+'%', marginBottom: 2+'%', height: 2, width: 200+'%', backgroundColor:'#d9d9d9'}}></View>
 
                 </View>

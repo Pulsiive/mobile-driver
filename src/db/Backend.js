@@ -72,13 +72,17 @@ class Backend {
     return res;
   };
 
-  submitPaymentBalance = async () => {
-    const res = await API.send('POST', '/api/v1/payment/balance', null, true);
+  submitPaymentBalance = async (brutPrice, slotId) => {
+    const res = await API.send('POST', '/api/v1/payment/balance', { brut_price: brutPrice, slot_id: slotId}, true);
     return res;
   };
 
-  async createStripePaymentIntent() {
-    return await API.send('POST', '/api/v1/payment-request', null, true);
+  async createStripePaymentIntent(brutPrice) {
+    return await API.send('POST', '/api/v1/payment-request', { brut_price: brutPrice}, true);
+  }
+
+  async updateStripePaymentIntent(brutPrice, paymentIntentId) {
+    return await API.send('PATCH', '/api/v1/payment-request', { payment_intent_id: paymentIntentId, brut_price: brutPrice}, true);
   }
 }
 
