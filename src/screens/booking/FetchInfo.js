@@ -60,7 +60,6 @@ const FetchInfo = ({ date, stationId, setSlot, setModalVisible }) => {
         console.log('Fetching station slot reservation to display');
         const slotParsed = [];
         const res = await Backend.getSlots(stationId);
-        console.log(res);
 
         if (res.status === 200) {
           for (var index = 0; index < res.data.length; index++) {
@@ -136,7 +135,7 @@ const FetchInfo = ({ date, stationId, setSlot, setModalVisible }) => {
                 key={plan.slotId}
               >
                 <View>
-                  <Image style={styles.picture} source={{ uri: plan.picture }}></Image>
+                  {/*<Image style={styles.picture} source={{ uri: plan.picture }}></Image>*/}
                   <Text style={styles.name}>{plan.price} € ({plan.pricePerMin} € / Min)</Text>
                   <View style={styles.firstRow}>
                     <Image style={styles.rendCalendar} source={AppIcon.images.calendar}></Image>
@@ -169,7 +168,7 @@ const styles = StyleSheet.create({
     color: 'white',
     position: 'absolute',
     fontWeight: '700',
-    fontSize: 15,
+    fontSize: 20,
     top: -20,
     marginLeft: 20
   },
@@ -196,8 +195,8 @@ const styles = StyleSheet.create({
     overflow: 'hidden'
   },
   rendCalendar: {
-    width: 14,
-    height: 11,
+    width: 18,
+    height: 16,
     top: 4
   },
   firstRow: {
@@ -208,6 +207,7 @@ const styles = StyleSheet.create({
   },
   Txtduration: {
     marginLeft: 10,
+    fontSize: 18,
     color: 'white'
   },
   secondRow: {

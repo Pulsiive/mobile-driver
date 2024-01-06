@@ -283,7 +283,7 @@ function Home({ navigation }) {
       setModalVisible(false);
       setModalData({});
       //navigation.navigate('PlanningUser', { stationId: selectedStation.id });
-      navigation.navigate('BookingPlanning', { stationId: selectedStation.id });
+      navigation.navigate('Planning', { stationId: selectedStation.id });
     };
 
     return (
@@ -454,7 +454,7 @@ const styles = StyleSheet.create({
   bookButton: {
     width: 200,
     backgroundColor: AppStyles.color.pulsive,
-    borderRadius: AppStyles.borderRadius,
+    borderRadius: 25,
     padding: 10,
     marginTop: 30,
     position: 'absolute',

@@ -1,13 +1,10 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     View,
     Image,
     StyleSheet,
-    SafeAreaView,
-    Button,
     Text,
     TouchableOpacity,
-    TouchableHighlight, Alert
 } from 'react-native';
 import { ScrollView } from "react-native-gesture-handler";
 import { AppIcon } from '../../AppStyles';
@@ -56,7 +53,7 @@ function Checkout({ navigation, route }) {
                 <View style={styles.content}>
 
 
-                    <TouchableOpacity style={{marginRight: 'auto'}} onPress={() => {}}>
+                    <TouchableOpacity style={{marginRight: 'auto'}} onPress={() => navigation.navigate('Home')}>
                         <Image style={{width: 20, height:20}} source={AppIcon.images.back}></Image>
                     </TouchableOpacity>
 
@@ -218,10 +215,11 @@ function Checkout({ navigation, route }) {
                         if (paymentType === 'balance') {
                             const response = await Backend.submitPaymentBalance(slot.brutPrice, slot.slotId);
                             if (response.status === 200) {
-                                const {data, status} = await Backend.bookSlot(slot.slotId);
-                                console.log(data, status);
+
+                                // const {data, status} = await Backend.bookSlot(slot.slotId); //TODO: create reservation request instead
+                                const {data, status} = await Backend.createReservationRequest({slotId: slot.slotId, price: 20});
                                 if (status === 200) {
-                                    await showMessage({
+                                    showMessage({
                                         duration: 2000,
                                         message: `Payment effectué avec succès !`,
                                         description: 'Vous allez être rediriger dans quelques secondes',
@@ -230,12 +228,12 @@ function Checkout({ navigation, route }) {
                                     });
                                     showMessage({
                                         duration: 4000,
-                                        message: `Créneau réservé avec succès !`,
-                                        description: 'Retrouvez vos réservations sur votre planning.',
+                                        message: `Demande de réservation crée avec succès !`,
+                                        description: 'La réservation sera sur votre calendrier après acceptation du propriétaire.',
                                         type: "success",
                                         backgroundColor: "green"
                                     });
-                                    navigation.navigate('PlanningStack');
+                                    navigation.navigate('Planning');
                                 } else {
                                     showMessage({
                                         duration: 4000,

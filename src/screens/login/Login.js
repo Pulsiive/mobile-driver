@@ -4,7 +4,9 @@ import api from '../../db/Api';
 import serviceAccessToken from '../../db/AccessToken';
 import { useFocusEffect } from '@react-navigation/native';
 import { ButtonConditional, ButtonText, InputField, TextError } from '../../components';
-import { ScrollView, StyleSheet, View, Image, Text } from 'react-native';
+import { ScrollView, StyleSheet, View, Image, Text, ActivityIndicator } from 'react-native';
+
+import * as Animatable from 'react-native-animatable';
 
 import { useUserSet } from '../../contexts/UserContext';
 
@@ -39,7 +41,7 @@ function Login({ navigation }) {
             setEmail('');
             setPassword('');
             setValid(false);
-            navigation.navigate('DrawerStack');
+            navigation.navigate('TabNavigator');
           })
           .catch((e) => console.log(e));
       }
@@ -61,6 +63,20 @@ function Login({ navigation }) {
     //TODO: handle entire app error message if user object not set
   };
 
+  const LoadingScreen = () => {
+    return (
+      <View style={styles.loading}>
+        <Animatable.Image
+          animation="bounceInLeft"
+          iterationCount="infinite"
+          source={AppIcon.images.loadingImage}
+          style={{ width: '40%', height: '100%' }}
+          resizeMode="contain"
+        />
+      </View>
+    );
+  };
+
   const onLogin = async () => {
     setError('');
     setLoading(true);
@@ -71,8 +87,6 @@ function Login({ navigation }) {
       };
       const res = await api.send('post', '/api/v1/auth/login', userInput, false);
 
-      setLoading(false);
-
       if (res.status == 200) {
         serviceAccessToken.set(res.data.accessToken);
         setUserProfile()
@@ -80,7 +94,10 @@ function Login({ navigation }) {
             setEmail('');
             setPassword('');
             setValid(false);
-            navigation.navigate('DrawerStack');
+
+            setTimeout(() => {
+              navigation.navigate('TabNavigator');
+            }, 3000);
           })
           .catch((e) => console.log(e));
       } else {
@@ -93,6 +110,7 @@ function Login({ navigation }) {
       } else {
         setError('Error serveur');
       }
+      setLoading(false);
     }
   };
 
@@ -117,6 +135,11 @@ function Login({ navigation }) {
       paddingTop: '26%',
       backgroundColor: AppColor.background
     },
+    loading: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center'
+    },
     logoContainer: {
       alignItems: 'center'
     },
@@ -132,7 +155,7 @@ function Login({ navigation }) {
     inputsContainer: {
       alignSelf: 'stretch',
       justifyContent: 'flex-end',
-      marginTop: 'auto'
+      marginTop: 20
     },
     accountContainer: {
       flexDirection: 'row',
@@ -146,37 +169,43 @@ function Login({ navigation }) {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.logoContainer}>
-        <Image source={AppIcon.images.logo2} style={styles.logo} />
-        <Image source={AppIcon.images.pulsive} style={styles.pulsive} />
-      </View>
-      <View style={styles.inputsContainer}>
-        <TextError title={error} />
-        <InputField
-          label="E-mail"
-          errorCheck={checkForEmailErrors}
-          subText="Veuillez entrer votre adresse e-mail"
-          setValue={setEmail}
-          style={{ marginVertical: 0 }}
-        />
-        <InputField
-          label="Mot de passe"
-          errorCheck={checkForPasswordErrors}
-          subText="Veuillez entrer votre mot de passe"
-          setValue={setPassword}
-          secure={true}
-        />
-      </View>
-      <ButtonConditional
-        title="Me connecter"
-        isEnabled={true}
-        onPress={onLogin}
-        loading={loading}
-      />
-      <View style={styles.accountContainer}>
-        <Text style={styles.accountText}>Pas encore de compte ?</Text>
-        <ButtonText title="M'inscrire" onPress={() => navigation.navigate('SignUp')} />
-      </View>
+      {loading ? ( // Render the LoadingScreen component when loading is true
+        <LoadingScreen />
+      ) : (
+        <View>
+          <View style={styles.logoContainer}>
+            <Image source={AppIcon.images.logo2} style={styles.logo} />
+            <Image source={AppIcon.images.pulsive} style={styles.pulsive} />
+          </View>
+          <View style={styles.inputsContainer}>
+            <TextError title={error} />
+            <InputField
+              label="E-mail"
+              errorCheck={checkForEmailErrors}
+              subText="Veuillez entrer votre adresse e-mail"
+              setValue={setEmail}
+              style={{ marginVertical: 0 }}
+            />
+            <InputField
+              label="Mot de passe"
+              errorCheck={checkForPasswordErrors}
+              subText="Veuillez entrer votre mot de passe"
+              setValue={setPassword}
+              secure={true}
+            />
+          </View>
+          <ButtonConditional
+            title="Me connecter"
+            isEnabled={true}
+            onPress={onLogin}
+            loading={loading}
+          />
+          <View style={styles.accountContainer}>
+            <Text style={styles.accountText}>Pas encore de compte ?</Text>
+            <ButtonText title="M'inscrire" onPress={() => navigation.navigate('SignUp')} />
+          </View>
+        </View>
+      )}
     </ScrollView>
   );
 }

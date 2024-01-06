@@ -5,11 +5,12 @@ import Icon from 'react-native-vector-icons/Entypo';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { FlatList } from 'react-native-gesture-handler';
+import ProfilePicture from '../../../components/ProfilePicture';
 
 function Item({ user, navigation }) {
   const navigateToUserProfile = () => {
     navigation.navigate('Owner', {
-      imageUri: `https://ucarecdn.com/${user.profilePictureId}/`,
+      imageUri: user.profilePictureId,
       name: `${user.firstName} ${user.lastName}`,
       userId: user.id
     });
@@ -28,9 +29,11 @@ function Item({ user, navigation }) {
     >
       <View style={{ width: '20%' }}>
         <TouchableOpacity onPress={() => navigateToUserProfile()}>
-          <Image
-            style={{ width: 50, height: 50, borderRadius: 30 }}
-            source={{ uri: `https://ucarecdn.com/${user.profilePictureId}/` }}
+          <ProfilePicture
+            width={50}
+            height={50}
+            borderRadius={30}
+            profilePictureId={user.profilePictureId}
           />
         </TouchableOpacity>
       </View>

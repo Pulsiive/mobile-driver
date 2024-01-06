@@ -47,6 +47,11 @@ class Backend {
     return res;
   };
 
+  getReservationRequests = async () => {
+    const res = await API.send('GET', '/api/v1/driver/reservations/requests/', null, true);
+    return res;
+  };
+
   getStation = async (stationId) => {
     const res = await API.send('GET', `/api/v1/profile/station/${stationId}`, null, false);
     return res;
@@ -84,6 +89,15 @@ class Backend {
   async updateStripePaymentIntent(brutPrice, paymentIntentId) {
     return await API.send('PATCH', '/api/v1/payment-request', { payment_intent_id: paymentIntentId, brut_price: brutPrice}, true);
   }
+
+  createReservationRequest = async (data) => {
+    return await API.send('POST', '/api/v1/driver/reservations/requests', data, true);
+  };
+
+  getUserFromId = async (id) => {
+    const res = await API.send('GET', `/api/v1/user/${id}`, null, true);
+    return res;
+  };
 }
 
 const service = new Backend();

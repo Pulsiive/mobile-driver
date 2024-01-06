@@ -9,12 +9,14 @@ import {
   FloatingCard,
   ModalSwipeUp,
   TextList,
+  TextSubTitle,
   TextTitle
 } from '../../components';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import FormData from 'form-data';
 import { showMessage } from 'react-native-flash-message';
 import { getUser, useUserUpdate } from '../../contexts/UserContext';
+import ProfilePicture from '../../components/ProfilePicture';
 
 function Profile() {
   const user = getUser();
@@ -111,7 +113,7 @@ function Profile() {
     address: {
       color: AppColor.title,
       fontWeight: 'bold',
-      fontSize: AppStyles.fontSize.normal
+      fontSize: AppStyles.fontSize.content
     },
     ratingRow: {
       flexDirection: 'row',
@@ -137,20 +139,19 @@ function Profile() {
 
   return (
     <ScrollView style={[AppStyles.container, { backgroundColor: AppColor.background }]}>
-      <View style={AppStyles.containerHeader}>
+      <View style={{ paddingTop: 50 }}>
         <FloatingCard>
           <View style={styles.profilePicture}>
             {user.firstName && (
-              <Image
-                style={{ width: 100, height: 100, borderRadius: 70 }}
-                source={{ uri: `https://ucarecdn.com/${user.profilePictureId}/` }}
+              <ProfilePicture
+                width={100}
+                height={100}
+                borderRadius={100}
+                profilePictureId={user.profilePictureId}
               />
             )}
           </View>
-          <TextTitle
-            title={user.firstName + ' ' + user.lastName}
-            style={{ marginBottom: 0, marginTop: 5 }}
-          />
+          <TextSubTitle title={user.firstName + ' ' + user.lastName} style={{ marginTop: 5 }} />
           <Text style={[AppStyles.subtext, { color: AppColor.text }]}>Conducteur</Text>
         </FloatingCard>
         <TextList
@@ -162,8 +163,12 @@ function Profile() {
           onPress={() => {
             setChangeProfilePicModalIsOpen(true);
           }}
+          style={{ marginTop: 20 }}
         />
-        <TextTitle title="Mes commentaires" style={{ marginTop: 40 }} />
+        <TextSubTitle
+          title="Mes commentaires"
+          style={{ marginLeft: 20, marginTop: 40, marginBottom: 10 }}
+        />
         <ButtonCommon
           title="Afficher mes commentaires"
           onPress={() => {

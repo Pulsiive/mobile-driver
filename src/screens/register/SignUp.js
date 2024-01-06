@@ -9,9 +9,11 @@ import {
   ButtonConditional,
   TextError,
   TextTitle,
-  ModalSwipeUp
+  ModalSwipeUp,
+  TextSubTitle
 } from '../../components';
 import { useFocusEffect } from '@react-navigation/native';
+import messaging from '@react-native-firebase/messaging';
 
 function SignUp({ navigation }) {
   const { AppColor } = useTheme();
@@ -54,12 +56,14 @@ function SignUp({ navigation }) {
     setError('');
     setLoading(true);
     try {
+      const fcmToken = await messaging().getToken();
       const userInput = {
         email: email,
         firstName: firstName,
         lastName: name,
         password: password,
-        dateOfBirth: '2022-09-09T20:32:54.003Z'
+        dateOfBirth: '2022-09-09T20:32:54.003Z',
+        fcmToken
       };
       const res = await api.send('POST', '/api/v1/auth/register', userInput, false);
 
@@ -114,15 +118,15 @@ function SignUp({ navigation }) {
 
   return (
     <ScrollView style={[AppStyles.container, { backgroundColor: AppColor.background }]}>
-      <View style={AppStyles.containerHeader}>
+      <View style={{ paddingTop: 50 }}>
         <ModalSwipeUp
           visible={modalVisible}
           onClose={() => setModalVisible(false)}
-          title="Engagement de la communauté"
+          title="Termes et conditions"
         >
-          <TextTitle
+          <TextSubTitle
             title="Conditions générales d'utilisation de Pulsive"
-            style={{ marginLeft: 0, marginTop: 10 }}
+            style={{ margin: 20, marginLeft: 0, marginTop: 10 }}
           />
           <Text style={{ color: 'black', marginBottom: 30 }}>
             En acceptant les conditions générales d'utilisation de Pulsive, je m'engage à respecter

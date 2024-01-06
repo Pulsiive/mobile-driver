@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "915547065321",
+    "project_id": "pulsive-85ebf",
+    "storage_bucket": "pulsive-85ebf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:915547065321:android:caaf928ecfdc1ed64c1978",
+        "android_client_info": {
+          "package_name": "com.mobiledriver"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5nWI1a1H7fgotM8DpKSFTm_pi-u4u6GQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

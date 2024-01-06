@@ -3,8 +3,6 @@ import { StyleSheet, Dimensions, View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 
 const { width, height } = Dimensions.get('window');
-const SCREEN_WIDTH = width < height ? width : height;
-const numColumns = 2;
 
 const ContextTheme = createContext();
 
@@ -29,7 +27,7 @@ export const useTheme = () => {
 };
 
 const CustomHeader = ({ navigation }) => {
-  const { toggleTheme, AppColor } = useTheme();
+  const { AppColor } = useTheme();
   return (
     <View
       style={{
@@ -41,7 +39,12 @@ const CustomHeader = ({ navigation }) => {
         borderRadius: 100,
         backgroundColor: AppColor.bottomColor,
         top: 15,
-        left: 15
+        left: 15,
+        elevation: 4,
+        shadowColor: AppColor.title,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.3,
+        shadowRadius: 2
       }}
     >
       <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -58,6 +61,7 @@ export const AppStyles = {
     pulsive: '#81CD2C',
     title: '#1c2024',
     text: '#1c2024',
+    lightText: 'grey',
     subText: '#1c2024',
     label: '#1c2024',
     pressed: 'whitesmoke',
@@ -70,7 +74,8 @@ export const AppStyles = {
     separator: 'lightgrey',
     bottomColor: '#F3F3F3',
     private: 'grey',
-    public: 'lightgrey'
+    public: 'lightgrey',
+    rate: 'orange'
   },
 
   darkStyles: {
@@ -78,9 +83,10 @@ export const AppStyles = {
     pulsive: '#81CD2C',
     title: '#D1D1D1',
     text: '#b0b0b0',
+    lightText: 'grey',
     subText: '#747679',
     label: '#747679',
-    pressed: 'whitesmoke',
+    pressed: '#2E343B ',
     error: 'firebrick',
     border: '#747679',
     borderFocused: 'white',
@@ -90,7 +96,8 @@ export const AppStyles = {
     separator: '#2E343B',
     bottomColor: '#2E343B',
     private: '#D1D1D1',
-    public: '#747679'
+    public: '#747679',
+    rate: 'orange'
   },
 
   color: {
@@ -128,10 +135,10 @@ export const AppStyles = {
   },
 
   fontSize: {
-    title: 24,
-    content: 20,
-    button: 16,
-    normal: 16
+    title: 34,
+    subTitle: 24,
+    contentTitle: 20,
+    content: 16
   },
 
   buttonWidth: width * 0.9,
@@ -145,17 +152,6 @@ export const AppStyles = {
 
   container: {
     flex: 1
-  },
-
-  containerHeader: {
-    paddingTop: 50
-  },
-
-  //------------- à enlever à la fin -------------------
-  borderRadius: 25,
-
-  textInputWidth: {
-    main: '80%'
   }
 };
 
@@ -172,6 +168,10 @@ export const AppIcon = {
     height: 25
   },
   images: {
+    favorite_logo: require('../assets/icons/favorite_logo.png'),
+    messages_logo: require('../assets/icons/messages_logo.png'),
+    planning_logo: require('../assets/icons/planning_logo.png'),
+    profile_logo: require('../assets/icons/profile_logo.png'),
     home: require('../assets/icons/home.png'),
     profile: require('../assets/icons/profile_2.png'),
     profile_icon: require('../assets/icons/profile.png'),
@@ -190,8 +190,11 @@ export const AppIcon = {
     charger2: require('../assets/images/charger2.jpg'),
     charger3: require('../assets/images/charger3.jpg'),
     phone: require('../assets/icons/phone.png'),
+    phone2: require('../assets/icons/phone2.png'),
     remove: require('../assets/icons/remove.png'),
+    trash: require('../assets/icons/trash.png'),
     edit: require('../assets/icons/edit.png'),
+    edit2: require('../assets/icons/edit2.png'),
     avis: require('../assets/images/avis.png'),
     logo: require('../assets/images/logo.png'),
     logo2: require('../assets/images/logo-2.png'),
@@ -219,10 +222,6 @@ export const AppIcon = {
     ownerProfilePicture: require('../assets/images/owner.jpeg'),
     loadingPlaneDarkmode: require('../assets/images/loadingPlaneDarkmode.png'),
     loadingPlaneLightmode: require('../assets/images/loadingPlaneLightmode.png'),
-    // locationLight: require('../assets/images/locationLight.png'),
-    // locationDark: require('../assets/images/locationDark.png'),
-    // boltLight: require('../assets/images/boltLight.png'),
-    // boltDark: require('../assets/images/boltDark.png')
     loadingLightmode: require('../assets/images/loadingDrawLightmode.png'),
     loadingDarkmode: require('../assets/images/loadingDrawDarkmode.png'),
     filtersLightmode: require('../assets/images/filtersDrawLightmode.png'),
@@ -230,7 +229,10 @@ export const AppIcon = {
     stationLightmode: require('../assets/images/stationDrawLightmode.png'),
     stationDarkmode: require('../assets/images/stationDrawDarkmode.png'),
     addUser: require('../assets/icons/add-user.png'),
-    removeUser: require('../assets/icons/remove-user.png')
+    removeUser: require('../assets/icons/remove-user.png'),
+    loadingImage: require('../assets/icons/loading.png'),
+    checkIcon: require('../assets/icons/checkIcon.png'),
+    stationPrivate: require('../assets/images/borneprive.jpg')
   }
 };
 

@@ -9,12 +9,11 @@ import { AnimatedLoading } from '.';
     title(required)="FilterTab" // text of the button
     onPress(required)={() => onPress()} // function called when the button is pressed
     style(optional)={{ insert style here }} // to change the style
-    loading(optional)={true} // add or not a loading animation
   />
   */
 }
 
-const FilterTab = ({ options, style, onPress, initValue, loading }) => {
+const FilterTab = ({ options, style, onPress, initValue }) => {
   const { AppColor } = useTheme();
 
   const [selectedOption, setSelectedOption] = useState(options[initValue ? initValue : 0].value);
