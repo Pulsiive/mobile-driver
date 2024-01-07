@@ -13,7 +13,7 @@ import {
   TextSubTitle
 } from '../../components';
 import { useFocusEffect } from '@react-navigation/native';
-import messaging from '@react-native-firebase/messaging';
+// import messaging from '@react-native-firebase/messaging';
 
 function SignUp({ navigation }) {
   const { AppColor } = useTheme();
@@ -56,7 +56,10 @@ function SignUp({ navigation }) {
     setError('');
     setLoading(true);
     try {
-      const fcmToken = await messaging().getToken();
+
+
+      // const fcmToken = await messaging().getToken();
+      const fcmToken = "RfaQR76JURjtqe0wmPjIEaJPQybfFkI7Atv4brPtM4ExKbwPO2X8qyoY60e8gXig"
       const userInput = {
         email: email,
         firstName: firstName,
@@ -118,7 +121,7 @@ function SignUp({ navigation }) {
 
   return (
     <ScrollView style={[AppStyles.container, { backgroundColor: AppColor.background }]}>
-      <View style={{ paddingTop: 50 }}>
+      <View style={{ paddingTop: 100 }}>
         <ModalSwipeUp
           visible={modalVisible}
           onClose={() => setModalVisible(false)}
