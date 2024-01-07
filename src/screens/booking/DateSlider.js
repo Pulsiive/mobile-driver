@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Text, TouchableHighlight } from 'react-native';
+import {View, StyleSheet, Text, TouchableHighlight, ImageBackground} from 'react-native';
 import { addDays, getDate, startOfWeek, format, isSameDay } from 'date-fns';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { fr } from 'date-fns/locale';
 import MyCalendar from './MyCalendar';
 import FetchInfo from './FetchInfo';
+import { useTheme} from '../../AppStyles';
+import { AppIcon } from '../../AppStyles';
+
+
 
 const DateSlider = ({ date, stationId, setSlot, setModalVisible, onChange }) => {
+  const { AppColor } = useTheme();
+
   const [date1, setDate] = useState(new Date());
   const [week, setWeek] = useState([]);
   const [open, setOpen] = useState(false);
@@ -15,7 +21,6 @@ const DateSlider = ({ date, stationId, setSlot, setModalVisible, onChange }) => 
     setWeek(weekDays);
   }, [date]);
   useEffect(() => {
-    console.log(date1);
     const iso = new Date(date1);
     var weekDays = getWeekDays(iso);
     setWeek(weekDays);
@@ -25,7 +30,7 @@ const DateSlider = ({ date, stationId, setSlot, setModalVisible, onChange }) => 
     <>
       <View style={styles.container}>
         {week.map((weekDay) => {
-          const textStyles = [styles.label];
+          const textStyles = [{color: AppColor.title, ...styles.label}];
           const touchable = [styles.touchable];
           const sameDay = isSameDay(weekDay.date, date);
           if (sameDay) {
@@ -35,27 +40,18 @@ const DateSlider = ({ date, stationId, setSlot, setModalVisible, onChange }) => 
           return (
             <View style={styles.weekDayItem} key={weekDay.formatted}>
               <TouchableOpacity onPress={() => onChange(weekDay.date)} style={touchable}>
-                <Text style={styles.label}>{weekDay.day}</Text>
+                <Text style={{color: AppColor.color, ...styles.label}}>{weekDay.day}</Text>
               </TouchableOpacity>
-              <Text style={styles.weekDayText}>{weekDay.formatted.slice(0, -1)}</Text>
+              <Text style={{color: AppColor.title, ...styles.weekDayText}}>{weekDay.formatted.slice(0, -1)}</Text>
             </View>
           );
         })}
       </View>
-      <TouchableHighlight onPress={() => setOpen(!open)}>
-        <View
-          style={{
-            position: 'absolute',
-            width: 50,
-            height: 50,
-            backgroundColor: 'white',
-            top: 32 + '%',
-            left: 5 + '%'
-          }}
-        ></View>
+      <TouchableHighlight style={{position:'absolute', top:30+'%', left:2+'%', justifyContent:'center', alignItems:'center', width:50, height:50,}} onPress={() => setOpen(!open)}>
+        <ImageBackground source={AppIcon.images.arrowRight} style={{transform: open ? [{rotate:'-90deg'}] :  [{rotate:'90deg'}], width:12,height:21,}}></ImageBackground>
       </TouchableHighlight>
       {open && (
-        <View style={{ marginTop: 10 + '%' }}>
+        <View style={{ marginTop: 20 + '%' }}>
           <MyCalendar
             date={{ date }}
             onChange={(date) => setDate(date)}
@@ -65,7 +61,7 @@ const DateSlider = ({ date, stationId, setSlot, setModalVisible, onChange }) => 
       )}
       <View style={{ top: 7 + '%' }}>
         <View>
-          <Text style={{ color: 'white', fontWeight: '700', left: 4 + '%', marginTop: 0 + '%' }}>
+          <Text style={{ color: AppColor.title, fontWeight: '700', left: 4 + '%', marginTop: 0 + '%' }}>
             Créneaux disponible:
           </Text>
         </View>
@@ -95,7 +91,6 @@ const styles = StyleSheet.create({
   },
   weekDayText: {
     position: 'absolute',
-    color: 'white',
     marginTop: 40,
     fontWeight: '600',
     textTransform: 'capitalize'
@@ -112,7 +107,6 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 14,
     textAlign: 'center',
-    color: 'white'
   },
   selectedLabel: {
     fontWeight: '600'

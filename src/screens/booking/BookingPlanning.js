@@ -12,24 +12,26 @@ import {
 } from 'react-native';
 
 import DateSlider from './DateSlider';
-import { AppIcon } from '../../AppStyles';
+import {AppIcon, AppStyles} from '../../AppStyles';
+import { useTheme } from '../../AppStyles';
 import * as Animatable from 'react-native-animatable';
 
 function BookingPlanning({ navigation, route }) {
+  const { AppColor } = useTheme();
   const { stationId } = route.params;
   const [date, setDate] = useState(new Date());
   const [modalVisible, setModalVisible] = useState(false);
   const [slot, setSlot] = useState(null);
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#333333' }}>
+    <View style={{ flex: 1, backgroundColor: AppColor.background }}>
       <View style={styles.group}>
-        <Image source={AppIcon.images.logo} style={styles.logo} />
-        <Image source={AppIcon.images.Pulsiive} style={styles.Pulsiive} />
-        <TouchableHighlight style={styles.avisButton} onPress={() => navigation.navigate('Avis')}>
-          <Image style={styles.avis} source={AppIcon.images.avis}></Image>
-        </TouchableHighlight>
-        <Image style={styles.notif} source={AppIcon.images.notif}></Image>
+        {/*<Image source={AppIcon.images.logo} style={styles.logo} />*/}
+        {/*<Image source={AppIcon.images.Pulsiive} style={styles.Pulsiive} />*/}
+        {/*<TouchableHighlight style={styles.avisButton} onPress={() => navigation.navigate('Avis')}>*/}
+        {/*  <Image style={styles.avis} source={AppIcon.images.avis}></Image>*/}
+        {/*</TouchableHighlight>*/}
+        {/*<Image style={styles.notif} source={AppIcon.images.notif}></Image>*/}
       </View>
 
       <Modal
@@ -72,8 +74,8 @@ function BookingPlanning({ navigation, route }) {
       <View style={styles.welcomeContainer}>
         <View style={styles.card}>
           {/* a changer */}
-          <Text style={styles.first}>Borne de warmup</Text>
-          <Text style={styles.second}>Voyons voir le planning d'aujourd'hui !</Text>
+          <Text style={{color: AppColor.title, ...styles.first}}>Borne de warmup</Text>
+          <Text style={{color: AppColor.title, ...styles.second}}>Voyons voir le planning d'aujourd'hui !</Text>
           <TouchableOpacity style={styles.profilButton} onPress={() => navigation.navigate('Home')}>
             <Image
               animation="bounce"
@@ -108,7 +110,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    backgroundColor: 'white',
+    backgroundColor: AppStyles.color.pulsive,
     borderRadius: 20,
     padding: 35,
     alignItems: 'center',
@@ -137,7 +139,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'red'
   },
   textStyle: {
-    color: 'white',
+    color: AppStyles.color.pulsive,
     fontWeight: 'bold',
     textAlign: 'center'
   },
@@ -157,7 +159,6 @@ const styles = StyleSheet.create({
     width: 91 + '%'
   },
   first: {
-    color: 'white',
     fontWeight: '900',
     width: 326,
     textAlign: 'left',
@@ -165,7 +166,6 @@ const styles = StyleSheet.create({
     letterSpacing: 0
   },
   second: {
-    color: 'white',
     fontWeight: '500',
     width: 326,
     textAlign: 'left',
@@ -246,16 +246,16 @@ const styles = StyleSheet.create({
     alignItems: 'center' // Center the card horizontally
   },
   card: {
-    backgroundColor: 'black',
-    borderRadius: 10,
-    width: '100%',
-    padding: 10,
-    shadowColor: 'white',
-    shadowOffset: { width: 0, height: 5 },
-    shadowOpacity: 0.5,
-    shadowRadius: 5,
-    elevation: 10,
-    alignItems: 'center'
+    // backgroundColor: 'black',
+    // borderRadius: 10,
+    width: '95%',
+    // padding: 10,
+    // shadowColor: 'white',
+    // shadowOffset: { width: 0, height: 5 },
+    // shadowOpacity: 0.5,
+    // shadowRadius: 5,
+    // elevation: 10,
+    // alignItems: 'center'
   }
 });
 

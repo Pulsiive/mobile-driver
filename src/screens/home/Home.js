@@ -7,7 +7,8 @@ import {
   Text,
   Modal,
   Image,
-  Dimensions
+  Dimensions,
+  Platform
 } from 'react-native';
 import { AppStyles } from '../../AppStyles';
 import { Configuration } from '../../Configuration';
@@ -23,12 +24,14 @@ import api from '../../db/Api';
 import Planning from '../planning/Planning';
 import serviceAccessToken from '../../db/AccessToken';
 
+
 MapboxGL.setAccessToken(
   'pk.eyJ1Ijoic2h5bGsiLCJhIjoiY2w0cmhncHdwMDZydTNjcDhkbTVmZm8xZCJ9.uxYLeAuZdY5VMx4EUBaw_A'
 );
-MapboxGL.setConnected(true);
+if (Platform.OS !== 'ios')
+  MapboxGL.setConnected(true);
 
-var axios = require('axios');
+const axios = require('axios');
 
 function Home({ navigation }) {
   useLayoutEffect(() => {
@@ -102,35 +105,35 @@ function Home({ navigation }) {
     useEffect(() => {
       console.log('INIT');
       try {
-        PermissionsAndroid.requestMultiple(
-          [
-            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-            PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION
-          ],
-          {
-            title: 'Give Location Permission',
-            message: 'App needs location permission to find your position.'
-          }
-        )
-          .then(async (granted) => {
-            GetLocation.getCurrentPosition({
-              enableHighAccuracy: true,
-              timeout: 50000
-            })
-              .then((location) => {
-                console.log(location);
-                setUserPosition([location.latitude, location.longitude]);
-              })
-              .catch((error) => {
-                const { code, message } = error;
-                console.warn(code, message);
-              });
-          })
-          .catch((err) => {
-            console.warn(err);
-          });
-      } catch (e) {
-        console.log(e);
+        if (Platform.OS === 'android') {
+          PermissionsAndroid.requestMultiple(
+              [
+                PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+                PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION
+              ],
+              {
+                title: 'Give Location Permission',
+                message: 'App needs location permission to find your position.'
+              }
+          ).then(async (granted) => {
+                GetLocation.getCurrentPosition({
+                  enableHighAccuracy: true,
+                  timeout: 50000
+                })
+                    .then((location) => {
+                      console.log(location);
+                      setUserPosition([location.latitude, location.longitude]);
+                    })
+                    .catch((error) => {
+                      const {code, message} = error;
+                      console.warn(code, message);
+                    });
+              }).catch((err) => {
+                console.warn(err);
+              })}
+      catch
+        (e) {console.log(e);}
+      } else {
       }
     }, []);
 

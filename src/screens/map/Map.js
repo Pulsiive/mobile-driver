@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, PermissionsAndroid, Image } from 'react-native';
+import {StyleSheet, View, PermissionsAndroid, Image, Platform} from 'react-native';
 import {
   AnimatedLoading,
   ButtonConditional,
@@ -32,7 +32,9 @@ var axios = require('axios');
 MapboxGL.setAccessToken(
   'pk.eyJ1Ijoic2h5bGsiLCJhIjoiY2w0cmhncHdwMDZydTNjcDhkbTVmZm8xZCJ9.uxYLeAuZdY5VMx4EUBaw_A'
 );
-MapboxGL.setConnected(true);
+if (Platform.OS !== 'ios') {
+  MapboxGL.setConnected(true);
+}
 
 function Map({ navigation }) {
   const { isDarkMode, AppColor } = useTheme();
