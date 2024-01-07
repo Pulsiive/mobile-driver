@@ -75,7 +75,8 @@ function Settings({ navigation }) {
         firstName: data.data.firstName,
         lastName: data.data.lastName,
         email: data.data.email,
-        profilePictureId: data.data.profilePictureId
+        profilePictureId: data.data.profilePictureId,
+        balance: data.data.balance
       })
     );
   };
