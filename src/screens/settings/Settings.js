@@ -75,7 +75,6 @@ function Settings({ navigation }) {
         firstName: data.data.firstName,
         lastName: data.data.lastName,
         email: data.data.email,
-        balance: data.data.balance,
         profilePictureId: data.data.profilePictureId
       })
     );
@@ -343,11 +342,7 @@ function Settings({ navigation }) {
         }}
       />
 
-      <TextSubTitle
-      <TextTitle
-        title="Portefeuille"
-        style={{ fontSize: AppStyles.fontSize.content, marginTop: 30 }}
-      />
+      <TextSubTitle title="Portefeuille" style={{ fontSize: AppStyles.fontSize.content, marginTop: 30 }} />
       <ButtonCommon
         title={`Ajouter de l'argent (${profile.balance/100} €)`}
         style={{ marginVertical: 10 }}
@@ -366,7 +361,7 @@ function Settings({ navigation }) {
         loading={loading}
       />
 
-      <TextTitle
+      <TextSubTitle
         title="Assistance"
         style={{ marginLeft: 20, marginTop: 30, marginBottom: 10 }}
       />

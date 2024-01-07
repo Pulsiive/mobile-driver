@@ -216,16 +216,8 @@ function Checkout({ navigation, route }) {
                             const response = await Backend.submitPaymentBalance(slot.brutPrice, slot.slotId);
                             if (response.status === 200) {
 
-                                // const {data, status} = await Backend.bookSlot(slot.slotId); //TODO: create reservation request instead
-                                const {data, status} = await Backend.createReservationRequest({slotId: slot.slotId, price: 20});
+                                const {data, status} = await Backend.createReservationRequest({slotId: slot.slotId, price: slot.brutPrice});
                                 if (status === 200) {
-                                    showMessage({
-                                        duration: 2000,
-                                        message: `Payment effectué avec succès !`,
-                                        description: 'Vous allez être rediriger dans quelques secondes',
-                                        type: "success",
-                                        backgroundColor: "green"
-                                    });
                                     showMessage({
                                         duration: 4000,
                                         message: `Demande de réservation crée avec succès !`,
