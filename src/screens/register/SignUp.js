@@ -14,9 +14,11 @@ import {
 } from '../../components';
 import { useFocusEffect } from '@react-navigation/native';
 import messaging from '@react-native-firebase/messaging';
+import { useUserSet } from '../../contexts/UserContext';
 
 function SignUp({ navigation }) {
   const { AppColor } = useTheme();
+  const setUser = useUserSet();
 
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
@@ -71,6 +73,7 @@ function SignUp({ navigation }) {
 
       if (res.status === 200) {
         serviceAccessToken.set(res.data.accessToken);
+        await setUserProfile();
         setModalVisible(true);
       } else {
         throw res;
@@ -84,6 +87,14 @@ function SignUp({ navigation }) {
         setError('Error serveur');
       }
     }
+  };
+
+  const setUserProfile = async () => {
+    const userObject = await api.send('get', '/api/v1/profile');
+    if (userObject.status === 200) {
+      setUser(userObject.data);
+    } else throw "Can't fetch user profile";
+    //TODO: handle entire app error message if user object not set
   };
 
   const acceptGCU = () => {
