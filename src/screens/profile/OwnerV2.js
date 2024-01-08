@@ -34,21 +34,21 @@ const renderRating = (rating, isComment = false) => {
         {!isComment ? (
           <View style={{ flexDirection: 'row' }}>
             <Text
-              style={{ color: 'white', fontWeight: '600' }}
+              style={{ color: '#0C0404', fontWeight: '600' }}
             >{`${rating.author.firstName} ${rating.author.lastName}   `}</Text>
-            <Text style={{ color: 'white' }}>{rating.date.slice(0, rating.date.indexOf('T'))}</Text>
+            <Text style={{ color: '#0C0404' }}>{rating.date.slice(0, rating.date.indexOf('T'))}</Text>
           </View>
         ) : undefined}
         <View style={{ flexDirection: 'row', marginBottom: 10 }}>{stars}</View>
-        <Text style={{ color: 'white' }}>{rating.comment}</Text>
+        <Text style={{ color: '#0C0404' }}>{rating.comment}</Text>
         <View style={{ flexDirection: 'row', marginTop: 5, marginBottom: 10 }}>
           <View style={{ flexDirection: 'row', marginRight: 20 }}>
             <Icon name="thumbs-up" size={15} color={'grey'} />
-            <Text style={{ color: 'white' }}>{rating.likes}</Text>
+            <Text style={{ color: '#0C0404' }}>{rating.likes}</Text>
           </View>
           <View style={{ flexDirection: 'row' }}>
             <Icon name="thumbs-down" size={15} color={'grey'} />
-            <Text style={{ color: 'white' }}>{rating.dislikes}</Text>
+            <Text style={{ color: '#0C0404' }}>{rating.dislikes}</Text>
           </View>
         </View>
       </View>
@@ -134,7 +134,7 @@ function ProfileHeader({ userName, userRate, userId, profilePictureUri, navigati
       <View style={{ top: '20%' }}>
         <Text
           style={{
-            color: 'white',
+            color: '#0C0404',
             fontWeight: 'bold',
             textAlign: 'center',
             fontSize: 20
@@ -154,7 +154,7 @@ function ProfileHeader({ userName, userRate, userId, profilePictureUri, navigati
           style={{
             color: 'white',
             fontSize: 14,
-            backgroundColor: 'grey',
+            backgroundColor: '#0C0404',
             borderRadius: 50,
             height: 30,
             padding: 5
@@ -202,7 +202,7 @@ function OwnerV2({ navigation }) {
           setCurrentTabComponent(<Station ownerId={userId}></Station>);
         } else {
           setCurrentTabComponent(
-            <Text style={{ fontSize: 14, color: 'white' }}>User has no stations yet.</Text>
+            <Text style={{ fontSize: 14, color: '#0C0404' }}>User has no stations yet.</Text>
           );
         }
       } else if (currentTabIndex === 2) {
@@ -216,7 +216,7 @@ function OwnerV2({ navigation }) {
           );
         } else {
           setCurrentTabComponent(
-            <Text style={{ fontSize: 14, color: 'white' }}>User has no ratings yet.</Text>
+            <Text style={{ fontSize: 14, color: '#0C0404' }}>User has no ratings yet.</Text>
           );
         }
       } else if (currentTabIndex === 3) {
@@ -229,7 +229,7 @@ function OwnerV2({ navigation }) {
           );
         } else {
           setCurrentTabComponent(
-            <Text style={{ fontSize: 14, color: 'white' }}>User has no comments yet.</Text>
+            <Text style={{ fontSize: 14, color: '#0C0404' }}>User has no comments yet.</Text>
           );
         }
       } else setCurrentTabComponent(undefined);
@@ -244,7 +244,7 @@ function OwnerV2({ navigation }) {
         profilePictureUri={imageUri}
         navigation={navigation}
       />
-      <ActivityIndicator size="small" color="white" />
+      <ActivityIndicator size="small" color="#0C0404" />
     </View>
   ) : (
     <View style={styles.safe}>
@@ -290,7 +290,7 @@ const styles = StyleSheet.create({
     // flex: 1,
     height: '100%',
     width: '100%',
-    backgroundColor: 'black'
+    backgroundColor: '#e6e6e6'
   },
   top: {
     top: 20,

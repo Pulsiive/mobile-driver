@@ -42,6 +42,7 @@ import PaymentHistory from '../screens/payment/History';
 import InitLinkComponent from '../components/InitLinkComponent';
 import StationInformations from '../screens/station/StationInformations';
 import PromoCodesPage from '../screens/promo/Codepromo';
+import Fonctionnement from '../screens/settings/Fonctionnement';
 
 import Components from '../screens/components/Components';
 import CustomHeader from '../AppStyles';
@@ -95,8 +96,8 @@ const MessagesStack = () => {
         options={{
           headerShown: true,
           headerTitle: 'Profil',
-          headerStyle: { backgroundColor: 'black' },
-          headerTitleStyle: { color: 'white', fontWeight: 'bold' }
+          headerStyle: { backgroundColor: 'white' },
+          headerTitleStyle: { color: 'black', fontWeight: 'bold' }
         }}
       />
       <Stack.Screen name="Calendar" component={Calendar} />
@@ -163,6 +164,7 @@ const ProfilStack = () => {
       />
       <Stack.Screen name="Notification" component={NotificationScreen} />
       <Stack.Screen name="PromoCodesPage" component={PromoCodesPage} />
+      <Stack.Screen name="Fonctionnement" component={Fonctionnement} />
       <Stack.Screen name="Profile" component={Profile} />
       <Stack.Screen name="Components" component={Components} />
     </Stack.Navigator>

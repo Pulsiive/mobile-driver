@@ -318,13 +318,13 @@ function Settings({ navigation }) {
           navigation.navigate('Notification');
         }}
       />
-      <ButtonTouchable
+      {/* <ButtonTouchable
         title="Bons de réduction"
         icon="wallet"
         onPress={() => {
           navigation.navigate('PromoCodesPage');
         }}
-      />
+      /> */}
 
       <TextTitle
         title="Personnalisation"
@@ -344,7 +344,7 @@ function Settings({ navigation }) {
         style={{ fontSize: AppStyles.fontSize.content, marginTop: 30 }}
       />
       <ButtonTouchable title="Centre d'aide" subtext="Bientôt disponible" icon="help-with-circle" />
-      <ButtonTouchable title="Fonctionnement de Pulsive" subtext="Bientôt disponible" icon="leaf" />
+      <ButtonTouchable title="Fonctionnement de Pulsive" subtext="Bientôt disponible" icon="leaf" onPress={() => {navigation.navigate('Fonctionnement');}} />
       <ButtonTouchable
         title="Envoyez vos remarques"
         subtext="Bientôt disponible"
