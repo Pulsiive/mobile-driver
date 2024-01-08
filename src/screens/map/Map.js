@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {StyleSheet, View, PermissionsAndroid, Image, Platform} from 'react-native';
+import {StyleSheet, View, PermissionsAndroid, Image, Platform, Dimensions} from 'react-native';
 import {
   AnimatedLoading,
   ButtonConditional,
@@ -311,7 +311,7 @@ function Map({ navigation }) {
             icon="globe"
             iconColor={fetchPosition ? AppColor.pulsive : AppColor.icon}
             style={{
-              top: 90,
+              top: Dimensions.get("window").height * 0.12,
               right: 0,
               marginRight: '5%',
               backgroundColor: AppColor.background
@@ -324,6 +324,7 @@ function Map({ navigation }) {
             <TextSubTitle
               title="Cliquez où vous le souhaitez sur la map pour changer de localisation"
               style={{
+                backgroundColor: AppColor.background,
                 position: 'absolute',
                 bottom: '10%',
                 fontSize: AppStyles.fontSize.contentTitle,
@@ -334,7 +335,7 @@ function Map({ navigation }) {
           )}
           <FloatingButton
             icon="location"
-            style={{ top: 90, right: 75, marginRight: '5%', backgroundColor: AppColor.background }}
+            style={{ top: Dimensions.get("window").height * 0.12, right: 75, marginRight: '5%', backgroundColor: AppColor.background }}
             onPress={() => {
               setResetPosition(!resetPosition), setSelectedStation(undefined);
             }}
@@ -344,7 +345,7 @@ function Map({ navigation }) {
             subtext="Choisissez votre localisation"
             icon="sound-mix"
             onPress={() => setFilterModal(true)}
-            style={{ position: 'absolute', top: 30 }}
+            style={{ position: 'absolute', top: Dimensions.get("window").height * 0.05 }}
             list={locations.locations}
             onSelect={setUserPosition}
           />

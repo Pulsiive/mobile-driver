@@ -27,7 +27,7 @@ const SearchBar = ({ title, subtext, style, icon, list, onPress, onSelect }) => 
       return;
     }
     setFilteredLocations(
-      list.filter((location) => location[0].toLowerCase().includes(text.toLowerCase()))
+        list.filter((location) => location[0].toLowerCase().includes(text.toLowerCase()))
     );
   };
 
@@ -66,13 +66,12 @@ const SearchBar = ({ title, subtext, style, icon, list, onPress, onSelect }) => 
       flexDirection: 'row',
       alignItems: 'center',
       flex: 1,
-      marginLeft: 5
+      marginLeft: 5,
     },
     textContainer: {
-      marginLeft: 20
-    },
-    labelContainer: {
-      top: 24
+      height: '100%',
+      width: '90%',
+      marginLeft: 15
     },
     title: {
       color: AppColor.title,
@@ -108,67 +107,67 @@ const SearchBar = ({ title, subtext, style, icon, list, onPress, onSelect }) => 
   });
 
   return (
-    <>
-      {isInputFocused && (
-        <>
-          <ScrollView
-            style={{
-              height: '100%',
-              width: '100%',
-              backgroundColor: AppColor.background
-            }}
-          >
-            <ButtonConditional
-              title="Annuler"
-              isEnabled={true}
-              style={{
-                backgroundColor: AppColor.separator,
-                marginTop: 100
-              }}
-              onPress={() => setIsInputFocused(false)}
-            />
-            {filteredLocations.map((location, index) => {
-              return (
-                <View key={index} style={styles.list}>
-                  <TouchableOpacity onPress={() => changeLocation(location)}>
-                    <View>
-                      <Text style={styles.item}>{location[0]}</Text>
-                    </View>
-                  </TouchableOpacity>
-                  <Separator style={{ marginTop: 0 }} />
-                </View>
-              );
-            })}
-          </ScrollView>
-        </>
-      )}
-      <View style={{ ...styles.SearchBar, ...(style || {}) }}>
-        <View style={styles.searchContainer}>
-          <Icon name="magnifying-glass" size={20} color={AppColor.icon} />
-          <View style={styles.textContainer}>
-            {!isInputFocused && inputValue === '' && (
-              <View style={styles.labelContainer}>
-                <Text style={styles.title}>{title}</Text>
-                {subtext && <Text style={[AppStyles.subtext, { marginTop: 0 }]}>{subtext}</Text>}
-              </View>
-            )}
-            <TextInput
-              style={styles.title}
-              value={inputValue}
-              onChangeText={handleSearch}
-              onFocus={handleInputFocus}
-              onBlur={handleInputBlur}
-              selectionColor={AppColor.icon}
-            />
-          </View>
-        </View>
-        {!isInputFocused && (
-          <TouchableOpacity style={styles.icon} onPress={onPress}>
-            <Icon name={icon} size={20} color={AppColor.icon} />
-          </TouchableOpacity>
+      <>
+        {isInputFocused && (
+            <>
+              <ScrollView
+                  style={{
+                    height: '100%',
+                    width: '100%',
+                    backgroundColor: AppColor.background
+                  }}
+              >
+                <ButtonConditional
+                    title="Annuler"
+                    isEnabled={true}
+                    style={{
+                      backgroundColor: AppColor.separator,
+                      marginTop: 120
+                    }}
+                    onPress={() => setIsInputFocused(false)}
+                />
+                {filteredLocations.map((location, index) => {
+                  return (
+                      <View key={index} style={styles.list}>
+                        <TouchableOpacity onPress={() => changeLocation(location)}>
+                          <View>
+                            <Text style={styles.item}>{location[0]}</Text>
+                          </View>
+                        </TouchableOpacity>
+                        <Separator style={{ marginTop: 0 }} />
+                      </View>
+                  );
+                })}
+              </ScrollView>
+            </>
         )}
-      </View>
-    </>
+        <View style={{ ...styles.SearchBar, ...(style || {}) }}>
+          <View style={styles.searchContainer}>
+            <Icon name="magnifying-glass" size={20} color={AppColor.icon} />
+            <View style={styles.textContainer}>
+              {!isInputFocused && inputValue === '' && (
+                  <View style={{position:'absolute', width: '100%', height: '100%', display: 'flex', justifyContent:'center'}}>
+                    <Text style={{color: AppColor.title, fontWeight: '600'}}>{title}</Text>
+                    {subtext && <Text style={[AppStyles.subtext, { marginTop: 0 }]}>{subtext}</Text>}
+                  </View>
+              )}
+              <TextInput
+                  style={{height: '100%', color: AppColor.title, fontWeight: '600'}}
+                  value={inputValue}
+                  onChangeText={handleSearch}
+                  onFocus={handleInputFocus}
+                  onBlur={handleInputBlur}
+                  selectionColor={AppColor.icon}
+              />
+            </View>
+          </View>
+          {!isInputFocused && (
+              <TouchableOpacity style={styles.icon} onPress={onPress}>
+                <Icon name={icon} size={20} color={AppColor.icon} />
+              </TouchableOpacity>
+          )}
+        </View>
+      </>
   );
 };
 

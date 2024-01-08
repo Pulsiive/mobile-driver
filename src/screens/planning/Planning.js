@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import { StyleSheet, Text, View } from 'react-native';
+import {Dimensions, Platform, StyleSheet, Text, View} from 'react-native';
 import { AppStyles, useTheme } from '../../AppStyles';
 import { ScrollView } from 'react-native-gesture-handler';
 import Backend from '../../db/Backend';
@@ -221,7 +221,7 @@ function Planning({ navigation }) {
   }, [filter, reservationsFetch]);
 
   const styles = StyleSheet.create({
-    container: { backgroundColor: AppColor.background, paddingTop: 30 },
+    container: { backgroundColor: AppColor.background, paddingTop: Platform.OS === 'android' ? 0 : Dimensions.get("window").height * 0.05 },
     planning: {
       paddingBottom: 30,
       borderBottomColor: AppColor.separator,

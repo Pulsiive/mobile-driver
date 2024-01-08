@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image } from 'react-native';
+import {View, Text, Image, Dimensions} from 'react-native';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Entypo';
 import IconAwesome from 'react-native-vector-icons/FontAwesome';
@@ -31,8 +31,8 @@ const Favorites = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView
-      style={[AppStyles.container, { backgroundColor: AppColor.background, paddingTop: 30 }]}
+    <View
+      style={[AppStyles.container, { backgroundColor: AppColor.background, paddingTop: Platform.OS === 'android' ? 0 : Dimensions.get("window").height * 0.05}]}
     >
       <ScrollView>
         <TextTitle title="Vos favorites" style={{ paddingBottom: 10 }} />
@@ -147,7 +147,7 @@ const Favorites = ({ navigation }) => {
           })}
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 
