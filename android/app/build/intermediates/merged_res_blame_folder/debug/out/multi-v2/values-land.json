@@ -1,27 +1,20 @@
 {
     "logs": [
         {
-            "outputFile": "/home/ilias/Pulsive/repositories/mobile-driver/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-land/values-land.xml",
+            "outputFile": "/home/maxime/Epitech/EIP/mobile-driver/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-land/values-land.xml",
             "map": [
                 {
-                    "source": "/home/ilias/.gradle/caches/transforms-3/a730bc3c154177cbad2c60c6445a7593/transformed/appcompat-1.4.1/res/values-land/values-land.xml",
+                    "source": "/home/maxime/.gradle/caches/transforms-3/ac1676bb78b1bc99bc30e0597259df4b/transformed/jetified-ui-1.1.1/res/values-land/values-land.xml",
                     "from": {
-                        "startLines": "2,3,4",
-                        "startColumns": "4,4,4",
-                        "startOffsets": "55,125,196",
-                        "endColumns": "69,70,67",
-                        "endOffsets": "120,191,259"
-                    },
-                    "to": {
-                        "startLines": "3,4,5",
-                        "startColumns": "4,4,4",
-                        "startOffsets": "104,174,245",
-                        "endColumns": "69,70,67",
-                        "endOffsets": "169,240,308"
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "48",
+                        "endOffsets": "99"
                     }
                 },
                 {
-                    "source": "/home/ilias/.gradle/caches/transforms-3/432c09ba1a6b164e517236f0ab50d5e6/transformed/material-1.5.0/res/values-land/values-land.xml",
+                    "source": "/home/maxime/.gradle/caches/transforms-3/588f1f6edbac50b1529bb14d2c05d37d/transformed/material-1.5.0/res/values-land/values-land.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,26,32",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -40,13 +33,20 @@
                     }
                 },
                 {
-                    "source": "/home/ilias/.gradle/caches/transforms-3/dec4e6a5b05711a4c76c67181a49adae/transformed/jetified-ui-1.1.1/res/values-land/values-land.xml",
+                    "source": "/home/maxime/.gradle/caches/transforms-3/37d09e0514e94645edc7102e2ef14b54/transformed/appcompat-1.4.1/res/values-land/values-land.xml",
                     "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "48",
-                        "endOffsets": "99"
+                        "startLines": "2,3,4",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "55,125,196",
+                        "endColumns": "69,70,67",
+                        "endOffsets": "120,191,259"
+                    },
+                    "to": {
+                        "startLines": "3,4,5",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "104,174,245",
+                        "endColumns": "69,70,67",
+                        "endOffsets": "169,240,308"
                     }
                 }
             ]

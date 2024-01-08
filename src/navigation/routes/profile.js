@@ -32,7 +32,8 @@ const getRoutes = () => {
       component: PaymentUICustomScreen,
       options: {
         header: ({ navigation }) => <CustomHeader navigation={navigation} />,
-        headerShown: true }
+        headerShown: true
+      }
     },
     {
       name: 'Notification',
@@ -54,7 +55,8 @@ const getRoutes = () => {
       name: 'Profile',
       component: Profile,
       options: {
-        header: ({ navigation }) => <CustomHeader navigation={navigation} />
+        header: ({ navigation }) => <CustomHeader navigation={navigation} />,
+        headerShown: true
       }
     },
     {
