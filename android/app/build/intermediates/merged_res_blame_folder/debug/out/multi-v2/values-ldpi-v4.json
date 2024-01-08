@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/home/ilias/Pulsive/repositories/mobile-driver/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-ldpi-v4/values-ldpi-v4.xml",
+            "outputFile": "/home/maxime/Epitech/EIP/mobile-driver/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-ldpi-v4/values-ldpi-v4.xml",
             "map": [
                 {
-                    "source": "/home/ilias/.gradle/caches/transforms-3/0b0ecc7970ee99adb4404207368ea20c/transformed/jetified-payments-core-20.5.0/res/values-ldpi-v4/values-ldpi-v4.xml",
+                    "source": "/home/maxime/.gradle/caches/transforms-3/fc0fd2c74b51d136e2067f96d1536948/transformed/jetified-payments-core-20.5.0/res/values-ldpi-v4/values-ldpi-v4.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

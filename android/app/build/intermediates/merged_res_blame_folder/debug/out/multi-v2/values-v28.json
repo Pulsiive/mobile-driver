@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/home/ilias/Pulsive/repositories/mobile-driver/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v28/values-v28.xml",
+            "outputFile": "/home/maxime/Epitech/EIP/mobile-driver/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v28/values-v28.xml",
             "map": [
                 {
-                    "source": "/home/ilias/.gradle/caches/transforms-3/a730bc3c154177cbad2c60c6445a7593/transformed/appcompat-1.4.1/res/values-v28/values-v28.xml",
+                    "source": "/home/maxime/.gradle/caches/transforms-3/37d09e0514e94645edc7102e2ef14b54/transformed/appcompat-1.4.1/res/values-v28/values-v28.xml",
                     "from": {
                         "startLines": "2,3,4,8",
                         "startColumns": "4,4,4,4",
@@ -23,7 +23,7 @@
                     }
                 },
                 {
-                    "source": "/home/ilias/.gradle/caches/transforms-3/432c09ba1a6b164e517236f0ab50d5e6/transformed/material-1.5.0/res/values-v28/values-v28.xml",
+                    "source": "/home/maxime/.gradle/caches/transforms-3/588f1f6edbac50b1529bb14d2c05d37d/transformed/material-1.5.0/res/values-v28/values-v28.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4",

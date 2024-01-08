@@ -56,7 +56,7 @@ const ReservationCard = ({ reservations }) => {
     >
       <View style={{ height: 80 }}>
         <TextSubTitle
-          title={'Borne de ' + reservations.owner.firstName}
+          title={'Borne de ' + reservations.owner}
           style={{ marginBottom: 16, fontSize: AppStyles.fontSize.contentTitle }}
         />
         <Badge
@@ -103,74 +103,76 @@ function Planning({ navigation }) {
     })}`;
   }
 
-  useFocusEffect(
-    React.useCallback(() => {
-      const fetchReservationsRequests = async () => {
-        if (filter === 1) {
-          const requests = await Backend.getReservationRequests();
-          if (requests.status !== -1) {
-            const sortedReservations = requests.data.sort((a, b) =>
-              compareDesc(parseISO(a.slot.opensAt), parseISO(b.slot.opensAt))
-            );
-            const slotParsed = await Promise.all(
-              sortedReservations.map(async (request) => {
-                const owner = await Backend.getUserFromId(
-                  request.slot.stationProperties.station.ownerId
-                );
-                const formatedReservation = {
-                  ...request.slot,
-                  dateTemp: formatReservationDate(request.slot.opensAt),
-                  slotTime: formatReservationTime(request.slot.opensAt, request.slot.closesAt),
-                  owner: {
-                    id: owner.data.id,
-                    firstName: owner.data.firstName,
-                    lastName: owner.data.lastName,
-                    profilePictureId: owner.data.profilePictureId,
-                    ratings: owner.data.receivedRatings
-                  },
-                  address: request.slot.stationProperties.station.coordinates.address,
-                  city: request.slot.stationProperties.station.coordinates.city,
-                  price: request.slot.stationProperties.price
-                };
-                return formatedReservation;
-              })
-            );
-            setReservationsRequests(slotParsed);
-          }
-        }
-      };
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     const fetchReservationsRequests = async () => {
+  //       if (filter === 1) {
+  //         const requests = await Backend.getReservationRequests();
+  //         if (requests.status !== -1) {
+  //           const sortedReservations = requests.data.sort((a, b) =>
+  //             compareDesc(parseISO(a.slot.opensAt), parseISO(b.slot.opensAt))
+  //           );
+  //           const slotParsed = await Promise.all(
+  //             sortedReservations.map(async (request) => {
+  //               const owner = await Backend.getUserFromId(
+  //                 request.slot.stationProperties.station.ownerId
+  //               );
+  //               const formatedReservation = {
+  //                 ...request.slot,
+  //                 dateTemp: formatReservationDate(request.slot.opensAt),
+  //                 slotTime: formatReservationTime(request.slot.opensAt, request.slot.closesAt),
+  //                 owner: {
+  //                   id: owner.data.id,
+  //                   firstName: owner.data.firstName,
+  //                   lastName: owner.data.lastName,
+  //                   profilePictureId: owner.data.profilePictureId,
+  //                   ratings: owner.data.receivedRatings
+  //                 },
+  //                 address: request.slot.stationProperties.station.coordinates.address,
+  //                 city: request.slot.stationProperties.station.coordinates.city,
+  //                 price: request.slot.stationProperties.price
+  //               };
+  //               return formatedReservation;
+  //             })
+  //           );
+  //           setReservationsRequests(slotParsed);
+  //         }
+  //       }
+  //     };
 
-      fetchReservationsRequests();
-    }, [filter])
-  );
+  //     fetchReservationsRequests();
+  //   }, [filter])
+  // );
 
   useEffect(() => {
     async function fetchReservations() {
       try {
         const now = new Date();
         const res = await Backend.getReservations();
-        // console.log(JSON.stringify(res.data, null, '\t'));
+        console.log(JSON.stringify(res.data, null, '\t'));
         if (res.status === 200) {
           const sortedReservations = res.data.sort((a, b) =>
             compareDesc(parseISO(a.opensAt), parseISO(b.opensAt))
           );
           let slotParsed = await Promise.all(
             sortedReservations.map(async (slot) => {
-              const owner = await Backend.getUserFromId(slot.stationProperties.station.ownerId);
+              // const owner = await Backend.getUserFromId(slot.stationProperties.station.ownerId);
+              const owner = await Backend.getUserFromId(slot.driverId);
               const formatedReservation = {
                 ...slot,
                 dateTemp: formatReservationDate(slot.opensAt),
                 slotTime: formatReservationTime(slot.opensAt, slot.closesAt),
-                owner: {
-                  id: owner.data.id,
-                  firstName: owner.data.firstName,
-                  lastName: owner.data.lastName,
-                  profilePictureId: owner.data.profilePictureId,
-                  ratings: owner.data.receivedRatings
-                },
-                address: slot.stationProperties.station.coordinates.address,
-                city: slot.stationProperties.station.coordinates.city,
-                price: slot.stationProperties.price
+                owner: owner.data.lastName
+                // owner: {
+                //   id: owner.data.id,
+                //   firstName: owner.data.firstName,
+                //   lastName: owner.data.lastName,
+                //   profilePictureId: owner.data.profilePictureId,
+                //   ratings: owner.data.receivedRatings
+                // },
+                // address: slot.stationProperties.station.coordinates.address,
+                // city: slot.stationProperties.station.coordinates.city,
+                // price: slot.stationProperties.price
               };
               if (
                 new Date(formatedReservation.opensAt).getTime() <= now.getTime() &&

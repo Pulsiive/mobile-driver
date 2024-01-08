@@ -105,10 +105,12 @@ export default function PaymentsUICustomScreen({ route, navigation }) {
       Alert.alert(`Error code: ${error.code}`, error.message);
     } else {
       Alert.alert('Success', 'The payment was confirmed successfully!');
-      const { data, status } = await Backend.createReservationRequest({
-        slotId: slot_id,
-        price: 20
-      });
+      const { data, status } = await Backend.bookSlot(slot_id);
+      console.log(data, status);
+      // const { data, status } = await Backend.createReservationRequest({
+      //   slotId: slot_id,
+      //   price: 20
+      // });
       console.log(data, status);
       if (status === 200) {
         // Alert.alert('Success', 'The payment was confirmed successfully!');
@@ -131,6 +133,14 @@ export default function PaymentsUICustomScreen({ route, navigation }) {
           backgroundColor: 'red'
         });
         navigation.goBack();
+      } else {
+        showMessage({
+          duration: 4000,
+          message: `un problème est survenu`,
+          description: 'Vous allez ếtre redirigé sur la page de planning',
+          type: 'error',
+          backgroundColor: 'red'
+        });
       }
       setPaymentSheetEnabled(false);
     }

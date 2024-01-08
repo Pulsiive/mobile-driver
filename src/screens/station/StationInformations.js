@@ -9,10 +9,12 @@ import Comment from './comment/Comment';
 import * as Animatable from 'react-native-animatable';
 import { AppIcon, AppStyles, useTheme } from '../../AppStyles';
 import {
+  Badge,
   ButtonCommon,
   ButtonConditional,
   ButtonText,
   FloatingButton,
+  FloatingNormalCard,
   ModalSwipeUp,
   Separator,
   TextSubTitle,
@@ -29,21 +31,14 @@ const CarouselReview = ({ item, navigation }) => {
   const height = Dimensions.get('screen').height * 0.325;
 
   return (
-    <View
-      style={{
-        borderColor: AppColor.border,
-        borderWidth: 0.8,
-        borderRadius: 15,
-        height: height
-      }}
-    >
+    <FloatingNormalCard style={{ height: height, width: '100%' }}>
       <Comment
         item={item}
         displayPictures={false}
         displayResponses={false}
         navigation={navigation}
       />
-    </View>
+    </FloatingNormalCard>
   );
 };
 
@@ -81,6 +76,7 @@ function StationInformations({ route, navigation }) {
 
   const height = Dimensions.get('screen').height;
 
+  const note = [1, 5, 4, 5, 2, 3, 4];
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView style={{ flex: 1, backgroundColor: AppColor.background }}>
@@ -172,15 +168,14 @@ function StationInformations({ route, navigation }) {
           )}
           <Text style={{ color: AppColor.text, marginTop: 5 }}>{station.coordinates.address}</Text>
 
-          <Separator />
-
-          <View style={{ marginTop: 30 }}>
+          <FloatingNormalCard
+            style={{ width: '100%', paddingVertical: 30, paddingLeft: 30, marginTop: 30 }}
+          >
             <View
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
-                marginBottom: 20,
-                marginLeft: 10
+                marginBottom: 20
               }}
             >
               <Icon name="flow-branch" size={28} color={AppColor.text} />
@@ -198,8 +193,7 @@ function StationInformations({ route, navigation }) {
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
-                marginBottom: 20,
-                marginLeft: 10
+                marginBottom: 20
               }}
             >
               <Icon name="flash" size={28} color={AppColor.text} />
@@ -213,7 +207,7 @@ function StationInformations({ route, navigation }) {
                 {station.properties.maxPower} kWh
               </Text>
             </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: 10 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
               <Icon name="credit" size={28} color={AppColor.text} />
               <Text
                 style={{
@@ -225,9 +219,61 @@ function StationInformations({ route, navigation }) {
                 {station.properties.price} / heure
               </Text>
             </View>
-          </View>
+          </FloatingNormalCard>
 
-          <Separator />
+          <Separator style={{ marginTop: 20 }} />
+
+          {!station.properties.isPublic && (
+            <FloatingNormalCard
+              style={{ width: '100%', paddingVertical: 30, paddingHorizontal: 20, marginTop: 30 }}
+            >
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between'
+                }}
+              >
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Image
+                    style={{ width: 50, height: 50, borderRadius: 25, marginRight: 10 }}
+                    source={{ uri: `https://ucarecdn.com/${station.owner.profilePictureId}/` }}
+                  />
+                  <View>
+                    <TextSubTitle title={station.owner.firstName} />
+                    <Badge
+                      icon="new"
+                      title="Vérifié"
+                      style={{ backgroundColor: AppColor.title, position: 'relative' }}
+                      contentColor={AppColor.background}
+                    />
+                  </View>
+                </View>
+
+                {note.length !== 0 && (
+                  <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
+                    <IconAwesome name="star" size={14} color={AppColor.text} />
+                    <Text style={{ color: AppColor.text, marginLeft: 2 }}>
+                      {(note.reduce((acc, val) => acc + val, 0) / note.length).toFixed(1)}
+                    </Text>
+                  </View>
+                )}
+              </View>
+
+              <View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginTop: 20 }}>
+                <ButtonText
+                  title="Voir plus..."
+                  onPress={() =>
+                    navigation.navigate('Owner', {
+                      imageUri: `https://ucarecdn.com/${station.owner.profilePictureId}/`,
+                      name: `${station.owner.firstName} ${station.owner.lastName}`,
+                      userId: station.owner.id
+                    })
+                  }
+                />
+              </View>
+            </FloatingNormalCard>
+          )}
 
           {station.properties.isPublic && (
             <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20 }}>
@@ -258,16 +304,21 @@ function StationInformations({ route, navigation }) {
             </View>
           )}
 
-          <View style={{ alignItems: 'center', marginVertical: 20 }}>
-            <Carousel
-              layout="default"
-              data={station.rates.slice(0, 5)}
-              renderItem={({ item }) => <CarouselReview item={item} navigation={navigation} />}
-              itemWidth={Dimensions.get('screen').width * 0.9}
-              sliderWidth={Dimensions.get('screen').width}
-            />
-          </View>
-          {station.rates.length > 0 && (
+          {station.properties.isPublic && (
+            <View style={{ alignItems: 'center', marginVertical: 10 }}>
+              <Carousel
+                layout="default"
+                data={station.rates.slice(0, 5)}
+                renderItem={({ item }) => (
+                  <CarouselReview key={item.id} item={item} navigation={navigation} />
+                )}
+                itemWidth={Dimensions.get('screen').width * 0.9}
+                sliderWidth={Dimensions.get('screen').width}
+              />
+            </View>
+          )}
+
+          {station.properties.isPublic && station.rates.length > 0 && (
             <ButtonCommon
               title={`Voir ${
                 station.rates.length > 1
@@ -279,6 +330,7 @@ function StationInformations({ route, navigation }) {
           )}
         </View>
       </ScrollView>
+
       <View
         style={{
           backgroundColor: AppColor.bottomColor,
