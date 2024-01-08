@@ -1,17 +1,17 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { View, Image, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Text, View, Image, StyleSheet } from 'react-native';
 
-import Modal from 'react-native-modal';
-
-import { AppIcon } from '../../AppStyles';
+import { AppStyles, useTheme, AppIcon } from '../../AppStyles';
 import { showMessage } from 'react-native-flash-message';
 import Backend from '../../db/Backend';
-import * as Animatable from 'react-native-animatable';
+import { ButtonConditional, FloatingNormalCard, Separator, TextSubTitle } from '../../components';
+import Icon from 'react-native-vector-icons/Entypo';
 
 function Panier({ navigation, route }) {
+  const { AppColor } = useTheme();
+
   const slot = route.params.slot;
   const stationId = route.params.stationId;
-  const [isModalVisible, setModalVisible] = useState(false);
   const [station, setStation] = useState(null);
   const [promoCode, setPromoCode] = useState('');
 
@@ -21,27 +21,21 @@ function Panier({ navigation, route }) {
 
       if (response.status === 200) {
         setStation(response.data.station);
-        console.log(station);
         showMessage({
           message: `Station récupéré avec succès`,
           type: 'success',
-          backgroundColor: 'green'
+          backgroundColor: AppColor.pulsive
         });
       } else {
         showMessage({
           message: 'Impossible de récupérer la station',
           type: 'error',
-          backgroundColor: 'red'
+          backgroundColor: AppColor.error
         });
       }
     };
-
     getStation();
   }, []);
-
-  const toggleModal = () => {
-    setModalVisible(!isModalVisible);
-  };
 
   const handlePromoCodeChange = (text) => {
     setPromoCode(text);
@@ -55,344 +49,149 @@ function Panier({ navigation, route }) {
     // You can implement the logic to apply the promo code as needed.
   };
 
+  const styles = StyleSheet.create({
+    container: { backgroundColor: AppColor.background, paddingTop: 30 },
+    planning: {
+      paddingBottom: 30,
+      borderBottomColor: AppColor.separator,
+      borderBottomWidth: 1
+    },
+    itemIconContainer: {
+      backgroundColor: AppColor.bottomColor,
+      height: 50,
+      width: 50,
+      borderRadius: 50,
+      justifyContent: 'center',
+      alignItems: 'center'
+    },
+    itemIcon: {
+      flex: 1,
+      width: '70%',
+      height: '70%',
+      resizeMode: 'contain'
+    }
+  });
+
   return (
-    <View style={{ flex: 1, backgroundColor: 'white' }}>
-      <View style={styles.container}>
-        <TouchableOpacity
-          style={{ marginRight: 'auto', top: 10 + '%' }}
-          onPress={() => navigation.navigate('Planning', { stationId })}
-        >
-          <Image style={{ width: 20, height: 20 }} source={AppIcon.images.back}></Image>
-        </TouchableOpacity>
+    <View style={[AppStyles.container, styles.container]}>
+      {station && (
+        <>
+          <View style={{ flex: 1, backgroundColor: AppColor.background }}>
+            <View
+              style={{
+                paddingHorizontal: 20,
+                paddingTop: 40,
+                marginBottom: '50%'
+              }}
+            >
+              <TextSubTitle title="Votre panier" style={{ marginTop: 20 }} />
 
-        <Text style={styles.header}> Paniers </Text>
-
-        <Animatable.View
-          animation="jello"
-          iterationCount="infinite"
-          style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-        >
-          <TouchableOpacity style={styles.itemContainer} onPress={toggleModal}>
-            <View style={styles.itemIconContainer}>
-              <Image style={styles.itemIcon} source={AppIcon.images.station_img} />
-            </View>
-            <View style={styles.itemDetails}>
-              <Text style={styles.itemName}>
-                Chargeur {station?.properties?.plugTypes[0] ?? 'non défini'}
-              </Text>
-              <Text style={styles.itemDetail}>ID: {station?.properties?.id ?? 'non défini'}</Text>
-              <Text style={styles.itemDetail}>M.Mathieu</Text>
-              <Text style={styles.itemPrice}>{slot.price} € ({slot.pricePerMin} € / minute)</Text>
-            </View>
-          </TouchableOpacity>
-        </Animatable.View>
-
-        {/* The modal component */}
-        <Modal
-          isVisible={isModalVisible}
-          onSwipeComplete={toggleModal}
-          swipeDirection={['up', 'left', 'right', 'down']}
-          style={styles.modalContainer}
-        >
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Votre Commande</Text>
-
-            {/* Order details inside the modal */}
-            <TouchableOpacity style={styles.modalItemContainer} onPress={toggleModal}>
-              <View style={styles.itemIconContainer}>
-                <Image style={styles.itemIcon} source={AppIcon.images.checkIcon} />
-              </View>
-              <View style={styles.modalItemDetails}>
-                <Text style={styles.itemName}>
-                  Chargeur {station?.properties?.plugTypes[0] ?? 'non défini'}
-                </Text>
-                <Text style={styles.itemDetail}>M.Mathieu</Text>
-              </View>
-              <Text style={styles.itemPrice}>{slot.pricePerMin}€ / minute</Text>
-            </TouchableOpacity>
-
-            <View style={styles.horizontalLine} />
-            <View style={styles.spaceAfterHorizontalLine} />
-
-            {/* Content for Taxes, Services, and Discounts */}
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Taxes</Text>
-              <Text style={styles.sectionContent}>Total taxes: 0€</Text>
-            </View>
-
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Services</Text>
-              <Text style={styles.sectionContent}>Service charge: 0€</Text>
-            </View>
-
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Discounts</Text>
-              <Text style={styles.sectionContent}>Promo code applied: XYZ123</Text>
-              <Text style={styles.sectionContent}>Discount amount: 0.00€</Text>
-            </View>
-
-            <View style={styles.promoCodeContainer}>
-              <TextInput
-                style={styles.promoCodeInput}
-                placeholder="Enter promo code"
-                value={promoCode}
-                onChangeText={handlePromoCodeChange}
-              />
-              <TouchableOpacity
-                style={styles.applyButton}
-                onPress={applyPromoCode}
-                activeOpacity={0.8}
+              <FloatingNormalCard
+                style={{ width: '100%', paddingVertical: 30, paddingLeft: 30, marginTop: 30 }}
               >
-                <Text style={styles.applyButtonText}>Apply</Text>
-              </TouchableOpacity>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    marginBottom: 20
+                  }}
+                >
+                  <View style={styles.itemIconContainer}>
+                    <Image style={styles.itemIcon} source={AppIcon.images.station_img} />
+                  </View>
+                  <Text
+                    style={{
+                      fontSize: AppStyles.fontSize.content,
+                      fontWeight: '500',
+                      color: AppColor.text,
+                      marginLeft: 10
+                    }}
+                  >
+                    {station.coordinates.address}
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    marginBottom: 20,
+                    marginLeft: 10
+                  }}
+                >
+                  <Icon name="flow-branch" size={28} color={AppColor.text} />
+                  <Text
+                    style={{
+                      fontSize: AppStyles.fontSize.content,
+                      color: AppColor.text,
+                      marginLeft: 10
+                    }}
+                  >
+                    {station.properties.plugTypes}
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    marginBottom: 20,
+                    marginLeft: 10
+                  }}
+                >
+                  <Icon name="flash" size={28} color={AppColor.text} />
+                  <Text
+                    style={{
+                      fontSize: AppStyles.fontSize.content,
+                      color: AppColor.text,
+                      marginLeft: 10
+                    }}
+                  >
+                    {station.properties.maxPower} kWh
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    marginLeft: 10
+                  }}
+                >
+                  <Icon name="credit" size={28} color={AppColor.text} />
+                  <Text
+                    style={{
+                      fontSize: AppStyles.fontSize.content,
+                      color: AppColor.text,
+                      marginLeft: 10
+                    }}
+                  >
+                    {slot.price} € ({slot.pricePerMin} € / minute)
+                  </Text>
+                </View>
+              </FloatingNormalCard>
+
+              <Separator style={{ marginTop: 20 }} />
             </View>
-
-            <View style={styles.horizontalLine} />
-
-            {/* Subtotal */}
-            <View style={styles.subtotalContainer}>
-              <Text style={styles.subtotalText}>Sous-total</Text>
-              <Text style={styles.subtotalAmount}>{slot.price} €</Text>
-            </View>
-
-            {/* Modal buttons */}
-            <View style={styles.modalButtonContainer}>
-              <TouchableOpacity
-                activeOpacity={0.8}
-                onPress={() => {
-                  navigation.navigate('Checkout', { slot, station });
-                  setModalVisible(false);
-                }}
-                style={styles.commanderButton}
-              >
-                <Text style={styles.buttonText}>Commander</Text>
-              </TouchableOpacity>
-            </View>
-
-            {/* Close modal button */}
-            <TouchableOpacity style={styles.closeButton} onPress={toggleModal} activeOpacity={0.7}>
-              <Image source={AppIcon.images.xMark} style={styles.closeIcon} />
-            </TouchableOpacity>
           </View>
-        </Modal>
-      </View>
+
+          <View
+            style={{
+              backgroundColor: AppColor.bottomColor,
+              borderTopColor: AppColor.separator,
+              borderTopWidth: 1,
+              height: '10%',
+              width: '100%',
+              paddingTop: 4
+            }}
+          >
+            <ButtonConditional
+              title={'Procéder au paiement'}
+              onPress={() => navigation.navigate('Checkout', { slot, station })}
+              isEnabled={true}
+            />
+          </View>
+        </>
+      )}
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginLeft: '5.5%',
-    top: -5
-  },
-  backButton: {
-    marginRight: 'auto',
-    top: '10%'
-  },
-  backIcon: {
-    width: 20,
-    height: 20
-  },
-  header: {
-    position: 'absolute',
-    fontWeight: 'bold',
-    fontSize: 30,
-    top: '15%',
-    color: '#2F313E'
-  },
-  //   itemContainer: {
-  //     height: '9%',
-  //     top: '40%',
-  //     flexDirection: 'row',
-  //     alignItems: 'center',
-  //   },
-  itemContainer: {
-    backgroundColor: 'white', // Set the background color to white
-    borderRadius: 10, // Add border radius for rounded corners
-    shadowColor: '#000', // Set shadow color
-    shadowOffset: {
-      width: 0,
-      height: 4
-    },
-    shadowOpacity: 0.3, // Adjust shadow opacity
-    shadowRadius: 4, // Adjust shadow radius
-    elevation: 10, // Android shadow elevation
-    marginVertical: 10, // Add vertical margin for spacing
-    padding: 16 // Add padding inside the card
-  },
-  itemIconContainer: {
-    backgroundColor: '#f4f4f5',
-    height: 40,
-    width: 40,
-    borderRadius: 50,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  itemIcon: {
-    flex: 1,
-    width: '70%',
-    height: '70%',
-    resizeMode: 'contain'
-  },
-  itemDetails: {
-    marginLeft: 12
-  },
-  itemName: {
-    color: 'black',
-    fontSize: 18, // Ajuster la taille du texte pour le nom de l'article
-    fontWeight: 'bold', // Utiliser du texte en gras pour le nom de l'article
-    marginBottom: 4 // Espacement entre le nom de l'article et le détail
-  },
-  itemDetail: {
-    color: 'grey',
-    marginTop: 6
-  },
-  itemPrice: {
-    color: 'black',
-    fontSize: 18,
-    fontWeight: 'bold'
-  },
-  horizontalLine: {
-    marginTop: 20,
-    marginBottom: 3,
-    height: 1,
-    width: '90%',
-    backgroundColor: 'black'
-  },
-  modalContainer: {
-    justifyContent: 'flex-end',
-    margin: 0
-  },
-  modalContent: {
-    backgroundColor: '#FFFFFF', // Blanc
-    padding: 22,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20
-  },
-  modalTitle: {
-    fontSize: 26,
-    fontWeight: 'bold',
-    marginBottom: 16,
-    color: '#2F313E',
-    textAlign: 'center'
-  },
-  modalItemContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 16
-  },
-  modalItemDetails: {
-    flex: 1,
-    marginLeft: 12
-  },
-  newSection: {
-    marginBottom: 16
-  },
-  newSectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 8,
-    color: '#2F313E'
-  },
-  newSectionText: {
-    color: '#2F313E',
-    fontSize: 16
-  },
-  subtotalContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 16
-  },
-  subtotalText: {
-    color: '#2F313E',
-    fontSize: 20,
-    fontWeight: 'bold'
-  },
-  subtotalAmount: {
-    color: '#2F313E',
-    fontSize: 20,
-    fontWeight: 'bold'
-  },
-  modalButtonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end', // Pour aligner le bouton sur la droite
-    marginBottom: 20
-  },
-  commanderButton: {
-    backgroundColor: '#00A84A',
-    borderRadius: 8, // Un petit arrondi pour le bouton
-    paddingVertical: 10, // Ajuster la taille verticale du bouton
-    paddingHorizontal: 12, // Ajuster la taille horizontale du bouton
-    alignItems: 'center'
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 16, // Ajuster la taille du texte du bouton
-    fontWeight: 'bold'
-  },
-  ajouterButton: {
-    flex: 1,
-    backgroundColor: '#F2F2F2',
-    borderRadius: 10,
-    paddingVertical: 14,
-    paddingHorizontal: 16,
-    marginLeft: 16,
-    alignItems: 'center'
-  },
-  closeButton: {
-    alignSelf: 'flex-start',
-    padding: 10,
-    position: 'absolute',
-    top: '5%',
-    right: '5%'
-  },
-  closeIcon: {
-    width: 24,
-    height: 24
-  },
-  promoCodeContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 16
-  },
-  promoCodeInput: {
-    flex: 1,
-    backgroundColor: '#F2F2F2',
-    borderRadius: 10,
-    paddingVertical: 10,
-    paddingHorizontal: 12,
-    fontSize: 16
-  },
-  applyButton: {
-    marginLeft: 16,
-    backgroundColor: '#00A84A',
-    borderRadius: 8,
-    paddingVertical: 10,
-    paddingHorizontal: 12,
-    alignItems: 'center'
-  },
-  applyButtonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold'
-  },
-  spaceAfterHorizontalLine: {
-    marginTop: 20
-  },
-  section: {
-    marginBottom: 10 // Adjust the separation between sections
-  },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#2F313E' // Text color for section titles
-  },
-  sectionContent: {
-    fontSize: 16,
-    color: '#2F313E' // Text color for section content
-  }
-});
 
 export default Panier;

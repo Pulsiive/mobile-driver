@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/home/ilias/Pulsive/repositories/mobile-driver/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v18/values-v18.xml",
+            "outputFile": "/home/maxime/Epitech/EIP/mobile-driver/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v18/values-v18.xml",
             "map": [
                 {
-                    "source": "/home/ilias/.gradle/caches/transforms-3/a730bc3c154177cbad2c60c6445a7593/transformed/appcompat-1.4.1/res/values-v18/values-v18.xml",
+                    "source": "/home/maxime/.gradle/caches/transforms-3/37d09e0514e94645edc7102e2ef14b54/transformed/appcompat-1.4.1/res/values-v18/values-v18.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
