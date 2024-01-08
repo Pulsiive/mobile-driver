@@ -1,14 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import {View, StyleSheet, Text, TouchableHighlight, ImageBackground} from 'react-native';
-import { addDays, getDate, startOfWeek, format, isSameDay } from 'date-fns';
+import {
+  View,
+  Text,
+  TouchableHighlight,
+  ImageBackground,
+} from 'react-native';
+import {
+  addDays,
+  getDate,
+  startOfWeek,
+  format,
+  isSameDay,
+} from 'date-fns';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { fr } from 'date-fns/locale';
 import MyCalendar from './MyCalendar';
 import FetchInfo from './FetchInfo';
-import { useTheme} from '../../AppStyles';
+import { useTheme } from '../../AppStyles';
 import { AppIcon } from '../../AppStyles';
-
-
 
 const DateSlider = ({ date, stationId, setSlot, setModalVisible, onChange }) => {
   const { AppColor } = useTheme();
@@ -16,107 +25,137 @@ const DateSlider = ({ date, stationId, setSlot, setModalVisible, onChange }) => 
   const [date1, setDate] = useState(new Date());
   const [week, setWeek] = useState([]);
   const [open, setOpen] = useState(false);
+
+  const changeParentProps = (newPropValue) => {
+    onChange(newPropValue);
+  };
+
   useEffect(() => {
-    var weekDays = getWeekDays(date);
+    let weekDays = getWeekDays(date);
     setWeek(weekDays);
   }, [date]);
-  useEffect(() => {
-    const iso = new Date(date1);
-    var weekDays = getWeekDays(iso);
-    setWeek(weekDays);
-  }, [date1]);
+  //
+  // useEffect(() => {
+  //   const iso = new Date(date1);
+  //   var weekDays = getWeekDays(iso);
+  //   setWeek(weekDays);
+  // }, [date1]);
 
   return (
-    <>
-      <View style={styles.container}>
-        {week.map((weekDay) => {
-          const textStyles = [{color: AppColor.title, ...styles.label}];
-          const touchable = [styles.touchable];
-          const sameDay = isSameDay(weekDay.date, date);
-          if (sameDay) {
-            touchable.push(styles.selectedTouchable);
-            textStyles.push(styles.selectedLabel);
-          }
-          return (
-            <View style={styles.weekDayItem} key={weekDay.formatted}>
-              <TouchableOpacity onPress={() => onChange(weekDay.date)} style={touchable}>
-                <Text style={{color: AppColor.color, ...styles.label}}>{weekDay.day}</Text>
-              </TouchableOpacity>
-              <Text style={{color: AppColor.title, ...styles.weekDayText}}>{weekDay.formatted.slice(0, -1)}</Text>
+      <>
+        <View style={styles.container}>
+          {week.map((weekDay) => {
+            const touchable = [styles.touchable];
+            const weekDayText = [styles.weekDayText]
+            const label = [styles.label]
+            const sameDay = isSameDay(weekDay.date, date);
+            if (sameDay) {
+              touchable.push({backgroundColor:'#7FCB2B'});
+              weekDayText.push({color: 'white'})
+              label.push({color: 'white'})
+            }
+            return (
+                <View style={styles.weekDayItem} key={weekDay.formatted}>
+                  <TouchableOpacity activeOpacity={sameDay ? 1 : 0.7} onPress={() => {!sameDay && onChange(weekDay.date)}} style={touchable}>
+                    <Text style={[{color: AppColor.title}, ...label ]}>
+                      {weekDay.day}
+                    </Text>
+                  </TouchableOpacity>
+                  <Text style={[{color: AppColor.title}, ...weekDayText]}>
+                    {weekDay.formatted.slice(0, -1)}
+                  </Text>
+                </View>
+            );
+          })}
+        </View>
+        <View style={{
+          position: 'absolute',
+          top: 30 + '%',
+          left: 2 + '%',
+        }}>
+        <TouchableOpacity
+            activeOpacity={1}
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: 50,
+              height: 50,
+            }}
+            onPress={() => setOpen(!open)}
+        >
+          <ImageBackground
+              source={AppIcon.images.arrowRight}
+              style={{
+                transform: open ? [{ rotate: '-90deg' }] : [{ rotate: '90deg' }],
+                width: 12,
+                height: 21,
+              }}
+          ></ImageBackground>
+        </TouchableOpacity>
+        </View>
+
+        {open && (
+            <View style={{ marginTop: 20 + '%' }}>
+              <MyCalendar onUpdate={changeParentProps} date={{ date }} open={() => setOpen(open)} />
             </View>
-          );
-        })}
-      </View>
-      <TouchableHighlight style={{position:'absolute', top:30+'%', left:2+'%', justifyContent:'center', alignItems:'center', width:50, height:50,}} onPress={() => setOpen(!open)}>
-        <ImageBackground source={AppIcon.images.arrowRight} style={{transform: open ? [{rotate:'-90deg'}] :  [{rotate:'90deg'}], width:12,height:21,}}></ImageBackground>
-      </TouchableHighlight>
-      {open && (
-        <View style={{ marginTop: 20 + '%' }}>
-          <MyCalendar
-            date={{ date }}
-            onChange={(date) => setDate(date)}
-            open={(open) => setOpen(open)}
-          />
+        )}
+        <View style={{ top: 7 + '%' }}>
+          <View>
+            <Text
+                style={{ color: AppColor.title, fontWeight: '700', left: 4 + '%', marginTop: 0 + '%' }}
+            >
+              Créneaux disponible:
+            </Text>
+          </View>
+          <View style={styles.safe}>
+            <FetchInfo
+                date={date.toISOString().split('T')[0]}
+                stationId={stationId}
+                setSlot={setSlot}
+                setModalVisible={setModalVisible}
+            />
+          </View>
         </View>
-      )}
-      <View style={{ top: 7 + '%' }}>
-        <View>
-          <Text style={{ color: AppColor.title, fontWeight: '700', left: 4 + '%', marginTop: 0 + '%' }}>
-            Créneaux disponible:
-          </Text>
-        </View>
-        <View style={styles.safe}>
-          <FetchInfo
-            date={date.toISOString().split('T')[0]}
-            stationId={stationId}
-            setSlot={setSlot}
-            setModalVisible={setModalVisible}
-          />
-        </View>
-      </View>
-    </>
+      </>
   );
 };
 
-const styles = StyleSheet.create({
+const styles = {
   safe: {
     left: 3 + '%',
-    marginTop: 10 + '%'
+    marginTop: 10 + '%',
   },
   container: {
     transform: [{ scale: 0.95 }],
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginTop: 200
+    marginTop: 200,
   },
   weekDayText: {
     position: 'absolute',
     marginTop: 40,
     fontWeight: '600',
-    textTransform: 'capitalize'
+    textTransform: 'capitalize',
   },
   touchable: {
     borderRadius: 10,
     paddingTop: 9,
     height: 70,
-    width: 50
-  },
-  selectedTouchable: {
-    backgroundColor: '#7FCB2B'
+    width: 50,
   },
   label: {
     fontSize: 14,
     textAlign: 'center',
   },
   selectedLabel: {
-    fontWeight: '600'
+    fontWeight: '600',
   },
   weekDayItem: {
-    alignItems: 'center'
-  }
-});
+    alignItems: 'center',
+  },
+};
 
-export const getWeekDays = (date) => {
+const getWeekDays = (date) => {
   const start = startOfWeek(date, { weekStartsOn: 1 });
   const final = [];
 
@@ -125,7 +164,7 @@ export const getWeekDays = (date) => {
     final.push({
       formatted: format(date, 'EEE', { locale: fr }),
       date,
-      day: getDate(date)
+      day: getDate(date),
     });
   }
   return final;

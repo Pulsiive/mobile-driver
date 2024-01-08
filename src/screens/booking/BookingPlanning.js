@@ -25,15 +25,6 @@ function BookingPlanning({ navigation, route }) {
 
   return (
     <View style={{ flex: 1, backgroundColor: AppColor.background }}>
-      <View style={styles.group}>
-        {/*<Image source={AppIcon.images.logo} style={styles.logo} />*/}
-        {/*<Image source={AppIcon.images.Pulsiive} style={styles.Pulsiive} />*/}
-        {/*<TouchableHighlight style={styles.avisButton} onPress={() => navigation.navigate('Avis')}>*/}
-        {/*  <Image style={styles.avis} source={AppIcon.images.avis}></Image>*/}
-        {/*</TouchableHighlight>*/}
-        {/*<Image style={styles.notif} source={AppIcon.images.notif}></Image>*/}
-      </View>
-
       <Modal
         animationType="slide"
         visible={modalVisible}
@@ -43,9 +34,19 @@ function BookingPlanning({ navigation, route }) {
         }}
       >
         <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>Êtes-vous sur de vouloir réserver ce créneau ?</Text>
-            <Pressable
+          <View style={{backgroundColor: AppColor.background, ...styles.modalView}}>
+            <Text style={{color: AppColor.title, ...styles.modalText}}>Êtes-vous sur de vouloir réserver ce créneau ?</Text>
+            <View style={styles.groupButton}>
+              <TouchableOpacity
+                  style={{backgroundColor: AppColor.private, ...styles.button}}
+                  onPress={() => {
+                    setModalVisible(false);
+                    setSlot(null);
+                  }}
+              >
+                <Text style={{color: 'white', ...styles.textStyle}}>Annuler</Text>
+              </TouchableOpacity>
+            <TouchableOpacity
               style={[styles.button, styles.buttonClose]}
               onPress={async () => {
                 setModalVisible(false);
@@ -56,17 +57,10 @@ function BookingPlanning({ navigation, route }) {
                 }
               }}
             >
-              <Text style={styles.textStyle}>Je réserve</Text>
-            </Pressable>
-            <Pressable
-              style={[styles.button, styles.buttonCancel]}
-              onPress={() => {
-                setModalVisible(false);
-                setSlot(null);
-              }}
-            >
-              <Text style={styles.textStyle}>Annuler</Text>
-            </Pressable>
+              <Text style={{color: 'white', ...styles.textStyle}}>Je réserve</Text>
+            </TouchableOpacity>
+
+            </View>
           </View>
         </View>
       </Modal>
@@ -110,9 +104,8 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    backgroundColor: AppStyles.color.pulsive,
     borderRadius: 20,
-    padding: 35,
+    padding:30,
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
@@ -123,10 +116,19 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5
   },
+  groupButton: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
   button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2
+    display: 'flex',
+    justifyContent: 'center',
+    borderRadius: 12,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    marginRight: 10,
+    width: 120,
+    height: 30,
   },
   buttonOpen: {
     backgroundColor: '#F194FF'
@@ -135,16 +137,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#7FCB2B'
   },
   buttonCancel: {
-    marginTop: 10,
     backgroundColor: 'red'
   },
   textStyle: {
-    color: AppStyles.color.pulsive,
     fontWeight: 'bold',
     textAlign: 'center'
   },
   modalText: {
-    marginBottom: 15,
+    paddingBottom: 35,
+    paddingTop:10,
+    fontSize: 15,
     textAlign: 'center'
   },
   safe: {
