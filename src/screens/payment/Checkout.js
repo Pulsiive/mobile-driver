@@ -213,31 +213,20 @@ function Checkout({ navigation, route }) {
                         if (paymentType === 'stripe')
                             navigation.navigate('PaymentUICustomScreen', {slot_id: slot.slotId, brutPrice: slot.brutPrice});
                         if (paymentType === 'balance') {
-                            const response = await Backend.submitPaymentBalance(slot.brutPrice, slot.slotId);
-                            if (response.status === 200) {
-
-                                const {data, status} = await Backend.createReservationRequest({slotId: slot.slotId, price: slot.brutPrice});
-                                if (status === 200) {
-                                    showMessage({
-                                        duration: 4000,
-                                        message: `Demande de réservation crée avec succès !`,
-                                        description: 'La réservation sera sur votre calendrier après acceptation du propriétaire.',
-                                        type: "success",
-                                        backgroundColor: "green"
-                                    });
-                                    navigation.navigate('Planning');
-                                } else {
-                                    showMessage({
-                                        duration: 4000,
-                                        message: `Impossible de réserver le créneau !`,
-                                        type: "error",
-                                        backgroundColor: "red"
-                                    });
-                                }
+                            const {data, status} = await Backend.createReservationRequest({slotId: slot.slotId});
+                            if (status === 200) {
+                                showMessage({
+                                    duration: 4000,
+                                    message: `Demande de réservation crée avec succès !`,
+                                    description: 'La réservation sera sur votre calendrier après acceptation du propriétaire.',
+                                    type: "success",
+                                    backgroundColor: "green"
+                                });
+                                navigation.navigate('Planning');
                             } else {
                                 showMessage({
                                     duration: 4000,
-                                    message: `Balance insuffisante (${profile?.balance ? profile.balance / 100 : 0}€)`,
+                                    message: `Impossible de réserver le créneau !`,
                                     type: "error",
                                     backgroundColor: "red"
                                 });

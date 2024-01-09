@@ -11,7 +11,6 @@ import * as Animatable from 'react-native-animatable';
 function Panier({ navigation, route }) {
   const slot = route.params.slot;
   const stationId = route.params.stationId;
-  console.log(stationId);
   const [isModalVisible, setModalVisible] = useState(false);
   const [station, setStation] = useState(null);
   const [promoCode, setPromoCode] = useState('');
