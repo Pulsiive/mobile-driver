@@ -53,8 +53,6 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>
@@ -74,11 +72,6 @@
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
 	</array>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>fetch</string>
-		<string>remote-notification</string>
-	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -93,5 +86,20 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Location access is required to accept payments.
+</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>bluetooth-central (Uses Bluetooth LE accessories)
+</string>
+	</array>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>Bluetooth access is required to connect to supported card readers.
+</string>
+	<key>NSBluetoothAlwaysUsageDescription
+</key>
+	<string>This app uses Bluetooth to connect to supported card readers.
+</string>
 </dict>
 </plist>

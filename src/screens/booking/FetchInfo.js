@@ -10,9 +10,13 @@ import {
 } from 'react-native';
 import { AppIcon } from '../../AppStyles';
 
-const FetchInfo = ({ date, stationId, setSlot, setModalVisible, data}) => {
+const FetchInfo = ({ date, stationId, setSlot, setModalVisible, data, openDate}) => {
   const firstOpacity = useRef(new Animated.Value(0)).current;
   const TranslationUp = useRef(new Animated.Value(-20)).current;
+  useEffect(()=> {
+    console.log(date)
+  }, [])
+
   firstOpacity.setValue(0);
   TranslationUp.setValue(-20);
   Animated.parallel([
@@ -31,35 +35,34 @@ const FetchInfo = ({ date, stationId, setSlot, setModalVisible, data}) => {
 
   return (
       <ScrollView style={{top: -30}}>
-        {data[date] &&
-            data[date]?.map((plan) => {
+        {data[date]?.map((plan) => {
               return (
-                  <Pressable
-                      style={{width: '100%'}}
-                      key={plan.slotId}
-                      onPress={() => {
-                        if (plan.isBooked) {
-                          return;
-                        }
-                        setSlot(plan);
-                        setModalVisible(true);
-                      }}
-                  >
-                    <Animated.View
-                        style={[
-                          plan.isBooked ? styles.itemBookedContainer : styles.itemContainer,
-                        ]}
-                    >
-                      <View>
-                        <Text style={styles.name}>{plan.date}</Text>
-                        <View style={styles.firstRow}>
-                          <Image style={styles.rendCalendar} source={AppIcon.images.calendar}></Image>
-                          <Text style={styles.Txtduration}>{plan.Hour}</Text>
-                        </View>
+          <Pressable
+              style={{width: '100%'}}
+              key={plan.slotId}
+              onPress={() => {
+                if (plan.isBooked) {
+                  return;
+                }
+                setSlot(plan);
+                setModalVisible(true);
+              }}
+          >
+            <Animated.View
+                style={[
+                  plan.isBooked ? styles.itemBookedContainer : styles.itemContainer,
+                ]}
+            >
+              <View>
+                <Text style={styles.name}>{plan.date}</Text>
+                <View style={styles.firstRow}>
+                  <Image style={styles.rendCalendar} source={AppIcon.images.calendar}></Image>
+                  <Text style={styles.Txtduration}>{plan.Hour}</Text>
+                </View>
 
-                      </View>
-                    </Animated.View>
-                  </Pressable>
+              </View>
+            </Animated.View>
+          </Pressable>
               );
             })}
       </ScrollView>

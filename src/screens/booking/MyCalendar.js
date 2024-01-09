@@ -14,7 +14,6 @@ const MyCalendar = (props) => {
     const months = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Decembre"];
     const nDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
-    const event = [19, 3, 22, 23, 24];
     const today = new Date();
 
     const [navigateDate, setNavigateDate] = useState(props.date.date);
@@ -84,13 +83,8 @@ const MyCalendar = (props) => {
     };
 
     const isExactlySameDay = (date1, date2) => {
-        console.log(typeof date2, date2)
         return date2 !== -1 && isSameYear(date1, date2) && isSameMonth(date1, date2) && isSameDay(date1, date2);
     };
-    const convert = (date) => {
-        console.log(date.split('T')[0])
-    }
-
     const matrix = generateMatrix();
 
     const rows = matrix.map((row, rowIndex) => {
@@ -142,8 +136,8 @@ const MyCalendar = (props) => {
                                     width: 5,
                                     height: 5,
                                     borderRadius: 10,
-                                    backgroundColor: !isNegative(item) && props.event.includes(item.toISOString().split('T')[0]) ? AppColor.title : AppColor.background,
-                                    display: !isNegative(item) && props.event.includes(item.toISOString().split('T')[0]) ? 'flex' : 'none',
+                                    backgroundColor: !isNegative(item) && props.event.includes(item.toLocaleString().split(' ')[0]) ? AppColor.title : AppColor.background,
+                                    display: !isNegative(item) && props.event.includes(item.toLocaleString().split(' ')[0]) ? 'flex' : 'none',
                                 }}
                             />
                         </View>

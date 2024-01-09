@@ -23,6 +23,77 @@ function BookingPlanning({ navigation, route }) {
   const [date, setDate] = useState(new Date());
   const [modalVisible, setModalVisible] = useState(false);
   const [slot, setSlot] = useState(null);
+  const [openDate, setOpenDate] = useState([]);
+  const [data, setData] = useState({});
+
+
+  useEffect(() => {
+    function fillAgendaWithReservations(slot) {
+      // console.log('filling agenda');
+      // console.log(slot);
+      let isAlreadyInAgenda = false;
+
+      for (let index = 0; index < slot.length; index++) {
+        ///////////////////////////////////////////////////////////////////////
+        //    Error checking to see if slot is already contained in Agenda    /
+        for (const idToCheck in data[slot[index].date]) {
+          if (parseInt(data[slot[index].date][idToCheck].id) === index) isAlreadyInAgenda = true;
+        }
+        if (isAlreadyInAgenda) {
+          isAlreadyInAgenda = false;
+          break;
+        }
+        ///////////////////////////////////////////////////////////////////////
+        if (data[slot[index].date] === undefined) data[slot[index].date] = [];
+        data[slot[index].date].push({
+          date: slot[index].date,
+          id: index,
+          Hour: slot[index].opensAt + ' -> ' + slot[index].closeAt,
+          Name: slot[index].stationId,
+          isBooked: slot[index].isBooked,
+          slotId: slot[index].id
+        });
+        // console.log('pushed one new object');
+      }
+      // console.log('HERE   ', data[date]);
+    }
+
+    const addElementSorted = (array, element) => {
+      const opensAtElement = new Date(element.opensAt).getTime();
+
+      let index = 0;
+      while (index < array.length && opensAtElement > new Date(array[index].opensAt).getTime()) {
+        index++;
+      }
+      return array.splice(index, 0, element);
+    };
+    async function fetchSlot() {
+      try {
+        return await Backend.getSlots(stationId);
+      }  catch (error) {
+        console.error('Error fetching slot information:', error);
+      }
+    }
+
+    fetchSlot().then(res => {
+      if (res.status === 200) {
+        setOpenDate(res.data.map(item => new Date(item.opensAt).toLocaleDateString()));
+        let slotParsed = [];
+        for (let index = 0; index < res.data.length; index++) {
+          let element = ({
+            id: res.data[index].id,
+            stationId: res.data[index].stationPropertiesId,
+            date: new Date(res.data[index].opensAt).toLocaleDateString(),
+            opensAt: res.data[index].opensAt.split('T')[1].split('.')[0],
+            closeAt: res.data[index].closesAt.split('T')[1].split('.')[0],
+            isBooked: res.data[index].isBooked
+          });
+          addElementSorted(slotParsed, element);
+        }
+        fillAgendaWithReservations(slotParsed);
+      }
+    });
+  }, []);
 
   return (
     <View style={{ flex: 1, backgroundColor: AppColor.background }}>
@@ -81,6 +152,8 @@ function BookingPlanning({ navigation, route }) {
         setModalVisible={setModalVisible}
         slot={slot}
         setSlot={setSlot}
+        openDate={openDate}
+        data={data}
       />
     </View>
   );
