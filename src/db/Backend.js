@@ -77,11 +77,6 @@ class Backend {
     return res;
   };
 
-  submitPaymentBalance = async (brutPrice, slotId) => {
-    const res = await API.send('POST', '/api/v1/payment/balance', { brut_price: brutPrice, slot_id: slotId}, true);
-    return res;
-  };
-
   async createStripePaymentIntent(brutPrice) {
     return await API.send('POST', '/api/v1/payment-request', { brut_price: brutPrice}, true);
   }
