@@ -26,6 +26,7 @@ import serviceAccessToken from '../../db/AccessToken';
 import { useFocusEffect } from '@react-navigation/native';
 import * as locations from '../../locations';
 import * as Animatable from 'react-native-animatable';
+import {PERMISSIONS, request, RESULTS} from "react-native-permissions";
 
 var axios = require('axios');
 
@@ -78,22 +79,56 @@ function Map({ navigation }) {
   useEffect(() => {
     console.log('INIT');
     setLoadingLocation(true);
-    try {
-      PermissionsAndroid.requestMultiple(
-        [
-          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-          PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION
-        ],
-        {
-          title: 'Give Location Permission',
-          message: 'App needs location permission to find your position.'
-        }
-      )
-        .then(async (granted) => {
-          GetLocation.getCurrentPosition({
-            enableHighAccuracy: true,
-            timeout: 50000
-          })
+      if (Platform.OS === 'android') {
+      try {
+        PermissionsAndroid.requestMultiple(
+            [
+              PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+              PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION
+            ],
+            {
+              title: 'Give Location Permission',
+              message: 'App needs location permission to find your position.'
+            }
+        )
+            .then(async (granted) => {
+              GetLocation.getCurrentPosition({
+                enableHighAccuracy: true,
+                timeout: 50000
+              })
+                  .then((location) => {
+                    console.log(location);
+                    // setUserPosition([location.latitude, location.longitude]);
+                    setUserPosition([48.85836907344881, 2.3412766196414907]);
+                    setLoadingLocation(false);
+                  })
+                  .catch((error) => {
+                    const {code, message} = error;
+                    console.warn(code, message);
+                  });
+            })
+            .catch((err) => {
+              console.warn(err);
+            });
+      } catch (e) {
+        console.log(e);
+      }
+    } else {
+        console.log('ios')
+        const requestLocationPermission = async () => {
+
+          const result = await request(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE);
+          if (result === RESULTS.GRANTED) {
+            console.log('Location permission granted');
+          } else {
+            console.log('Location permission denied');
+          }
+      }
+      requestLocationPermission().then(async (granted) => {
+        GetLocation.getCurrentPosition({
+          enableHighAccuracy: true,
+          timeout: 50000
+        })
             .then((location) => {
               console.log(location);
               // setUserPosition([location.latitude, location.longitude]);
@@ -101,16 +136,15 @@ function Map({ navigation }) {
               setLoadingLocation(false);
             })
             .catch((error) => {
-              const { code, message } = error;
+              const {code, message} = error;
               console.warn(code, message);
             });
-        })
-        .catch((err) => {
-          console.warn(err);
-        });
-    } catch (e) {
-      console.log(e);
+      })
+          .catch((err) => {
+            console.warn(err);
+          });;
     }
+    // req
   }, [resetPosition]);
 
   const fetchData = async () => {
@@ -148,7 +182,6 @@ function Map({ navigation }) {
       .filter((station) => station.rate >= filterRating);
     setNbStations(stationsParsed.length);
     setUserStation(stationsParsed);
-    // console.log(JSON.stringify(stationsParsed, null, '\t'));
     if (res.status == 200) {
       console.log('OK');
     } else {
@@ -324,12 +357,12 @@ function Map({ navigation }) {
             <TextSubTitle
               title="Cliquez où vous le souhaitez sur la map pour changer de localisation"
               style={{
-                backgroundColor: AppColor.background,
                 position: 'absolute',
-                bottom: '10%',
+                bottom: 20,
+                backgroundColor: AppColor.background,
                 fontSize: AppStyles.fontSize.contentTitle,
                 alignSelf: 'center',
-                padding: 10
+                padding: 20,
               }}
             />
           )}

@@ -10,6 +10,9 @@ target 'mobileDriver' do
   use_modular_headers!
   pod 'react-native-mapbox-gl', :path => '../node_modules/@react-native-mapbox-gl/maps'
   pod 'stripe-react-native', :path => '../node_modules/@stripe/stripe-react-native'
+  permissions_path = '../node_modules/react-native-permissions/ios'
+  pod 'Permission-LocationAlways', :path => "#{permissions_path}/LocationAlways/Permission-LocationAlways.podspec"
+  pod 'Permission-LocationWhenInUse', :path => "#{permissions_path}/LocationWhenInUse/Permission-LocationWhenInUse.podspec"
 
   # Flags change depending on the env values.
   flags = get_default_flags()
