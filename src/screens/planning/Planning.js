@@ -9,6 +9,7 @@ import {
   AnimatedLoading,
   Badge,
   ButtonCommon,
+  ButtonText,
   FilterTab,
   FloatingNormalCard,
   Separator,
@@ -22,7 +23,7 @@ import { fr } from 'date-fns/locale';
 import InProgressReservationAlert from './InProgressReservationAlert';
 import InProgressReservationModal from './InProgressReservationModal';
 
-const ReservationCard = ({ reservations }) => {
+const ReservationCard = ({ reservations, navigation }) => {
   const { AppColor } = useTheme();
 
   function getBadgeProperties(reservation) {
@@ -49,6 +50,12 @@ const ReservationCard = ({ reservations }) => {
 
   const badgeProps = getBadgeProperties(reservations);
 
+  const handleRateStationClick = () => {
+    navigation.navigate('StationRating', {
+      stationId: reservations.stationProperties.stationId
+    });
+  };
+
   return (
     <FloatingNormalCard
       key={reservations.id}
@@ -72,6 +79,11 @@ const ReservationCard = ({ reservations }) => {
           <Icon name="clock" size={15} color={AppColor.title} />
           <Text style={{ color: AppColor.title, marginLeft: 4 }}>{reservations.slotTime}</Text>
         </View>
+        {isPast(parseISO(reservations.opensAt)) && (
+          <View style={{ marginTop: 5 }}>
+            <ButtonText title="Noter la borne" onPress={handleRateStationClick} action="edit" />
+          </View>
+        )}
       </View>
     </FloatingNormalCard>
   );
@@ -268,7 +280,7 @@ function Planning({ navigation }) {
               ) : (
                 <ScrollView>
                   {reservations.map((plan) => (
-                    <ReservationCard key={plan.id} reservations={plan} />
+                    <ReservationCard key={plan.id} reservations={plan} navigation={navigation} />
                   ))}
                 </ScrollView>
               )}

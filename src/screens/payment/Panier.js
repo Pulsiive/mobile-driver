@@ -11,7 +11,6 @@ import * as Animatable from 'react-native-animatable';
 function Panier({ navigation, route }) {
   const slot = route.params.slot;
   const stationId = route.params.stationId;
-  console.log(stationId);
   const [isModalVisible, setModalVisible] = useState(false);
   const [station, setStation] = useState(null);
   const [promoCode, setPromoCode] = useState('');
@@ -83,7 +82,7 @@ function Panier({ navigation, route }) {
               </Text>
               <Text style={styles.itemDetail}>ID: {station?.properties?.id ?? 'non défini'}</Text>
               <Text style={styles.itemDetail}>M.Mathieu</Text>
-              <Text style={styles.itemPrice}>{station?.properties?.price / 100}€ / minute</Text>
+              <Text style={styles.itemPrice}>{slot.price} € ({slot.pricePerMin} € / minute)</Text>
             </View>
           </TouchableOpacity>
         </Animatable.View>
@@ -109,7 +108,7 @@ function Panier({ navigation, route }) {
                 </Text>
                 <Text style={styles.itemDetail}>M.Mathieu</Text>
               </View>
-              <Text style={styles.itemPrice}>{station?.properties?.price / 100}€ / minute</Text>
+              <Text style={styles.itemPrice}>{slot.pricePerMin}€ / minute</Text>
             </TouchableOpacity>
 
             <View style={styles.horizontalLine} />
@@ -118,21 +117,20 @@ function Panier({ navigation, route }) {
             {/* Content for Taxes, Services, and Discounts */}
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Taxes</Text>
-              <Text style={styles.sectionContent}>Total taxes: 2.50€</Text>
+              <Text style={styles.sectionContent}>Total taxes: 0€</Text>
             </View>
 
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Services</Text>
-              <Text style={styles.sectionContent}>Service charge: 5.00€</Text>
+              <Text style={styles.sectionContent}>Service charge: 0€</Text>
             </View>
 
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>Discounts</Text>
               <Text style={styles.sectionContent}>Promo code applied: XYZ123</Text>
-              <Text style={styles.sectionContent}>Discount amount: -7.50€</Text>
+              <Text style={styles.sectionContent}>Discount amount: 0.00€</Text>
             </View>
 
-            {/* Promo code input */}
             <View style={styles.promoCodeContainer}>
               <TextInput
                 style={styles.promoCodeInput}
@@ -154,7 +152,7 @@ function Panier({ navigation, route }) {
             {/* Subtotal */}
             <View style={styles.subtotalContainer}>
               <Text style={styles.subtotalText}>Sous-total</Text>
-              <Text style={styles.subtotalAmount}>10.00€</Text>
+              <Text style={styles.subtotalAmount}>{slot.price} €</Text>
             </View>
 
             {/* Modal buttons */}

@@ -13,10 +13,12 @@ import {
   TextSubTitle
 } from '../../components';
 import { useFocusEffect } from '@react-navigation/native';
-// import messaging from '@react-native-firebase/messaging';
+import messaging from '@react-native-firebase/messaging';
+import { useUserSet } from '../../contexts/UserContext';
 
 function SignUp({ navigation }) {
   const { AppColor } = useTheme();
+  const setUser = useUserSet();
 
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
@@ -56,10 +58,7 @@ function SignUp({ navigation }) {
     setError('');
     setLoading(true);
     try {
-
-
-      // const fcmToken = await messaging().getToken();
-      const fcmToken = "RfaQR76JURjtqe0wmPjIEaJPQybfFkI7Atv4brPtM4ExKbwPO2X8qyoY60e8gXig"
+      const fcmToken = await messaging().getToken();
       const userInput = {
         email: email,
         firstName: firstName,
@@ -74,6 +73,7 @@ function SignUp({ navigation }) {
 
       if (res.status === 200) {
         serviceAccessToken.set(res.data.accessToken);
+        await setUserProfile();
         setModalVisible(true);
       } else {
         throw res;
@@ -87,6 +87,14 @@ function SignUp({ navigation }) {
         setError('Error serveur');
       }
     }
+  };
+
+  const setUserProfile = async () => {
+    const userObject = await api.send('get', '/api/v1/profile');
+    if (userObject.status === 200) {
+      setUser(userObject.data);
+    } else throw "Can't fetch user profile";
+    //TODO: handle entire app error message if user object not set
   };
 
   const acceptGCU = () => {
@@ -121,7 +129,7 @@ function SignUp({ navigation }) {
 
   return (
     <ScrollView style={[AppStyles.container, { backgroundColor: AppColor.background }]}>
-      <View style={{ paddingTop: 100 }}>
+      <View style={{ paddingTop: 50 }}>
         <ModalSwipeUp
           visible={modalVisible}
           onClose={() => setModalVisible(false)}

@@ -10,6 +10,10 @@ import { ScrollView } from "react-native-gesture-handler";
 import { AppIcon } from '../../AppStyles';
 import Backend from '../../db/Backend';
 import { showMessage } from 'react-native-flash-message';
+import serviceAccessToken from '../../db/AccessToken';
+import { green } from 'react-native-reanimated/lib/types/lib/reanimated2';
+import { useFocusEffect } from '@react-navigation/native';
+
 
 function Checkout({ navigation, route }) {
     const slot = route.params.slot;
@@ -17,28 +21,30 @@ function Checkout({ navigation, route }) {
     const [profile, setProfile] = useState(null);
     const [paymentType, setPaymentType] = useState('stripe');
 
-    useEffect(() => {
-        const getProfile = async () => {
-            const response = await Backend.me();
+    const getProfile = async () => {
+        const response = await Backend.me();
 
-            if (response.status === 200) {
-                setProfile(response.data);
-                showMessage({
-                    message: `Balance récupéré avec succès`,
-                    type: "success",
-                    backgroundColor: "green"
-                });
-            } else {
-                showMessage({
-                    message: 'Impossible de récupérer la balance',
-                    type: "error",
-                    backgroundColor: "red"
-                });
-            }
+        if (response.status === 200) {
+            setProfile(response.data);
+            showMessage({
+                message: `Balance récupéré avec succès`,
+                type: "success",
+                backgroundColor: "green"
+            });
+        } else {
+            showMessage({
+                message: 'Impossible de récupérer la balance',
+                type: "error",
+                backgroundColor: "red"
+            });
         }
+    }
 
-        getProfile();
-    }, []);
+    useFocusEffect(
+        React.useCallback(() => {
+            getProfile();
+        }, [])
+    );
 
     return (
         <View style={{ flex: 1, backgroundColor: 'white' }}>
@@ -136,24 +142,24 @@ function Checkout({ navigation, route }) {
 
 
                     <View style={{marginTop: 5+'%' ,display:'flex', flexDirection: 'row'}}>
-                            <Text style={{color:'grey', fontSize:20}}>Sous-total</Text>
-                            <Text style={{color:'grey', fontSize:20, marginLeft: 'auto'}}>1.00€</Text>
+                            <Text style={{color:'grey', fontSize:20}}>Prix par minute</Text>
+                            <Text style={{color:'grey', fontSize:20, marginLeft: 'auto'}}>{slot.pricePerMin}€</Text>
+                    </View>
+                    <View style={{marginTop: 5+'%' ,display:'flex', flexDirection: 'row'}}>
+                        <Text style={{color:'grey', fontSize:16}}>Temps de chargement</Text>
+                        <Text style={{color:'grey', fontSize:16, marginLeft: 'auto'}}>{slot.nbMins} minutes</Text>
                     </View>
                     <View style={{marginTop: 5+'%' ,display:'flex', flexDirection: 'row'}}>
                             <Text style={{color:'grey', fontSize:20}}>Frais</Text>
-                            <Text style={{color:'grey', fontSize:20, marginLeft: 'auto'}}>0.30€</Text>
-                    </View>
-                    <View style={{marginTop: 5+'%' ,display:'flex', flexDirection: 'row'}}>
-                            <Text style={{color:'grey', fontSize:16}}>Service</Text>
-                            <Text style={{color:'grey', fontSize:16, marginLeft: 'auto'}}>1.60€</Text>
+                            <Text style={{color:'grey', fontSize:20, marginLeft: 'auto'}}>0.00€</Text>
                     </View>
                     <View style={{marginTop: 5+'%' ,display:'flex', flexDirection: 'row'}}>
                             <Text style={{color:'grey', fontSize:16}}>Autres</Text>
-                            <Text style={{color:'grey', fontSize:16, marginLeft: 'auto'}}>0.10€</Text>
+                            <Text style={{color:'grey', fontSize:16, marginLeft: 'auto'}}>0.00€</Text>
                     </View>
                     <View style={{marginTop: 5+'%' ,display:'flex', flexDirection: 'row'}}>
                             <Text style={{color:'black', fontSize:20}}>Total</Text>
-                            <Text style={{color:'black', fontSize:20, marginLeft: 'auto'}}>3.00€</Text>
+                            <Text style={{color:'black', fontSize:20, marginLeft: 'auto'}}>{slot.price}€</Text>
                     </View>
                     <View style={{marginLeft:-10+'%',marginTop: 7+'%', marginBottom: 2+'%', height: 5, width: 200+'%', backgroundColor:'black'}}></View>
 
@@ -163,13 +169,13 @@ function Checkout({ navigation, route }) {
 
 
                     <TouchableOpacity style={[styles.test, paymentType === 'stripe' && styles.activeBtn]} onPress={() => {
-                        setPaymentType('stripe');
+                        navigation.navigate('PaymentUICustomScreen');
                     }}>
                         <View style={{height:50, width: 50, borderRadius: 50, justifyContent:'center', alignItems:'center'}}>
                             <Image style={{flex: 1, width: 90+'%', height:90+'%', resizeMode: 'contain'}} source={AppIcon.images.visa}></Image>
                         </View>
                         <View style={{marginLeft:5+'%', left:30+'%', width: 80+'%'}}>
-                            <Text style={{color:'black', fontSize:16, fontWeight:'bold'}}>Paiement par carte (Stripe)</Text>
+                            <Text style={{color:'black', fontSize:16, fontWeight:'bold'}}>Ajouter de l'argent</Text>
                         </View>
                     </TouchableOpacity>
 
@@ -205,41 +211,22 @@ function Checkout({ navigation, route }) {
 
                     <TouchableOpacity activeOpacity={0.8} onPress={async () => {
                         if (paymentType === 'stripe')
-                            navigation.navigate('PaymentUICustomScreen', {slot_id: slot.slotId});
+                            navigation.navigate('PaymentUICustomScreen', {slot_id: slot.slotId, brutPrice: slot.brutPrice});
                         if (paymentType === 'balance') {
-                            const response = await Backend.submitPaymentBalance();
-                            if (response.status === 200) {
-                                
-                                // const {data, status} = await Backend.bookSlot(slot.slotId); //TODO: create reservation request instead
-                                const {data, status} = await Backend.createReservationRequest({slotId: slot.slotId, price: 20});
-                                if (status === 200) {
-                                    showMessage({
-                                        duration: 2000,
-                                        message: `Payment effectué avec succès !`,
-                                        description: 'Vous allez être rediriger dans quelques secondes',
-                                        type: "success",
-                                        backgroundColor: "green"
-                                    });
-                                    showMessage({
-                                        duration: 4000,
-                                        message: `Demande de réservation crée avec succès !`,
-                                        description: 'La réservation sera sur votre calendrier après acceptation du propriétaire.',
-                                        type: "success",
-                                        backgroundColor: "green"
-                                    });
-                                    navigation.navigate('Planning');
-                                } else {
-                                    showMessage({
-                                        duration: 4000,
-                                        message: `Impossible de réserver le créneau !`,
-                                        type: "error",
-                                        backgroundColor: "red"
-                                    });
-                                }
+                            const {data, status} = await Backend.createReservationRequest({slotId: slot.slotId});
+                            if (status === 200) {
+                                showMessage({
+                                    duration: 4000,
+                                    message: `Demande de réservation crée avec succès !`,
+                                    description: 'La réservation sera sur votre calendrier après acceptation du propriétaire.',
+                                    type: "success",
+                                    backgroundColor: "green"
+                                });
+                                navigation.navigate('Planning');
                             } else {
                                 showMessage({
                                     duration: 4000,
-                                    message: `Balance insuffisante (${profile?.balance ? profile.balance / 100 : 0}€)`,
+                                    message: `Impossible de réserver le créneau !`,
                                     type: "error",
                                     backgroundColor: "red"
                                 });

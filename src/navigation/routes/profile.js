@@ -12,6 +12,7 @@ import Stations from '../../screens/station/Stations';
 import CustomHeader, { useTheme } from '../../AppStyles';
 
 import styles from './styles';
+import PaymentUICustomScreen from '../../screens/payment/PaymentUICustomScreen';
 
 const getRoutes = () => {
   const { AppColor } = useTheme();
@@ -25,6 +26,13 @@ const getRoutes = () => {
         header: ({ navigation }) => <CustomHeader navigation={navigation} />,
         headerShown: true
       }
+    },
+    {
+      name: 'TopUp',
+      component: PaymentUICustomScreen,
+      options: {
+        header: ({ navigation }) => <CustomHeader navigation={navigation} />,
+        headerShown: true }
     },
     {
       name: 'Notification',

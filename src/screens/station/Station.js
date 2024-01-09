@@ -14,7 +14,6 @@ function Station({ ownerId }) {
     try {
       api.send('GET', `/api/v1/stations/private/user/${ownerId}`).then((data) => {
         setStations(data.data.stations);
-        console.log(stations);
       });
     } catch (e) {
       console.log(e);
@@ -25,11 +24,13 @@ function Station({ ownerId }) {
     console.log(JSON.stringify(props, null, '\t'));
     return (
       <View style={styles.container}>
-        <Text style={styles.stationTitle}>Station {props.index}</Text>
+        <Text style={styles.stationTitle}>{props.item.coordinates.address}</Text>
         <View style={styles.description}>
           <Text style={styles.textDescription}>Type: {props.item.properties.plugTypes}</Text>
           <Text style={styles.textDescription}>Power: {props.item.properties.maxPower} kW</Text>
-          <Text style={styles.textDescription}>Price: {props.item.properties.price} €/h</Text>
+          <Text style={styles.textDescription}>
+            Price: {props.item.properties.price / 100} €/ minute
+          </Text>
           <Text style={styles.textDescription}>
             Charger(s): {props.item.properties.nbChargingPoints}
           </Text>
@@ -88,7 +89,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     paddingTop: 20,
     fontWeight: '200',
-    color: AppStyles.color.text
+    color: 'white'
   },
   bookButton: {
     width: Dimensions.get('window').width * 0.5,

@@ -123,9 +123,9 @@ function StationInformations({ station, navigation }) {
             <Text
               style={{ color: AppColor.text, marginLeft: 3, marginBottom: 2, fontWeight: '600' }}
             >
-              {station.properties.price}€
+              {station.properties.price/100}€
             </Text>
-            <Text style={{ color: AppColor.text, marginLeft: 3, marginBottom: 2 }}>par heure</Text>
+            <Text style={{ color: AppColor.text, marginLeft: 3, marginBottom: 2 }}>par minute</Text>
           </View>
         </View>
       </Pressable>

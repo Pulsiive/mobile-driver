@@ -115,21 +115,21 @@ const History = () => {
   useEffect(() => {
     // Mettez à jour les commandes filtrées en fonction des filtres sélectionnés
     let filtered = orders;
-  
+
     if (selectedTypeFilter) {
         filtered = filtered.filter(order => order.typeBorneElectrique === selectedTypeFilter);
-    }      
-  
+    }
+
     if (selectedPaymentFilter) {
       filtered = filtered.filter(order => order.moyenPaiement === selectedPaymentFilter);
     }
-  
+
     if (searchQuery) {
       filtered = filtered.filter(order =>
         order.numeroCommande.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
-  
+
     setFilteredOrders(filtered);
   }, [selectedTypeFilter, selectedPaymentFilter, searchQuery, orders]);
 
@@ -137,7 +137,7 @@ const History = () => {
     const updateMockOrdersWithPayments = () => {
         // Créez une copie de mockOrders pour éviter de modifier l'état directement
         const updatedOrders = [...mockOrders];
-    
+
         // Boucle sur tous les paiements
         payments.forEach(payment => {
         // Créez une nouvelle instance de commande avec les informations de paiement
@@ -150,15 +150,15 @@ const History = () => {
             numeroCommande: payment.id,
             montant: payment.amount
         };
-    
+
         // Ajoutez la nouvelle commande à la liste
         updatedOrders.push(newOrder);
         });
-    
+
         // Mettez à jour l'état des commandes avec la liste mise à jour
         setOrders(updatedOrders);
     };
-    
+
 
     useEffect(() => {
         const fetchPayments = async () => {
@@ -195,7 +195,7 @@ const History = () => {
         // Ici, vous pouvez charger les données d'historique de commandes à partir d'une source externe
         // Par exemple, une API
         setOrders(mockOrders);
-    
+
         // Mettez à jour mockOrders avec des informations de paiement si les paiements sont disponibles
         if (payments.length > 0) {
           updateMockOrdersWithPayments();
@@ -235,7 +235,7 @@ const History = () => {
               <Animatable.Image animation="pulse" easing="ease-out" iterationCount="infinite" style={styles.userIconImage} source={AppIcon.images.profile}></Animatable.Image>
           </View>
         <View style={styles.userInfo}>
-            <Text style={styles.userName}>{profile?.firstName}</Text>   
+            <Text style={styles.userName}>{profile?.firstName}</Text>
             <Text style={styles.userId}>User Id: {profile?.id}</Text>
         </View>
         </View>
@@ -286,7 +286,7 @@ const History = () => {
                 </View>
 
                 <View style={styles.filterContainer}>
-                <View style={styles.filterButtonContainer}>  
+                <View style={styles.filterButtonContainer}>
                     <TouchableOpacity
                     style={[styles.filterButton, selectedPaymentFilter === 'VISA' && styles.selectedFilterButton]}
                     onPress={() => setSelectedPaymentFilter('VISA')}
@@ -402,20 +402,20 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     marginBottom: 16,
-  },  
+  },
   filterButton: {
     paddingHorizontal: 12,
     paddingVertical: 6,
     backgroundColor: '#DDDDDD',
     marginHorizontal: 4,
     borderRadius: 8,
-  },  
+  },
   selectedFilterButton: {
     backgroundColor: '#7ED321', // Couleur verte pour le filtre sélectionné
   },
   selectedFilterButtonText: {
     color: '#FFFFFF', // Couleur du texte pour le filtre sélectionné
-  },  
+  },
   filterButtonText: {
     color: '#333333',
   },
@@ -449,7 +449,7 @@ const styles = StyleSheet.create({
       width: 0,
       height: 2,
     },
-  },  
+  },
   orderInfo: {
     marginBottom: 8,
     flexDirection: 'row', // Aligner le texte avec l'icône horizontalement
@@ -462,7 +462,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginTop: 10,
     alignSelf: 'center',
-  },  
+  },
   clearFiltersButtonText: {
     fontSize: 16,
     fontWeight: 'bold',
@@ -481,7 +481,7 @@ const styles = StyleSheet.create({
   },
   filterSection: {
     alignItems: 'center',
-  },  
+  },
   filterGroup: {
     flexDirection: 'row',
     marginBottom: 8,
