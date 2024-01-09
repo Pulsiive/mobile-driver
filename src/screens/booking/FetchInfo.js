@@ -19,8 +19,8 @@ const FetchInfo = ({ date, stationId, setSlot, setModalVisible }) => {
 
   useEffect(() => {
     function fillAgendaWithReservations(slot) {
-      console.log('filling agenda');
-      console.log(slot);
+      // console.log('filling agenda');
+      // console.log(slot);
       let isAlreadyInAgenda = false;
 
       for (let index = 0; index < slot.length; index++) {
@@ -40,43 +40,48 @@ const FetchInfo = ({ date, stationId, setSlot, setModalVisible }) => {
           id: index,
           Hour: slot[index].opensAt + ' -> ' + slot[index].closeAt,
           Name: slot[index].stationId,
-          picture:
-            'https://thumbs.dreamstime.com/b/jeune-femme-heureuse-de-brunette-avec-le-sourire-%C3%A9tonnant-26038696.jpg',
-          content: '',
           isBooked: slot[index].isBooked,
           slotId: slot[index].id
         });
-        console.log('pushed one new object');
+        // console.log('pushed one new object');
       }
-      console.log('HERE   ', data[date]);
+      // console.log('HERE   ', data[date]);
     }
+
+    const addElementSorted = (array, element) => {
+      const opensAtElement = new Date(element.opensAt).getTime();
+
+      let index = 0;
+      while (index < array.length && opensAtElement > new Date(array[index].opensAt).getTime()) {
+        index++;
+      }
+      return array.splice(index, 0, element);
+    };
 
     async function fetchSlot() {
-      try {
-        console.log('Fetching station slot reservation to display');
-        const slotParsed = [];
-        const res = await Backend.getSlots(stationId);
-
-        if (res.status === 200) {
-          for (var index = 0; index < res.data.length; index++) {
-            slotParsed.push({
-              id: res.data[index].id,
-              stationId: res.data[index].stationPropertiesId,
-              date: res.data[index].opensAt.split('T')[0],
-              opensAt: res.data[index].opensAt.split('T')[1].split('.')[0],
-              closeAt: res.data[index].closesAt.split('T')[1].split('.')[0],
-              isBooked: res.data[index].isBooked
-            });
-          }
-          fillAgendaWithReservations(slotParsed);
-        } else {
-          throw res;
-        }
-      } catch (e) {
-        alert(e);
-      }
+        return await Backend.getSlots(stationId);
     }
-    fetchSlot();
+    fetchSlot().then(res => {
+      let slotParsed = [];
+      if (res.status === 200) {
+        for (let index = 0; index < res.data.length; index++) {
+              let element = ({
+                id: res.data[index].id,
+                stationId: res.data[index].stationPropertiesId,
+                date: res.data[index].opensAt.split('T')[0],
+                opensAt: res.data[index].opensAt.split('T')[1].split('.')[0],
+                closeAt: res.data[index].closesAt.split('T')[1].split('.')[0],
+                isBooked: res.data[index].isBooked
+              });
+              addElementSorted(slotParsed, element);
+        }
+
+        // slotParsed.opensAt.sort();
+        fillAgendaWithReservations(slotParsed);
+      } else {
+        throw res;
+      }
+    }).catch(e => alert(e));
   }, []);
 
   firstOpacity.setValue(0);
@@ -99,10 +104,10 @@ const FetchInfo = ({ date, stationId, setSlot, setModalVisible }) => {
     <ScrollView style={{ top: -30 }}>
       {data[date] &&
         data[date]?.map((plan) => {
-          if (plan.id === 'undefined') {
+          if (plan.id === null) {
             return (
               <View>
-                <Text style={{ color: 'white' }}>Nothing</Text>
+                <Text style={{ color: 'black' }}>Nothing</Text>
               </View>
             );
           } else if (plan.id < 0) {
@@ -122,7 +127,7 @@ const FetchInfo = ({ date, stationId, setSlot, setModalVisible }) => {
               <Animated.View
                 style={[
                   plan.isBooked ? styles.itemBookedContainer : styles.itemContainer,
-                  { opacity: firstOpacity, transform: [{ translateY: TranslationUp }] }
+                  // { opacity: firstOpacity, transform: [{ translateY: TranslationUp }] }
                 ]}
                 key={plan.slotId}
               >

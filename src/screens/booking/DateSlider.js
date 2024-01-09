@@ -18,14 +18,14 @@ import MyCalendar from './MyCalendar';
 import FetchInfo from './FetchInfo';
 import { useTheme } from '../../AppStyles';
 import { AppIcon } from '../../AppStyles';
+import Backend from "../../db/Backend";
 
 const DateSlider = ({ date, stationId, setSlot, setModalVisible, onChange }) => {
   const { AppColor } = useTheme();
 
-  const [date1, setDate] = useState(new Date());
   const [week, setWeek] = useState([]);
   const [open, setOpen] = useState(false);
-
+  const [openDate, setOpenDate] = useState([]);
   const changeParentProps = (newPropValue) => {
     onChange(newPropValue);
   };
@@ -40,19 +40,41 @@ const DateSlider = ({ date, stationId, setSlot, setModalVisible, onChange }) => 
   //   var weekDays = getWeekDays(iso);
   //   setWeek(weekDays);
   // }, [date1]);
+  //   let datesArray;
 
-  return (
+    useEffect(() => {
+        async function fetchSlot() {
+            try {
+                const res = await Backend.getSlots(stationId);
+                const datesArray = res.data.map(item => item.opensAt.split('T')[0]);
+                setOpenDate(datesArray);
+                // console.log(openDate)
+            } catch (error) {
+                console.error('Error fetching slot information:', error);
+            }
+        }
+
+        fetchSlot();
+    }, [stationId]);
+
+
+    return (
       <>
         <View style={styles.container}>
           {week.map((weekDay) => {
             const touchable = [styles.touchable];
-            const weekDayText = [styles.weekDayText]
+              const weekDayText = [styles.weekDayText]
+              const indication = [{backgroundColor: AppColor.background}]
             const label = [styles.label]
             const sameDay = isSameDay(weekDay.date, date);
+            const eventDay = openDate.includes(weekDay.date.toISOString().split('T')[0]);
             if (sameDay) {
               touchable.push({backgroundColor:'#7FCB2B'});
-              weekDayText.push({color: 'white'})
-              label.push({color: 'white'})
+              weekDayText.push({color: 'white'});
+              label.push({color: 'white'});
+            }
+            if (eventDay) {
+                  indication.push({backgroundColor: AppColor.title})
             }
             return (
                 <View style={styles.weekDayItem} key={weekDay.formatted}>
@@ -64,6 +86,7 @@ const DateSlider = ({ date, stationId, setSlot, setModalVisible, onChange }) => 
                   <Text style={[{color: AppColor.title}, ...weekDayText]}>
                     {weekDay.formatted.slice(0, -1)}
                   </Text>
+                    <View style={[{position:'absolute', bottom: 5, height:5, width: 5, borderRadius: 100}, ...indication]}></View>
                 </View>
             );
           })}
@@ -96,7 +119,7 @@ const DateSlider = ({ date, stationId, setSlot, setModalVisible, onChange }) => 
 
         {open && (
             <View style={{ marginTop: 20 + '%' }}>
-              <MyCalendar onUpdate={changeParentProps} date={{ date }} open={() => setOpen(open)} />
+              <MyCalendar onUpdate={changeParentProps} event={openDate} date={{ date }} open={() => setOpen(open)} />
             </View>
         )}
         <View style={{ top: 7 + '%' }}>

@@ -15,6 +15,7 @@ import DateSlider from './DateSlider';
 import {AppIcon, AppStyles} from '../../AppStyles';
 import { useTheme } from '../../AppStyles';
 import * as Animatable from 'react-native-animatable';
+import Backend from "../../db/Backend";
 
 function BookingPlanning({ navigation, route }) {
   const { AppColor } = useTheme();
@@ -38,6 +39,7 @@ function BookingPlanning({ navigation, route }) {
             <Text style={{color: AppColor.title, ...styles.modalText}}>Êtes-vous sur de vouloir réserver ce créneau ?</Text>
             <View style={styles.groupButton}>
               <TouchableOpacity
+                  style={{backgroundColor: AppColor.private, ...styles.button}}
                   style={{backgroundColor: AppColor.private, ...styles.button}}
                   onPress={() => {
                     setModalVisible(false);
@@ -67,19 +69,8 @@ function BookingPlanning({ navigation, route }) {
 
       <View style={styles.welcomeContainer}>
         <View style={styles.card}>
-          {/* a changer */}
           <Text style={{color: AppColor.title, ...styles.first}}>Borne de warmup</Text>
           <Text style={{color: AppColor.title, ...styles.second}}>Voyons voir le planning d'aujourd'hui !</Text>
-          <TouchableOpacity style={styles.profilButton} onPress={() => navigation.navigate('Home')}>
-            <Image
-              animation="bounce"
-              iterationCount="infinite"
-              style={styles.profil}
-              source={{
-                uri: 'https://image.shutterstock.com/image-photo/photo-handsome-nice-guy-getting-260nw-1478654612.jpg'
-              }}
-            />
-          </TouchableOpacity>
         </View>
       </View>
 

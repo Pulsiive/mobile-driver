@@ -20,6 +20,7 @@ const MyCalendar = (props) => {
     const [navigateDate, setNavigateDate] = useState(props.date.date);
     const [selectedDate, setSelectedDate] = useState(props.date.date);
 
+
     useEffect(() => {
         setNavigateDate(props.date.date);
         setSelectedDate(props.date.date);
@@ -83,55 +84,74 @@ const MyCalendar = (props) => {
     };
 
     const isExactlySameDay = (date1, date2) => {
+        console.log(typeof date2, date2)
         return date2 !== -1 && isSameYear(date1, date2) && isSameMonth(date1, date2) && isSameDay(date1, date2);
     };
+    const convert = (date) => {
+        console.log(date.split('T')[0])
+    }
 
     const matrix = generateMatrix();
 
     const rows = matrix.map((row, rowIndex) => {
-        const rowItems = row.map((item, colIndex) => (
-            <TouchableOpacity delayPressIn={0} activeOpacity={1} onPress={() => onPressHandler(item)} style={{
-                flex: 1,
-                height: 50,
-                textAlign: 'center',
-                paddingTop: 15,
-                backgroundColor: isExactlySameDay(selectedDate, item) ? '#7FCB2B' : AppColor.background,
-                borderRadius: isExactlySameDay(selectedDate, item) ? 10 : 0,
-            }}>
-            <View
-                key={colIndex}>
-                <Text
-                    style={{
-                        textAlign: 'center',
-                        color: isExactlySameDay(selectedDate, item) ? 'white' : AppColor.title,
-                        fontWeight: isExactlySameDay(selectedDate, item) ? 'bold' : '500',
-                    }}>
-                    {item !== -1 ? item.getDate() : ''}
-                </Text>
 
-                {/* show event */}
-                <View
+        const rowItems = row.map((item, colIndex) => {
+            if (item === -1) {
+                return;
+            }
+
+            return (
+                <TouchableOpacity
+                    key={colIndex}
+                    delayPressIn={0}
+                    activeOpacity={1}
+                    onPress={() => onPressHandler(item)}
                     style={{
-                        display: 'flex',
-                        marginTop: 5,
-                        justifyContent: 'center',
-                        alignContent: 'center',
+                        flex: 1,
+                        height: 50,
                         textAlign: 'center',
-                        alignItems: 'center',
-                    }}>
-                    <View
-                        style={{
-                            width: 5,
-                            height: 5,
-                            borderRadius: 10,
-                            backgroundColor: (navigateDate.getMonth() === today.getMonth() && event.includes(item) ? AppColor.title : AppColor.background),
-                            display: isExactlySameDay(selectedDate, item) && !event.includes(item) ? 'none' : 'flex',
-                        }}>
+                        paddingTop: 15,
+                        backgroundColor: isExactlySameDay(selectedDate, item) ? '#7FCB2B' : AppColor.background,
+                        borderRadius: isExactlySameDay(selectedDate, item) ? 10 : 0,
+                    }}
+                >
+                    <View key={colIndex}>
+                        <Text
+                            style={{
+                                textAlign: 'center',
+                                color: isExactlySameDay(selectedDate, item) ? 'white' : AppColor.title,
+                                fontWeight: isExactlySameDay(selectedDate, item) ? 'bold' : '500',
+                            }}
+                        >
+                            {item.getDate()}
+                        </Text>
+
+                        {/* show event */}
+                        <View
+                            style={{
+                                display: 'flex',
+                                marginTop: 5,
+                                justifyContent: 'center',
+                                alignContent: 'center',
+                                textAlign: 'center',
+                                alignItems: 'center',
+                            }}
+                        >
+                            <View
+                                style={{
+                                    width: 5,
+                                    height: 5,
+                                    borderRadius: 10,
+                                    backgroundColor: props.event.includes(item.toISOString().split('T')[0]) ? AppColor.title : AppColor.background,
+                                    display: props.event.includes(item.toISOString().split('T')[0]) ? 'flex' : 'none',
+                                }}
+                            />
+                        </View>
                     </View>
-                </View>
-            </View>
-            </TouchableOpacity>
-        ));
+                </TouchableOpacity>
+            );
+        });
+
 
         return (
             <View
