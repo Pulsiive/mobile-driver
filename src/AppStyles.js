@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
-import { StyleSheet, Dimensions, View, TouchableOpacity } from 'react-native';
+import {StyleSheet, Dimensions, View, TouchableOpacity, Platform} from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 
 const { width, height } = Dimensions.get('window');
@@ -38,7 +38,7 @@ const CustomHeader = ({ navigation }) => {
         height: 40,
         borderRadius: 100,
         backgroundColor: AppColor.bottomColor,
-        top: 15,
+        top: Platform.OS === 'android' ? 0 : Dimensions.get("window").height * 0.05,
         left: 15,
         elevation: 4,
         shadowColor: AppColor.title,

@@ -42,10 +42,10 @@ const getRoutes = () => {
     {
       name: 'StationInformations',
       component: StationInformations,
-      options: {
-        header: ({ navigation }) => <CustomHeader navigation={navigation} />,
-        headerShown: true
-      }
+      // options: {
+        // header: ({ navigation }) => <CustomHeader navigation={navigation} />,
+        // headerShown: true
+      // }
     },
     {
       name: 'Owner',

@@ -21,7 +21,7 @@ const FloatingNormalCard = ({ children, style }) => {
       backgroundColor: AppColor.background,
       borderWidth: 0.25,
       borderColor: AppColor.border,
-      borderRadius: 20,
+      borderRadius: 12,
       elevation: 5,
       shadowColor: AppColor.text,
       shadowOffset: { width: 0, height: 2 },
@@ -29,7 +29,7 @@ const FloatingNormalCard = ({ children, style }) => {
       shadowRadius: 4,
       paddingVertical: 10,
       paddingHorizontal: 10,
-      marginVertical: 10
+      marginVertical: 10,
     }
   });
 
@@ -40,7 +40,7 @@ const FloatingNormalCard = ({ children, style }) => {
         ...(style || {})
       }}
     >
-      <View>{children}</View>
+      <View style={{overflow: 'hidden', borderRadius:12}}>{children}</View>
     </View>
   );
 };

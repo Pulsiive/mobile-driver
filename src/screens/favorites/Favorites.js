@@ -43,9 +43,8 @@ const Favorites = ({ navigation }) => {
                 key={station.id}
                 style={{ paddingLeft: 0, paddingVertical: 0, marginVertical: 8 }}
               >
-                <View style={{ flexDirection: 'row' }}>
+                <TouchableOpacity activeOpacity={1} style={{ flexDirection: 'row'}} onPress={() => navigateToStationInformations(station)}>
                   <View style={{ maxHeight: 120, height: '100%', marginRight: 10 }}>
-                    <TouchableOpacity onPress={() => navigateToStationInformations(station)}>
                       <Image
                         source={
                           station.properties.isPublic
@@ -55,11 +54,8 @@ const Favorites = ({ navigation }) => {
                         style={{
                           width: 100,
                           height: '100%',
-                          borderTopLeftRadius: 20,
-                          borderBottomLeftRadius: 20
                         }}
                       />
-                    </TouchableOpacity>
                   </View>
                   <View style={{ flex: 1, paddingVertical: 7, paddingRight: 5 }}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
@@ -103,7 +99,7 @@ const Favorites = ({ navigation }) => {
                           color: AppColor.text,
                           marginLeft: 3,
                           marginBottom: 2,
-                          fontWeight: '600'
+                          fontWeight: '600',
                         }}
                       >
                         {station.properties.price}€
@@ -111,37 +107,37 @@ const Favorites = ({ navigation }) => {
                       <Text style={{ color: AppColor.text, marginLeft: 3, marginBottom: 2 }}>
                         par heure
                       </Text>
-                      <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
-                        {station.properties.isPublic && (
-                          <FloatingButton
-                            icon="new-message"
-                            iconColor={AppColor.title}
-                            style={{
-                              top: -32,
-                              right: 0,
-                              width: 40,
-                              height: 40
-                            }}
-                            onPress={() => navigateToStationScreen(true, station.id)}
-                          />
-                        )}
-                        {!station.properties.isPublic && (
-                          <FloatingButton
-                            icon="calendar"
-                            iconColor={AppColor.title}
-                            style={{
-                              top: -32,
-                              right: 0,
-                              width: 40,
-                              height: 40
-                            }}
-                            onPress={() => navigateToStationScreen(false, station.id)}
-                          />
-                        )}
-                      </View>
+
+
                     </View>
                   </View>
-                </View>
+                </TouchableOpacity>
+                {station.properties.isPublic && (
+                    <FloatingButton
+                        icon="new-message"
+                        iconColor={AppColor.title}
+                        style={{
+                          bottom: 5,
+                          right: 0,
+                          width: 40,
+                          height: 40,
+                        }}
+                        onPress={() => navigateToStationScreen(true, station.id)}
+                    />
+                )}
+                {!station.properties.isPublic && (
+                    <FloatingButton
+                        icon="calendar"
+                        iconColor={AppColor.title}
+                        style={{
+                          bottom: 5,
+                          right: 0,
+                          width: 40,
+                          height: 40,
+                        }}
+                        onPress={() => navigateToStationScreen(false, station.id)}
+                    />
+                )}
               </FloatingNormalCard>
             );
           })}
