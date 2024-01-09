@@ -26,6 +26,7 @@ const DateSlider = ({ date, stationId, setSlot, setModalVisible, onChange }) => 
   const [week, setWeek] = useState([]);
   const [open, setOpen] = useState(false);
   const [openDate, setOpenDate] = useState([]);
+  const [data, setData] = useState({});
   const changeParentProps = (newPropValue) => {
     onChange(newPropValue);
   };
@@ -43,25 +44,82 @@ const DateSlider = ({ date, stationId, setSlot, setModalVisible, onChange }) => 
   //   let datesArray;
 
     useEffect(() => {
+        function fillAgendaWithReservations(slot) {
+            // console.log('filling agenda');
+            // console.log(slot);
+            let isAlreadyInAgenda = false;
+
+            for (let index = 0; index < slot.length; index++) {
+                ///////////////////////////////////////////////////////////////////////
+                //    Error checking to see if slot is already contained in Agenda    /
+                for (const idToCheck in data[slot[index].date]) {
+                    if (parseInt(data[slot[index].date][idToCheck].id) === index) isAlreadyInAgenda = true;
+                }
+                if (isAlreadyInAgenda) {
+                    isAlreadyInAgenda = false;
+                    break;
+                }
+                ///////////////////////////////////////////////////////////////////////
+                if (data[slot[index].date] === undefined) data[slot[index].date] = [];
+                data[slot[index].date].push({
+                    date: slot[index].date,
+                    id: index,
+                    Hour: slot[index].opensAt + ' -> ' + slot[index].closeAt,
+                    Name: slot[index].stationId,
+                    isBooked: slot[index].isBooked,
+                    slotId: slot[index].id
+                });
+                // console.log('pushed one new object');
+            }
+            // console.log('HERE   ', data[date]);
+        }
+
+        const addElementSorted = (array, element) => {
+            const opensAtElement = new Date(element.opensAt).getTime();
+
+            let index = 0;
+            while (index < array.length && opensAtElement > new Date(array[index].opensAt).getTime()) {
+                index++;
+            }
+            return array.splice(index, 0, element);
+        };
         async function fetchSlot() {
             try {
                 const res = await Backend.getSlots(stationId);
                 const datesArray = res.data.map(item => item.opensAt.split('T')[0]);
                 setOpenDate(datesArray);
+                return res;
                 // console.log(openDate)
             } catch (error) {
                 console.error('Error fetching slot information:', error);
             }
         }
 
-        fetchSlot();
-    }, [stationId]);
+        fetchSlot().then(res => {
+            let slotParsed = [];
+            if (res.status === 200) {
+                for (let index = 0; index < res.data.length; index++) {
+                  let element = ({
+                    id: res.data[index].id,
+                    stationId: res.data[index].stationPropertiesId,
+                    date: res.data[index].opensAt.split('T')[0],
+                    opensAt: res.data[index].opensAt.split('T')[1].split('.')[0],
+                    closeAt: res.data[index].closesAt.split('T')[1].split('.')[0],
+                    isBooked: res.data[index].isBooked
+                  });
+                  addElementSorted(slotParsed, element);
+                }
+                fillAgendaWithReservations(slotParsed);
+        }
+        });
+    }, []);
 
 
     return (
       <>
         <View style={styles.container}>
           {week.map((weekDay) => {
+              // console.log(weekDay)
             const touchable = [styles.touchable];
               const weekDayText = [styles.weekDayText]
               const indication = [{backgroundColor: AppColor.background}]
@@ -72,6 +130,8 @@ const DateSlider = ({ date, stationId, setSlot, setModalVisible, onChange }) => 
               touchable.push({backgroundColor:'#7FCB2B'});
               weekDayText.push({color: 'white'});
               label.push({color: 'white'});
+                indication.push({backgroundColor: '#7FCB2B'})
+
             }
             if (eventDay) {
                   indication.push({backgroundColor: AppColor.title})
@@ -118,7 +178,8 @@ const DateSlider = ({ date, stationId, setSlot, setModalVisible, onChange }) => 
         </View>
 
         {open && (
-            <View style={{ marginTop: 20 + '%' }}>
+            <View style={{marginTop: 20, top: 50}}>
+                <View style={{backgroundColor: AppColor.border, height: 1, width: '90%', left: '5%', marginBottom: 15}}></View>
               <MyCalendar onUpdate={changeParentProps} event={openDate} date={{ date }} open={() => setOpen(open)} />
             </View>
         )}
@@ -131,12 +192,18 @@ const DateSlider = ({ date, stationId, setSlot, setModalVisible, onChange }) => 
             </Text>
           </View>
           <View style={styles.safe}>
-            <FetchInfo
-                date={date.toISOString().split('T')[0]}
-                stationId={stationId}
-                setSlot={setSlot}
-                setModalVisible={setModalVisible}
-            />
+              {openDate.includes(date.toISOString().split('T')[0]) ?
+                  <FetchInfo
+                      date={date.toISOString().split('T')[0]}
+                      data={data}
+                      stationId={stationId}
+                      setSlot={setSlot}
+                      setModalVisible={setModalVisible}
+                  /> :
+                  <View style={{height: '70%', width:'93%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                      <Text style={{color: AppColor.title, fontWeight: '600'}}>Pas de réservation aujourd'hui !</Text></View>
+              }
+
           </View>
         </View>
       </>

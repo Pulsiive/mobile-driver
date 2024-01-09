@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     width: 91 + '%'
   },
   first: {
-    fontWeight: '900',
+    fontWeight: '700',
     width: 326,
     textAlign: 'left',
     lineHeight: 18,

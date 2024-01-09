@@ -169,7 +169,7 @@ const MyCalendar = (props) => {
     });
 
     return (
-        <View>
+        <View style={{paddingBottom: 40}}>
             <Text style={{
                 fontWeight: 'bold',
                 fontSize: 18,
@@ -182,12 +182,10 @@ const MyCalendar = (props) => {
             </Text>
             {rows}
             <View style={{
-                zIndex: 10,
-                backgroundColor: 'grey',
+                backgroundColor: AppColor.border,
                 height: 1,
                 width: 90 + '%',
                 left: 5 + '%',
-                marginTop: 20,
                 marginBottom: 20
             }}></View>
             <View style={{
