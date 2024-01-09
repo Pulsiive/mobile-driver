@@ -96,8 +96,8 @@ const MyCalendar = (props) => {
     const rows = matrix.map((row, rowIndex) => {
 
         const rowItems = row.map((item, colIndex) => {
-            if (item === -1) {
-                return;
+            function isNegative(num) {
+                return num < 0;
             }
 
             return (
@@ -123,7 +123,7 @@ const MyCalendar = (props) => {
                                 fontWeight: isExactlySameDay(selectedDate, item) ? 'bold' : '500',
                             }}
                         >
-                            {item.getDate()}
+                            {item === -1 ? '' : item.getDate()}
                         </Text>
 
                         {/* show event */}
@@ -142,8 +142,8 @@ const MyCalendar = (props) => {
                                     width: 5,
                                     height: 5,
                                     borderRadius: 10,
-                                    backgroundColor: props.event.includes(item.toISOString().split('T')[0]) ? AppColor.title : AppColor.background,
-                                    display: props.event.includes(item.toISOString().split('T')[0]) ? 'flex' : 'none',
+                                    backgroundColor: !isNegative(item) && props.event.includes(item.toISOString().split('T')[0]) ? AppColor.title : AppColor.background,
+                                    display: !isNegative(item) && props.event.includes(item.toISOString().split('T')[0]) ? 'flex' : 'none',
                                 }}
                             />
                         </View>
