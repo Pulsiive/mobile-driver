@@ -38,7 +38,7 @@ const CustomHeader = ({ navigation }) => {
         height: 40,
         borderRadius: 100,
         backgroundColor: AppColor.bottomColor,
-        top: Platform.OS === 'android' ? 0 : Dimensions.get("window").height * 0.05,
+        top: Platform.OS === 'android' ? 20 : Dimensions.get("window").height * 0.05,
         left: 15,
         elevation: 4,
         shadowColor: AppColor.title,

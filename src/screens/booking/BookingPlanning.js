@@ -48,6 +48,7 @@ function BookingPlanning({ navigation, route }) {
         data[slot[index].date].push({
           date: slot[index].date,
           id: index,
+          price: slot[index].price,
           Hour: slot[index].opensAt + ' -> ' + slot[index].closeAt,
           Name: slot[index].stationId,
           isBooked: slot[index].isBooked,

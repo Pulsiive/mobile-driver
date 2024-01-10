@@ -5,7 +5,8 @@ import {
     TouchableHighlight,
     ImageBackground, ActivityIndicator,
     Dimensions,
-    Platform
+    Platform,
+    ScrollView
 } from 'react-native';
 import {
     addDays,
@@ -36,7 +37,6 @@ const DateSlider = ({date, stationId, setSlot, setModalVisible, onChange, openDa
         let weekDays = getWeekDays(date);
         setWeek(weekDays);
     }, [date]);
-
     return (
         <>
             <View style={styles.container}>
@@ -110,7 +110,7 @@ const DateSlider = ({date, stationId, setSlot, setModalVisible, onChange, openDa
             </View>
 
             {open && (
-                <View style={{marginTop: 20, top: 50}}>
+                <View style={{marginTop: 20, top: 50, height: 350}}>
                     <View style={{
                         backgroundColor: AppColor.border,
                         height: 1,
@@ -119,6 +119,13 @@ const DateSlider = ({date, stationId, setSlot, setModalVisible, onChange, openDa
                         marginBottom: 15
                     }}></View>
                     <MyCalendar onUpdate={changeParentProps} event={openDate} date={{date}} open={() => setOpen(open)}/>
+                    <View style={{
+                        backgroundColor: AppColor.border,
+                        height: 1,
+                        width: '90%',
+                        left: '5%',
+                        marginBottom: 15
+                    }}></View>
                 </View>
             )}
 

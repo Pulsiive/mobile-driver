@@ -7,7 +7,8 @@ import {
   ScrollView,
   Modal,
   Pressable,
-  Image
+  Image,
+  ActivityIndicator
 } from 'react-native';
 import { AppIcon } from '../../AppStyles';
 import Backend from '../../db/Backend';
@@ -15,9 +16,14 @@ import Backend from '../../db/Backend';
 const FetchInfo = ({ date, stationId, setSlot, setModalVisible, data}) => {
   const firstOpacity = useRef(new Animated.Value(0)).current;
   const TranslationUp = useRef(new Animated.Value(-20)).current;
+  const [loading, setLoading] = useState(true);
   useEffect(()=> {
-    console.log(date)
-  }, [])
+    try {
+      setLoading(false)
+    } catch (e) {
+      alert(e)
+    }
+  }, [data[date]])
 
   firstOpacity.setValue(0);
   TranslationUp.setValue(-20);
@@ -36,41 +42,47 @@ const FetchInfo = ({ date, stationId, setSlot, setModalVisible, data}) => {
   ]).start();
 
   return (
-    <ScrollView style={{ top: -30 }}>
-      {data[date] &&
+      <View>
+      {!loading ? (
+  <ScrollView style={{top: -30}}>
+    {data[date] &&
         data[date]?.map((plan) => {
           return (
-            <Pressable
-              style={{ width: '100%' }}
-              onPress={() => {
-                if (plan.isBooked) {
-                  return;
-                }
-                setSlot(plan);
-                setModalVisible(true);
-              }}
-            >
-              <Animated.View
-                style={[
-                  plan.isBooked ? styles.itemBookedContainer : styles.itemContainer,
-                  { opacity: firstOpacity, transform: [{ translateY: TranslationUp }] }
-                ]}
-                key={plan.slotId}
+              <Pressable
+                  style={{width: '100%'}}
+                  onPress={() => {
+                    if (plan.isBooked) {
+                      return;
+                    }
+                    setSlot(plan);
+                    setModalVisible(true);
+                  }}
               >
-                <View>
-                  <Text style={styles.name}>{plan.price} € ({plan.pricePerMin} € / Min)</Text>
-                  <View style={styles.firstRow}>
-                    <Image style={styles.rendCalendar} source={AppIcon.images.calendar}></Image>
-                    <Text style={styles.Txtduration}>
-                      {plan.date} - {plan.Hour}
-                    </Text>
+                <Animated.View
+                    style={[
+                      plan.isBooked ? styles.itemBookedContainer : styles.itemContainer,
+                      // { opacity: firstOpacity, transform: [{ translateY: TranslationUp }] }
+                    ]}
+                    key={plan.slotId}
+                >
+                  <View>
+                    <Text style={styles.name}>{plan.price} € ({plan.pricePerMin} € / Min)</Text>
+                    <View style={styles.firstRow}>
+                      <Image style={styles.rendCalendar} source={AppIcon.images.calendar}></Image>
+                      <Text style={styles.Txtduration}>
+                        {plan.date} - {plan.Hour}
+                      </Text>
+                    </View>
                   </View>
-                </View>
-              </Animated.View>
-            </Pressable>
+                </Animated.View>
+              </Pressable>
           );
         })}
-    </ScrollView>
+  </ScrollView>
+      ) : (
+    <ActivityIndicator style={{width: 90+'%', height: 100}} animating={loading} ></ActivityIndicator>
+  )}
+      </View>
   );
 };
 

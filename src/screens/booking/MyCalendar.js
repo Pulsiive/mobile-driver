@@ -2,12 +2,25 @@ import React, {useState, useEffect} from 'react';
 import {
     View,
     Text,
-    Button, TouchableOpacity
+    Button, TouchableOpacity,
+    Dimensions,
+    ScrollView,
 } from 'react-native';
 import data from './agenda.json';
 import {isSameDay, isSameMonth, isSameYear} from 'date-fns';
 import {AppIcon, AppStyles} from '../../AppStyles';
 import { useTheme } from '../../AppStyles';
+
+import {
+    ButtonCommon,
+    ButtonConditional,
+    ButtonText,
+    FloatingButton,
+    ModalSwipeUp,
+    Separator,
+    TextSubTitle,
+    TextTitle
+} from '../../components';
 
 const MyCalendar = (props) => {
     const { AppColor } = useTheme();
@@ -104,6 +117,7 @@ const MyCalendar = (props) => {
                         flex: 1,
                         height: 50,
                         textAlign: 'center',
+                        // borderWidth: 1,
                         paddingTop: 15,
                         backgroundColor: isExactlySameDay(selectedDate, item) ? '#7FCB2B' : AppColor.background,
                         borderRadius: isExactlySameDay(selectedDate, item) ? 10 : 0,
@@ -119,7 +133,6 @@ const MyCalendar = (props) => {
                         >
                             {item === -1 ? '' : item.getDate()}
                         </Text>
-
                         {/* show event */}
                         <View
                             style={{
@@ -154,6 +167,8 @@ const MyCalendar = (props) => {
                     flex: 1,
                     flexDirection: 'row',
                     padding: 25,
+                    paddingTop: 0,
+                    paddingBottom: 0,
                     justifyContent: 'space-around',
                     alignItems: 'center',
                 }}>
@@ -163,17 +178,45 @@ const MyCalendar = (props) => {
     });
 
     return (
-        <View style={{paddingBottom: 40}}>
-            <Text style={{
-                fontWeight: 'bold',
-                fontSize: 18,
-                textAlign: 'center',
-                color: AppColor.title,
-                marginBottom: 20,
-            }}>
-                {months[navigateDate.getMonth()]} &nbsp;
-                {navigateDate.getFullYear()}
-            </Text>
+        <>
+            <View style={{display: 'flex', justifyContent: 'center', alignItems:'center', width: 100+'%'}}>
+                <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',paddingBottom: 10, width: '90%', borderBottomWidth: 1, borderColor: AppColor.border}}>
+                    <FloatingButton
+                        icon="chevron-left"
+                        iconColor={AppColor.title}
+                        style={{
+                            position: 'relative',
+                            left: 20,
+                            width: 35,
+                            height: 35
+                        }}
+                        onPress={() => changeMonth(-1)}
+                    />
+                    <Text style={{
+                        fontWeight: 'bold',
+                        fontSize: 18,
+                        textAlign: 'center',
+                        color: AppColor.title,
+                    }}>
+                        {months[navigateDate.getMonth()]} &nbsp;
+                        {navigateDate.getFullYear()}
+                    </Text>
+                    <FloatingButton
+                        icon="chevron-right"
+                        iconColor={AppColor.title}
+                        style={{
+                            position: 'relative',
+                            right: 20,
+                            width: 35,
+                            height: 35
+                        }}
+                        onPress={() => changeMonth(-1)}
+                    />
+                </View>
+            </View>
+        <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={{paddingBottom: 0}}>
+
             {rows}
             <View style={{
                 backgroundColor: AppColor.border,
@@ -185,15 +228,16 @@ const MyCalendar = (props) => {
             <View style={{
                 display: 'flex',
                 flexDirection: 'row',
-                justifyContent: 'space-between',
-                width: 60 + '%',
-                alignSelf: 'center'
+                justifyContent: 'center',
+                width: 100 + '%',
+                alignItems: 'center',
+                bottom: 10
             }}>
-                <Button color={AppColor.title} title="<" onPress={() => changeMonth(-1)}/>
-                <Button color={AppColor.title} title="Aujourd'hui" onPress={() => changeMonth(0)}/>
-                <Button color={AppColor.title} title=">" onPress={() => changeMonth(+1)}/>
+                <ButtonText style={AppColor.title} title="Aujourd'hui" onPress={() => changeMonth(0)}/>
             </View>
         </View>
+        </ScrollView>
+        </>
     );
 };
 
