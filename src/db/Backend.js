@@ -78,11 +78,16 @@ class Backend {
   };
 
   async createStripePaymentIntent(brutPrice) {
-    return await API.send('POST', '/api/v1/payment-request', { brut_price: brutPrice}, true);
+    return await API.send('POST', '/api/v1/payment-request', { brut_price: brutPrice }, true);
   }
 
   async updateStripePaymentIntent(brutPrice, paymentIntentId) {
-    return await API.send('PATCH', '/api/v1/payment-request', { payment_intent_id: paymentIntentId, brut_price: brutPrice}, true);
+    return await API.send(
+      'PATCH',
+      '/api/v1/payment-request',
+      { payment_intent_id: paymentIntentId, brut_price: brutPrice },
+      true
+    );
   }
 
   createReservationRequest = async (data) => {

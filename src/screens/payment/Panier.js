@@ -37,18 +37,6 @@ function Panier({ navigation, route }) {
     getStation();
   }, []);
 
-  const handlePromoCodeChange = (text) => {
-    setPromoCode(text);
-  };
-
-  // Additional handler for applying the promo code
-  const applyPromoCode = () => {
-    // Perform the necessary action with the promo code (e.g., validate, calculate discounts, etc.)
-    // For demonstration purposes, we'll just log the promo code value here.
-    console.log('Promo code applied:', promoCode);
-    // You can implement the logic to apply the promo code as needed.
-  };
-
   const styles = StyleSheet.create({
     container: { backgroundColor: AppColor.background, paddingTop: 30 },
     planning: {
@@ -104,7 +92,8 @@ function Panier({ navigation, route }) {
                       fontSize: AppStyles.fontSize.content,
                       fontWeight: '500',
                       color: AppColor.text,
-                      marginLeft: 10
+                      marginLeft: 10,
+                      width: '70%'
                     }}
                   >
                     {station.coordinates.address}

@@ -19,6 +19,7 @@ import { AppStyles, useTheme } from '../AppStyles';
 const InputField = ({
   label,
   errorCheck,
+  successCheck,
   subText,
   setValue,
   secure,
@@ -31,6 +32,7 @@ const InputField = ({
 
   const [isFocused, setIsFocused] = useState(false);
   const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
   const [secureText, setSecureText] = useState(secure);
   const [inputValue, setInputValue] = useState(initialValue);
 
@@ -51,6 +53,7 @@ const InputField = ({
     setIsFocused(false);
     setValue(inputValue);
     if (errorCheck) setError(errorCheck(inputValue));
+    if (successCheck) setSuccess(successCheck(inputValue));
   };
 
   const handleChangeText = (text) => {
@@ -64,7 +67,7 @@ const InputField = ({
       width: AppStyles.buttonWidth,
       alignSelf: 'center'
     },
-    errorContainer: {
+    subTextContainer: {
       flexDirection: 'row',
       alignItems: 'center',
       paddingHorizontal: '1%',
@@ -95,12 +98,20 @@ const InputField = ({
     errorInput: {
       borderColor: AppColor.error
     },
-    infoIcon: {
+    successIcon: {
+      marginRight: 6,
+      color: AppColor.pulsive
+    },
+    errorIcon: {
       marginRight: 6,
       color: AppColor.error
     },
     errorText: {
       color: AppColor.error,
+      fontSize: 12
+    },
+    successText: {
+      color: AppColor.pulsive,
       fontSize: 12
     },
     subText: {
@@ -142,9 +153,15 @@ const InputField = ({
         </TouchableOpacity>
       )}
       {error && (
-        <View style={styles.errorContainer}>
-          <Icon name="info-with-circle" size={14} style={styles.infoIcon} />
+        <View style={styles.subTextContainer}>
+          <Icon name="info-with-circle" size={14} style={styles.errorIcon} />
           <Text style={styles.errorText}>{error}</Text>
+        </View>
+      )}
+      {success && (
+        <View style={styles.subTextContainer}>
+          <Icon name="info-with-circle" size={14} style={styles.successIcon} />
+          <Text style={styles.successText}>{success}</Text>
         </View>
       )}
       {icon && (
@@ -152,7 +169,7 @@ const InputField = ({
           <Icon name={icon} size={20} color={AppColor.icon} />
         </TouchableOpacity>
       )}
-      {subText && <Text style={styles.subText}>{subText}</Text>}
+      {subText && !error && !success && <Text style={styles.subText}>{subText}</Text>}
     </View>
   );
 };
