@@ -80,7 +80,7 @@ function StationInformations({ route, navigation }) {
           return accumulator + currentObject.rate;
         }, 0) / station.owner.receivedRatings.length
       : undefined;
-  console.log(note);
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView style={{ flex: 1, backgroundColor: AppColor.background }}>

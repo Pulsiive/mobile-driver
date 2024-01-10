@@ -78,16 +78,26 @@ class Backend {
   };
 
   submitPaymentBalance = async (brutPrice, slotId) => {
-    const res = await API.send('POST', '/api/v1/payment/balance', { brut_price: brutPrice, slot_id: slotId}, true);
+    const res = await API.send(
+      'POST',
+      '/api/v1/payment/balance',
+      { brut_price: brutPrice, slot_id: slotId },
+      true
+    );
     return res;
   };
 
   async createStripePaymentIntent(brutPrice) {
-    return await API.send('POST', '/api/v1/payment-request', { brut_price: brutPrice}, true);
+    return await API.send('POST', '/api/v1/payment-request', { brut_price: brutPrice }, true);
   }
 
   async updateStripePaymentIntent(brutPrice, paymentIntentId) {
-    return await API.send('PATCH', '/api/v1/payment-request', { payment_intent_id: paymentIntentId, brut_price: brutPrice}, true);
+    return await API.send(
+      'PATCH',
+      '/api/v1/payment-request',
+      { payment_intent_id: paymentIntentId, brut_price: brutPrice },
+      true
+    );
   }
 
   createReservationRequest = async (data) => {
