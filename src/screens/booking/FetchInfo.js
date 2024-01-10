@@ -12,7 +12,7 @@ import {
 import { AppIcon } from '../../AppStyles';
 import Backend from '../../db/Backend';
 
-const FetchInfo = ({ date, stationId, setSlot, setModalVisible }) => {
+const FetchInfo = ({ date, stationId, setSlot, setModalVisible, data}) => {
   const firstOpacity = useRef(new Animated.Value(0)).current;
   const TranslationUp = useRef(new Animated.Value(-20)).current;
   useEffect(()=> {
@@ -39,15 +39,6 @@ const FetchInfo = ({ date, stationId, setSlot, setModalVisible }) => {
     <ScrollView style={{ top: -30 }}>
       {data[date] &&
         data[date]?.map((plan) => {
-          if (plan.id === 'undefined') {
-            return (
-              <View>
-                <Text style={{ color: 'white' }}>Nothing</Text>
-              </View>
-            );
-          } else if (plan.id < 0) {
-            return <View></View>;
-          }
           return (
             <Pressable
               style={{ width: '100%' }}
@@ -67,7 +58,6 @@ const FetchInfo = ({ date, stationId, setSlot, setModalVisible }) => {
                 key={plan.slotId}
               >
                 <View>
-                  {/*<Image style={styles.picture} source={{ uri: plan.picture }}></Image>*/}
                   <Text style={styles.name}>{plan.price} € ({plan.pricePerMin} € / Min)</Text>
                   <View style={styles.firstRow}>
                     <Image style={styles.rendCalendar} source={AppIcon.images.calendar}></Image>

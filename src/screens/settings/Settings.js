@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, View, Text } from 'react-native';
+import {ScrollView, View, Text, Dimensions} from 'react-native';
 import { AppIcon, AppStyles, useTheme } from '../../AppStyles';
 import {
   ButtonCommon,
@@ -217,10 +217,12 @@ function Settings({ navigation }) {
   };
 
   return (
-    <ScrollView
-      style={[AppStyles.container, { backgroundColor: AppColor.background, paddingTop: 30 }]}
+      <>
+      <TextTitle style={{margin: 0, padding: 0, paddingLeft: 20, paddingBottom: 20, backgroundColor: AppColor.background, paddingTop: Platform.OS === 'android' ? 0 : Dimensions.get("window").height * 0.05}} title="Profil"/>
+        <View style={{width: '100%', height: 1, backgroundColor: AppColor.border}}></View>
+        <ScrollView showsVerticalScrollIndicator={false}
+      style={[AppStyles.container, { backgroundColor: AppColor.background}]}
     >
-      <TextTitle title="Profil" />
       <ButtonTouchable
         title={
           profile && profile.firstName && profile.lastName
@@ -343,7 +345,8 @@ function Settings({ navigation }) {
         }}
       />
 
-      <TextSubTitle title="Portefeuille" style={{ fontSize: AppStyles.fontSize.content, marginTop: 30 }} />
+      <TextSubTitle title="Portefeuille" style={{ marginLeft: 20, marginVertical: 30}} />
+
       <ButtonCommon
         title={`Ajouter de l'argent (${profile.balance/100} €)`}
         style={{ marginVertical: 10 }}
@@ -405,6 +408,7 @@ function Settings({ navigation }) {
         />
       </ModalSwipeUp>
     </ScrollView>
+      </>
   );
 }
 

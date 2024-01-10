@@ -85,12 +85,15 @@ function BookingPlanning({ navigation, route }) {
             stationId: res.data[index].stationPropertiesId,
             date: new Date(res.data[index].opensAt).toLocaleDateString(),
             opensAt: res.data[index].opensAt.split('T')[1].split('.')[0],
+            price: res.data[index].price,
+            price_per_minute: res.data[index].price_per_minute,
             closeAt: res.data[index].closesAt.split('T')[1].split('.')[0],
             isBooked: res.data[index].isBooked
           });
           addElementSorted(slotParsed, element);
         }
         fillAgendaWithReservations(slotParsed);
+        console.log(slotParsed);
       }
     });
   }, []);

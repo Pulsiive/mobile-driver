@@ -130,7 +130,7 @@ const DateSlider = ({date, stationId, setSlot, setModalVisible, onChange, openDa
                     </Text>
                 </View>
             </View>
-            {loading ? (
+            {openDate.includes(date.toLocaleString().split(' ')[0]) ? (
                 <View style={styles.safe}>
                 <FetchInfo
                     date={date.toLocaleString().split(' ')[0]}
@@ -143,7 +143,7 @@ const DateSlider = ({date, stationId, setSlot, setModalVisible, onChange, openDa
             </View>
             ) : (
                 <View style={{ top: 100, height: '40%', width: '93%', left: '5%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <Text style={{ color: AppColor.title, fontWeight: '600' }}>Pas de réservation aujourd'hui !</Text>
+                    <Text style={{ color: AppColor.title, fontWeight: '600' }}>Pas de créneaux disponibles aujourd'hui !</Text>
                 </View>
             )
             }
@@ -154,7 +154,7 @@ const DateSlider = ({date, stationId, setSlot, setModalVisible, onChange, openDa
 const styles = {
     safe: {
         left: 3 + '%',
-        marginTop: 25 + '%',
+        marginTop: 30 + '%',
     },
     container: {
         transform: [{scale: 0.95}],

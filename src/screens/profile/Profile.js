@@ -138,7 +138,7 @@ function Profile() {
   });
 
   return (
-    <ScrollView style={[AppStyles.container, { backgroundColor: AppColor.background }]}>
+    <ScrollView showsVerticalScrollIndicator={false} style={[AppStyles.container, { backgroundColor: AppColor.background }]}>
       <View style={{ paddingTop: 50 }}>
         <FloatingCard>
           <View style={styles.profilePicture}>

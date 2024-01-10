@@ -4,7 +4,7 @@ import {
     Image,
     StyleSheet,
     Text,
-    TouchableOpacity,
+    TouchableOpacity, Dimensions,
 } from 'react-native';
 import { ScrollView } from "react-native-gesture-handler";
 import { AppIcon } from '../../AppStyles';
@@ -47,13 +47,13 @@ function Checkout({ navigation, route }) {
     );
 
     return (
-        <View style={{ flex: 1, backgroundColor: 'white' }}>
+        <View style={{ flex: 1, backgroundColor: 'white', paddingTop: Dimensions.get("window").height * 0.05}}>
             <ScrollView style={{ flex: 1}}>
 
                 <View style={styles.content}>
 
 
-                    <TouchableOpacity style={{marginRight: 'auto'}} onPress={() => navigation.navigate('Home')}>
+                    <TouchableOpacity style={{marginRight: 'auto'}} onPress={() => navigation.goBack()}>
                         <Image style={{width: 20, height:20}} source={AppIcon.images.back}></Image>
                     </TouchableOpacity>
 

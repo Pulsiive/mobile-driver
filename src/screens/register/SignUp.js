@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import {Dimensions, ScrollView, Text, View} from 'react-native';
 import { AppStyles, useTheme } from '../../AppStyles';
 import api from '../../db/Api';
 import serviceAccessToken from '../../db/AccessToken';
@@ -129,7 +129,7 @@ function SignUp({ navigation }) {
 
   return (
     <ScrollView style={[AppStyles.container, { backgroundColor: AppColor.background }]}>
-      <View style={{ paddingTop: 50 }}>
+      <View style={{ paddingTop: Dimensions.get("window").height * 0.1 }}>
         <ModalSwipeUp
           visible={modalVisible}
           onClose={() => setModalVisible(false)}

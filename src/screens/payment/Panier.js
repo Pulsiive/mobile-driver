@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { View, Image, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native';
+import {View, Image, StyleSheet, Text, TextInput, TouchableOpacity, Dimensions} from 'react-native';
 
 import Modal from 'react-native-modal';
 
@@ -56,11 +56,11 @@ function Panier({ navigation, route }) {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: 'white' }}>
+    <View style={{ flex: 1, backgroundColor: 'white', paddingTop: Dimensions.get("window").height * 0.05}}>
       <View style={styles.container}>
         <TouchableOpacity
-          style={{ marginRight: 'auto', top: 10 + '%' }}
-          onPress={() => navigation.navigate('Planning', { stationId })}
+          style={{ marginRight: 'auto', width: 50, height: 50, display: 'flex', justifyContent: 'center', alignItems:'center'}}
+          onPress={() => navigation.goBack()}
         >
           <Image style={{ width: 20, height: 20 }} source={AppIcon.images.back}></Image>
         </TouchableOpacity>
@@ -184,21 +184,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginLeft: '5.5%',
-    top: -5
-  },
-  backButton: {
-    marginRight: 'auto',
-    top: '10%'
   },
   backIcon: {
     width: 20,
     height: 20
   },
   header: {
-    position: 'absolute',
+    // position: 'absolute',
     fontWeight: 'bold',
     fontSize: 30,
-    top: '15%',
+    // top: '15%',
     color: '#2F313E'
   },
   //   itemContainer: {
