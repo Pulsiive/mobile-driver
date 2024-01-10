@@ -344,7 +344,7 @@ function Map({ navigation }) {
             icon="globe"
             iconColor={fetchPosition ? AppColor.pulsive : AppColor.icon}
             style={{
-              top: Dimensions.get("window").height * 0.12,
+              top: Platform.OS === 'android' ? Dimensions.get("window").height * 0.14 : Dimensions.get("window").height * 0.12,
               right: 0,
               marginRight: '5%',
               backgroundColor: AppColor.background
@@ -368,7 +368,7 @@ function Map({ navigation }) {
           )}
           <FloatingButton
             icon="location"
-            style={{ top: Dimensions.get("window").height * 0.12, right: 75, marginRight: '5%', backgroundColor: AppColor.background }}
+            style={{ top: Platform.OS === 'android' ? Dimensions.get("window").height * 0.14 : Dimensions.get("window").height * 0.12, right: 75, marginRight: '5%', backgroundColor: AppColor.background }}
             onPress={() => {
               setResetPosition(!resetPosition), setSelectedStation(undefined);
             }}

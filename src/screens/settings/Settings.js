@@ -218,7 +218,7 @@ function Settings({ navigation }) {
 
   return (
       <>
-      <TextTitle style={{margin: 0, padding: 0, paddingLeft: 20, paddingBottom: 20, backgroundColor: AppColor.background, paddingTop: Platform.OS === 'android' ? 0 : Dimensions.get("window").height * 0.05}} title="Profil"/>
+      <TextTitle style={{margin: 0, padding: 0, paddingLeft: 20, paddingBottom: 20, backgroundColor: AppColor.background, paddingTop: Platform.OS === 'android' ? 20 : Dimensions.get("window").height * 0.05}} title="Profil"/>
         <View style={{width: '100%', height: 1, backgroundColor: AppColor.border}}></View>
         <ScrollView showsVerticalScrollIndicator={false}
       style={[AppStyles.container, { backgroundColor: AppColor.background}]}
