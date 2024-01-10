@@ -210,7 +210,7 @@ const MyCalendar = (props) => {
                             width: 35,
                             height: 35
                         }}
-                        onPress={() => changeMonth(-1)}
+                        onPress={() => changeMonth(+1)}
                     />
                 </View>
             </View>
