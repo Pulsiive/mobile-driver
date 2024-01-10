@@ -213,7 +213,7 @@ function Checkout({ navigation, route }) {
                         if (paymentType === 'stripe')
                             navigation.navigate('PaymentUICustomScreen', {slot_id: slot.slotId, brutPrice: slot.brutPrice});
                         if (paymentType === 'balance') {
-                            const {data, status} = await Backend.createReservationRequest({slotId: slot.slotId});
+                            const {data, status} = await Backend.createReservationRequest({slotId: slot.slotId, price: slot.brutPrice});
                             if (status === 200) {
                                 showMessage({
                                     duration: 4000,
@@ -224,6 +224,7 @@ function Checkout({ navigation, route }) {
                                 });
                                 navigation.navigate('Planning');
                             } else {
+                                console.log(slot.brutPrice, data.message);
                                 showMessage({
                                     duration: 4000,
                                     message: `Impossible de réserver le créneau !`,
