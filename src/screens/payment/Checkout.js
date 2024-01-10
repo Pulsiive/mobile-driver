@@ -212,14 +212,7 @@ function Checkout({ navigation, route }) {
           }}
         >
           <TextSubTitle title="Vous avez une promotion ?" />
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              marginTop: 20
-            }}
-          >
+          <View style={{ marginTop: 20 }}>
             <InputField
               label="Code promo"
               errorCheck={checkPromoCodeError}
@@ -334,7 +327,7 @@ function Checkout({ navigation, route }) {
 
           <ButtonCommon
             title="Ajouter de l'argent"
-            style={{ alignSelf: 'flex-start', marginLeft: 0, marginTop: 20, marginBottom: 20 }}
+            style={{ marginLeft: 0, marginVertical: 20 }}
             onPress={() => {
               navigation.navigate('PaymentUICustomScreen');
             }}

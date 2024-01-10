@@ -9,7 +9,10 @@ const getRoutes = () => {
     {
       name: 'PaymentUICustomScreen',
       component: PaymentUICustomScreen,
-      options: { headerShown: false }
+      options: {
+        header: ({ navigation }) => <CustomHeader navigation={navigation} />,
+        headerShown: true
+      }
     },
     {
       name: 'Panier',

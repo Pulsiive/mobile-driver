@@ -7,8 +7,19 @@ import { showMessage } from 'react-native-flash-message';
 import Backend from '../../db/Backend';
 import PaymentScreen from './PaymentScreen';
 import MaskInput, { createNumberMask } from 'react-native-mask-input';
+import { AppStyles, useTheme, AppIcon } from '../../AppStyles';
+import {
+  ButtonCommon,
+  ButtonConditional,
+  ButtonText,
+  FloatingNormalCard,
+  InputField,
+  TextSubTitle
+} from '../../components';
+import IconAwesome from 'react-native-vector-icons/FontAwesome';
 
 export default function PaymentsUICustomScreen({ route, navigation }) {
+  const { AppColor } = useTheme();
   const [brutPrice, setBrutPrice] = useState('15');
   const { initPaymentSheet, presentPaymentSheet, confirmPaymentSheetPayment } = useStripe();
   const [paymentSheetEnabled, setPaymentSheetEnabled] = useState(false);
@@ -109,7 +120,7 @@ export default function PaymentsUICustomScreen({ route, navigation }) {
         duration: 4000,
         message: `Une erreur est survenue`,
         type: 'danger',
-        backgroundColor: 'red'
+        backgroundColor: AppColor.error
       });
     } else {
       showMessage({
@@ -117,7 +128,7 @@ export default function PaymentsUICustomScreen({ route, navigation }) {
         message: `Paiement effectué avec succès !`,
         description: 'Réservez votre prochaine borne dès maintenant',
         type: 'success',
-        backgroundColor: 'green'
+        backgroundColor: AppColor.pulsive
       });
       navigation.goBack();
       /*const { data, status } = await Backend.bookSlot(slot_id);
@@ -141,44 +152,46 @@ export default function PaymentsUICustomScreen({ route, navigation }) {
     prefix: ['€', ' '],
     delimiter: '.',
     separator: ',',
-    precision: 2,
-  })
+    precision: 2
+  });
 
   return (
     <StripeProvider
       publishableKey="pk_test_51JKmWpGB07Bddq7mTyK0kTy9mxkFiD3PFxADPd7Ig0i0LLI2iAwUym5bTzRtjwyyH1aA1rM7QLADb8O21UisPCId00udEw4kUG"
       threeDSecureParams={{
-        backgroundColor: '#FFFFFF', // iOS only
+        backgroundColor: AppColor.background, // iOS only
         timeout: 5,
         label: {
-          headingTextColor: '#000000',
+          headingTextColor: AppColor.text,
           headingFontSize: 13
         },
         navigationBar: {
           headerText: '3d secure'
         },
         footer: {
-          // iOS only
-          backgroundColor: '#FFFFFF'
+          backgroundColor: AppColor.background // iOS only
         },
         submitButton: {
-          backgroundColor: '#000000',
+          backgroundColor: AppColor.text,
           cornerRadius: 12,
-          textColor: '#FFFFFF',
+          textColor: AppColor.text,
           textFontSize: 14
         }
       }}
     >
       <PaymentScreen onInit={initialisePaymentSheet}>
-        <View style={{ marginTop: '20%'}}>
-          <Text
-            style={{color: 'white', textAlign: 'center', fontSize: 10, fontWeight: 'bold', marginBottom: 50}}
-          >
-            Entrer le montant
-          </Text>
+        <View>
+          <TextSubTitle title="Ajouter de l'argent" style={{ paddingLeft: 50, paddingTop: 20 }} />
           <MaskInput
             value={brutPrice}
-            style={{color: 'white', textAlign: 'center', fontSize: 50, fontWeight: 'bold'}}
+            style={{
+              color: AppColor.text,
+              textAlign: 'center',
+              fontSize: 50,
+              fontWeight: 'bold',
+              marginTop: 100,
+              marginBottom: 40
+            }}
             onChangeText={(masked, unmasked) => {
               setBrutPrice(unmasked);
             }}
@@ -186,25 +199,70 @@ export default function PaymentsUICustomScreen({ route, navigation }) {
             autoFocus={true}
           />
         </View>
-        <View style={{ marginTop: '20%' }}>
-          <Button
-            variant="primary"
-            loading={loading}
-            title={'Choisir une méthode de paiement'}
-            disabled={!paymentSheetEnabled || !Number(brutPrice)}
-            onPress={choosePaymentOption}
-          />
-        </View>
 
-        <View style={styles.section}>
-          <Button
-            variant="primary"
-            loading={loading}
-            disabled={!paymentSheetEnabled || !Number(brutPrice) || !paymentMethod}
-            title={`Payer${paymentMethod ? ` avec ${paymentMethod.label}` : ''}`}
-            onPress={onPressBuy}
-          />
-        </View>
+        <FloatingNormalCard
+          style={{
+            width: '98%',
+            marginTop: 30
+          }}
+        >
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between'
+            }}
+          >
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <View
+                style={{
+                  width: 40,
+                  height: 40,
+                  borderRadius: 100,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: AppColor.bottomColor,
+                  marginRight: 10
+                }}
+              >
+                <IconAwesome name="credit-card" size={14} color={AppColor.text} />
+              </View>
+              <View style={{ flexDirection: 'column', justifyContent: 'center' }}>
+                <TextSubTitle
+                  title="Carte de crédit"
+                  style={{ fontSize: AppStyles.fontSize.content }}
+                />
+                <TextSubTitle
+                  title={paymentMethod ? paymentMethod.label : 'Pas de carte de crédit'}
+                  style={{ fontSize: AppStyles.fontSize.normal, fontWeight: '300' }}
+                />
+              </View>
+            </View>
+            <View>
+              <Button
+                style={{
+                  backgroundColor: AppColor.bottomColor,
+                  borderRadius: 25,
+                  paddingVertical: 7,
+                  paddingHorizontal: 10,
+                  marginRight: 5
+                }}
+                loading={loading}
+                title="Modifier"
+                disabled={!paymentSheetEnabled || !Number(brutPrice)}
+                onPress={choosePaymentOption}
+              />
+            </View>
+          </View>
+        </FloatingNormalCard>
+
+        <ButtonConditional
+          title="Ajouter de l'argent"
+          style={{ width: '98%', borderRadius: 15 }}
+          isEnabled={paymentSheetEnabled && Number(brutPrice) && paymentMethod}
+          loading={loading}
+          onPress={onPressBuy}
+        />
       </PaymentScreen>
     </StripeProvider>
   );
