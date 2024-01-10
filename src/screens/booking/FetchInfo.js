@@ -7,85 +7,23 @@ import {
   ScrollView,
   Modal,
   Pressable,
-  Image
+  Image,
+  ActivityIndicator
 } from 'react-native';
 import { AppIcon } from '../../AppStyles';
 import Backend from '../../db/Backend';
 
-const FetchInfo = ({ date, stationId, setSlot, setModalVisible }) => {
+const FetchInfo = ({ date, stationId, setSlot, setModalVisible, data }) => {
   const firstOpacity = useRef(new Animated.Value(0)).current;
   const TranslationUp = useRef(new Animated.Value(-20)).current;
-  const [data, setData] = useState({});
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
-    function fillAgendaWithReservations(slot) {
-      console.log('filling agenda');
-      console.log(slot);
-      let isAlreadyInAgenda = false;
-
-      for (let index = 0; index < slot.length; index++) {
-        ///////////////////////////////////////////////////////////////////////
-        //    Error checking to see if slot is already contained in Agenda    /
-        for (const idToCheck in data[slot[index].date]) {
-          if (parseInt(data[slot[index].date][idToCheck].id) === index) isAlreadyInAgenda = true;
-        }
-        if (isAlreadyInAgenda) {
-          isAlreadyInAgenda = false;
-          break;
-        }
-        ///////////////////////////////////////////////////////////////////////
-        if (data[slot[index].date] === undefined) data[slot[index].date] = [];
-        data[slot[index].date].push({
-          date: slot[index].date,
-          id: index,
-          Hour: slot[index].opensAt + ' - ' + slot[index].closeAt,
-          Name: slot[index].stationId,
-          picture:
-            'https://thumbs.dreamstime.com/b/jeune-femme-heureuse-de-brunette-avec-le-sourire-%C3%A9tonnant-26038696.jpg',
-          content: '',
-          isBooked: slot[index].isBooked,
-          slotId: slot[index].id,
-          price: slot[index].price,
-          pricePerMin: slot[index].pricePerMin,
-          nbMins: slot[index].nbMins,
-          brutPrice: slot[index].brutPrice
-        });
-        console.log('pushed one new object');
-      }
-      console.log('HERE   ', data[date]);
+    try {
+      setLoading(false);
+    } catch (e) {
+      alert(e);
     }
-
-    async function fetchSlot() {
-      try {
-        console.log('Fetching station slot reservation to display');
-        const slotParsed = [];
-        const res = await Backend.getSlots(stationId);
-
-        if (res.status === 200) {
-          for (var index = 0; index < res.data.length; index++) {
-            slotParsed.push({
-              id: res.data[index].id,
-              stationId: res.data[index].stationPropertiesId,
-              date: res.data[index].opensAt.split('T')[0],
-              opensAt: res.data[index].opensAt.split('T')[1].split('.')[0],
-              closeAt: res.data[index].closesAt.split('T')[1].split('.')[0],
-              isBooked: res.data[index].isBooked,
-              price: res.data[index].price,
-              pricePerMin: res.data[index].price_per_minute,
-              nbMins: res.data[index].nb_mins,
-              brutPrice: res.data[index].brut_price,
-            });
-          }
-          fillAgendaWithReservations(slotParsed);
-        } else {
-          throw res;
-        }
-      } catch (e) {
-        alert(e);
-      }
-    }
-    fetchSlot();
-  }, []);
+  }, [data[date]]);
 
   firstOpacity.setValue(0);
   TranslationUp.setValue(-20);
@@ -104,51 +42,50 @@ const FetchInfo = ({ date, stationId, setSlot, setModalVisible }) => {
   ]).start();
 
   return (
-    <ScrollView style={{ top: -30 }}>
-      {data[date] &&
-        data[date]?.map((plan) => {
-          if (plan.id === 'undefined') {
-            return (
-              <View>
-                <Text style={{ color: 'white' }}>Nothing</Text>
-              </View>
-            );
-          } else if (plan.id < 0) {
-            return <View></View>;
-          }
-          return (
-            <Pressable
-              style={{ width: '100%' }}
-              onPress={() => {
-                if (plan.isBooked) {
-                  return;
-                }
-                setSlot(plan);
-                setModalVisible(true);
-              }}
-            >
-              <Animated.View
-                style={[
-                  plan.isBooked ? styles.itemBookedContainer : styles.itemContainer,
-                  { opacity: firstOpacity, transform: [{ translateY: TranslationUp }] }
-                ]}
-                key={plan.slotId}
-              >
-                <View>
-                  {/*<Image style={styles.picture} source={{ uri: plan.picture }}></Image>*/}
-                  <Text style={styles.name}>{plan.price} € ({plan.pricePerMin} € / Min)</Text>
-                  <View style={styles.firstRow}>
-                    <Image style={styles.rendCalendar} source={AppIcon.images.calendar}></Image>
-                    <Text style={styles.Txtduration}>
-                      {plan.date} - {plan.Hour}
-                    </Text>
-                  </View>
-                </View>
-              </Animated.View>
-            </Pressable>
-          );
-        })}
-    </ScrollView>
+    <View>
+      {!loading ? (
+        <ScrollView style={{ top: -30 }}>
+          {data[date] &&
+            data[date]?.map((plan) => {
+              console.log(plan);
+              return (
+                <Pressable
+                  style={{ width: '100%' }}
+                  onPress={() => {
+                    if (plan.isBooked) {
+                      return;
+                    }
+                    setSlot(plan);
+                    setModalVisible(true);
+                  }}
+                >
+                  <Animated.View
+                    style={[plan.isBooked ? styles.itemBookedContainer : styles.itemContainer]}
+                    key={plan.slotId}
+                  >
+                    <View>
+                      <Text style={styles.name}>
+                        {plan.price} € ({plan.pricePerMin} € / Min)
+                      </Text>
+                      <View style={styles.firstRow}>
+                        <Image style={styles.rendCalendar} source={AppIcon.images.calendar}></Image>
+                        <Text style={styles.Txtduration}>
+                          {plan.date} - {plan.Hour}
+                        </Text>
+                      </View>
+                    </View>
+                  </Animated.View>
+                </Pressable>
+              );
+            })}
+        </ScrollView>
+      ) : (
+        <ActivityIndicator
+          style={{ width: 90 + '%', height: 100 }}
+          animating={loading}
+        ></ActivityIndicator>
+      )}
+    </View>
   );
 };
 
