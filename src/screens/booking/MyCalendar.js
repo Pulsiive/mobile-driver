@@ -136,8 +136,8 @@ const MyCalendar = (props) => {
                                     width: 5,
                                     height: 5,
                                     borderRadius: 10,
-                                    backgroundColor: !isNegative(item) && props.event.includes(item.toLocaleString().split(' ')[0]) ? AppColor.title : AppColor.background,
-                                    display: !isNegative(item) && props.event.includes(item.toLocaleString().split(' ')[0]) ? 'flex' : 'none',
+                                    backgroundColor: !isNegative(item) && props.event.includes(item.toLocaleDateString().split(' ')[0]) ? AppColor.title : AppColor.background,
+                                    display: !isNegative(item) && props.event.includes(item.toLocaleDateString().split(' ')[0]) ? 'flex' : 'none',
                                 }}
                             />
                         </View>

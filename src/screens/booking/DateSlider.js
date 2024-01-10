@@ -4,6 +4,8 @@ import {
     Text,
     TouchableHighlight,
     ImageBackground, ActivityIndicator,
+    Dimensions,
+    Platform
 } from 'react-native';
 import {
     addDays,
@@ -45,7 +47,7 @@ const DateSlider = ({date, stationId, setSlot, setModalVisible, onChange, openDa
                     const indication = [{backgroundColor: AppColor.background}]
                     const label = [styles.label]
                     const sameDay = isSameDay(weekDay.date, date);
-                    const selectedDay = new Date(weekDay.date).toLocaleString().split(' ')[0];
+                    const selectedDay = new Date(weekDay.date).toLocaleDateString().split(' ')[0];
                     const eventDay = openDate.includes(selectedDay);
                     if (sameDay) {
                         touchable.push({backgroundColor: '#7FCB2B'});
@@ -74,7 +76,7 @@ const DateSlider = ({date, stationId, setSlot, setModalVisible, onChange, openDa
                                 bottom: 5,
                                 height: 5,
                                 width: 5,
-                                borderRadius: 100
+                                borderRadius: 100,
                             }, ...indication]}></View>
                         </View>
                     );
@@ -83,7 +85,7 @@ const DateSlider = ({date, stationId, setSlot, setModalVisible, onChange, openDa
 
             <View style={{
                 position: 'absolute',
-                top: 30 + '%',
+                top: Platform.OS === 'android' ? 40 + '%' : 30+'%',
                 left: 2 + '%',
             }}>
                 <TouchableOpacity
@@ -124,16 +126,16 @@ const DateSlider = ({date, stationId, setSlot, setModalVisible, onChange, openDa
             <View style={{top: 10 + '%'}}>
                 <View>
                     <Text
-                        style={{color: AppColor.title, fontWeight: '700', left: 4 + '%', marginTop: 0 + '%'}}
+                        style={{color: AppColor.title, fontWeight: '700', left: 4 + '%'}}
                     >
                         Créneaux disponible:
                     </Text>
                 </View>
             </View>
-            {openDate.includes(date.toLocaleString().split(' ')[0]) ? (
+            {openDate.includes(date.toLocaleDateString().split(' ')[0]) ? (
                 <View style={styles.safe}>
                 <FetchInfo
-                    date={date.toLocaleString().split(' ')[0]}
+                    date={date.toLocaleDateString().split(' ')[0]}
                     data={data}
                     stationId={stationId}
                     setSlot={setSlot}
