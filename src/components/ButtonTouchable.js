@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, TouchableHighlight, Text, StyleSheet, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import { AppIcon, AppStyles, useTheme } from '../AppStyles';
 import ButtonText from './ButtonText';
+import ProfilePicture from './ProfilePicture';
 
 {
   /*
@@ -16,7 +17,7 @@ import ButtonText from './ButtonText';
   */
 }
 
-const ButtonTouchable = ({ title, subtext, onPress, icon, image, action }) => {
+const ButtonTouchable = ({ title, subtext, onPress, icon, image, action, profilePicture }) => {
   const { AppColor } = useTheme();
 
   const handlePress = () => {
@@ -67,6 +68,14 @@ const ButtonTouchable = ({ title, subtext, onPress, icon, image, action }) => {
         <View style={styles.leftContent}>
           {icon && <Icon name={icon} size={24} color={AppColor.icon} />}
           {image && <Image source={image[0]} style={{ width: image[1], height: image[1] }} />}
+          {profilePicture && (
+            <ProfilePicture
+              profilePictureId={profilePicture.id}
+              height={profilePicture.height}
+              width={profilePicture.width}
+              borderRadius={profilePicture.borderRadius}
+            />
+          )}
           <View style={styles.textContainer}>
             <Text style={styles.ButtonTouchableText}>{title}</Text>
             {subtext && <Text style={AppStyles.subtext}>{subtext}</Text>}

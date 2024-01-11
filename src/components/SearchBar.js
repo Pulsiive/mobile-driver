@@ -1,20 +1,8 @@
 import React, { useState } from 'react';
-import {
-  FlatList,
-  Modal,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View
-} from 'react-native';
+import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { AppStyles, useTheme } from '../AppStyles';
 import Icon from 'react-native-vector-icons/Entypo';
-import ButtonCommon from './ButtonCommon';
 import Separator from './Separator';
-import FloatingButton from './FloatingButton';
-import TextTitle from './TextTitle';
 import ButtonConditional from './ButtonConditional';
 
 {
@@ -89,7 +77,7 @@ const SearchBar = ({ title, subtext, style, icon, list, onPress, onSelect }) => 
     title: {
       color: AppColor.title,
       fontWeight: '500',
-      fontSize: AppStyles.fontSize.normal
+      fontSize: AppStyles.fontSize.content
     },
     subtext: {
       fontSize: 12,
@@ -107,7 +95,7 @@ const SearchBar = ({ title, subtext, style, icon, list, onPress, onSelect }) => 
       marginLeft: 30
     },
     item: {
-      fontSize: AppStyles.fontSize.normal,
+      fontSize: AppStyles.fontSize.content,
       lineHeight: 24,
       color: AppColor.text,
       paddingVertical: 14

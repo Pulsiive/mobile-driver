@@ -1,23 +1,38 @@
-import React, { useState } from 'react';
-import { Alert, StyleSheet, View } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { Alert, Animated, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useStripe, Address, BillingDetails, StripeProvider } from '@stripe/stripe-react-native';
 import { colors } from './colors';
 import Button from './Button';
 import { showMessage } from 'react-native-flash-message';
 import Backend from '../../db/Backend';
 import PaymentScreen from './PaymentScreen';
+import MaskInput, { createNumberMask } from 'react-native-mask-input';
+import { AppStyles, useTheme, AppIcon } from '../../AppStyles';
+import {
+  ButtonCommon,
+  ButtonConditional,
+  ButtonText,
+  FloatingNormalCard,
+  InputField,
+  TextSubTitle
+} from '../../components';
+import IconAwesome from 'react-native-vector-icons/FontAwesome';
 
 export default function PaymentsUICustomScreen({ route, navigation }) {
-  const slot_id = route.params.slot_id;
+  const { AppColor } = useTheme();
+  const [brutPrice, setBrutPrice] = useState('15');
   const { initPaymentSheet, presentPaymentSheet, confirmPaymentSheetPayment } = useStripe();
   const [paymentSheetEnabled, setPaymentSheetEnabled] = useState(false);
   const [loading, setLoading] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState(null);
   const [clientSecret, setClientSecret] = useState(null);
-  const [paymentIntentId, setPaymentIntentId] = useState(null);
+  const [paymentIntentId, setPaymentIntentId] = useState();
+  const stateRef = useRef();
+
+  stateRef.current = paymentIntentId;
 
   const fetchPaymentSheetParams = async () => {
-    const response = await Backend.createStripePaymentIntent();
+    const response = await Backend.createStripePaymentIntent(Number(brutPrice) * 100);
     if (response.status === 200) {
       setPaymentIntentId(response.data.id);
       return {
@@ -35,7 +50,6 @@ export default function PaymentsUICustomScreen({ route, navigation }) {
 
     try {
       const { paymentIntent } = await fetchPaymentSheetParams();
-      console.log(paymentIntent);
 
       const address = {
         city: 'Paris',
@@ -81,7 +95,7 @@ export default function PaymentsUICustomScreen({ route, navigation }) {
     const { error, paymentOption } = await presentPaymentSheet();
 
     if (error) {
-      Alert.alert(`Error code: ${error.code}`, error.message);
+      // Alert.alert(`Error code: ${error.code}`, error.message);
     } else if (paymentOption) {
       setPaymentMethod({
         label: paymentOption.label,
@@ -90,118 +104,154 @@ export default function PaymentsUICustomScreen({ route, navigation }) {
     } else {
       setPaymentMethod(null);
     }
+    console.log(paymentSheetEnabled, Number(brutPrice), paymentMethod);
   };
 
   const onPressBuy = async () => {
     setLoading(true);
+
+    await Backend.updateStripePaymentIntent(Number(brutPrice) * 100, paymentIntentId);
+
     const { error } = await confirmPaymentSheetPayment();
 
-    const response = await Backend.submitPayment(paymentIntentId);
+    await Backend.submitPayment(paymentIntentId);
 
-    if (response.status !== 200) {
-      Alert.alert(`Error code: ${response.status}`, response.data);
-    }
     if (error) {
-      Alert.alert(`Error code: ${error.code}`, error.message);
+      showMessage({
+        duration: 4000,
+        message: `Une erreur est survenue`,
+        type: 'danger',
+        backgroundColor: AppColor.error
+      });
     } else {
-      Alert.alert('Success', 'The payment was confirmed successfully!');
-      const { data, status } = await Backend.bookSlot(slot_id);
-      console.log(data, status);
-      if (status === 200) {
-        showMessage({
-          duration: 4000,
-          message: `Créneau réservé avec succès !`,
-          description: 'Retrouvez vos réservations sur votre planning.',
-          type: 'success',
-          backgroundColor: 'green'
-        });
-        navigation.navigate('PlanningStack');
-      }
-      setPaymentSheetEnabled(false);
+      showMessage({
+        duration: 4000,
+        message: `Demande de réservation effectué avec succès !`,
+        description: 'Réservez votre prochaine borne dès maintenant',
+        type: 'success',
+        backgroundColor: AppColor.pulsive
+      });
+      navigation.goBack();
     }
     setLoading(false);
   };
 
+  const dollarMask = createNumberMask({
+    prefix: ['€', ' '],
+    delimiter: '.',
+    separator: ',',
+    precision: 2
+  });
+
   return (
-    // In your app’s checkout, make a network request to the backend and initialize PaymentSheet.
-    // To reduce loading time, make this request before the Checkout button is tapped, e.g. when the screen is loaded.
     <StripeProvider
       publishableKey="pk_test_51JKmWpGB07Bddq7mTyK0kTy9mxkFiD3PFxADPd7Ig0i0LLI2iAwUym5bTzRtjwyyH1aA1rM7QLADb8O21UisPCId00udEw4kUG"
       threeDSecureParams={{
-        backgroundColor: '#FFFFFF', // iOS only
+        backgroundColor: AppColor.background, // iOS only
         timeout: 5,
         label: {
-          headingTextColor: '#000000',
+          headingTextColor: AppColor.text,
           headingFontSize: 13
         },
         navigationBar: {
           headerText: '3d secure'
         },
         footer: {
-          // iOS only
-          backgroundColor: '#FFFFFF'
+          backgroundColor: AppColor.background // iOS only
         },
         submitButton: {
-          backgroundColor: '#000000',
+          backgroundColor: AppColor.text,
           cornerRadius: 12,
-          textColor: '#FFFFFF',
+          textColor: AppColor.text,
           textFontSize: 14
         }
       }}
     >
       <PaymentScreen onInit={initialisePaymentSheet}>
-        <View style={{ marginTop: '20%' }}>
-          <Button
-            variant="primary"
-            loading={loading}
-            title={'Choisir une méthode de paiement'}
-            disabled={!paymentSheetEnabled}
-            onPress={choosePaymentOption}
+        <View>
+          <TextSubTitle title="Ajouter de l'argent" style={{ paddingLeft: 50, paddingTop: 20 }} />
+          <MaskInput
+            value={brutPrice}
+            style={{
+              color: AppColor.text,
+              textAlign: 'center',
+              fontSize: 50,
+              fontWeight: 'bold',
+              marginTop: 100,
+              marginBottom: 40
+            }}
+            onChangeText={(masked, unmasked) => {
+              setBrutPrice(unmasked);
+            }}
+            mask={dollarMask}
+            autoFocus={true}
           />
         </View>
 
-        <View style={styles.section}>
-          <Button
-            variant="primary"
-            loading={loading}
-            disabled={!paymentMethod || !paymentSheetEnabled}
-            title={`Payer${paymentMethod ? ` avec ${paymentMethod.label}` : ''}`}
-            onPress={onPressBuy}
-          />
-        </View>
+        <FloatingNormalCard
+          style={{
+            width: '98%',
+            marginTop: 30
+          }}
+        >
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between'
+            }}
+          >
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <View
+                style={{
+                  width: 40,
+                  height: 40,
+                  borderRadius: 100,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: AppColor.bottomColor,
+                  marginRight: 10
+                }}
+              >
+                <IconAwesome name="credit-card" size={14} color={AppColor.text} />
+              </View>
+              <View style={{ flexDirection: 'column', justifyContent: 'center' }}>
+                <TextSubTitle
+                  title="Carte de crédit"
+                  style={{ fontSize: AppStyles.fontSize.content }}
+                />
+                <TextSubTitle
+                  title={paymentMethod ? paymentMethod.label : 'Pas de carte de crédit'}
+                  style={{ fontSize: AppStyles.fontSize.normal, fontWeight: '300' }}
+                />
+              </View>
+            </View>
+            <View>
+              <Button
+                style={{
+                  backgroundColor: AppColor.bottomColor,
+                  borderRadius: 25,
+                  paddingVertical: 7,
+                  paddingHorizontal: 10,
+                  marginRight: 5
+                }}
+                loading={loading}
+                title="Modifier"
+                disabled={!paymentSheetEnabled || !Number(brutPrice)}
+                onPress={choosePaymentOption}
+              />
+            </View>
+          </View>
+        </FloatingNormalCard>
+
+        <ButtonConditional
+          title="Ajouter de l'argent"
+          style={{ width: '98%', borderRadius: 15 }}
+          isEnabled={paymentSheetEnabled && Number(brutPrice) && paymentMethod != null}
+          loading={loading}
+          onPress={onPressBuy}
+        />
       </PaymentScreen>
     </StripeProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  flex: {
-    flex: 1
-  },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
-  section: {
-    marginTop: 40
-  },
-  title: {
-    fontSize: 18,
-    marginBottom: 20,
-    fontWeight: 'bold'
-  },
-  paymentMethodTitle: {
-    color: colors.slate,
-    fontWeight: 'bold'
-  },
-  image: {
-    width: 26,
-    height: 20
-  },
-  text: {
-    color: colors.black,
-    fontSize: 16,
-    fontWeight: '600',
-    marginLeft: 12
-  }
-});

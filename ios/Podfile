@@ -7,8 +7,15 @@ install! 'cocoapods', :deterministic_uuids => false
 
 target 'mobileDriver' do
   config = use_native_modules!
+  use_frameworks! :linkage => :static
+  $RNFirebaseAsStaticFramework = true
   pod 'react-native-mapbox-gl', :path => '../node_modules/@react-native-mapbox-gl/maps'
   pod 'stripe-react-native', :path => '../node_modules/@stripe/stripe-react-native'
+  pod 'Firebase', :modular_headers => true
+  pod 'FirebaseCoreInternal', :modular_headers => true
+  pod 'GoogleUtilities', :modular_headers => true
+  pod 'FirebaseCore', :modular_headers => true
+
 
   # Flags change depending on the env values.
   flags = get_default_flags()
@@ -37,7 +44,7 @@ target 'mobileDriver' do
   #
   # Note that if you have use_frameworks! enabled, Flipper will not work and
   # you should disable the next line.
-  use_flipper!()
+  # use_flipper!()
 
   post_install do |installer|
     react_native_post_install(installer)

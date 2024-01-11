@@ -16,13 +16,25 @@ import { AppStyles, useTheme } from '../AppStyles';
   */
 }
 
-const InputField = ({ label, errorCheck, subText, setValue, secure, style }) => {
+const InputField = ({
+  label,
+  errorCheck,
+  successCheck,
+  subText,
+  setValue,
+  secure,
+  style,
+  icon,
+  iconOnPress,
+  initialValue = ''
+}) => {
   const { AppColor } = useTheme();
 
   const [isFocused, setIsFocused] = useState(false);
   const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
   const [secureText, setSecureText] = useState(secure);
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState(initialValue);
 
   const borderStyle = {
     borderWidth: isFocused ? 2 : 1,
@@ -41,6 +53,7 @@ const InputField = ({ label, errorCheck, subText, setValue, secure, style }) => 
     setIsFocused(false);
     setValue(inputValue);
     if (errorCheck) setError(errorCheck(inputValue));
+    if (successCheck) setSuccess(successCheck(inputValue));
   };
 
   const handleChangeText = (text) => {
@@ -54,7 +67,7 @@ const InputField = ({ label, errorCheck, subText, setValue, secure, style }) => 
       width: AppStyles.buttonWidth,
       alignSelf: 'center'
     },
-    errorContainer: {
+    subTextContainer: {
       flexDirection: 'row',
       alignItems: 'center',
       paddingHorizontal: '1%',
@@ -85,12 +98,20 @@ const InputField = ({ label, errorCheck, subText, setValue, secure, style }) => 
     errorInput: {
       borderColor: AppColor.error
     },
-    infoIcon: {
+    successIcon: {
+      marginRight: 6,
+      color: AppColor.pulsive
+    },
+    errorIcon: {
       marginRight: 6,
       color: AppColor.error
     },
     errorText: {
       color: AppColor.error,
+      fontSize: 12
+    },
+    successText: {
+      color: AppColor.pulsive,
       fontSize: 12
     },
     subText: {
@@ -132,12 +153,23 @@ const InputField = ({ label, errorCheck, subText, setValue, secure, style }) => 
         </TouchableOpacity>
       )}
       {error && (
-        <View style={styles.errorContainer}>
-          <Icon name="info-with-circle" size={14} style={styles.infoIcon} />
+        <View style={styles.subTextContainer}>
+          <Icon name="info-with-circle" size={14} style={styles.errorIcon} />
           <Text style={styles.errorText}>{error}</Text>
         </View>
       )}
-      {subText && <Text style={styles.subText}>{subText}</Text>}
+      {success && (
+        <View style={styles.subTextContainer}>
+          <Icon name="info-with-circle" size={14} style={styles.successIcon} />
+          <Text style={styles.successText}>{success}</Text>
+        </View>
+      )}
+      {icon && (
+        <TouchableOpacity style={styles.secureContainer} onPress={iconOnPress}>
+          <Icon name={icon} size={20} color={AppColor.icon} />
+        </TouchableOpacity>
+      )}
+      {subText && !error && !success && <Text style={styles.subText}>{subText}</Text>}
     </View>
   );
 };

@@ -2,7 +2,7 @@ import API from './Api';
 
 class Backend {
   reqPhoneNumberOTP = async (phoneNumber) => {
-    const res = await API.send('POST', '/api/v1/phone-number/request', { phoneNumber }, false);
+    const res = await API.send('POST', '/api/v1/phone-number/request', { phoneNumber }, true);
     return res;
   };
 
@@ -12,7 +12,7 @@ class Backend {
       'POST',
       `/api/v1/phone-number/verify?otp=${otp}`,
       { phoneNumber },
-      false
+      true
     );
     return res;
   };
@@ -47,6 +47,11 @@ class Backend {
     return res;
   };
 
+  getReservationRequests = async () => {
+    const res = await API.send('GET', '/api/v1/driver/reservations/requests/', null, true);
+    return res;
+  };
+
   getStation = async (stationId) => {
     const res = await API.send('GET', `/api/v1/profile/station/${stationId}`, null, false);
     return res;
@@ -72,14 +77,27 @@ class Backend {
     return res;
   };
 
-  submitPaymentBalance = async () => {
-    const res = await API.send('POST', '/api/v1/payment/balance', null, true);
-    return res;
+  async createStripePaymentIntent(brutPrice) {
+    return await API.send('POST', '/api/v1/payment-request', { brut_price: brutPrice }, true);
+  }
+
+  async updateStripePaymentIntent(brutPrice, paymentIntentId) {
+    return await API.send(
+      'PATCH',
+      '/api/v1/payment-request',
+      { payment_intent_id: paymentIntentId, brut_price: brutPrice },
+      true
+    );
+  }
+
+  createReservationRequest = async (data) => {
+    return await API.send('POST', '/api/v1/driver/reservations/requests', data, true);
   };
 
-  async createStripePaymentIntent() {
-    return await API.send('POST', '/api/v1/payment-request', null, true);
-  }
+  getUserFromId = async (id) => {
+    const res = await API.send('GET', `/api/v1/user/${id}`, null, true);
+    return res;
+  };
 }
 
 const service = new Backend();

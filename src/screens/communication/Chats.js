@@ -5,6 +5,7 @@ import { StyleSheet, View, TouchableOpacity, Text, Modal, Image } from 'react-na
 import { AppStyles } from '../../AppStyles';
 import Chat from './Chat';
 import api from '../../db/Api';
+import ProfilePicture from '../../components/ProfilePicture';
 
 import * as Animatable from 'react-native-animatable';
 import Icon from 'react-native-vector-icons/Entypo';
@@ -24,17 +25,9 @@ function Chats() {
 
   useFocusEffect(
     React.useCallback(() => {
-      console.log('FOCUS EFFECT');
       api
         .send('GET', '/api/v1/profile/messages/last-by-user')
-        .then((data) =>
-          setChats(
-            data.data.map((message) => {
-              message.user.profilePictureUri = profilePicture;
-              return message;
-            })
-          )
-        )
+        .then((data) => setChats(data.data))
         .catch((e) => setErrorMessage(e));
 
       api.send('GET', '/api/v1/profile/contacts').then((data) => {
@@ -45,7 +38,7 @@ function Chats() {
 
   const onContactPress = (contact) => {
     navigation.navigate('Message', {
-      imageUri: profilePicture,
+      imageUri: contact.profilePictureId,
       name: `${contact.firstName} ${contact.lastName}`,
       receiverId: contact.id
     });
@@ -141,7 +134,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderStyle: 'solid',
     borderColor: AppStyles.color.grey,
-    borderRadius: AppStyles.borderRadius
+    borderRadius: 25
   },
   input: {
     height: 42,

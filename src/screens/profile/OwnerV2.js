@@ -18,6 +18,7 @@ import { AppIcon } from '../../AppStyles';
 import Station from '../station/Station';
 import { getUser, useUserUpdate } from '../../contexts/UserContext';
 import { showMessage } from 'react-native-flash-message';
+import ProfilePicture from '../../components/ProfilePicture';
 
 const renderRating = (rating, isComment = false) => {
   const stars = new Array(rating.rate).fill(<Icon name="star" size={20} color={'orange'} />);
@@ -56,7 +57,7 @@ const renderRating = (rating, isComment = false) => {
   );
 };
 
-function ProfileHeader({ userName, userRate, userId, profilePictureUri, navigation }) {
+function ProfileHeader({ userName, userRate, userId, profilePictureId, navigation }) {
   const user = getUser(); //this is the object of the current user using the app
   const updateUser = useUserUpdate();
 
@@ -122,12 +123,12 @@ function ProfileHeader({ userName, userRate, userId, profilePictureUri, navigati
       </View>
       <View style={styles.top}>
         <View style={styles.badge}>
-          <Image
-            style={{ height: 100 + '%', width: 100 + '%', borderRadius: 50 }}
-            source={{
-              uri: profilePictureUri
-            }}
-          ></Image>
+          <ProfilePicture
+            profilePictureId={profilePictureId}
+            height="100%"
+            width="100%"
+            borderRadius={50}
+          />
         </View>
         <View style={styles.borderBagde}></View>
       </View>
@@ -196,52 +197,54 @@ function OwnerV2({ navigation }) {
   }, [profile]);
 
   useEffect(() => {
-    if (currentTabIndex >= 0) {
-      if (currentTabIndex === 0) {
-        if (profile.privateStations && profile.privateStations.length > 0) {
-          setCurrentTabComponent(<Station ownerId={userId}></Station>);
-        } else {
-          setCurrentTabComponent(
-            <Text style={{ fontSize: 14, color: '#0C0404' }}>User has no stations yet.</Text>
-          );
-        }
-      } else if (currentTabIndex === 2) {
-        if (profile.receivedRatings.length > 0) {
-          console.log(profile.receivedRatings);
-          setCurrentTabComponent(
-            <FlatList
-              data={profile.receivedRatings}
-              renderItem={({ item }) => renderRating(item)}
-            ></FlatList>
-          );
-        } else {
-          setCurrentTabComponent(
-            <Text style={{ fontSize: 14, color: '#0C0404' }}>User has no ratings yet.</Text>
-          );
-        }
-      } else if (currentTabIndex === 3) {
-        if (profile.wroteRatings.length > 0) {
-          setCurrentTabComponent(
-            <FlatList
-              data={profile.wroteRatings}
-              renderItem={({ item }) => renderRating(item, true)}
-            ></FlatList>
-          );
-        } else {
-          setCurrentTabComponent(
-            <Text style={{ fontSize: 14, color: '#0C0404' }}>User has no comments yet.</Text>
-          );
-        }
-      } else setCurrentTabComponent(undefined);
+    if (profile) {
+      if (currentTabIndex >= 0) {
+        if (currentTabIndex === 0) {
+          if (profile.privateStations && profile.privateStations.length > 0) {
+            setCurrentTabComponent(<Station ownerId={userId}></Station>);
+          } else {
+            setCurrentTabComponent(
+              <Text style={{ fontSize: 14, color: 'white' }}>User has no stations yet.</Text>
+            );
+          }
+        } else if (currentTabIndex === 2) {
+          if (profile.receivedRatings.length > 0) {
+            console.log(profile.receivedRatings);
+            setCurrentTabComponent(
+              <FlatList
+                data={profile.receivedRatings}
+                renderItem={({ item }) => renderRating(item)}
+              ></FlatList>
+            );
+          } else {
+            setCurrentTabComponent(
+              <Text style={{ fontSize: 14, color: 'white' }}>User has no ratings yet.</Text>
+            );
+          }
+        } else if (currentTabIndex === 3) {
+          if (profile.wroteRatings.length > 0) {
+            setCurrentTabComponent(
+              <FlatList
+                data={profile.wroteRatings}
+                renderItem={({ item }) => renderRating(item, true)}
+              ></FlatList>
+            );
+          } else {
+            setCurrentTabComponent(
+              <Text style={{ fontSize: 14, color: 'white' }}>User has no comments yet.</Text>
+            );
+          }
+        } else setCurrentTabComponent(undefined);
+      }
     }
-  }, [currentTabIndex]);
+  }, [currentTabIndex, profile]);
 
   return !profile ? (
     <View style={styles.safe}>
       <ProfileHeader
         userName={name}
         userId={userId}
-        profilePictureUri={imageUri}
+        profilePictureId={imageUri}
         navigation={navigation}
       />
       <ActivityIndicator size="small" color="#0C0404" />
@@ -252,7 +255,7 @@ function OwnerV2({ navigation }) {
         userName={name}
         userId={userId}
         userRate={userRate}
-        profilePictureUri={imageUri}
+        profilePictureId={imageUri}
         navigation={navigation}
       />
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 15 }}>

@@ -41,7 +41,7 @@ function Login({ navigation }) {
             setEmail('');
             setPassword('');
             setValid(false);
-            navigation.navigate('DrawerStack');
+            navigation.navigate('TabNavigator');
           })
           .catch((e) => console.log(e));
       }
@@ -66,11 +66,13 @@ function Login({ navigation }) {
   const LoadingScreen = () => {
     return (
       <View style={styles.loading}>
-      <Animatable.Image animation="bounceInLeft" iterationCount="infinite"
-        source={AppIcon.images.loadingImage}
-        style={{ width: '40%', height: '100%' }}
-        resizeMode="contain"
-      />
+        <Animatable.Image
+          animation="bounceInLeft"
+          iterationCount="infinite"
+          source={AppIcon.images.loadingImage}
+          style={{ width: '40%', height: '100%' }}
+          resizeMode="contain"
+        />
       </View>
     );
   };
@@ -93,9 +95,8 @@ function Login({ navigation }) {
             setPassword('');
             setValid(false);
 
-            // Introduce a delay of 3 seconds (2000 milliseconds) before navigating
             setTimeout(() => {
-              navigation.navigate('DrawerStack');
+              navigation.navigate('TabNavigator');
             }, 3000);
           })
           .catch((e) => console.log(e));
@@ -108,7 +109,8 @@ function Login({ navigation }) {
         else if (e.status === 404) setError('Utilisateur introuvable');
       } else {
         setError('Error serveur');
-      } setLoading(false);
+      }
+      setLoading(false);
     }
   };
 
@@ -136,7 +138,7 @@ function Login({ navigation }) {
     loading: {
       flex: 1,
       justifyContent: 'center',
-      alignItems: 'center',
+      alignItems: 'center'
     },
     logoContainer: {
       alignItems: 'center'
@@ -153,7 +155,7 @@ function Login({ navigation }) {
     inputsContainer: {
       alignSelf: 'stretch',
       justifyContent: 'flex-end',
-      marginTop: 'auto'
+      marginTop: 20
     },
     accountContainer: {
       flexDirection: 'row',
@@ -170,39 +172,39 @@ function Login({ navigation }) {
       {loading ? ( // Render the LoadingScreen component when loading is true
         <LoadingScreen />
       ) : (
-      <View>
-        <View style={styles.logoContainer}>
-          <Image source={AppIcon.images.logo2} style={styles.logo} />
-          <Image source={AppIcon.images.pulsive} style={styles.pulsive} />
-        </View>
-        <View style={styles.inputsContainer}>
-          <TextError title={error} />
-          <InputField
-            label="E-mail"
-            errorCheck={checkForEmailErrors}
-            subText="Veuillez entrer votre adresse e-mail"
-            setValue={setEmail}
-            style={{ marginVertical: 0 }}
+        <View>
+          <View style={styles.logoContainer}>
+            <Image source={AppIcon.images.logo2} style={styles.logo} />
+            <Image source={AppIcon.images.pulsive} style={styles.pulsive} />
+          </View>
+          <View style={styles.inputsContainer}>
+            <TextError title={error} />
+            <InputField
+              label="E-mail"
+              errorCheck={checkForEmailErrors}
+              subText="Veuillez entrer votre adresse e-mail"
+              setValue={setEmail}
+              style={{ marginVertical: 0 }}
+            />
+            <InputField
+              label="Mot de passe"
+              errorCheck={checkForPasswordErrors}
+              subText="Veuillez entrer votre mot de passe"
+              setValue={setPassword}
+              secure={true}
+            />
+          </View>
+          <ButtonConditional
+            title="Me connecter"
+            isEnabled={true}
+            onPress={onLogin}
+            loading={loading}
           />
-          <InputField
-            label="Mot de passe"
-            errorCheck={checkForPasswordErrors}
-            subText="Veuillez entrer votre mot de passe"
-            setValue={setPassword}
-            secure={true}
-          />
+          <View style={styles.accountContainer}>
+            <Text style={styles.accountText}>Pas encore de compte ?</Text>
+            <ButtonText title="M'inscrire" onPress={() => navigation.navigate('SignUp')} />
+          </View>
         </View>
-        <ButtonConditional
-          title="Me connecter"
-          isEnabled={true}
-          onPress={onLogin}
-          loading={loading}
-        />
-        <View style={styles.accountContainer}>
-          <Text style={styles.accountText}>Pas encore de compte ?</Text>
-          <ButtonText title="M'inscrire" onPress={() => navigation.navigate('SignUp')} />
-        </View>
-      </View>
       )}
     </ScrollView>
   );

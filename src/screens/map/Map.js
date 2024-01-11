@@ -1,34 +1,32 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, PermissionsAndroid, Image } from 'react-native';
 import {
-  StyleSheet,
-  Text,
-  View,
-  Pressable,
-  PermissionsAndroid,
-  Modal,
-  SafeAreaView,
-  ScrollView,
-  Dimensions,
-  Image,
-  TouchableOpacity
-} from 'react-native';
+  AnimatedLoading,
+  ButtonConditional,
+  FilterBubble,
+  FilterSlider,
+  FilterTab,
+  FloatingButton,
+  ModalSwipeUp,
+  SearchBar,
+  TextSubTitle,
+  TextTitle
+} from '../../components';
 
-import Slider from '@react-native-community/slider';
-import api from '../../db/Api';
-
-import Carousel from 'react-native-snap-carousel';
-
-import Button from 'react-native-button';
-import { AppStyles } from '../../AppStyles';
+import { AppIcon, AppStyles, useTheme } from '../../AppStyles';
 
 import MapboxGL from '@react-native-mapbox-gl/maps';
 import GetLocation from 'react-native-get-location';
 
 import Icon from 'react-native-vector-icons/Entypo';
+import StationInformations from './StationInformations';
 
 import config from '../../db/config';
 import serviceAccessToken from '../../db/AccessToken';
-import StationInformations from './StationInformations';
+import { useFocusEffect } from '@react-navigation/native';
+import * as locations from '../../locations';
+import * as Animatable from 'react-native-animatable';
+
 var axios = require('axios');
 
 MapboxGL.setAccessToken(
@@ -37,959 +35,476 @@ MapboxGL.setAccessToken(
 MapboxGL.setConnected(true);
 
 function Map({ navigation }) {
+  const { isDarkMode, AppColor } = useTheme();
+
   const [userPosition, setUserPosition] = useState([0, 0]);
-  const [userProfile, setUserProfile] = useState();
-  const [nightMode, setNightMode] = useState(false);
-  const [filtersMenu, setFiltersMenu] = useState(false);
+  const [resetPosition, setResetPosition] = useState(true);
+  const [fetchPosition, setFetchPosition] = useState(false);
+
+  const [filterModal, setFilterModal] = useState(false);
+  const [filterStatut, setFilterStatut] = useState(0);
+  const [filterType, setFilterType] = useState(2);
+  const [filterRating, setFilterRating] = useState(0);
+  const [filterRange, setFilterRange] = useState(5);
+  const [filterPrice, setFilterPrice] = useState(500);
+
+  const [resetFilters, setResetFilters] = useState(true);
+
+  const [nbStations, setNbStations] = useState(0);
+  const [stationModal, setStationModal] = useState(false);
 
   const [selectedStation, setSelectedStation] = useState();
-  const [modalData, setModalData] = useState({});
-  // const [modalVisible, setModalVisible] = useState(false);
-  // const setModal = (charger) => {
-  //   setModalVisible(true);
-  //   setModalData({
-  //     // name: props.event.properties.id,
-  //     // location: props.event.geometry.coordinates,
-  //     charger: charger
-  //   });
-  // };
+  const [userStation, setUserStation] = useState();
 
-  const [filterType, setFilterType] = useState(1);
-  const [filterPrice, setFilterPrice] = useState(500);
-  const [filterStatut, setFilterStatut] = useState(2);
-  const [filterRange, setFilterRange] = useState(5);
-  const [filterRating, setFilterRating] = useState(0);
+  const [loadingLocation, setLoadingLocation] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [drawPin, setDrawPin] = useState(false);
 
-  const [savedFilters1, setSavedFilters1] = useState({
-    savedFilterType: false,
-    savedFilterPrice: false,
-    savedFilterStatut: false,
-    savedFilterRange: false,
-    savedFilterRating: false
-  });
-  const [savedFilters2, setSavedFilters2] = useState({
-    savedFilterType: false,
-    savedFilterPrice: false,
-    savedFilterStatut: false,
-    savedFilterRange: false,
-    savedFilterRating: false
-  });
-  const [filterSelect, setFilterSelect] = useState(0);
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('blur', () => {
+      setDrawPin(false);
+    });
+    return unsubscribe;
+  }, [navigation]);
 
-  const checkFilters = (charger) => {
-    // if (filterType && charger.type != filterType) return false;
-    // if (filterPrice && charger.pricing > filterPrice) return false;
-    // if (filterStatut) {
-    // if (filterStatut == 'Public' && !charger.public) return false;
-    // if (filterStatut == 'Private' && charger.public) return false;
-    // }
-    if (filterRating && charger.rating < filterRating) return false;
-    return true;
-  };
+  useFocusEffect(
+    React.useCallback(() => {
+      setDrawPin(true);
+      // fetchData();
+    }, [])
+  );
 
-  const FiltersComponent = () => {
-    const clear = () => {
-      setFilterSelect(0);
-      setFilterType(1);
-      setFilterPrice(500);
-      setFilterStatut(2);
-      setFilterRange(5);
-      setFilterRating(0);
-    };
-    const save1 = () => {
-      setSavedFilters1({
-        savedFilterType: filterType,
-        savedFilterPrice: filterType,
-        savedFilterStatut: filterStatut,
-        savedFilterRange: filterRange,
-        savedFilterRating: filterRating
-      });
-    };
-    const save2 = () => {
-      setSavedFilters2({
-        savedFilterType: filterType,
-        savedFilterPrice: filterType,
-        savedFilterStatut: filterStatut,
-        savedFilterRange: filterRange,
-        savedFilterRating: filterRating
-      });
-    };
-    const compare1 = () => {
-      const temp = { filterType, filterPrice, filterStatut, filterRange, filterRating };
-      setFilterType(savedFilters1.savedFilterType);
-      setFilterPrice(savedFilters1.savedFilterPrice);
-      setFilterStatut(savedFilters1.savedFilterStatut);
-      setFilterStatut(savedFilters1.savedFilterRange);
-      setFilterRating(savedFilters1.savedFilterRating);
-      setSavedFilters1({
-        savedFilterType: temp.filterType,
-        savedFilterPrice: temp.filterPrice,
-        savedFilterStatut: temp.filterStatut,
-        savedFilterRange: temp.filterRange,
-        savedFilterRating: temp.filterRating
-      });
-    };
-    const compare2 = () => {
-      const temp = { filterType, filterPrice, filterStatut, filterRange, filterRating };
-      setFilterType(savedFilters2.savedFilterType);
-      setFilterPrice(savedFilters2.savedFilterPrice);
-      setFilterStatut(savedFilters2.savedFilterStatut);
-      setFilterStatut(savedFilters2.savedFilterRange);
-      setFilterRating(savedFilters2.savedFilterRating);
-      setSavedFilters2({
-        savedFilterType: temp.filterType,
-        savedFilterPrice: temp.filterPrice,
-        savedFilterStatut: temp.filterStatut,
-        savedFilterRange: temp.filterRange,
-        savedFilterRating: temp.filterRating
-      });
-    };
-    return filtersMenu ? (
-      <View
-        style={{
-          position: 'absolute',
-          top: 20,
-          left: 70,
-          display: 'flex'
-        }}
-      >
-        <Button
-          style={[
-            styles.filters,
-            {
-              backgroundColor: filterSelect == 1 ? AppStyles.color.grey : AppStyles.color.white,
-              color: filterSelect == 1 ? AppStyles.color.white : AppStyles.color.pulsive
-            }
-          ]}
-          onPress={() => setFilterSelect(1)}
-        >
-          Type
-        </Button>
-        {filterSelect == 1 ? (
-          <View
-            style={{
-              position: 'absolute',
-              top: 20,
-              left: 110,
-              display: 'flex'
-            }}
-          >
-            {/* <Button style={styles.filters} onPress={() => setFilterType(0)}>
-              X
-            </Button> */}
-            <Button
-              style={[
-                styles.filters,
-                {
-                  backgroundColor: filterType == 1 ? AppStyles.color.grey : AppStyles.color.white,
-                  color: filterType == 1 ? AppStyles.color.white : AppStyles.color.pulsive
-                }
-              ]}
-              onPress={() => setFilterType(1)}
-            >
-              TYPE 1
-            </Button>
-            <Button
-              style={[
-                styles.filters,
-                {
-                  backgroundColor: filterType == 2 ? AppStyles.color.grey : AppStyles.color.white,
-                  color: filterType == 2 ? AppStyles.color.white : AppStyles.color.pulsive
-                }
-              ]}
-              onPress={() => setFilterType(2)}
-            >
-              TYPE 2
-            </Button>
-            <Button
-              style={[
-                styles.filters,
-                {
-                  backgroundColor: filterType == 3 ? AppStyles.color.grey : AppStyles.color.white,
-                  color: filterType == 3 ? AppStyles.color.white : AppStyles.color.pulsive
-                }
-              ]}
-              onPress={() => setFilterType(3)}
-            >
-              TYPE 3
-            </Button>
-            <Button
-              style={[
-                styles.filters,
-                {
-                  backgroundColor: filterType == 4 ? AppStyles.color.grey : AppStyles.color.white,
-                  color: filterType == 4 ? AppStyles.color.white : AppStyles.color.pulsive
-                }
-              ]}
-              onPress={() => setFilterType(4)}
-            >
-              CCS
-            </Button>
-            <Button
-              style={[
-                styles.filters,
-                {
-                  backgroundColor: filterType == 5 ? AppStyles.color.grey : AppStyles.color.white,
-                  color: filterType == 5 ? AppStyles.color.white : AppStyles.color.pulsive
-                }
-              ]}
-              onPress={() => setFilterType(5)}
-            >
-              CHADEMO
-            </Button>
-            <Button
-              style={[
-                styles.filters,
-                {
-                  backgroundColor: filterType == 6 ? AppStyles.color.grey : AppStyles.color.white,
-                  color: filterType == 6 ? AppStyles.color.white : AppStyles.color.pulsive
-                }
-              ]}
-              onPress={() => setFilterType(6)}
-            >
-              GREENUP
-            </Button>
-            <Button
-              style={[
-                styles.filters,
-                {
-                  backgroundColor: filterType == 7 ? AppStyles.color.grey : AppStyles.color.white,
-                  color: filterType == 7 ? AppStyles.color.white : AppStyles.color.pulsive
-                }
-              ]}
-              onPress={() => setFilterType(7)}
-            >
-              EF
-            </Button>
-            {/* <Button
-              style={[
-                styles.filters,
-                {
-                  backgroundColor: filterType == 8 ? AppStyles.color.grey : AppStyles.color.white,
-                  color: filterType == 8 ? AppStyles.color.white : AppStyles.color.pulsive
-                }
-              ]}
-              onPress={() => setFilterType(8)}
-            >
-              ALL
-            </Button> */}
-          </View>
-        ) : (
-          <></>
-        )}
-        <Button
-          style={[
-            styles.filters,
-            {
-              backgroundColor: filterSelect == 2 ? AppStyles.color.grey : AppStyles.color.white,
-              color: filterSelect == 2 ? AppStyles.color.white : AppStyles.color.pulsive
-            }
-          ]}
-          onPress={() => setFilterSelect(2)}
-        >
-          Price
-        </Button>
-        {filterSelect == 2 ? (
-          <View
-            style={{
-              position: 'absolute',
-              top: 60,
-              left: 90,
-              display: 'flex'
-            }}
-          >
-            <Slider
-              style={styles.slider}
-              minimumValue={0}
-              maximumValue={500}
-              value={filterPrice}
-              onValueChange={(value) => setFilterPrice(value)}
-              step={1}
-              orientation="vertical"
-              minimumTrackTintColor="green"
-              maximumTrackTintColor="black"
-            />
-            <Text
-              style={{
-                color: 'black',
-                backgroundColor: AppStyles.color.white,
-                padding: 5,
-                width: 60,
-                left: 45,
-                marginTop: 45,
-                fontSize: 11
-              }}
-            >
-              {filterPrice}€/min
-            </Text>
-          </View>
-        ) : (
-          <></>
-        )}
-        <Button
-          style={[
-            styles.filters,
-            {
-              backgroundColor: filterSelect == 3 ? AppStyles.color.grey : AppStyles.color.white,
-              color: filterSelect == 3 ? AppStyles.color.white : AppStyles.color.pulsive
-            }
-          ]}
-          onPress={() => setFilterSelect(3)}
-        >
-          Statut
-        </Button>
-        {filterSelect == 3 ? (
-          <View
-            style={{
-              position: 'absolute',
-              top: 20,
-              left: 110,
-              display: 'flex'
-            }}
-          >
-            <Button
-              style={[
-                styles.filters,
-                {
-                  backgroundColor: filterStatut == 2 ? AppStyles.color.grey : AppStyles.color.white,
-                  color: filterStatut == 2 ? AppStyles.color.white : AppStyles.color.pulsive
-                }
-              ]}
-              onPress={() => setFilterStatut(2)}
-            >
-              ALL
-            </Button>
-            <Button
-              style={[
-                styles.filters,
-                {
-                  backgroundColor: filterStatut == 0 ? AppStyles.color.grey : AppStyles.color.white,
-                  color: filterStatut == 0 ? AppStyles.color.white : AppStyles.color.pulsive
-                }
-              ]}
-              onPress={() => setFilterStatut(0)}
-            >
-              Public
-            </Button>
-            <Button
-              style={[
-                styles.filters,
-                {
-                  backgroundColor: filterStatut == 1 ? AppStyles.color.grey : AppStyles.color.white,
-                  color: filterStatut == 1 ? AppStyles.color.white : AppStyles.color.pulsive
-                }
-              ]}
-              onPress={() => setFilterStatut(1)}
-            >
-              Private
-            </Button>
-          </View>
-        ) : (
-          <></>
-        )}
-        <Button
-          style={[
-            styles.filters,
-            {
-              backgroundColor: filterSelect == 4 ? AppStyles.color.grey : AppStyles.color.white,
-              color: filterSelect == 4 ? AppStyles.color.white : AppStyles.color.pulsive
-            }
-          ]}
-          onPress={() => setFilterSelect(4)}
-        >
-          Rating
-        </Button>
-        {filterSelect == 4 ? (
-          <View
-            style={{
-              position: 'absolute',
-              top: 20,
-              left: 110,
-              display: 'flex'
-            }}
-          >
-            <Button
-              style={[
-                styles.filters,
-                {
-                  backgroundColor:
-                    filterRating == '0' ? AppStyles.color.grey : AppStyles.color.white,
-                  color: filterRating == '0' ? AppStyles.color.white : AppStyles.color.pulsive
-                }
-              ]}
-              onPress={() => setFilterRating('0')}
-            >
-              0
-            </Button>
-            <Button
-              style={[
-                styles.filters,
-                {
-                  backgroundColor:
-                    filterRating == '1' ? AppStyles.color.grey : AppStyles.color.white,
-                  color: filterRating == '1' ? AppStyles.color.white : AppStyles.color.pulsive
-                }
-              ]}
-              onPress={() => setFilterRating('1')}
-            >
-              1
-            </Button>
-            <Button
-              style={[
-                styles.filters,
-                {
-                  backgroundColor:
-                    filterRating == '2' ? AppStyles.color.grey : AppStyles.color.white,
-                  color: filterRating == '2' ? AppStyles.color.white : AppStyles.color.pulsive
-                }
-              ]}
-              onPress={() => setFilterRating('2')}
-            >
-              2
-            </Button>
-            <Button
-              style={[
-                styles.filters,
-                {
-                  backgroundColor:
-                    filterRating == '3' ? AppStyles.color.grey : AppStyles.color.white,
-                  color: filterRating == '3' ? AppStyles.color.white : AppStyles.color.pulsive
-                }
-              ]}
-              onPress={() => setFilterRating('3')}
-            >
-              3
-            </Button>
-            <Button
-              style={[
-                styles.filters,
-                {
-                  backgroundColor:
-                    filterRating == '4' ? AppStyles.color.grey : AppStyles.color.white,
-                  color: filterRating == '4' ? AppStyles.color.white : AppStyles.color.pulsive
-                }
-              ]}
-              onPress={() => setFilterRating('4')}
-            >
-              4
-            </Button>
-            <Button
-              style={[
-                styles.filters,
-                {
-                  backgroundColor:
-                    filterRating == '5' ? AppStyles.color.grey : AppStyles.color.white,
-                  color: filterRating == '5' ? AppStyles.color.white : AppStyles.color.pulsive
-                }
-              ]}
-              onPress={() => setFilterRating('5')}
-            >
-              5
-            </Button>
-          </View>
-        ) : (
-          <></>
-        )}
-        <Button
-          style={[
-            styles.filters,
-            {
-              backgroundColor: filterSelect == 5 ? AppStyles.color.grey : AppStyles.color.white,
-              color: filterSelect == 5 ? AppStyles.color.white : AppStyles.color.pulsive
-            }
-          ]}
-          onPress={() => setFilterSelect(5)}
-        >
-          Range
-        </Button>
-        {filterSelect == 5 ? (
-          <View
-            style={{
-              position: 'absolute',
-              top: 60,
-              left: 90,
-              display: 'flex'
-            }}
-          >
-            <Slider
-              style={styles.slider}
-              minimumValue={0.5}
-              maximumValue={5}
-              value={filterRange}
-              onValueChange={(value) => setFilterRange(value)}
-              step={0.01}
-              orientation="vertical"
-              minimumTrackTintColor="green"
-              maximumTrackTintColor="black"
-            />
-            <Text
-              style={{
-                color: 'black',
-                backgroundColor: AppStyles.color.white,
-                padding: 5,
-                width: 60,
-                left: 45,
-                marginTop: 45,
-                fontSize: 13
-              }}
-            >
-              {filterRange.toFixed(2)} km
-            </Text>
-          </View>
-        ) : (
-          <></>
-        )}
-        <Button style={styles.apply} onPress={() => clear()}>
-          Clear
-        </Button>
-        <Button style={styles.save} onPress={() => save1()}>
-          Save 1
-        </Button>
-        <Button style={styles.save} onPress={() => save2()}>
-          Save 2
-        </Button>
-        <Button style={styles.compare} onPress={() => compare1()}>
-          Compare 1
-        </Button>
-        <Button style={styles.compare} onPress={() => compare2()}>
-          Compare 2
-        </Button>
-      </View>
-    ) : (
-      <></>
-    );
-  };
-
-  function distance(lat1, lon1, lat2, lon2) {
-    const R = 6371;
-    const dLat = toRad(lat2 - lat1);
-    const dLon = toRad(lon2 - lon1);
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    let d = R * c;
-    let res = '';
-    if (d < 1) {
-      d = d * 1000;
-      res = d.toFixed(0) + ' m';
-    } else res = d.toFixed(2) + ' km';
-    return res;
-  }
-
-  function toRad(deg) {
-    return deg * (Math.PI / 180);
-  }
-
-  const [userStation, setUserStation] = useState([
-    {
-      name: 'Station test',
-      public: true,
-      type: 'Type test',
-      pricing: 0,
-      voltage: 0,
-      rating: 0,
-      location: [0, 0]
-    }
-  ]);
-
-  const [fetchStations, setFetchStations] = useState(true);
-  const [fetchPosition, setFetchPosition] = useState(false);
-  const [resetPosition, setResetPosition] = useState(true);
+  // useEffect(() => {
+  //   setDrawPin(true);
+  // }, [drawPin]);
 
   useEffect(() => {
     console.log('INIT');
-    setUserPosition([48.85, 2.34]);
-    // try {
-    //   PermissionsAndroid.requestMultiple(
-    //     [
-    //       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-    //       PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION
-    //     ],
-    //     {
-    //       title: 'Give Location Permission',
-    //       message: 'App needs location permission to find your position.'
-    //     }
-    //   )
-    //     .then(async (granted) => {
-    //       GetLocation.getCurrentPosition({
-    //         enableHighAccuracy: true,
-    //         timeout: 50000
-    //       })
-    //         .then((location) => {
-    //           console.log(location);
-    //           setUserPosition([48.85, 2.34]);
-    //         })
-    //         .catch((error) => {
-    //           const { code, message } = error;
-    //           console.warn(code, message);
-    //         });
-    //     })
-    //     .catch((err) => {
-    //       console.warn(err);
-    //     });
-    // } catch (e) {
-    //   console.log(e);
-    // }
-  }, [resetPosition]);
-
-  useEffect(() => {
-    console.log('FETCH');
+    setLoadingLocation(true);
     try {
-      const fetchData = async () => {
-        let data = JSON.stringify({
-          params: {
-            minPrice: 0,
-            maxPrice: filterPrice,
-            plugTypes: [filterType],
-            range: (filterRange * 1000).toFixed(2),
-            type: filterStatut == 2 ? '' : filterStatut,
-            userLat: userPosition[0],
-            userLong: userPosition[1]
-          }
+      PermissionsAndroid.requestMultiple(
+        [
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+          PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION
+        ],
+        {
+          title: 'Give Location Permission',
+          message: 'App needs location permission to find your position.'
+        }
+      )
+        .then(async (granted) => {
+          GetLocation.getCurrentPosition({
+            enableHighAccuracy: true,
+            timeout: 50000
+          })
+            .then((location) => {
+              console.log(location);
+              setUserPosition([location.latitude, location.longitude]);
+              // setUserPosition([48.85836907344881, 2.3412766196414907]);
+              setLoadingLocation(false);
+            })
+            .catch((error) => {
+              const { code, message } = error;
+              console.warn(code, message);
+            });
+        })
+        .catch((err) => {
+          console.warn(err);
         });
-        console.log('params:', data);
-        var conf = {
-          method: 'post',
-          url: config.API_URL + '/api/v1/stations',
-          headers: {
-            Authorization: `Bearer ${await serviceAccessToken.get()}`,
-            'Content-Type': 'application/json'
-          },
-          data: data
-        };
-
-        // const conf = api.send('GET', '/api/v1/stations/all');
-        let favoriteStations = [];
-        try {
-          const favoriteStationsObject = await api.send('GET', '/api/v1/station/favorites');
-          favoriteStations = favoriteStationsObject.data;
-        } catch (e) {
-          console.log('failed to fetch user favorite stations');
-        }
-
-        try {
-          const userProfileObject = await api.send('GET', '/api/v1/profile');
-          console.log(userProfileObject.data);
-          setUserProfile(userProfileObject.data);
-        } catch (e) {
-          console.log('failed to fetch user profile');
-        }
-
-        const res = await axios(conf);
-        var stationsParsed = [];
-        for (var index = 0; index < res.data.stations.length; index++) {
-          const station = res.data.stations[index];
-          stationsParsed.push({
-            id: station.id,
-            name: 'Station ' + index,
-            public: station.properties.isPublic,
-            type: station.properties.plugTypes[0],
-            pricing: station.properties.price,
-            voltage: station.properties.maxPower,
-            rating: station.rate,
-            location: [Number(station.coordinates.long), Number(station.coordinates.lat)],
-            isFavorite: favoriteStations?.find(({ id }) => id === station.id) !== undefined,
-            rates: station.rates,
-            address: station.coordinates.address,
-            city: station.coordinates.city,
-            postalCode: station.coordinates.postalCode,
-            owner: station.owner
-          });
-        }
-        setUserStation(stationsParsed);
-        if (res.status == 200) {
-          console.log('OK');
-        } else {
-          throw res;
-        }
-      };
-      fetchData().catch(console.error);
     } catch (e) {
       console.log(e);
+    } finally {
+      setDrawPin(true);
     }
-  }, [
-    fetchStations,
-    filterType,
-    filterPrice,
-    filterStatut,
-    filterRange,
-    filterRating
-    // userPosition
-  ]);
+  }, [resetPosition]);
+
+  const fetchData = async () => {
+    let data = JSON.stringify({
+      params: {
+        minPrice: 0,
+        maxPrice: filterPrice,
+        plugTypes: [filterType - 1],
+        range: (filterRange * 1000).toFixed(2),
+        type: filterStatut,
+        userLat: userPosition[0],
+        userLong: userPosition[1]
+      }
+    });
+    var conf = {
+      method: 'post',
+      url: config.API_URL + '/api/v1/stations',
+      headers: {
+        Authorization: `Bearer ${await serviceAccessToken.get()}`,
+        'Content-Type': 'application/json'
+      },
+      data: data
+    };
+
+    // console.log(data);
+    const res = await axios(conf);
+    console.log(JSON.stringify(res.data.stations, null, '\t'));
+    var stationsParsed = res.data.stations
+      .map((station, index) => ({
+        ...station,
+        name: 'Station ' + index,
+        type: station.properties.plugTypes[0],
+        location: [Number(station.coordinates.long), Number(station.coordinates.lat)]
+      }))
+      .filter((station) => station.rate >= filterRating);
+    setNbStations(stationsParsed.length);
+    setUserStation(stationsParsed);
+    // console.log(JSON.stringify(stationsParsed, null, '\t'));
+    if (res.status == 200) {
+      console.log('OK');
+    } else {
+      throw res;
+    }
+  };
+
+  useEffect(() => {
+    setLoading(true);
+    try {
+      fetchData();
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setLoading(false);
+    }
+  }, [userPosition]);
 
   const onMapPress = (e) => {
     if (fetchPosition) {
       const { geometry } = e;
       setUserPosition([geometry.coordinates[1], geometry.coordinates[0]]);
+      setFetchPosition(false);
     }
     if (selectedStation) {
       setSelectedStation(undefined);
     }
+    setDrawPin(true);
   };
 
-  function handleListItemPress(location) {
-    setUserPosition([location[1][0], location[1][1]]);
-  }
+  const resetAllFilters = async () => {
+    setLoading(true);
+    setResetFilters(false);
+    setFilterStatut(0);
+    setFilterType(2);
+    setFilterRating(0);
+    setFilterRange(5);
+    setFilterPrice(500);
+    try {
+      await fetchData();
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setResetFilters(true);
+      setLoading(false);
+    }
+  };
 
-  return (
-    <View style={styles.page}>
-      <View style={styles.container}>
-        <MapboxGL.MapView
-          style={styles.map}
-          styleURL={
-            nightMode ? 'mapbox://styles/mapbox/dark-v9' : 'mapbox://styles/mapbox/light-v9'
-          }
-          zoomLevel={16}
-          center={[userPosition]}
-          key="map"
-          onPress={onMapPress}
-        >
-          <MapboxGL.Camera
-            zoomLevel={13}
-            centerCoordinate={[userPosition[1], userPosition[0]]}
-            animationMode={'flyTo'}
-            animationDuration={5000}
-            pitchEnabled={false}
-          ></MapboxGL.Camera>
-          {userStation.map((charger, index) =>
-            checkFilters(charger) ? (
-              <MapboxGL.PointAnnotation
-                id={charger.name}
-                coordinate={charger.location}
-                onSelected={() => setSelectedStation(charger)}
-                key={index}
-              >
-                <Icon
-                  name="pin"
-                  size={24}
-                  color={charger.public ? AppStyles.color.pulsive : AppStyles.color.greenBlue}
-                />
-              </MapboxGL.PointAnnotation>
-            ) : (
-              <></>
-            )
-          )}
-          {userPosition && (
-            <MapboxGL.PointAnnotation
-              id="userPosition"
-              coordinate={[userPosition[1], userPosition[0]]}
-              title="Je suis ici"
-            >
-              <Icon name="location-pin" size={30} color={AppStyles.color.facebook} />
-            </MapboxGL.PointAnnotation>
-          )}
-        </MapboxGL.MapView>
-        <Pressable
-          style={{
-            position: 'absolute',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            bottom: 10,
-            right: 70,
-            width: 50,
-            height: 50,
-            borderRadius: 50,
-            backgroundColor: 'grey'
-          }}
-          onPress={() => setFetchStations(!fetchStations)}
-        >
-          <Icon name="cycle" size={30} color={AppStyles.color.white} />
-        </Pressable>
-        <Pressable
-          style={{
-            position: 'absolute',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            bottom: 10,
-            right: 130,
-            width: 50,
-            height: 50,
-            borderRadius: 50,
-            backgroundColor: fetchPosition ? AppStyles.color.facebook : AppStyles.color.grey
-          }}
-          onPress={() => setFetchPosition(!fetchPosition)}
-        >
-          <Icon name="globe" size={30} color={AppStyles.color.white} />
-        </Pressable>
-        <Pressable
-          style={{
-            position: 'absolute',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            bottom: 10,
-            right: 190,
-            width: 50,
-            height: 50,
-            borderRadius: 50,
-            backgroundColor: AppStyles.color.facebook
-          }}
-          onPress={() => setResetPosition(!resetPosition)}
-        >
-          <Icon name="location" size={30} color={AppStyles.color.white} />
-        </Pressable>
-        <Pressable
-          style={{
-            position: 'absolute',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            bottom: 10,
-            right: 250,
-            width: 50,
-            height: 50,
-            borderRadius: 50,
-            backgroundColor: AppStyles.color.facebook
-          }}
-          onPress={() => navigation.navigate('Locations', { handleListItemPress })}
-        >
-          <Icon name="aircraft" size={30} color={AppStyles.color.white} />
-        </Pressable>
-        <Pressable
-          style={{
-            position: 'absolute',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            bottom: 10,
-            right: 10,
-            width: 50,
-            height: 50,
-            borderRadius: 50,
-            backgroundColor: nightMode ? AppStyles.color.white : AppStyles.color.pulsive
-          }}
-          onPress={() => setNightMode(!nightMode)}
-        >
-          <Icon
-            name="adjust"
-            size={30}
-            color={nightMode ? AppStyles.color.pulsive : AppStyles.color.white}
-          />
-        </Pressable>
-        <Pressable
-          style={{
-            position: 'absolute',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            top: 10,
-            left: 10,
-            width: 50,
-            height: 50,
-            borderRadius: 50,
-            backgroundColor: AppStyles.color.pulsive
-          }}
-          onPress={() => setFiltersMenu(!filtersMenu)}
-        >
-          <Icon name="sound-mix" size={30} color={AppStyles.color.white} />
-        </Pressable>
-        <FiltersComponent />
-        {selectedStation && (
-          <StationInformations
-            station={selectedStation}
-            userProfile={userProfile}
-            navigation={navigation}
-          />
+  const checkStations = async () => {
+    setLoading(true);
+    try {
+      await fetchData();
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setStationModal(true);
+      setLoading(false);
+    }
+  };
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1
+    },
+    map: {
+      flex: 1,
+      marginBottom: -30
+    }
+  });
+
+  const FiltersModalBottom = () => {
+    return (
+      <View style={{ minHeight: '10%', justifyContent: 'center' }}>
+        {loading ? (
+          <AnimatedLoading style={{ backgroundColor: AppColor.title }} />
+        ) : (
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <ButtonConditional
+              title="Tout effacer"
+              titleStyle={{ color: AppColor.title }}
+              isEnabled={true}
+              style={{ backgroundColor: AppColor.background, flex: 1 }}
+              onPress={() => resetAllFilters()}
+            />
+            <ButtonConditional
+              title="Rechercher"
+              isEnabled={true}
+              style={{ backgroundColor: AppColor.title, flex: 1 }}
+              onPress={() => checkStations()}
+            />
+          </View>
         )}
       </View>
+    );
+  };
+
+  return (
+    <View style={[AppStyles.container, { backgroundColor: AppColor.background }]}>
+      {loadingLocation ? (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <Animatable.Image
+            animation="wobble"
+            iterationCount="infinite"
+            source={isDarkMode ? AppIcon.images.loadingDarkmode : AppIcon.images.loadingLightmode}
+            style={{ position: 'absolute', width: '100%', height: '100%' }}
+            resizeMode="contain"
+          />
+        </View>
+      ) : (
+        <>
+          <View style={styles.container}>
+            <View style={styles.container}>
+              <MapboxGL.MapView
+                style={styles.map}
+                styleURL={
+                  isDarkMode ? 'mapbox://styles/mapbox/dark-v9' : 'mapbox://styles/mapbox/light-v9'
+                }
+                center={[userPosition]}
+                key="map"
+                onPress={onMapPress}
+              >
+                <MapboxGL.Camera
+                  zoomLevel={10}
+                  centerCoordinate={[userPosition[1], userPosition[0]]}
+                  animationMode={'flyTo'}
+                  animationDuration={2500}
+                  pitchEnabled={false}
+                ></MapboxGL.Camera>
+                {drawPin &&
+                  userStation &&
+                  userStation.map((charger, index) => (
+                    <MapboxGL.PointAnnotation
+                      id={charger.name}
+                      coordinate={charger.location}
+                      onSelected={() => setSelectedStation(charger)}
+                      key={charger.id}
+                    >
+                      <Icon
+                        name="location-pin"
+                        size={24}
+                        color={charger.properties.isPublic ? AppColor.public : AppColor.private}
+                      />
+                    </MapboxGL.PointAnnotation>
+                  ))}
+                {drawPin && userPosition && (
+                  <MapboxGL.PointAnnotation
+                    key={userPosition}
+                    id="userPosition"
+                    coordinate={[userPosition[1], userPosition[0]]}
+                    title="Je suis ici"
+                  >
+                    <Icon name="location-pin" size={30} color={AppColor.pulsive} />
+                  </MapboxGL.PointAnnotation>
+                )}
+              </MapboxGL.MapView>
+            </View>
+          </View>
+
+          <FloatingButton
+            icon="globe"
+            iconColor={fetchPosition ? AppColor.pulsive : AppColor.icon}
+            style={{
+              top: 90,
+              right: 0,
+              marginRight: '5%',
+              backgroundColor: AppColor.background
+            }}
+            onPress={() => {
+              setFetchPosition(!fetchPosition), setDrawPin(!drawPin), setSelectedStation(undefined);
+            }}
+          />
+          {fetchPosition && (
+            <TextSubTitle
+              title="Cliquez où vous le souhaitez sur la map pour changer de localisation"
+              style={{
+                position: 'absolute',
+                bottom: '10%',
+                fontSize: AppStyles.fontSize.contentTitle,
+                alignSelf: 'center',
+                padding: 10
+              }}
+            />
+          )}
+          <FloatingButton
+            icon="location"
+            style={{ top: 90, right: 75, marginRight: '5%', backgroundColor: AppColor.background }}
+            onPress={() => {
+              setResetPosition(!resetPosition), setSelectedStation(undefined);
+            }}
+          />
+          <SearchBar
+            title="Chercher"
+            subtext="Choisissez votre localisation"
+            icon="sound-mix"
+            onPress={() => setFilterModal(true)}
+            style={{ position: 'absolute', top: 30 }}
+            list={locations.locations}
+            onSelect={setUserPosition}
+          />
+          <ModalSwipeUp
+            title="Filtres"
+            visible={filterModal}
+            onClose={() => setFilterModal(false)}
+            closeButton={true}
+            bottom={true}
+            bottomChildren={<FiltersModalBottom />}
+          >
+            <Image
+              source={isDarkMode ? AppIcon.images.filtersDarkmode : AppIcon.images.filtersLightmode}
+              style={{ width: '100%', height: 220 }}
+              resizeMode="cover"
+            />
+            {resetFilters && (
+              <View>
+                <TextSubTitle
+                  title="Statut des bornes"
+                  style={{
+                    marginTop: 30,
+                    marginBottom: 20,
+                    fontSize: AppStyles.fontSize.contentTitle
+                  }}
+                />
+                <FilterTab
+                  options={[
+                    // { title: 'Public', value: 0 },
+                    { title: 'Tout', value: 0 },
+                    { title: 'Privé', value: 1 }
+                  ]}
+                  initValue={filterStatut}
+                  onPress={(value) => setFilterStatut(value)}
+                />
+
+                <TextSubTitle
+                  title="Type de recharge"
+                  style={{
+                    marginTop: 30,
+                    marginBottom: 20,
+                    fontSize: AppStyles.fontSize.contentTitle
+                  }}
+                />
+                <FilterBubble
+                  options={[
+                    { title: 'Type 1', value: 1 },
+                    { title: 'Type 2', value: 2 },
+                    { title: 'Type 3', value: 3 },
+                    { title: 'CCS', value: 4 },
+                    { title: 'CHADEM0', value: 5 },
+                    { title: 'GREENUP', value: 6 },
+                    { title: 'EF', value: 7 }
+                  ]}
+                  initValue={filterType - 1}
+                  onPress={(value) => setFilterType(value)}
+                />
+
+                <TextSubTitle
+                  title="Limite de prix"
+                  style={{
+                    marginTop: 30,
+                    marginBottom: 20,
+                    fontSize: AppStyles.fontSize.contentTitle
+                  }}
+                />
+                <FilterSlider
+                  range={[0, 500]}
+                  unit=" €"
+                  initValue={filterPrice}
+                  onChange={(value) => setFilterPrice(value)}
+                />
+
+                <TextSubTitle
+                  title="Distance maximale"
+                  style={{
+                    marginTop: 30,
+                    marginBottom: 20,
+                    fontSize: AppStyles.fontSize.contentTitle
+                  }}
+                />
+                <FilterSlider
+                  range={[0, 5]}
+                  unit=" km"
+                  decimal={1}
+                  initValue={filterRange}
+                  onChange={(value) => setFilterRange(value)}
+                />
+
+                <TextSubTitle
+                  title="Notation des bornes"
+                  style={{
+                    marginTop: 30,
+                    marginBottom: 20,
+                    fontSize: AppStyles.fontSize.contentTitle
+                  }}
+                />
+                <FilterBubble
+                  options={[
+                    { title: 'Tout', value: 0 },
+                    { title: '1+', value: 1 },
+                    { title: '2+', value: 2 },
+                    { title: '3+', value: 3 },
+                    { title: '4+', value: 4 },
+                    { title: '5', value: 5 }
+                  ]}
+                  initValue={filterRating}
+                  onPress={(value) => setFilterRating(value)}
+                />
+              </View>
+            )}
+          </ModalSwipeUp>
+          <ModalSwipeUp visible={stationModal} onClose={() => setStationModal(false)}>
+            {nbStations > 0 ? (
+              <View>
+                <TextSubTitle
+                  title={
+                    'Vous avez trouvé\n' +
+                    nbStations +
+                    `${nbStations === 1 ? ' station' : ' stations'}`
+                  }
+                  style={{ margin: 20 }}
+                />
+                <ButtonConditional
+                  title="Les afficher"
+                  isEnabled={true}
+                  style={{ backgroundColor: AppColor.title, flex: 1 }}
+                  onPress={() => {
+                    setStationModal(false);
+                    setFilterModal(false);
+                  }}
+                />
+              </View>
+            ) : (
+              <TextSubTitle
+                title={"Il n'y a pas de stations correspondantes à vos critères..."}
+                style={{ margin: 20 }}
+              />
+            )}
+            <ButtonConditional
+              title="Modifier la recherche"
+              titleStyle={{ color: nbStations === 0 ? AppColor.background : AppColor.title }}
+              isEnabled={true}
+              style={{
+                backgroundColor: nbStations === 0 ? AppColor.title : AppColor.background,
+                flex: 1
+              }}
+              onPress={() => setStationModal(false)}
+            />
+          </ModalSwipeUp>
+        </>
+      )}
+      {selectedStation && <StationInformations station={selectedStation} navigation={navigation} />}
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  page: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF'
-  },
-  container: {
-    flex: 1,
-    height: '100%',
-    width: '100%'
-  },
-  map: {
-    flex: 1
-  },
-  slider: {
-    height: 60,
-    backgroundColor: AppStyles.color.white,
-    width: 150,
-    transform: [{ rotate: '-90deg' }]
-  },
-  textEntry: {
-    height: 42,
-    paddingLeft: 20,
-    paddingRight: 20,
-    color: AppStyles.color.text
-  },
-  modal: {
-    backgroundColor: AppStyles.color.white,
-    height: '70%',
-    width: '80%',
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: AppStyles.color.grey,
-    marginTop: '30%',
-    marginLeft: '12%'
-  },
-  userProfile: {
-    backgroundColor: AppStyles.color.pulsive,
-    borderRadius: 15,
-    padding: 5
-  },
-  userTransaction: {
-    color: 'black',
-    fontWeight: '400',
-    fontSize: 18
-  },
-  filters: {
-    backgroundColor: AppStyles.color.white,
-    color: AppStyles.color.pulsive,
-    borderRadius: 50,
-    width: 100,
-    height: 30,
-    marginBottom: '5%'
-  },
-  apply: {
-    backgroundColor: AppStyles.color.pulsive,
-    color: AppStyles.color.white,
-    borderRadius: 50,
-    width: 100,
-    height: 30,
-    marginBottom: '5%'
-  },
-  save: {
-    backgroundColor: AppStyles.color.facebook,
-    color: AppStyles.color.white,
-    borderRadius: 50,
-    width: 100,
-    height: 30,
-    marginBottom: '5%'
-  },
-  compare: {
-    backgroundColor: AppStyles.color.grey,
-    color: AppStyles.color.white,
-    borderRadius: 50,
-    width: 100,
-    height: 30,
-    marginBottom: '5%'
-  },
-  bookButton: {
-    width: 200,
-    backgroundColor: AppStyles.color.pulsive,
-    borderRadius: AppStyles.borderRadius,
-    padding: 10,
-    marginTop: 30,
-    position: 'absolute',
-    bottom: 80
-  },
-  shareText: {
-    color: AppStyles.color.white
-  }
-});
 
 export default Map;

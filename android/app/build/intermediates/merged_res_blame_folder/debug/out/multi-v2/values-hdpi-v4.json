@@ -4,17 +4,7 @@
             "outputFile": "/home/maxime/Epitech/EIP/mobile-driver/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-hdpi-v4/values-hdpi-v4.xml",
             "map": [
                 {
-                    "source": "/home/maxime/.gradle/caches/transforms-3/4e2343146a9b7847753e2d089b722593/transformed/jetified-payments-core-20.5.0/res/values-hdpi-v4/values-hdpi-v4.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "56",
-                        "endOffsets": "107"
-                    }
-                },
-                {
-                    "source": "/home/maxime/.gradle/caches/transforms-3/e61f59239c2060065be0723fcdf07616/transformed/appcompat-1.4.1/res/values-hdpi-v4/values-hdpi-v4.xml",
+                    "source": "/home/maxime/.gradle/caches/transforms-3/37d09e0514e94645edc7102e2ef14b54/transformed/appcompat-1.4.1/res/values-hdpi-v4/values-hdpi-v4.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -30,6 +20,16 @@
                         "endLines": "7",
                         "endColumns": "13",
                         "endOffsets": "384"
+                    }
+                },
+                {
+                    "source": "/home/maxime/.gradle/caches/transforms-3/fc0fd2c74b51d136e2067f96d1536948/transformed/jetified-payments-core-20.5.0/res/values-hdpi-v4/values-hdpi-v4.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "56",
+                        "endOffsets": "107"
                     }
                 }
             ]

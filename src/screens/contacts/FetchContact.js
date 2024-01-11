@@ -3,15 +3,42 @@ import { View, StyleSheet, Text, ScrollView, Image, TouchableOpacity, Modal } fr
 import { AppIcon, AppStyles } from '../../AppStyles';
 import { TextInput } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Entypo';
+import IconAwesome from 'react-native-vector-icons/FontAwesome';
 import api from '../../db/Api';
 import { showMessage } from 'react-native-flash-message';
 import { getUser, useUserUpdate } from '../../contexts/UserContext';
 
 import * as Animatable from 'react-native-animatable';
+import { useTheme } from '../../AppStyles';
+import {
+  ButtonCommon,
+  ButtonConditional,
+  InputField,
+  ModalSwipeUp,
+  Separator,
+  ProfilePicture
+} from '../../components';
 
 const EditContactModal = ({ isVisible, contact, onClose }) => {
-  const [customNameValue, setCustomNameValue] = useState(contact.customName);
-  const [descriptionValue, setDescriptionValue] = useState(contact.description);
+  const { AppColor } = useTheme();
+  const [valid, setValid] = useState(false);
+
+  const [customNameValue, setCustomNameValue] = useState(
+    contact.customName ? contact.customName : ''
+  );
+  const [descriptionValue, setDescriptionValue] = useState(
+    contact.description ? contact.description : ''
+  );
+
+  useEffect(() => {
+    if (checkForSurnameErrors(customNameValue)) setValid(false);
+    else setValid(true);
+  }, [customNameValue]);
+
+  const checkForSurnameErrors = (input) => {
+    if (/[^a-zA-Z]+/g.test(input)) return 'Votre nom doit comprendre uniquement des lettres';
+    return false;
+  };
 
   const updateContact = async () => {
     const res = await api.send('PUT', '/api/v1/profile/contact/update', {
@@ -31,67 +58,128 @@ const EditContactModal = ({ isVisible, contact, onClose }) => {
   };
 
   return (
-    <Modal visible={isVisible} onRequestClose={onClose} animationType="slide">
+    <ModalSwipeUp title="Modifier le contact" visible={isVisible} onRequestClose={onClose}>
       <View
         style={{
           height: '100%',
           width: '100%',
-          backgroundColor: 'black',
-          flexDirection: 'column',
-          padding: 30
+          backgroundColor: AppColor.backgroundColor
         }}
       >
-        <TouchableOpacity onPress={() => onClose()} style={{ marginBottom: 20 }}>
-          <Icon name="chevron-left" color={AppStyles.color.main} size={25} />
-        </TouchableOpacity>
-        <View style={{ marginBottom: 35 }}>
-          <Text style={{ fontWeight: 'bold', color: 'white', fontSize: 24 }}>Edit contact</Text>
-          <Text style={{ color: 'white', fontSize: 22 }}>
-            {contact.firstName} {contact.lastName}
-          </Text>
-        </View>
+        <Text
+          style={{
+            color: AppColor.text,
+            fontSize: AppStyles.fontSize.subTitle,
+            fontWeight: '500',
+            marginVertical: 10
+          }}
+        >
+          Contact: {contact.user.firstName} {contact.user.lastName}
+        </Text>
         <View style={{ marginBottom: 30 }}>
-          <TextInput
-            value={customNameValue}
-            placeholder="Custom name"
-            maxLength={30}
-            style={styles.input}
-            placeholderTextColor="gray"
-            onChangeText={(text) => setCustomNameValue(text)}
+          <InputField
+            initialValue={customNameValue}
+            label="Surnom"
+            subText="Entrer le nom personalisé de votre contact"
+            setValue={setCustomNameValue}
+            errorCheck={checkForSurnameErrors}
           />
-        </View>
-        <View style={{ marginBottom: 30 }}>
-          <TextInput
-            multiline
-            numberOfLines={5}
-            maxLength={70}
-            value={descriptionValue}
-            placeholder="Description"
-            style={styles.input}
-            placeholderTextColor="gray"
-            onChangeText={(text) => setDescriptionValue(text)}
+          <InputField
+            initialValue={descriptionValue}
+            label="Description"
+            subText="Entrer une description pour votre contact"
+            setValue={setDescriptionValue}
           />
-        </View>
-        <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-          <TouchableOpacity
-            style={{
-              backgroundColor: AppStyles.color.main,
-              borderRadius: 20,
-              height: 40,
-              width: '50%',
-              padding: 5
-            }}
+          <ButtonConditional
+            title="Mettre à jour"
+            isEnabled={valid}
+            style={{ backgroundColor: AppColor.pulsive }}
             onPress={updateContact}
-          >
-            <Text style={{ color: 'white', alignSelf: 'center', fontSize: 20 }}>Save</Text>
-          </TouchableOpacity>
+          />
+          <ButtonCommon title="Annuler" onPress={() => onClose()} />
         </View>
       </View>
-    </Modal>
+    </ModalSwipeUp>
+  );
+};
+
+const ContactItem = ({
+  plan,
+  navigateToUserProfilePage,
+  navigateToUserMessages,
+  onEditContactPress,
+  removeContact
+}) => {
+  const { AppColor } = useTheme();
+  return (
+    <View style={{ paddingVertical: 10, alignItems: 'center' }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
+        <TouchableOpacity onPress={() => navigateToUserProfilePage(plan.user)}>
+          <ProfilePicture profilePictureId={plan.user.profilePictureId} borderRadius={25} />
+        </TouchableOpacity>
+        <View style={{ marginLeft: 15, flex: 1 }}>
+          <Text style={{ fontSize: 20, fontWeight: '600', color: AppColor.text }}>
+            {plan.customName ? plan.customName : `${plan.user.firstName} ${plan.user.lastName}`}
+          </Text>
+
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              marginTop: 5,
+              width: '35%'
+            }}
+          >
+            <TouchableOpacity
+              onPress={() => navigateToUserMessages(plan.user)}
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 25,
+                height: 25,
+                borderRadius: 100,
+                backgroundColor: AppColor.pulsive
+              }}
+            >
+              <Icon name="message" size={15} color={AppColor.background} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => onEditContactPress(plan)}
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 25,
+                height: 25,
+                borderRadius: 100,
+                backgroundColor: AppColor.icon
+              }}
+            >
+              <IconAwesome name="pencil" size={15} color={AppColor.bottomColor} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => removeContact(plan.user.id)}
+              style={{
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 25,
+                height: 25,
+                borderRadius: 100,
+                backgroundColor: AppColor.bottomColor
+              }}
+            >
+              <IconAwesome name="trash" size={15} color={AppColor.icon} />
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+      <Separator />
+    </View>
   );
 };
 
 const FetchContact = ({ navigation }) => {
+  const { AppColor } = useTheme();
+
   const user = getUser();
   const updateUser = useUserUpdate();
 
@@ -112,27 +200,19 @@ const FetchContact = ({ navigation }) => {
   };
 
   const navigateToUserProfilePage = (user) => {
-    navigation.navigate(
-      'Owner',
-      {
-        imageUri: `https://ucarecdn.com/${user.profilePictureId}/`,
-        name: user.firstName + ' ' + user.lastName,
-        userId: user.id
-      },
-      { screen: 'DrawerStack' }
-    );
+    navigation.navigate('Owner', {
+      imageUri: user.profilePictureId,
+      name: user.firstName + ' ' + user.lastName,
+      userId: user.id
+    });
   };
 
   const navigateToUserMessages = (user) => {
-    navigation.navigate(
-      'Message',
-      {
-        imageUri: `https://ucarecdn.com/${user.profilePictureId}/`,
-        name: user.firstName + ' ' + user.lastName,
-        receiverId: user.id
-      },
-      { screen: 'DrawerStack' }
-    );
+    navigation.navigate('Message', {
+      imageUri: user.profilePictureId,
+      name: user.firstName + ' ' + user.lastName,
+      receiverId: user.id
+    });
   };
 
   const onEditContactPress = (user) => {
@@ -141,53 +221,28 @@ const FetchContact = ({ navigation }) => {
   };
 
   return (
-    <View style={{ width: 100 + '%', height: '100%' }}>
-      <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: 'white', flex: 1 }}>
-        <Animatable.View animation="fadeIn" duration={7000}>
-        {/* Add an empty space at the top */}
-        <View style={{ height: 20 }} />
-        {user.contacts.map((plan) => {
-        return (
-          <View key={plan.user.id} style={styles.container}>
-            <View style={{ width: '70%', alignItems: 'center', flexDirection: 'row' }}>
-              <TouchableOpacity onPress={() => navigateToUserProfilePage(plan.user)}>
-                <Image
-                  style={styles.img}
-                  source={{
-                    uri: `https://ucarecdn.com/${plan.user.profilePictureId}/`
-                  }}
-                ></Image>
-              </TouchableOpacity>
-              {/* Add margin to the right of the Image */}
-              <View style={{ marginLeft: 15 }}>
-                <Text style={styles.cardText}>
-                  {plan.customName
-                    ? plan.customName
-                    : plan.user.firstName + ' ' + plan.user.lastName}
-                </Text>
-              </View>
-            </View>
-            <View style={{ flexDirection: 'row', width: '30%', justifyContent: 'space-around' }}>
-              <TouchableOpacity onPress={() => navigateToUserMessages(plan.user)}>
-                <Image source={AppIcon.images.phone2} style={{ height: 30, width: 30 }}></Image>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => onEditContactPress(plan)}>
-                <Image source={AppIcon.images.edit2} style={{ height: 30, width: 30 }}></Image>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => removeContact(plan.user.id)}>
-                <Image source={AppIcon.images.trash} style={{ height: 30, width: 30 }}></Image>
-              </TouchableOpacity>
-            </View>
-          </View>
-        );
-        })}
-      </Animatable.View>
+    <View style={{ width: '100%', height: '100%' }}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{ backgroundColor: AppColor.background, flex: 1 }}
+      >
+        {user.contacts.map((plan) => (
+          <ContactItem
+            key={plan.user.id}
+            plan={plan}
+            navigateToUserProfilePage={navigateToUserProfilePage}
+            navigateToUserMessages={navigateToUserMessages}
+            onEditContactPress={onEditContactPress}
+            removeContact={removeContact}
+          />
+        ))}
       </ScrollView>
       {selectedContact && (
         <EditContactModal
           isVisible={editContactModalIsOpen}
           contact={selectedContact}
           onClose={(updatedContact) => {
+            console.log('CLOSE');
             setEditContactModalIsOpen(false);
             setSelectedContact(undefined);
             if (updatedContact) {
@@ -205,31 +260,6 @@ const FetchContact = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 20,
-    backgroundColor: 'white',
-    borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 }, // Increase the shadow offset
-    shadowOpacity: 0.3, // Increase shadow opacity
-    shadowRadius: 6, // Increase shadow radius
-    elevation: 6, // Increase elevation for Android shadow
-    marginBottom: 20,
-    height: 100,
-  },
-  cardText: {
-    color: 'black', // Dark text color
-    fontWeight: 'bold',
-    fontSize: 18,
-  },
-  img: {
-    width: 60,
-    height: 60,
-    borderRadius: 50
-  },
   input: {
     borderWidth: 1,
     borderColor: 'white',
@@ -237,7 +267,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 18,
     padding: 10
-  },
+  }
 });
 
 export default FetchContact;

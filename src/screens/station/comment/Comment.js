@@ -4,72 +4,109 @@ import { showMessage } from 'react-native-flash-message';
 import Carousel from 'react-native-snap-carousel';
 
 import api from '../../../db/Api';
+import { AppIcon, AppStyles, useTheme } from '../../../AppStyles';
 
-import { AppStyles } from '../../../AppStyles';
 import Icon from 'react-native-vector-icons/Entypo';
+import IconAwesome from 'react-native-vector-icons/FontAwesome';
+
 import CommentPicture from './CommentPicture';
 
 import style from '../style';
 import UserListModal from './UserListModal';
 
 import { getUser, useUserUpdate } from '../../../contexts/UserContext';
+import { ButtonText, TextContent, TextSubTitle, ProfilePicture } from '../../../components';
 
-const CommentBody = ({ comment, children, displayPictures, customStyle, isResponse }) => {
+const CommentBody = ({ comment, displayPictures, customStyle, isResponse }) => {
+  const { AppColor } = useTheme();
+
+  const message = comment.comment ? comment.comment : '(Aucun commentaire)';
+  function getTimeSincePost(postDate) {
+    const currentDate = new Date();
+    const postDateObj = new Date(postDate);
+    const timeDifference = currentDate - postDateObj;
+    const seconds = Math.floor(timeDifference / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+    const months = Math.floor(days / 30);
+    const years = Math.floor(months / 12);
+
+    if (years > 0) {
+      return `Il y a ${years} ${years > 1 ? 'ans' : 'an'}`;
+    } else if (months > 0) {
+      return `Il y a ${months} mois`;
+    } else if (days > 0) {
+      return `Il y a ${days} ${days > 1 ? 'jours' : 'jour'}`;
+    } else if (hours > 0) {
+      return `Il y a ${hours} ${hours > 1 ? 'heures' : 'heure'}`;
+    } else if (minutes > 0) {
+      return `Il y a ${minutes} ${minutes > 1 ? 'minutes' : 'minute'} `;
+    } else {
+      return "À l'instant";
+    }
+  }
+
   return (
     <View
       style={{
         ...customStyle,
-        padding: 10,
+        padding: 15,
         flexDirection: 'column',
         justifyContent: 'space-between'
       }}
     >
-      <View>
-        <View style={{ flexDirection: 'row', alignContent: 'center', marginBottom: 10 }}>
-          <View style={{ width: '20%' }}>
-            <Image
-              style={{ width: 50, height: 50, borderRadius: 30 }}
-              source={{ uri: `https://ucarecdn.com/${comment.author.profilePictureId}/` }}
-            />
-          </View>
-          <View style={{ width: '70%', flexDirection: 'column' }}>
-            <Text style={{ ...style.text, fontWeight: 'bold' }}>
-              {comment.author.firstName} {comment.author.lastName}
-            </Text>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              <Text style={{ ...style.text, color: 'gray' }}>
-                {comment.date.slice(0, comment.date.indexOf('T'))}
-              </Text>
-              {!isResponse ? (
-                <View style={style.iconLabel}>
-                  <Icon name="star" size={15} color="black" />
-                  <Text style={style.smallText}>{comment.rate}</Text>
-                </View>
-              ) : (
-                <Text style={style.smallText}>Owner</Text>
-              )}
-            </View>
-          </View>
+      <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+        <View style={{ width: '20%' }}>
+          <ProfilePicture
+            width={50}
+            height={50}
+            borderRadius={100}
+            profilePictureId={comment.author.profilePictureId}
+          />
         </View>
-        {comment.comment && <Text style={style.text}>{comment.comment}</Text>}
+        <View style={{ width: '70%', flexDirection: 'column', marginLeft: 10 }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <TextSubTitle
+              title={comment.author.firstName + ' ' + comment.author.lastName}
+              style={{
+                fontSize: AppStyles.fontSize.contentTitle
+              }}
+            />
+            {!isResponse && (
+              <View style={{ flexDirection: 'row', alignItems: 'baseline', alignSelf: 'flex-end' }}>
+                <IconAwesome name="star" size={14} color={AppColor.text} />
+                <Text style={{ color: AppColor.text, marginLeft: 2 }}>{comment.rate}</Text>
+              </View>
+            )}
+          </View>
+          <TextContent title={getTimeSincePost(comment.date) + ' '} />
+        </View>
       </View>
+      <View style={{ marginVertical: 10 }}>
+        <Text style={{ color: AppColor.text, fontSize: AppStyles.fontSize.content }}>
+          {message}
+        </Text>
+      </View>
+
       {comment.pictures && displayPictures && (
         <View style={{ marginTop: 5, marginBottom: 5 }}>
           <Carousel
             layout="default"
             sliderWidth={Dimensions.get('window').width}
-            itemWidth={Dimensions.get('window').width - 60}
+            itemWidth={Dimensions.get('window').width}
             data={comment.pictures}
             renderItem={({ item }) => <CommentPicture pictureId={item} />}
           />
         </View>
       )}
-      {children}
     </View>
   );
 };
 
 const Comment = ({ item, navigation, displayPictures, displayResponses, customStyle = {} }) => {
+  const { AppColor } = useTheme();
+
   const user = getUser();
   const updateUser = useUserUpdate();
 
@@ -138,43 +175,38 @@ const Comment = ({ item, navigation, displayPictures, displayResponses, customSt
   };
 
   return (
-    <View>
-      <CommentBody comment={item} displayPictures={displayPictures} customStyle={customStyle}>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', marginTop: 20 }}>
-          <View style={style.iconLabel}>
-            <TouchableOpacity style={{ marginRight: 5 }} onPress={likeComment}>
+    <View style={{ height: '100%' }}>
+      <CommentBody comment={item} displayPictures={displayPictures} customStyle={customStyle} />
+      <View style={{ flex: 1, justifyContent: 'flex-end', marginBottom: 10 }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
+          <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
+            <TouchableOpacity style={{ marginRight: 5 }} onPress={() => likeComment()}>
               <Icon
                 name="thumbs-up"
                 size={20}
-                color={userLikedComment ? AppStyles.color.main : 'gray'}
+                color={userLikedComment ? AppColor.pulsive : AppColor.icon}
               />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => setLikedByModalIsOpen(true)}>
-              <Text
-                style={{ ...style.smallText, borderBottomColor: 'black', borderBottomWidth: 0.7 }}
-              >
-                {comment.likes} likes
-              </Text>
-            </TouchableOpacity>
+            <ButtonText
+              title={`${comment.likes} ${comment.likes > 1 ? 'likes' : 'like'}`}
+              onPress={() => setLikedByModalIsOpen(true)}
+            />
           </View>
-          <View style={style.iconLabel}>
-            <TouchableOpacity style={{ marginRight: 5 }} onPress={dislikeComment}>
+          <View style={{ flexDirection: 'row', alignItems: 'baseline' }}>
+            <TouchableOpacity style={{ marginRight: 5 }} onPress={() => dislikeComment()}>
               <Icon
                 name="thumbs-down"
                 size={20}
-                color={userDislikedComment ? AppStyles.color.main : 'gray'}
+                color={userDislikedComment ? AppColor.pulsive : AppColor.icon}
               />
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => setDislikedByModalIsOpen(true)}>
-              <Text
-                style={{ ...style.smallText, borderBottomColor: 'black', borderBottomWidth: 0.7 }}
-              >
-                {comment.dislikes} dislikes
-              </Text>
-            </TouchableOpacity>
+            <ButtonText
+              title={`${comment.dislikes} ${comment.dislikes > 1 ? 'dislikes' : 'dislike'}`}
+              onPress={() => setLikedByModalIsOpen(true)}
+            />
           </View>
         </View>
-      </CommentBody>
+      </View>
 
       {displayResponses &&
         comment.responses &&

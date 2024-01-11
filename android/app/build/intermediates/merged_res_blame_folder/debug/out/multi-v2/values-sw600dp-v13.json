@@ -4,7 +4,7 @@
             "outputFile": "/home/maxime/Epitech/EIP/mobile-driver/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-sw600dp-v13/values-sw600dp-v13.xml",
             "map": [
                 {
-                    "source": "/home/maxime/.gradle/caches/transforms-3/6916c9a48e813e2ad0ceb7f51451d040/transformed/material-1.5.0/res/values-sw600dp-v13/values-sw600dp-v13.xml",
+                    "source": "/home/maxime/.gradle/caches/transforms-3/588f1f6edbac50b1529bb14d2c05d37d/transformed/material-1.5.0/res/values-sw600dp-v13/values-sw600dp-v13.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,10,11,12,13,14",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4",
@@ -23,7 +23,7 @@
                     }
                 },
                 {
-                    "source": "/home/maxime/.gradle/caches/transforms-3/e61f59239c2060065be0723fcdf07616/transformed/appcompat-1.4.1/res/values-sw600dp-v13/values-sw600dp-v13.xml",
+                    "source": "/home/maxime/.gradle/caches/transforms-3/37d09e0514e94645edc7102e2ef14b54/transformed/appcompat-1.4.1/res/values-sw600dp-v13/values-sw600dp-v13.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9",
                         "startColumns": "4,4,4,4,4,4,4,4",
@@ -40,7 +40,7 @@
                     }
                 },
                 {
-                    "source": "/home/maxime/.gradle/caches/transforms-3/d7ebd5bb1d864c3198a63b04f7cfdbd4/transformed/jetified-paymentsheet-20.5.0/res/values-sw600dp-v13/values-sw600dp-v13.xml",
+                    "source": "/home/maxime/.gradle/caches/transforms-3/65791fd07ebecbb379107730132e40e5/transformed/jetified-paymentsheet-20.5.0/res/values-sw600dp-v13/values-sw600dp-v13.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

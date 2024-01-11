@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, View, Text, Image } from 'react-native';
+import { ScrollView, View, Text } from 'react-native';
 import { AppIcon, AppStyles, useTheme } from '../../AppStyles';
 import {
   ButtonCommon,
@@ -10,6 +10,7 @@ import {
   InputFieldMultiple,
   ModalSwipeUp,
   TextError,
+  TextSubTitle,
   TextTitle
 } from '../../components';
 import api from '../../db/Api';
@@ -73,7 +74,9 @@ function Settings({ navigation }) {
       setProfile({
         firstName: data.data.firstName,
         lastName: data.data.lastName,
-        email: data.data.email
+        email: data.data.email,
+        profilePictureId: data.data.profilePictureId,
+        balance: data.data.balance
       })
     );
   };
@@ -214,8 +217,10 @@ function Settings({ navigation }) {
   };
 
   return (
-    <ScrollView style={[AppStyles.container, { backgroundColor: AppColor.background }]}>
-      <TextTitle title="Profil" style={{ marginTop: 50 }} />
+    <ScrollView
+      style={[AppStyles.container, { backgroundColor: AppColor.background, paddingTop: 30 }]}
+    >
+      <TextTitle title="Profil" />
       <ButtonTouchable
         title={
           profile && profile.firstName && profile.lastName
@@ -223,19 +228,17 @@ function Settings({ navigation }) {
             : 'Accéder au profil'
         }
         subtext="Accéder aux informations du profil"
-        image={[AppIcon.images.profile, 60]}
+        profilePicture={{ id: profile.profilePictureId, height: 60, width: 60, borderRadius: 70 }}
         onPress={() => navigation.navigate('Profile')}
       />
 
       <FloatingCard>
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <View style={{ flex: 1 }}>
-            <TextTitle
+            <TextSubTitle
               title="Voyagez avec Pulsive"
               style={{
-                marginVertical: 0,
-                marginHorizontal: 10,
-                fontSize: AppStyles.fontSize.content
+                marginLeft: 10
               }}
             />
             <Text style={[AppStyles.subtext, { marginHorizontal: 10, marginTop: 10 }]}>
@@ -243,7 +246,10 @@ function Settings({ navigation }) {
               entier grâce au réseau d'utilisateurs Pulsive
             </Text>
           </View>
-          <Animatable.Image animation="pulse" easing="ease-out" iterationCount="infinite"
+          <Animatable.Image
+            animation="pulse"
+            easing="ease-out"
+            iterationCount="infinite"
             source={isDarkMode ? AppIcon.images.stationDarkmode : AppIcon.images.stationLightmode}
             style={{ width: '40%', height: '100%' }}
             resizeMode="contain"
@@ -251,10 +257,7 @@ function Settings({ navigation }) {
         </View>
       </FloatingCard>
 
-      <TextTitle
-        title="Paramètres du compte"
-        style={{ fontSize: AppStyles.fontSize.content, marginTop: 10 }}
-      />
+      <TextSubTitle title="Paramètres du compte" style={{ marginLeft: 20, marginVertical: 10 }} />
       <ButtonTouchable
         title="Adresse e-mail"
         subtext={anonymizeEmail(profile.email)}
@@ -324,24 +327,63 @@ function Settings({ navigation }) {
         onPress={() => {
           navigation.navigate('PromoCodesPage');
         }}
-      /> */}
+      />
+      <ButtonTouchable
+        title="Liste de contacts"
+        icon="users"
+        onPress={() => {
+          navigation.navigate('Contacts');
+        }}
+      />
+      <ButtonTouchable
+        title="Historique de paiement"
+        icon="credit-card"
+        onPress={() => {
+          navigation.navigate('PaymentHistory');
+        }}
+      />
 
       <TextTitle
         title="Personnalisation"
         style={{ fontSize: AppStyles.fontSize.content, marginTop: 30 }}
+      /> */}
+      <ButtonTouchable
+        title="Liste de contacts"
+        icon="users"
+        onPress={() => {
+          navigation.navigate('Contacts');
+        }}
       />
+      <ButtonTouchable
+        title="Historique de paiement"
+        icon="credit-card"
+        onPress={() => {
+          navigation.navigate('PaymentHistory');
+        }}
+      />
+
+      <TextSubTitle title="Portefeuille" style={{ fontSize: AppStyles.fontSize.content, marginTop: 30 }} />
+      <ButtonCommon
+        title={`Ajouter de l'argent (${profile.balance/100} €)`}
+        style={{ marginVertical: 10 }}
+        onPress={() => {
+          navigation.navigate('TopUp')
+        }}
+      />
+
+      <TextSubTitle title="Personnalisation" style={{ marginLeft: 20, marginVertical: 30 }} />
       <ButtonCommon
         title={isDarkMode ? 'Clair' : 'Sombre'}
-        style={{ marginVertical: 10 }}
+        style={{ marginBottom: 10 }}
         onPress={() => {
           toggleTheme();
         }}
         loading={loading}
       />
 
-      <TextTitle
+      <TextSubTitle
         title="Assistance"
-        style={{ fontSize: AppStyles.fontSize.content, marginTop: 30 }}
+        style={{ marginLeft: 20, marginTop: 30, marginBottom: 10 }}
       />
       <ButtonTouchable title="Centre d'aide" subtext="Bientôt disponible" icon="help-with-circle" />
       <ButtonTouchable title="Fonctionnement de Pulsive" subtext="Bientôt disponible" icon="leaf" onPress={() => {navigation.navigate('Fonctionnement');}} />
@@ -351,23 +393,26 @@ function Settings({ navigation }) {
         icon="new-message"
       />
 
-      <ButtonCommon 
+      <ButtonCommon
         title="Deconnexion"
         style={{ marginVertical: 30 }}
         onPress={() => {
           setModalVisible(true);
         }}
         loading={loading}
-      /> 
+      />
 
       <ModalSwipeUp visible={modalVisible} onClose={() => setModalVisible(false)}>
-        <TextTitle title="Êtes vous sûr de vouloir vous déconnecter ?" style={{ marginLeft: 0 }} />
+        <TextSubTitle
+          title="Êtes vous sûr de vouloir vous déconnecter ?"
+          style={{ margin: 20, marginLeft: 0 }}
+        />
         <ButtonConditional
           title="Me déconnecter"
           isEnabled={true}
           onPress={() => {
             setModalVisible(false);
-            navigation.navigate('LoginStack');
+            navigation.navigate('Login');
           }}
         />
         <ButtonCommon

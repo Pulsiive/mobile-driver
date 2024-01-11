@@ -24,7 +24,7 @@ const ButtonCommon = ({ title, style, onPress, loading }) => {
   const styles = StyleSheet.create({
     ButtonCommon: {
       backgroundColor: AppColor.background,
-      borderColor: AppColor.border,
+      borderColor: AppColor.title,
       borderWidth: 1,
       borderRadius: 8,
       minHeight: 50,
@@ -34,7 +34,7 @@ const ButtonCommon = ({ title, style, onPress, loading }) => {
       alignSelf: 'center'
     },
     ButtonCommonText: {
-      fontWeight: 'bold',
+      fontWeight: '500',
       textAlign: 'center',
       color: AppColor.text,
       fontSize: 16
