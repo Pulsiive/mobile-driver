@@ -3,6 +3,7 @@ import Settings from '../../screens/settings/Settings';
 import NotificationScreen from '../../screens/settings/NotificationScreen';
 import Profile from '../../screens/profile/Profile';
 import Contact from '../../screens/contacts/ContactList';
+import Fonctionnement from '../../screens/settings/Fonctionnement';
 import PaymentHistory from '../../screens/payment/History';
 import PromoCodesPage from '../../screens/promo/Codepromo';
 import Components from '../../screens/components/Components';
@@ -70,6 +71,14 @@ const getRoutes = () => {
     {
       name: 'Contacts',
       component: Contact,
+      options: {
+        header: ({ navigation }) => <CustomHeader navigation={navigation} />,
+        headerShown: true
+      }
+    },
+    {
+      name: 'Fonctionnement',
+      component: Fonctionnement,
       options: {
         header: ({ navigation }) => <CustomHeader navigation={navigation} />,
         headerShown: true

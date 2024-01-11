@@ -204,7 +204,7 @@ function OwnerV2({ navigation }) {
             setCurrentTabComponent(<Station ownerId={userId}></Station>);
           } else {
             setCurrentTabComponent(
-              <Text style={{ fontSize: 14, color: 'white' }}>User has no stations yet.</Text>
+              <Text style={{ fontSize: 14, color: '#0C0404' }}>User has no stations yet.</Text>
             );
           }
         } else if (currentTabIndex === 2) {
@@ -218,7 +218,7 @@ function OwnerV2({ navigation }) {
             );
           } else {
             setCurrentTabComponent(
-              <Text style={{ fontSize: 14, color: 'white' }}>User has no ratings yet.</Text>
+              <Text style={{ fontSize: 14, color: '#0C0404' }}>User has no ratings yet.</Text>
             );
           }
         } else if (currentTabIndex === 3) {
@@ -231,7 +231,7 @@ function OwnerV2({ navigation }) {
             );
           } else {
             setCurrentTabComponent(
-              <Text style={{ fontSize: 14, color: 'white' }}>User has no comments yet.</Text>
+              <Text style={{ fontSize: 14, color: '#0C0404' }}>User has no comments yet.</Text>
             );
           }
         } else setCurrentTabComponent(undefined);
