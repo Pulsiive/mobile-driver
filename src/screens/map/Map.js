@@ -69,14 +69,14 @@ function Map({ navigation }) {
 
   useFocusEffect(
     React.useCallback(() => {
-      fetchData();
-      // setDrawPin(false);
+      setDrawPin(true);
+      // fetchData();
     }, [])
   );
 
-  useEffect(() => {
-    setDrawPin(true);
-  }, [drawPin]);
+  // useEffect(() => {
+  //   setDrawPin(true);
+  // }, [drawPin]);
 
   useEffect(() => {
     console.log('INIT');
@@ -113,6 +113,8 @@ function Map({ navigation }) {
         });
     } catch (e) {
       console.log(e);
+    } finally {
+      setDrawPin(true);
     }
   }, [resetPosition]);
 
