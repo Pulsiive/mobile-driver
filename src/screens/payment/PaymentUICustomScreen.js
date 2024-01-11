@@ -95,7 +95,7 @@ export default function PaymentsUICustomScreen({ route, navigation }) {
     const { error, paymentOption } = await presentPaymentSheet();
 
     if (error) {
-      Alert.alert(`Error code: ${error.code}`, error.message);
+      // Alert.alert(`Error code: ${error.code}`, error.message);
     } else if (paymentOption) {
       setPaymentMethod({
         label: paymentOption.label,
@@ -104,6 +104,7 @@ export default function PaymentsUICustomScreen({ route, navigation }) {
     } else {
       setPaymentMethod(null);
     }
+    console.log(paymentSheetEnabled, Number(brutPrice), paymentMethod);
   };
 
   const onPressBuy = async () => {
@@ -125,25 +126,12 @@ export default function PaymentsUICustomScreen({ route, navigation }) {
     } else {
       showMessage({
         duration: 4000,
-        message: `Paiement effectué avec succès !`,
+        message: `Demande de réservation effectué avec succès !`,
         description: 'Réservez votre prochaine borne dès maintenant',
         type: 'success',
         backgroundColor: AppColor.pulsive
       });
       navigation.goBack();
-      /*const { data, status } = await Backend.bookSlot(slot_id);
-      console.log(data, status);
-      if (status === 200) {
-        showMessage({
-          duration: 4000,
-          message: `Créneau réservé avec succès !`,
-          description: 'Retrouvez vos réservations sur votre planning.',
-          type: 'success',
-          backgroundColor: 'green'
-        });
-        navigation.navigate('PlanningStack');
-      }
-      setPaymentSheetEnabled(false);*/
     }
     setLoading(false);
   };
@@ -259,7 +247,7 @@ export default function PaymentsUICustomScreen({ route, navigation }) {
         <ButtonConditional
           title="Ajouter de l'argent"
           style={{ width: '98%', borderRadius: 15 }}
-          isEnabled={paymentSheetEnabled && Number(brutPrice) && paymentMethod}
+          isEnabled={paymentSheetEnabled && Number(brutPrice) && paymentMethod != null}
           loading={loading}
           onPress={onPressBuy}
         />
@@ -267,35 +255,3 @@ export default function PaymentsUICustomScreen({ route, navigation }) {
     </StripeProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  flex: {
-    flex: 1
-  },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
-  section: {
-    marginTop: 40
-  },
-  title: {
-    fontSize: 18,
-    marginBottom: 20,
-    fontWeight: 'bold'
-  },
-  paymentMethodTitle: {
-    color: colors.slate,
-    fontWeight: 'bold'
-  },
-  image: {
-    width: 26,
-    height: 20
-  },
-  text: {
-    color: colors.black,
-    fontSize: 16,
-    fontWeight: '600',
-    marginLeft: 12
-  }
-});

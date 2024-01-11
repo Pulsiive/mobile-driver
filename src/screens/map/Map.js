@@ -69,9 +69,14 @@ function Map({ navigation }) {
 
   useFocusEffect(
     React.useCallback(() => {
-      setDrawPin(true);
+      fetchData();
+      // setDrawPin(false);
     }, [])
   );
+
+  useEffect(() => {
+    setDrawPin(true);
+  }, [drawPin]);
 
   useEffect(() => {
     console.log('INIT');
@@ -94,8 +99,8 @@ function Map({ navigation }) {
           })
             .then((location) => {
               console.log(location);
-              // setUserPosition([location.latitude, location.longitude]);
-              setUserPosition([48.85836907344881, 2.3412766196414907]);
+              setUserPosition([location.latitude, location.longitude]);
+              // setUserPosition([48.85836907344881, 2.3412766196414907]);
               setLoadingLocation(false);
             })
             .catch((error) => {

@@ -75,10 +75,10 @@ function StationInformations({ route, navigation }) {
   const height = Dimensions.get('screen').height + 200;
 
   const note =
-    station.owner.receivedRatings.length !== 0
-      ? station.owner.receivedRatings.reduce((accumulator, currentObject) => {
+    station?.owner?.receivedRatings.length !== 0
+      ? station?.owner?.receivedRatings.reduce((accumulator, currentObject) => {
           return accumulator + currentObject.rate;
-        }, 0) / station.owner.receivedRatings.length
+        }, 0) / station?.owner?.receivedRatings.length
       : undefined;
 
   return (
@@ -125,11 +125,20 @@ function StationInformations({ route, navigation }) {
                 <Text
                   style={{
                     fontSize: AppStyles.fontSize.content,
-                    marginHorizontal: 5,
+                    marginLeft: 5,
                     color: AppColor.text
                   }}
                 >
-                  {station.rate} ·
+                  {station.rate}
+                </Text>
+                <Text
+                  style={{
+                    color: AppColor.subText,
+                    marginHorizontal: 5,
+                    fontWeight: '300'
+                  }}
+                >
+                  ({station.rates.length}) ·
                 </Text>
               </View>
             ) : (
@@ -271,7 +280,7 @@ function StationInformations({ route, navigation }) {
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <IconAwesome name="star" size={26} color={AppColor.text} />
                 <TextSubTitle
-                  title={station.rate + ' · '}
+                  title={station.rate + ' (' + station.rates.length + ') · '}
                   style={{
                     marginLeft: 5
                   }}

@@ -11,6 +11,7 @@ import {
   ButtonCommon,
   ButtonText,
   FilterTab,
+  FloatingButton,
   FloatingNormalCard,
   Separator,
   TextContent,
@@ -22,6 +23,7 @@ import { fr } from 'date-fns/locale';
 
 import InProgressReservationAlert from './InProgressReservationAlert';
 import InProgressReservationModal from './InProgressReservationModal';
+import MyCalendarPlanning from './MyCalendarPlanning';
 
 const ReservationCard = ({ reservations, navigation }) => {
   const { AppColor } = useTheme();
@@ -101,6 +103,9 @@ function Planning({ navigation }) {
   const [inProgressReservation, setInProgressReservation] = useState(null);
   const [isInProgressReservationModalOpen, setIsInProgressReservationModalOpen] = useState(false);
   const [isInProgressReservationFinished, setIsInProgressReservationFinished] = useState(false);
+  const [openDate, setOpenDate] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [date, setDate] = useState(new Date());
 
   function formatReservationDate(dateString) {
     const date = parseISO(dateString);
@@ -118,51 +123,56 @@ function Planning({ navigation }) {
   useFocusEffect(
     React.useCallback(() => {
       const fetchReservationsRequests = async () => {
-        if (filter === 1) {
-          const requests = await Backend.getReservationRequests();
-          if (requests.status !== -1) {
-            const sortedReservations = requests.data.sort((a, b) =>
-              compareDesc(parseISO(a.slot.opensAt), parseISO(b.slot.opensAt))
-            );
-            const slotParsed = await Promise.all(
-              sortedReservations.map(async (request) => {
-                const owner = await Backend.getUserFromId(
-                  request.slot.stationProperties.station.ownerId
-                );
-                const formatedReservation = {
-                  ...request.slot,
-                  dateTemp: formatReservationDate(request.slot.opensAt),
-                  slotTime: formatReservationTime(request.slot.opensAt, request.slot.closesAt),
-                  owner: {
-                    id: owner.data.id,
-                    firstName: owner.data.firstName,
-                    lastName: owner.data.lastName,
-                    profilePictureId: owner.data.profilePictureId,
-                    ratings: owner.data.receivedRatings
-                  },
-                  address: request.slot.stationProperties.station.coordinates.address,
-                  city: request.slot.stationProperties.station.coordinates.city,
-                  price: request.slot.stationProperties.price
-                };
-                return formatedReservation;
-              })
-            );
-            setReservationsRequests(slotParsed);
-          }
+        setLoading(true);
+        const requests = await Backend.getReservationRequests();
+        if (requests.status !== -1) {
+          const sortedReservations = requests.data.sort((a, b) =>
+            compareDesc(parseISO(a.slot.opensAt), parseISO(b.slot.opensAt))
+          );
+          const slotParsed = await Promise.all(
+            sortedReservations.map(async (request) => {
+              const owner = await Backend.getUserFromId(
+                request.slot.stationProperties.station.ownerId
+              );
+              const formatedReservation = {
+                ...request.slot,
+                dateTemp: formatReservationDate(request.slot.opensAt),
+                slotTime: formatReservationTime(request.slot.opensAt, request.slot.closesAt),
+                owner: {
+                  id: owner.data.id,
+                  firstName: owner.data.firstName,
+                  lastName: owner.data.lastName,
+                  profilePictureId: owner.data.profilePictureId,
+                  ratings: owner.data.receivedRatings
+                },
+                address: request.slot.stationProperties.station.coordinates.address,
+                city: request.slot.stationProperties.station.coordinates.city,
+                price: request.slot.stationProperties.price
+              };
+              return formatedReservation;
+            })
+          );
+          setReservationsRequests(slotParsed);
         }
       };
-
-      fetchReservationsRequests();
-    }, [filter])
+      try {
+        fetchReservationsRequests();
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setLoading(false);
+      }
+    }, [])
   );
 
   useEffect(() => {
     async function fetchReservations() {
       try {
+        setLoading(true);
         const now = new Date();
         const res = await Backend.getReservations();
-        // console.log(JSON.stringify(res.data, null, '\t'));
         if (res.status === 200) {
+          setOpenDate(res.data.map((item) => new Date(item.opensAt).toLocaleDateString()));
           const sortedReservations = res.data.sort((a, b) =>
             compareDesc(parseISO(a.opensAt), parseISO(b.opensAt))
           );
@@ -193,7 +203,6 @@ function Planning({ navigation }) {
               return formatedReservation;
             })
           );
-          // console.log(JSON.stringify(slotParsed, null, '\t'));
           setReservationsFetch(slotParsed);
         } else {
           throw new Error(`Erreur lors de la récupération des réservations : ${res.status}`);
@@ -230,7 +239,7 @@ function Planning({ navigation }) {
     }
 
     setReservations(filteredReservations);
-  }, [filter, reservationsFetch]);
+  }, [filter, reservationsFetch, reservationRequests]);
 
   const styles = StyleSheet.create({
     container: { backgroundColor: AppColor.background, paddingTop: 30 },
@@ -252,37 +261,66 @@ function Planning({ navigation }) {
       )}
       {reservations ? (
         <>
-          <View style={styles.planning}>
-            <FilterTab
-              options={[
-                { title: 'Toutes', value: 0 },
-                { title: 'En attente', value: 1 },
-                { title: 'À venir', value: 2 },
-                { title: 'Passées', value: 3 }
-              ]}
-              initValue={filter}
-              onPress={(value) => setFilter(value)}
-              style={{ marginBottom: 0, marginHorizontal: 0, marginTop: 30 }}
-            />
-          </View>
-          {loading ? (
-            <AnimatedLoading style={{ backgroundColor: AppColor.title, marginTop: 20 }} />
-          ) : (
+          <FloatingButton
+            icon={open ? 'list' : 'calendar'}
+            iconColor={AppColor.title}
+            style={{
+              top: 60,
+              right: 20,
+              width: 40,
+              height: 40
+            }}
+            onPress={() => setOpen(!open)}
+          />
+          {open && (
+            <View style={{ marginTop: 30 }}>
+              <MyCalendarPlanning event={openDate} date={{ date }} />
+            </View>
+          )}
+          {!open && (
+            <View style={styles.planning}>
+              <FilterTab
+                options={[
+                  { title: 'Toutes', value: 0 },
+                  { title: 'En attente', value: 1 },
+                  { title: 'À venir', value: 2 },
+                  { title: 'Passées', value: 3 }
+                ]}
+                initValue={filter}
+                onPress={(value) => setFilter(value)}
+                style={{ marginBottom: 0, marginHorizontal: 0, marginTop: 30 }}
+              />
+            </View>
+          )}
+          {!open && (
             <>
-              {reservations.length == 0 ? (
-                <View style={{ marginHorizontal: 20, marginTop: 0 }}>
-                  <TextSubTitle title="Rien à voir... pour l'instant !" style={{ marginTop: 30 }} />
-                  <TextContent
-                    title="Il n'est jamais trop tard pour remplir votre planning de réservations"
-                    style={{ marginTop: 10 }}
-                  />
-                </View>
+              {loading ? (
+                <AnimatedLoading style={{ backgroundColor: AppColor.title, marginTop: 20 }} />
               ) : (
-                <ScrollView>
-                  {reservations.map((plan) => (
-                    <ReservationCard key={plan.id} reservations={plan} navigation={navigation} />
-                  ))}
-                </ScrollView>
+                <>
+                  {reservations.length == 0 ? (
+                    <View style={{ marginHorizontal: 20, marginTop: 0 }}>
+                      <TextSubTitle
+                        title="Rien à voir... pour l'instant !"
+                        style={{ marginTop: 30 }}
+                      />
+                      <TextContent
+                        title="Il n'est jamais trop tard pour remplir votre planning de réservations"
+                        style={{ marginTop: 10 }}
+                      />
+                    </View>
+                  ) : (
+                    <ScrollView>
+                      {reservations.map((plan) => (
+                        <ReservationCard
+                          key={plan.id}
+                          reservations={plan}
+                          navigation={navigation}
+                        />
+                      ))}
+                    </ScrollView>
+                  )}
+                </>
               )}
             </>
           )}

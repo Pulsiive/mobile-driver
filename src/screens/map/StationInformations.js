@@ -100,7 +100,7 @@ function StationInformations({ station, navigation }) {
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <IconAwesome name="star" size={14} color={AppColor.title} />
                 <Text style={{ color: AppColor.title, marginLeft: 3, marginBottom: 2 }}>
-                  {station.rate}
+                  {station.rate} ({station.rates.length})
                 </Text>
               </View>
             )}
@@ -123,7 +123,7 @@ function StationInformations({ station, navigation }) {
             <Text
               style={{ color: AppColor.text, marginLeft: 3, marginBottom: 2, fontWeight: '600' }}
             >
-              {station.properties.price/100}€
+              {station.properties.price / 100}€
             </Text>
             <Text style={{ color: AppColor.text, marginLeft: 3, marginBottom: 2 }}>par minute</Text>
           </View>
