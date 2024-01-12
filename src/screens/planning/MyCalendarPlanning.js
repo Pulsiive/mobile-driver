@@ -31,6 +31,7 @@ const MyCalendar = (props) => {
 
   useEffect(() => {
     setNavigateDate(props.date.date);
+    setSelectedDate(props.date.date);
   }, [props.date]);
 
   const generateMatrix = () => {
@@ -67,6 +68,13 @@ const MyCalendar = (props) => {
     return matrix;
   };
 
+  const onPressHandler = (item) => {
+    setSelectedDate((prevDate) => {
+      props.onUpdate(new Date(item));
+      return new Date(item);
+    });
+  };
+
   const changeMonth = (n) => {
     if (n === 0) {
       setNavigateDate(new Date(today));
@@ -101,6 +109,7 @@ const MyCalendar = (props) => {
           key={colIndex}
           delayPressIn={0}
           activeOpacity={1}
+          onPress={() => onPressHandler(item)}
           style={{
             flex: 1,
             height: 50,

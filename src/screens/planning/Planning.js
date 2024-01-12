@@ -106,6 +106,8 @@ function Planning({ navigation }) {
   const [openDate, setOpenDate] = useState([]);
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState(new Date());
+  const [fetchStation, setFetchStation] = useState(false);
+  const [dateFilter, setDateFilter] = useState(false);
 
   function formatReservationDate(dateString) {
     const date = parseISO(dateString);
@@ -215,7 +217,7 @@ function Planning({ navigation }) {
       }
     }
     fetchReservations();
-  }, []);
+  }, [fetchStation]);
 
   useEffect(() => {
     let filteredReservations = [];
@@ -241,6 +243,28 @@ function Planning({ navigation }) {
     setReservations(filteredReservations);
   }, [filter, reservationsFetch, reservationRequests]);
 
+  const onDateFilterChange = () => {
+    setFetchStation(!fetchStation);
+    setDateFilter(false);
+    setDate(new Date());
+  };
+
+  const onChange = (newPropValue) => {
+    let newResa = [];
+    for (let index = 0; index < reservationsFetch.length; index++) {
+      if (
+        new Date(reservationsFetch[index]?.opensAt).toLocaleDateString() ==
+        newPropValue.toLocaleDateString()
+      )
+        newResa.push(reservationsFetch[index]);
+    }
+    console.log('new:', newResa);
+    setReservations(newResa);
+    setDate(newPropValue);
+    setDateFilter(true);
+    setOpen(false);
+  };
+
   const styles = StyleSheet.create({
     container: { backgroundColor: AppColor.background, paddingTop: 30 },
     planning: {
@@ -262,7 +286,7 @@ function Planning({ navigation }) {
       {reservations ? (
         <>
           <FloatingButton
-            icon={open ? 'list' : 'calendar'}
+            icon={dateFilter ? 'cross' : open ? 'list' : 'calendar'}
             iconColor={AppColor.title}
             style={{
               top: 60,
@@ -270,14 +294,14 @@ function Planning({ navigation }) {
               width: 40,
               height: 40
             }}
-            onPress={() => setOpen(!open)}
+            onPress={() => (dateFilter ? onDateFilterChange() : setOpen(!open))}
           />
           {open && (
             <View style={{ marginTop: 30 }}>
-              <MyCalendarPlanning event={openDate} date={{ date }} />
+              <MyCalendarPlanning onUpdate={onChange} event={openDate} date={{ date }} />
             </View>
           )}
-          {!open && (
+          {!open && !dateFilter && (
             <View style={styles.planning}>
               <FilterTab
                 options={[
